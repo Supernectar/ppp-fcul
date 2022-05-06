@@ -21,7 +21,7 @@ export default {
   name: "ProductsView2",
   async mounted() {
     const item = localStorage.getItem("item");
-    const res = await fetch("http://localhost:5000/products?" + item, {
+    const res = await fetch("api/products?" + item, {
       method: "GET",
     });
     this.products = await res.json();

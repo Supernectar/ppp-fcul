@@ -39,7 +39,7 @@
 export default {
   name: "ItemsView",
   async mounted() {
-    const res = await fetch("http://localhost:5000/items", {
+    const res = await fetch("api/items", {
       method: "GET",
     });
     this.items = await res.json();
