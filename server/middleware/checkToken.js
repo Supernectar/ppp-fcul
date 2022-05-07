@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 export default defineEventHandler(async (event) => {
 	//Middleware executed for server routes only
 	if (event.req.url.split('/')[1] === 'api') {
-		const unprotectedRoutes = ['/api/authenticate'];
+		const unprotectedRoutes = ['/api/authenticate', '/api/items'];
 		if (!unprotectedRoutes.includes(event.req.url)) {
 			const authHeader = event.req.headers['authorization'];
 			const token = authHeader && authHeader.split(' ')[1];

@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <Navbar />
-    <div class="row">
-      <!-- <div v-for="item in items" :key="item._id" class="col">
+	<div>
+		<Navbar />
+		<div class="row">
+			<!-- <div v-for="item in items" :key="item._id" class="col">
       img-src="https://picsum.photos/600/300/?image=25"
         <b-card
           :title="item.name"
@@ -19,38 +19,49 @@
       </div>
     </div>
   </div> -->
-      <div v-for="item in items" :key="item._id" class="col">
-        <div class="card" style="width: 18rem">
-          <img src="https://picsum.photos/600/300/?image=25" class="card-img-top" />
-          <div class="card-body">
-            <h5 class="card-title">{{ item.name }}</h5>
-            <p class="card-text">{{ item.description }}</p>
-            <button @click="goToProducts(item.id)" class="btn btn-primary">
-              See available products
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+			<div v-for="item in items" :key="item._id" class="col">
+				<div class="card" style="width: 18rem">
+					<!-- <img src="https://picsum.photos/600/300/?image=25" class="card-img-top" /> -->
+					<div class="card-body">
+						<h5 class="card-title">
+							{{ item.name }}
+						</h5>
+						<p class="card-text">
+							{{ item.description }}
+						</p>
+						<button
+							@click="
+								goToProducts(
+									item.id
+								)
+							"
+							class="btn btn-primary"
+						>
+							See available products
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script>
 export default {
-  name: "ItemsView",
-  async mounted() {
-    const res = await fetch("http://localhost:5000/items", {
-      method: "GET",
-    });
-    this.items = await res.json();
-  },
+	name: 'ItemsView',
+	async mounted() {
+		const res = await fetch('http://localhost:5000/items', {
+			method: 'GET'
+		});
+		this.items = await res.json();
+	},
 
-  methods: {
-    goToProducts(id) {
-      localStorage.setItem("item", id);
-      this.$router.push(`products`);
-    },
-  },
+	methods: {
+		goToProducts(id) {
+			localStorage.setItem('item', id);
+			this.$router.push(`products`);
+		}
+	}
 };
 </script>
 

@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
-const Polution = require('./Polution');
-const Resource = require('./Resource');
+// const Polution = require('./Polution');
+// const Resource = require('./Resource');
 
 export default mongoose.model(
 	'Item',
