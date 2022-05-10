@@ -1,6 +1,7 @@
 <template>
   <div>
     <Navbar />
+
     <div class="form-group">
       <input
         v-model="email"
@@ -32,12 +33,13 @@ export default {
   data() {
     return {
       email: "",
+      password: "",
     };
   },
   methods: {
     async login() {
       console.log(this.email);
-      const res = await fetch(`${this.$store.state.url}/login`, {
+      const res = await fetch(`/api/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

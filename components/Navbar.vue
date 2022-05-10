@@ -2,8 +2,8 @@
   <div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-          <img src="../assets/logo.png" width="36" alt="" />
+        <a class="navbar-brand" href="index">
+          <img src="/img/logo.png" width="36" alt="" />
           HomePage
         </a>
         <!-- <a class="navbar-brand" href="#">
@@ -154,18 +154,20 @@
                 <li>
                   <i class="dropdown-item disabled">username</i>
                 </li>
-                <li><hr class="dropdown-divider" /></li>
                 <li>
-                  <a class="dropdown-item" href="#">Login</a>
+                  <hr class="dropdown-divider" />
                 </li>
                 <li>
-                  <a class="dropdown-item" href="#">Register</a>
+                  <a class="dropdown-item" href="login">Login</a>
                 </li>
                 <li>
-                  <a class="dropdown-item" href="#">Profile</a>
+                  <a class="dropdown-item" href="register">Register</a>
                 </li>
                 <li>
-                  <a class="dropdown-item" href="#">Sign Out</a>
+                  <a class="dropdown-item" href="profile">Profile</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" @click="signOut" href="#">Sign Out</a>
                 </li>
               </ul>
             </li>

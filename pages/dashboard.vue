@@ -1,7 +1,7 @@
 <template>
   <div>
     <Navbar />
-    <img src="../assets/img1.png" alt="" srcset="" />
+    <img src="/img/img1.png" alt="" srcset="" />
   </div>
 </template>
 

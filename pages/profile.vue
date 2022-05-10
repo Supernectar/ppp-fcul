@@ -1,7 +1,7 @@
 <template>
   <div>
     <Navbar />
-    <img src="../assets/logo.png" alt="" srcset="" />
+    <img src="/img/logo.png" alt="" srcset="" />
 
     <label class="required" for="user_name">Email</label>
     <input

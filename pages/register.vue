@@ -1,6 +1,6 @@
 <template>
   <!-- pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" -->
-  <div class="bg-warning">
+  <div class="bg-success">
     <Navbar />
     <form class="col-6 offset-3 bg-white rounded px-2">
       <div class="form-check">
@@ -37,60 +37,68 @@
         />
         <label class="form-check-label" for="flexRadioDefault3"> Transporter </label>
       </div>
+
       <div class="mb-3">
         <label for="firstName" class="form-label">First Name</label>
 
         <input
-          v-model="firstName"
-          :v-invalid="!validName()"
+          v-model="firstName.value"
+          :class="validateFirstName"
           type="text"
           class="form-control"
           id="firstName"
         />
+        <div :class="firstName.isValid ? 'valid-feedback' : 'invalid-feedback'">
+          {{ firstName.feedback }}
+        </div>
       </div>
+
+      <p>{{ lastName }}</p>
+      <p>{{ validLastName }}</p>
+
       <div class="mb-3">
         <label for="lastName" class="form-label">Last Name</label>
 
         <input
           v-model="lastName"
-          v-bind:class="{ 'is-invalid': !validName() }"
+          :class="validLastName ? 'is-valid' : 'is-invalid'"
           type="text"
           class="form-control"
           id="lastName"
         />
       </div>
-
-      <div class="mb-3">
+      <!-- <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Email address</label>
         <input
           v-model="email"
-          v-bind:class="{ 'is-invalid': !validEmail(email) }"
+          :class="validEmail ? 'is-valid' : 'is-invalid'"
           type="email"
           class="form-control"
           id="exampleInputEmail1"
           aria-describedby="emailHelp"
         />
-        <div id="emailHelp" class="form-text">
-          We'll never share your email with anyone else.
-        </div>
+        <div class="invalid-feedback">Email must be valid!</div>
       </div>
+
+      
       <div class="mb-3">
         <label for="phonenumber" class="form-label">Phone number</label>
 
         <input
           v-model="phonenumber"
-          :v-invalid="!validPhone(phonenumber)"
-          type="number"
+          :class="validPhone() ? 'is-valid' : 'is-invalid'"
+          type="text"
           class="form-control"
           id="phonenumber"
         />
+        <div class="invalid-feedback">Phone number must have 9 numbers!</div>
       </div>
       <div class="mb-3">
         <label for="exampleInputPassword1" class="form-label">Password</label>
 
         <input
-          v-model="pass"
-          :v-invalid="!validPassword(pass)"
+          v-model="password"
+          :class="validPassword() ? 'is-valid' : 'is-invalid'"
           type="password"
           class="form-control"
           id="exampleInputPassword1"
@@ -101,11 +109,11 @@
         <label for="exampleInputPassword1" class="form-label">Validate Password</label>
 
         <input
-          v-model="pass"
-          :v-invalid="!validPassword(pass)"
-          type="validatePassword"
+          v-model="confirmPassword"
+          :class="validConfirmPassword() ? 'is-valid' : 'is-invalid'"
+          type="password"
           class="form-control"
-          id="exampleInputPassword1"
+          id="confirmPassword"
         />
         <div class="invalid-feedback">Password must match!</div>
       </div>
@@ -118,7 +126,7 @@
         </select>
         <input
           v-model="country"
-          v-bind:class="{ 'is-invalid': !validCountry(country) }"
+          :class="validCountry() ? 'is-valid' : 'is-invalid'"
           type="text"
           class="form-control"
           id="country"
@@ -129,7 +137,7 @@
 
         <input
           v-model="city"
-          v-bind:class="{ 'is-invalid': !validCity(city) }"
+          :class="validCity() ? 'is-valid' : 'is-invalid'"
           type="text"
           class="form-control"
           id="city"
@@ -139,23 +147,25 @@
         <label for="address" class="form-label">Postal code</label>
 
         <input
-          v-model="post_code"
-          :v-invalid="!validPostCode(post_code)"
+          v-model="pcode"
+          :class="validPostCode() ? 'is-valid' : 'is-invalid'"
           type="text"
           class="form-control"
           id="pcode"
         />
+        <div class="invalid-feedback">Postal code must be valid!</div>
       </div>
       <div class="mb-3">
         <label for="nif" class="form-label">NIF</label>
 
         <input
           v-model="nif"
-          :v-invalid="!validNIF(nif)"
-          type="number"
+          :class="validNIF() ? 'is-valid' : 'is-invalid'"
+          type="text"
           class="form-control"
           id="nif"
         />
+        <div class="invalid-feedback">NIF must have 9 numbers!</div>
       </div>
 
       <div v-if="type == 'consumer'">
@@ -172,32 +182,31 @@
             id="institution_name"
           />
         </div>
+      </div> -->
+      <br />
+      <!-- Para apagar depois do Css -->
+      <div class="form-group">
+        <!-- <input type="submit" value="Create Account" @click="RegisterUser"> -->
+        <button v-on:click.stop.prevent="RegisterUser()">Create Account</button>
+        <button @click="RegisterGoogle()">TESTAR GOOGLE REGISTER</button>
       </div>
-      <div v-if="type == 'transporter'">
-        <p>3</p>
-      </div>
-
-      <button v-on:click.stop.prevent="submit" class="btn btn-primary">Submit</button>
     </form>
-
-    <br />
-    <!-- Para apagar depois do Css -->
-    <div class="form-group">
-      <!-- <input type="submit" value="Create Account" @click="RegisterUser"> -->
-      <button @click="RegisterUser()">Create Account</button>
-      <button @click="RegisterGoogle()">TESTAR GOOGLE REGISTER</button>
-    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: "RegisterView",
+
   data() {
     return {
       type: "consumer",
-      firstName: "",
-      lastName: "",
+      firstName: {
+        value: null,
+        isValid: null,
+        feedback: "ue",
+      },
+      lastName: null,
       password: "",
       username: "test",
       country: "",
@@ -206,45 +215,61 @@ export default {
       address: "",
       phonenumber: "",
       countries: [],
-      valid: false,
-      submitted: false,
+      confirmPassword: "",
+      pcode: "",
       // defaultName: 'okdo',
     };
   },
+  computed: {
+    validateFirstName() {
+      if (this.firstName.value === null) return;
+
+      this.firstName.isValid = true;
+      this.firstName.feedback = "Looking good";
+
+      if (this.firstName.value.length < 2) {
+        this.firstName.isValid = false;
+        this.firstName.feedback = "Must be at least 2 characters";
+        return "is-invalid";
+      }
+
+      if (this.firstName.value.includes("e")) {
+        this.firstName.isValid = false;
+        this.firstName.feedback = "Cannot contain the letter 'e'";
+        return "is-invalid";
+      }
+
+      return "is-valid";
+    },
+    validLastName() {
+      if (this.lastName === null) return;
+      if (this.lastName.length < 2) {
+        return false;
+      }
+      return true;
+    },
+  },
   mounted() {
-    this.generateUsername();
-    this.countries = fetch("https://restcountries.com/v2/all", {
-      method: "GET",
-    });
+    // this.generateUsername();
+    // this.countries = fetch("https://restcountries.com/v2/all", {
+    //   method: "GET",
+    // });
   },
   methods: {
-    validate() {
-      if (
-        this.validName() &&
-        this.validPassword() &&
-        this.validPhone() &&
-        this.validNIF() &&
-        this.validCountry() &&
-        this.validCity() &&
-        this.validPostCode() &&
-        this.validEmail()
-      ) {
-        this.valid = true;
-      }
+    validFirstName() {
+      console.log("first name validation");
+      return this.firstName.length > 2;
     },
-    async validName() {
-      const res = await fetch(
-        `api/users?username=${this.username}`,
-
-        {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-      return res.length <= 0;
-    },
+    // validLastName() {
+    //   return this.lastName.length > 2;
+    // },
     validPassword() {
       return this.password.length > 6;
+    },
+    validConfirmPassword() {
+      return (
+        this.password.length != 0 && this.password.length === this.confirmPassword.length
+      );
     },
     validPhone() {
       return this.phonenumber.length === 9;
@@ -262,28 +287,24 @@ export default {
     },
     validPostCode() {
       const re = /(.+){4}-(.+){3}/;
-      return re.test(this.post_code);
+      return re.test(this.pcode);
     },
 
-    async validEmail() {
-      const res = await fetch(
-        `api/users?email=${this.email}`,
+    validEmail() {
+      /*const res = await fetch(
+				`api/users?email=${this.email}`,
 
-        {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+				{
+					method: 'GET',
+					headers: {
+						'Content-Type':
+							'application/json'
+					}
+				}
+			);
+			const res2 = await res.json();*/
       const re = /(.+)@(.+)\.(.+)/;
-      return res.length <= 0 && re.test(this.email);
-    },
-    // async validName() {},
-    // async validName() {},
-    async submit() {
-      await this.validate();
-      if (this.valid) {
-        this.submitted = true;
-      }
+      return re.test(this.email);
     },
     RegisterGoogle() {
       const provider = new this.$fireModule.auth.GoogleAuthProvider();
@@ -331,9 +352,12 @@ export default {
         console.log(error);
       } else {
         localStorage.setItem("token", res3);
-        this.$router.push("dashboard");
+        //this.$router.push("dashboard");
       }
     },
   },
 };
 </script>
+
+'''''''''''''''''' '''' ' '' '' '' '''''' '' '' '' '''' '' '' '''' '' '' '' '' '' '' '' ''
+'' '' '' '' '' '' '' '' '' '' '' '''' '' '' '' '''' '' '' '''' '' '' ''
