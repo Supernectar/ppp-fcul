@@ -28,4 +28,5 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run build --if-present
+    - run: pm2 delete nuxt3-ppp-fcul || : && pm2 start .output/server/index.mjs -i 1 --name 'nuxt3-ppp-fcul'
 #     - run: npm run pm2
