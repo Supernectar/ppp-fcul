@@ -5,7 +5,6 @@
 		"dev": "nuxt dev",
 		"generate": "nuxt generate",
 		"preview": "nuxt preview",
-		"pm2": "pm2 delete nuxt3-ppp-fcul || : && pm2 start .output/server/index.mjs -i 1 --name 'nuxt3-ppp-fcul'",
 		"lintfix": "prettier --write --list-different . && eslint --ext \".js,.vue\" --ignore-path .gitignore ."
 	},
 	"devDependencies": {
