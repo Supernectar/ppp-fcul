@@ -5,6 +5,7 @@ export default defineEventHandler(async (event) => {
 		context: undefined,
 		id: undefined,
 		method: event.req.method,
+		requestUrl: event.req.url,
 		params: useQuery(event)
 		// data: {
 		// 	kind: '',

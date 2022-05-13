@@ -3,7 +3,8 @@ import User from '~~/server/utils/models/User';
 export default defineEventHandler(async (event) => {
 	event.res.jsonResponse.context = event.context.params;
 
-	const users = await User.find();
+	const params = useQuery(event);
+	const users = await User.find(params);
 
 	event.res.jsonResponse.data = {
 		items: users

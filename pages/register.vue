@@ -1,9 +1,12 @@
 <template>
   <!-- pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" -->
-  <div class="bg-success">
+  <div class="bg-success vh-100">
     <Navbar />
-    <form class="col-6 offset-3 bg-white rounded px-2">
-      <div class="form-check">
+    <form v-on:submit.prevent class="col-4 offset-4 bg-white rounded p-4">
+      <h2>Registration</h2>
+      <div class="form-text">Please fill in this form to create an account</div>
+      <hr />
+      <!-- <div class="form-check">
         <input
           v-model="type"
           class="form-check-input"
@@ -36,8 +39,57 @@
           value="transporter"
         />
         <label class="form-check-label" for="flexRadioDefault3"> Transporter </label>
+      </div> -->
+
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Email address</label>
+        <input
+          v-model="email"
+          :class="calculateEmailClass"
+          type="email"
+          class="form-control"
+          id="exampleInputEmail1"
+          aria-describedby="emailHelp"
+        />
+        <div :class="calculateEmailFeedbackClass">
+          {{ calculateEmailFeedback }}
+        </div>
       </div>
 
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Password</label>
+
+        <input
+          v-model="password"
+          type="password"
+          class="form-control"
+          :class="calculatePasswordClass"
+          id="exampleInputPassword1"
+        />
+        <div :class="calculatePasswordFeedbackClass">
+          {{ calculatePasswordFeedback }}
+        </div>
+      </div>
+
+      <input
+        type="submit"
+        @click="RegisterUser"
+        class="btn btn-primary w-100"
+        name=""
+        value="Continue"
+      />
+
+      <hr />
+      <button @click="RegisterGoogle" type="button" class="sign-up-with-google-btn w-100">
+        Sign up with Google
+      </button>
+
+      <!-- <div class="form-group">
+        <input type="submit" value="Create Account" @click="RegisterUser">
+        <button v-on:click.stop.prevent="">Create Account</button>
+        <button @click="()">TESTAR GOOGLE REGISTER</button>
+      </div> -->
+      <!-- 
       <div class="mb-3">
         <label for="firstName" class="form-label">First Name</label>
 
@@ -67,18 +119,7 @@
           id="lastName"
         />
       </div>
-      <!-- <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Email address</label>
-        <input
-          v-model="email"
-          :class="validEmail ? 'is-valid' : 'is-invalid'"
-          type="email"
-          class="form-control"
-          id="exampleInputEmail1"
-          aria-describedby="emailHelp"
-        />
-        <div class="invalid-feedback">Email must be valid!</div>
-      </div>
+        
 
       
       <div class="mb-3">
@@ -93,18 +134,7 @@
         />
         <div class="invalid-feedback">Phone number must have 9 numbers!</div>
       </div>
-      <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Password</label>
-
-        <input
-          v-model="password"
-          :class="validPassword() ? 'is-valid' : 'is-invalid'"
-          type="password"
-          class="form-control"
-          id="exampleInputPassword1"
-        />
-        <div class="invalid-feedback">Password must be 7 character!</div>
-      </div>
+      
       <div class="mb-3">
         <label for="exampleInputPassword1" class="form-label">Validate Password</label>
 
@@ -183,13 +213,6 @@
           />
         </div>
       </div> -->
-      <br />
-      <!-- Para apagar depois do Css -->
-      <div class="form-group">
-        <!-- <input type="submit" value="Create Account" @click="RegisterUser"> -->
-        <button v-on:click.stop.prevent="RegisterUser()">Create Account</button>
-        <button @click="RegisterGoogle()">TESTAR GOOGLE REGISTER</button>
-      </div>
     </form>
   </div>
 </template>
@@ -201,17 +224,17 @@ export default {
   data() {
     return {
       type: "consumer",
+      email: null,
+      password: null,
       firstName: {
         value: null,
         isValid: null,
-        feedback: "ue",
+        feedback: null,
       },
       lastName: null,
-      password: "",
       username: "test",
       country: "",
       nif: "",
-      email: "",
       address: "",
       phonenumber: "",
       countries: [],
@@ -221,26 +244,85 @@ export default {
     };
   },
   computed: {
-    validateFirstName() {
-      if (this.firstName.value === null) return;
-
-      this.firstName.isValid = true;
-      this.firstName.feedback = "Looking good";
-
-      if (this.firstName.value.length < 2) {
-        this.firstName.isValid = false;
-        this.firstName.feedback = "Must be at least 2 characters";
-        return "is-invalid";
-      }
-
-      if (this.firstName.value.includes("e")) {
-        this.firstName.isValid = false;
-        this.firstName.feedback = "Cannot contain the letter 'e'";
-        return "is-invalid";
-      }
-
-      return "is-valid";
+    calculateEmailClass() {
+      if (this.email === null) return;
+      return this.isValidEmail ? "is-valid" : "is-invalid";
     },
+    calculateEmailFeedbackClass() {
+      if (this.email === null) return;
+      return this.isValidEmail ? "valid-feedback" : "invalid-feedback";
+    },
+    calculateEmailFeedback() {
+      if (this.email === null) return;
+      let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+      if (!this.email.match(regexEmail)) return "Must be a valid email";
+      return "Looking good";
+    },
+    isValidEmail() {
+      if (this.email === null) return;
+      let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+      if (!this.email.match(regexEmail)) return false;
+      return true;
+    },
+    calculatePasswordClass() {
+      if (this.password === null) return;
+      return this.isValidPassword ? "is-valid" : "is-invalid";
+    },
+    calculatePasswordFeedbackClass() {
+      if (this.password === null) return;
+      return this.isValidPassword ? "valid-feedback" : "invalid-feedback";
+    },
+    calculatePasswordFeedback() {
+      if (this.password === null) return;
+      if (this.password.length < 6) return "Must be at least 6 characters";
+      return "Looking good";
+    },
+    isValidPassword() {
+      if (this.password === null) return;
+      if (this.password.length < 6) return false;
+      return true;
+    },
+
+    // validateFirstName() {
+    //   if (this.firstName.value === null) return;
+
+    //   this.firstName.isValid = true;
+    //   this.firstName.feedback = "Looking good";
+
+    //   if (this.firstName.value.length < 2) {
+    //     this.firstName.isValid = false;
+    //     this.firstName.feedback = ;
+    //     return "is-invalid";
+    //   }
+
+    //   if (this.firstName.value.includes("e")) {
+    //     this.firstName.isValid = false;
+    //     this.firstName.feedback = ;
+    //     return "is-invalid";
+    //   }
+
+    //   return "is-valid";
+    // },
+    // validateEmail() {
+    //   if (this.email.value === null) return;
+
+    //   this.email.isValid = true;
+    //   this.email.feedback = ;
+
+    //   if (this.email.value.length < 2) {
+    //     this.email.isValid = false;
+    //     this.email.feedback = "Must be at least 2 characters";
+    //     return "is-invalid";
+    //   }
+
+    //   if (this.email.value.includes("e")) {
+    //     this.email.isValid = false;
+    //     this.email.feedback = "Cannot contain the letter 'e'";
+    //     return "is-invalid";
+    //   }
+
+    //   return "is-valid";
+    // },
     validLastName() {
       if (this.lastName === null) return;
       if (this.lastName.length < 2) {
@@ -311,53 +393,101 @@ export default {
       this.$fire.auth.signInWithPopup(provider);
     },
 
-    generateUsername() {
-      this.username = "random-user-" + Math.floor(Math.random() * 500);
+    async generateUsername() {
+      const username = "random-user-" + Math.floor(Math.random() * 500);
+      const users = await (await fetch("/api/users?username=" + username)).json();
+      if (users.data.items.length <= 0) return username;
+      return this.generateUsername();
     },
 
     async RegisterUser() {
-      const res = await fetch(`api/users?${this.email}`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      });
+      console.log("Registering...");
+      const res = await fetch(`/api/users?email=${this.email}`);
+      const resJson = await res.json();
+      console.log(resJson);
+      if (resJson.data.items.length <= 0) {
+        const username = await this.generateUsername();
+        console.log(username);
+        const postReq = await fetch("/api/users", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
 
-      if (res.length > 0) {
-        console.log("hi");
-      }
+          body: JSON.stringify({
+            username: username,
+            email: this.email,
+            password: this.password,
+          }),
+        });
 
-      await fetch("api//users", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-
-        body: JSON.stringify({
-          username: this.username,
-          email: this.email,
-          password: this.password,
-        }),
-      });
-
-      const res2 = await fetch("api//login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          // username: this.username,
-          email: this.email,
-          password: this.password,
-        }),
-      });
-
-      const res3 = await res2.json();
-      const error = "User does not exist";
-      if (res3 === "Invalid username or password") {
-        console.log(error);
+        const postReqJson = await postReq.json();
+        console.log(postReqJson);
+        this.$router.push("products");
       } else {
-        localStorage.setItem("token", res3);
-        //this.$router.push("dashboard");
+        alert("Email is already registered");
       }
+
+      // const res2 = await fetch("api/login", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({
+      //     // username: this.username,
+      //     email: this.email,
+      //     password: this.password,
+      //   }),
+      // });
+
+      // const res3 = await res2.json();
+      // const error = "User does not exist";
+      // if (res3 === "Invalid username or password") {
+      //   console.log(error);
+      // } else {
+      //   localStorage.setItem("token", res3);
+      //   //this.$router.push("dashboard");
+      // }
     },
   },
 };
 </script>
 
-'''''''''''''''''' '''' ' '' '' '' '''''' '' '' '' '''' '' '' '''' '' '' '' '' '' '' '' ''
-'' '' '' '' '' '' '' '' '' '' '' '''' '' '' '' '''' '' '' '''' '' '' ''
+<style>
+.sign-up-with-google-btn {
+  transition: background-color 0.3s, box-shadow 0.3s;
+
+  padding: 12px 16px 12px 42px;
+  border: none;
+  border-radius: 3px;
+  box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04), 0 1px 1px rgba(0, 0, 0, 0.25);
+
+  color: #757575;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+    Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBkPSJNMTcuNiA5LjJsLS4xLTEuOEg5djMuNGg0LjhDMTMuNiAxMiAxMyAxMyAxMiAxMy42djIuMmgzYTguOCA4LjggMCAwIDAgMi42LTYuNnoiIGZpbGw9IiM0Mjg1RjQiIGZpbGwtcnVsZT0ibm9uemVybyIvPjxwYXRoIGQ9Ik05IDE4YzIuNCAwIDQuNS0uOCA2LTIuMmwtMy0yLjJhNS40IDUuNCAwIDAgMS04LTIuOUgxVjEzYTkgOSAwIDAgMCA4IDV6IiBmaWxsPSIjMzRBODUzIiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48cGF0aCBkPSJNNCAxMC43YTUuNCA1LjQgMCAwIDEgMC0zLjRWNUgxYTkgOSAwIDAgMCAwIDhsMy0yLjN6IiBmaWxsPSIjRkJCQzA1IiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48cGF0aCBkPSJNOSAzLjZjMS4zIDAgMi41LjQgMy40IDEuM0wxNSAyLjNBOSA5IDAgMCAwIDEgNWwzIDIuNGE1LjQgNS40IDAgMCAxIDUtMy43eiIgZmlsbD0iI0VBNDMzNSIgZmlsbC1ydWxlPSJub256ZXJvIi8+PHBhdGggZD0iTTAgMGgxOHYxOEgweiIvPjwvZz48L3N2Zz4=);
+  background-color: white;
+  background-repeat: no-repeat;
+  background-position: 12px 11px;
+
+  &:hover {
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.25);
+  }
+
+  &:active {
+    background-color: #eeeeee;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.25),
+      0 0 0 3px #c8dafc;
+  }
+
+  &:disabled {
+    filter: grayscale(100%);
+    background-color: #ebebeb;
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04), 0 1px 1px rgba(0, 0, 0, 0.25);
+    cursor: not-allowed;
+  }
+}
+</style>

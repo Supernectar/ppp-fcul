@@ -1,5 +1,6 @@
 export default defineEventHandler(async (event) => {
 	event.res.jsonResponse.context = event.context.params;
+
 	const id = req.body.id;
 	const name = req.body.name;
 	const type = req.body.type;

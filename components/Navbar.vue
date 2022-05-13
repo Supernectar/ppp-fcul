@@ -194,4 +194,8 @@ a.nav-link {
   display: flex;
   align-items: center;
 }
+
+.search-hover {
+  /* width: 120px; */
+}
 </style>

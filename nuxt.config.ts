@@ -20,5 +20,6 @@ export default defineNuxtConfig({
 				}
 			]
 		}
-	}
+	},
+	modules: ['@formkit/nuxt']
 });
