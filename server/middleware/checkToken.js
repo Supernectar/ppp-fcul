@@ -6,7 +6,9 @@ export default defineEventHandler(async (event) => {
 		const unprotectedRoutes = [
 			'/api/authenticate',
 			'/api/users',
-			'/api/items'
+			'/api/items',
+			'/api/items',
+			'/api/products'
 		];
 		if (!unprotectedRoutes.includes(event.req.url.split('?')[0])) {
 			const authHeader = event.req.headers['authorization'];
