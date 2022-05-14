@@ -4,7 +4,8 @@ export default defineEventHandler(async (event) => {
 	event.res.jsonResponse.context = event.context.params;
 
 	const { userId } = event.context.params;
-	const { username, name } = await useBody(event);
+	const { name, address, phone, credit_card, nif, password } =
+		await useBody(event);
 
 	if (userId !== event.req.userId) {
 		event.res.jsonResponse.error = {
@@ -14,7 +15,14 @@ export default defineEventHandler(async (event) => {
 		try {
 			let user = await User.updateOne(
 				{ _id: userId },
-				{ username, name }
+				{
+					name,
+					address,
+					phone,
+					credit_card,
+					nif,
+					password
+				}
 			);
 			event.res.jsonResponse.data = {
 				items: [user]
