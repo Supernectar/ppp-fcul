@@ -6,7 +6,7 @@
       <h2>Registration</h2>
       <div class="form-text">Please fill in this form to create an account</div>
       <hr />
-      <!-- <div class="form-check">
+      <div class="form-check">
         <input
           v-model="type"
           class="form-check-input"
@@ -39,7 +39,7 @@
           value="transporter"
         />
         <label class="form-check-label" for="flexRadioDefault3"> Transporter </label>
-      </div> -->
+      </div>
 
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Email address</label>
@@ -410,7 +410,9 @@ export default {
         console.log(username);
         const postReq = await fetch("/api/users", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+          },
 
           body: JSON.stringify({
             username: username,

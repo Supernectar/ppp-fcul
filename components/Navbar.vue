@@ -1,5 +1,23 @@
 <template>
   <div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Navbar</a>
+      </div>
+      <ul
+        class="navbar-nav msbnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnv b''''''''''''''''''''''''''''''''''''''''''''''-auto"
+      >
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Features</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Pricing</a>
+        </li>
+      </ul>
+    </nav>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
       <div class="container-fluid">
         <a class="navbar-brand" href="index">
@@ -21,15 +39,53 @@
         >
           <span class="navbar-toggler-icon" />
         </button>
+
         <div id="navbarSupportedContent" class="collapse navbar-collapse">
           <!-- Left aligned nav content -->
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">About Us</a>
-            </li>
 
-            <li class="nav-item">
-              <a class="nav-link disabled">Disabled</a>
+          <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDarkDropdownMenuLink"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Dropdown
+              </a>
+              <ul
+                class="dropdown-menu dropdown-menu-dark ml-auto mb-2 mb-lg-0"
+                aria-labelledby="navbarDarkDropdownMenuLink"
+              >
+                <li>
+                  <ul class="navbar-nav dropend">
+                    <li class="dropdown-item">
+                      <a class="nav-link dropdown-toggle" href="#">Action1</a>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <ul class="navbar-nav dropend">
+                    <li class="dropdown-item">
+                      <a class="nav-link dropdown-toggle" href="#">Action2</a>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <ul class="navbar-nav dropend">
+                    <li class="dropdown-item">
+                      <ul class="navbar-nav dropend">
+                        <li class="dropdown-item">
+                          <a class="nav-link dropdown-toggle" href="#">Action2</a>
+                        </li>
+                        <a class="dropdown-item" href="#"> ActionTry</a>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
             </li>
           </ul>
 
@@ -46,28 +102,6 @@
 
           <!-- Right aligned nav content -->
           <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
-            <li class="nav-item dropdown">
-              <a
-                id="navbarDropdown"
-                class="nav-link dropdown-toggle"
-                href="#"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Lang
-              </a>
-
-              <ul
-                class="dropdown-menu dropdown-menu-end"
-                aria-labelledby="navbarDropdown"
-              >
-                <li>
-                  <a class="dropdown-item" href="#">ENG</a>
-                </li>
-              </ul>
-            </li>
-
             <li class="nav-item dropdown">
               <a
                 id="navbarDropdown"
@@ -164,7 +198,8 @@
                   <a class="dropdown-item" href="register">Register</a>
                 </li>
                 <li>
-                  <a class="dropdown-item" href="profile">Profile</a>
+                  <NuxtLink to="/profile"> Nuxt website </NuxtLink>
+                  <!-- <link rel="" type="" href="profile" /> -->
                 </li>
                 <li>
                   <a class="dropdown-item" @click="signOut" href="#">Sign Out</a>
@@ -183,6 +218,7 @@ export default {
   name: "Navbar",
 };
 </script>
+>
 
 <style scoped>
 nav.navbar ul.navbar-nav {
@@ -195,7 +231,7 @@ a.nav-link {
   align-items: center;
 }
 
-.search-hover {
-  /* width: 120px; */
-}
+/* .search-hover {
+   width: 120px; 
+} */
 </style>

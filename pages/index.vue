@@ -1,7 +1,7 @@
 <template>
   <div>
     <Navbar />
-    <h1 class="text-center">NomeWebsite</h1>
+    <h1 class="text-center">Clear Choice</h1>
 
     <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-indicators">
