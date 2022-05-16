@@ -1,95 +1,126 @@
 <template>
-  <!-- pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" -->
-  <div class="bg-success vh-100">
-    <Navbar />
-    <form v-on:submit.prevent class="col-4 offset-4 bg-white rounded p-4">
-      <h2>Registration</h2>
-      <div class="form-text">Please fill in this form to create an account</div>
-      <hr />
-      <div class="form-check">
-        <input
-          v-model="type"
-          class="form-check-input"
-          type="radio"
-          name="flexRadioDefault"
-          id="flexRadioDefault1"
-          value="consumer"
-          checked
-        />
-        <label class="form-check-label" for="flexRadioDefault1">Consumer</label>
-      </div>
-      <div class="form-check">
-        <input
-          v-model="type"
-          class="form-check-input"
-          type="radio"
-          name="flexRadioDefault"
-          id="flexRadioDefault2"
-          value="supplier"
-        />
-        <label class="form-check-label" for="flexRadioDefault2"> Supplier </label>
-      </div>
-      <div class="form-check">
-        <input
-          v-model="type"
-          class="form-check-input"
-          type="radio"
-          name="flexRadioDefault"
-          id="flexRadioDefault3"
-          value="transporter"
-        />
-        <label class="form-check-label" for="flexRadioDefault3"> Transporter </label>
-      </div>
+	<!-- pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" -->
+	<div class="bg-success vh-100">
+		<Navbar />
+		<form
+			v-on:submit.prevent
+			class="col-4 offset-4 bg-white rounded p-4"
+		>
+			<h2>Registration</h2>
+			<div class="form-text">
+				Please fill in this form to create an account
+			</div>
+			<hr />
+			<div class="form-check">
+				<input
+					v-model="type"
+					class="form-check-input"
+					type="radio"
+					name="flexRadioDefault"
+					id="flexRadioDefault1"
+					value="consumer"
+					checked
+				/>
+				<label
+					class="form-check-label"
+					for="flexRadioDefault1"
+					>Consumer</label
+				>
+			</div>
+			<div class="form-check">
+				<input
+					v-model="type"
+					class="form-check-input"
+					type="radio"
+					name="flexRadioDefault"
+					id="flexRadioDefault2"
+					value="supplier"
+				/>
+				<label
+					class="form-check-label"
+					for="flexRadioDefault2"
+				>
+					Supplier
+				</label>
+			</div>
+			<div class="form-check">
+				<input
+					v-model="type"
+					class="form-check-input"
+					type="radio"
+					name="flexRadioDefault"
+					id="flexRadioDefault3"
+					value="transporter"
+				/>
+				<label
+					class="form-check-label"
+					for="flexRadioDefault3"
+				>
+					Transporter
+				</label>
+			</div>
 
-      <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Email address</label>
-        <input
-          v-model="email"
-          :class="calculateEmailClass"
-          type="email"
-          class="form-control"
-          id="exampleInputEmail1"
-          aria-describedby="emailHelp"
-        />
-        <div :class="calculateEmailFeedbackClass">
-          {{ calculateEmailFeedback }}
-        </div>
-      </div>
+			<div class="mb-3">
+				<label
+					for="exampleInputEmail1"
+					class="form-label"
+					>Email address</label
+				>
+				<input
+					v-model="email"
+					:class="calculateEmailClass"
+					type="email"
+					class="form-control"
+					id="exampleInputEmail1"
+					aria-describedby="emailHelp"
+				/>
+				<div :class="calculateEmailFeedbackClass">
+					{{ calculateEmailFeedback }}
+				</div>
+			</div>
 
-      <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Password</label>
+			<div class="mb-3">
+				<label
+					for="exampleInputPassword1"
+					class="form-label"
+					>Password</label
+				>
 
-        <input
-          v-model="password"
-          type="password"
-          class="form-control"
-          :class="calculatePasswordClass"
-          id="exampleInputPassword1"
-        />
-        <div :class="calculatePasswordFeedbackClass">
-          {{ calculatePasswordFeedback }}
-        </div>
-      </div>
+				<input
+					v-model="password"
+					type="password"
+					class="form-control"
+					:class="calculatePasswordClass"
+					id="exampleInputPassword1"
+				/>
+				<div :class="calculatePasswordFeedbackClass">
+					{{ calculatePasswordFeedback }}
+				</div>
+			</div>
 
-      <input
-        type="submit"
-        @click="RegisterUser"
-        class="btn btn-primary w-100"
-        name=""
-        value="Continue"
-      />
+			<input
+				type="submit"
+				@click="RegisterUser"
+				class="btn btn-primary w-100"
+				name=""
+				value="Continue"
+			/>
 
-      <hr />
-      <button @click="RegisterGoogle" type="button" class="sign-up-with-google-btn w-100">
-        Sign up with Google
-      </button>
+			<hr />
+			<button
+				@click="RegisterGoogle"
+				type="button"
+				class="sign-up-with-google-btn w-100"
+			>
+				Sign up with Google
+			</button>
 
-      <!-- <div class="form-group">
+			<!-- <div class="form-group">
         <input type="submit" value="Create Account" @click="RegisterUser">
         <button v-on:click.stop.prevent="">Create Account</button>
         <button @click="()">TESTAR GOOGLE REGISTER</button>
       </div> -->
-      <!-- 
+			<!-- 
       <div class="mb-3">
         <label for="firstName" class="form-label">First Name</label>
 
@@ -213,204 +244,229 @@
           />
         </div>
       </div> -->
-    </form>
-  </div>
+		</form>
+	</div>
 </template>
 
 <script>
 export default {
-  name: "RegisterView",
+	name: 'RegisterView',
 
-  data() {
-    return {
-      type: "consumer",
-      email: null,
-      password: null,
-      firstName: {
-        value: null,
-        isValid: null,
-        feedback: null,
-      },
-      lastName: null,
-      username: "test",
-      country: "",
-      nif: "",
-      address: "",
-      phonenumber: "",
-      countries: [],
-      confirmPassword: "",
-      pcode: "",
-      // defaultName: 'okdo',
-    };
-  },
-  computed: {
-    calculateEmailClass() {
-      if (this.email === null) return;
-      return this.isValidEmail ? "is-valid" : "is-invalid";
-    },
-    calculateEmailFeedbackClass() {
-      if (this.email === null) return;
-      return this.isValidEmail ? "valid-feedback" : "invalid-feedback";
-    },
-    calculateEmailFeedback() {
-      if (this.email === null) return;
-      let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-      if (!this.email.match(regexEmail)) return "Must be a valid email";
-      return "Looking good";
-    },
-    isValidEmail() {
-      if (this.email === null) return;
-      let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-      if (!this.email.match(regexEmail)) return false;
-      return true;
-    },
-    calculatePasswordClass() {
-      if (this.password === null) return;
-      return this.isValidPassword ? "is-valid" : "is-invalid";
-    },
-    calculatePasswordFeedbackClass() {
-      if (this.password === null) return;
-      return this.isValidPassword ? "valid-feedback" : "invalid-feedback";
-    },
-    calculatePasswordFeedback() {
-      if (this.password === null) return;
-      if (this.password.length < 6) return "Must be at least 6 characters";
-      return "Looking good";
-    },
-    isValidPassword() {
-      if (this.password === null) return;
-      if (this.password.length < 6) return false;
-      return true;
-    },
+	data() {
+		return {
+			type: 'consumer',
+			email: null,
+			password: null,
+			firstName: {
+				value: null,
+				isValid: null,
+				feedback: null
+			},
+			lastName: null,
+			username: 'test',
+			country: '',
+			nif: '',
+			address: '',
+			phonenumber: '',
+			countries: [],
+			confirmPassword: '',
+			pcode: ''
+			// defaultName: 'okdo',
+		};
+	},
+	computed: {
+		calculateEmailClass() {
+			if (this.email === null) return;
+			return this.isValidEmail ? 'is-valid' : 'is-invalid';
+		},
+		calculateEmailFeedbackClass() {
+			if (this.email === null) return;
+			return this.isValidEmail
+				? 'valid-feedback'
+				: 'invalid-feedback';
+		},
+		calculateEmailFeedback() {
+			if (this.email === null) return;
+			let regexEmail =
+				/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+			if (!this.email.match(regexEmail))
+				return 'Must be a valid email';
+			return 'Looking good';
+		},
+		isValidEmail() {
+			if (this.email === null) return;
+			let regexEmail =
+				/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+			if (!this.email.match(regexEmail)) return false;
+			return true;
+		},
+		calculatePasswordClass() {
+			if (this.password === null) return;
+			return this.isValidPassword ? 'is-valid' : 'is-invalid';
+		},
+		calculatePasswordFeedbackClass() {
+			if (this.password === null) return;
+			return this.isValidPassword
+				? 'valid-feedback'
+				: 'invalid-feedback';
+		},
+		calculatePasswordFeedback() {
+			if (this.password === null) return;
+			if (this.password.length < 6)
+				return 'Must be at least 6 characters';
+			return 'Looking good';
+		},
+		isValidPassword() {
+			if (this.password === null) return;
+			if (this.password.length < 6) return false;
+			return true;
+		},
 
-    // validateFirstName() {
-    //   if (this.firstName.value === null) return;
+		// validateFirstName() {
+		//   if (this.firstName.value === null) return;
 
-    //   this.firstName.isValid = true;
-    //   this.firstName.feedback = "Looking good";
+		//   this.firstName.isValid = true;
+		//   this.firstName.feedback = "Looking good";
 
-    //   if (this.firstName.value.length < 2) {
-    //     this.firstName.isValid = false;
-    //     this.firstName.feedback = ;
-    //     return "is-invalid";
-    //   }
+		//   if (this.firstName.value.length < 2) {
+		//     this.firstName.isValid = false;
+		//     this.firstName.feedback = ;
+		//     return "is-invalid";
+		//   }
 
-    //   if (this.firstName.value.includes("e")) {
-    //     this.firstName.isValid = false;
-    //     this.firstName.feedback = ;
-    //     return "is-invalid";
-    //   }
+		//   if (this.firstName.value.includes("e")) {
+		//     this.firstName.isValid = false;
+		//     this.firstName.feedback = ;
+		//     return "is-invalid";
+		//   }
 
-    //   return "is-valid";
-    // },
-    // validateEmail() {
-    //   if (this.email.value === null) return;
+		//   return "is-valid";
+		// },
+		// validateEmail() {
+		//   if (this.email.value === null) return;
 
-    //   this.email.isValid = true;
-    //   this.email.feedback = ;
+		//   this.email.isValid = true;
+		//   this.email.feedback = ;
 
-    //   if (this.email.value.length < 2) {
-    //     this.email.isValid = false;
-    //     this.email.feedback = "Must be at least 2 characters";
-    //     return "is-invalid";
-    //   }
+		//   if (this.email.value.length < 2) {
+		//     this.email.isValid = false;
+		//     this.email.feedback = "Must be at least 2 characters";
+		//     return "is-invalid";
+		//   }
 
-    //   if (this.email.value.includes("e")) {
-    //     this.email.isValid = false;
-    //     this.email.feedback = "Cannot contain the letter 'e'";
-    //     return "is-invalid";
-    //   }
+		//   if (this.email.value.includes("e")) {
+		//     this.email.isValid = false;
+		//     this.email.feedback = "Cannot contain the letter 'e'";
+		//     return "is-invalid";
+		//   }
 
-    //   return "is-valid";
-    // },
-    validLastName() {
-      if (this.lastName === null) return;
-      if (this.lastName.length < 2) {
-        return false;
-      }
-      return true;
-    },
-  },
-  mounted() {
-    // this.generateUsername();
-    // this.countries = fetch("https://restcountries.com/v2/all", {
-    //   method: "GET",
-    // });
-  },
-  methods: {
-    validPassword() {
-      return this.password.length >= 6;
-    },
-    validEmail() {
-      const re = /(.+)@(.+)\.(.+)/;
-      return re.test(this.email);
-    },
-    RegisterGoogle() {
-      const provider = new this.$fireModule.auth.GoogleAuthProvider();
-      this.$fire.auth.signInWithPopup(provider);
-    },
+		//   return "is-valid";
+		// },
+		validLastName() {
+			if (this.lastName === null) return;
+			if (this.lastName.length < 2) {
+				return false;
+			}
+			return true;
+		}
+	},
+	mounted() {
+		// this.generateUsername();
+		// this.countries = fetch("https://restcountries.com/v2/all", {
+		//   method: "GET",
+		// });
+	},
+	methods: {
+		validPassword() {
+			return this.password.length >= 6;
+		},
+		validEmail() {
+			const re = /(.+)@(.+)\.(.+)/;
+			return re.test(this.email);
+		},
+		RegisterGoogle() {
+			const provider =
+				new this.$fireModule.auth.GoogleAuthProvider();
+			this.$fire.auth.signInWithPopup(provider);
+		},
 
-    async generateUsername() {
-      const username = "random-user-" + Math.floor(Math.random() * 500);
-      const users = await (await fetch("/api/users?username=" + username)).json();
-      if (users.data.items.length <= 0) return username;
-      return this.generateUsername();
-    },
+		async generateUsername() {
+			const username =
+				'random-user-' +
+				Math.floor(Math.random() * 500);
+			const users = await (
+				await fetch('/api/users?username=' + username)
+			).json();
+			if (users.data.items.length <= 0) return username;
+			return this.generateUsername();
+		},
 
-    async RegisterUser() {
-      if (this.validEmail() && this.validPassword()) {
-        console.log("Registering...");
-        const res = await fetch(`/api/users?email=${this.email}`);
-        const resJson = await res.json();
-        console.log(resJson);
-        if (resJson.data.items.length <= 0) {
-          const username = await this.generateUsername();
-          console.log(username);
-          const postReq = await fetch("/api/users", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
+		async RegisterUser() {
+			if (this.validEmail() && this.validPassword()) {
+				console.log('Registering...');
+				const res = await fetch(
+					`/api/users?email=${this.email}`
+				);
+				const resJson = await res.json();
+				console.log(resJson);
+				if (resJson.data.items.length <= 0) {
+					const username =
+						await this.generateUsername();
+					console.log(username);
+					const postReq = await fetch(
+						'/api/users',
+						{
+							method: 'POST',
+							headers: {
+								'Content-Type':
+									'application/json'
+							},
 
-            body: JSON.stringify({
-              username: username,
-              email: this.email,
-              password: this.password,
-            }),
-          });
+							body: JSON.stringify({
+								username: username,
+								email: this
+									.email,
+								password: this
+									.password
+							})
+						}
+					);
 
-          const postReqJson = await postReq.json();
-          console.log(postReqJson);
-          alert("User was registered successfully");
-          //this.$router.push('products');
-        } else {
-          alert("Email is already registered");
-        }
-      } else {
-        console.log("fields not valid");
-      }
+					const postReqJson =
+						await postReq.json();
+					console.log(postReqJson);
+					alert(
+						'User was registered successfully'
+					);
+					//this.$router.push('products');
+				} else {
+					alert('Email is already registered');
+				}
+			} else {
+				console.log('fields not valid');
+			}
 
-      const res2 = await fetch("api/authenticate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          // username: this.username,
-          email: this.email,
-          password: this.password,
-        }),
-      });
+			const res2 = await fetch('api/authenticate', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					// username: this.username,
+					email: this.email,
+					password: this.password
+				})
+			});
 
-      const res3 = await res2.json();
-      const error = "User does not exist";
-      if (res3 === "Invalid username or password") {
-        console.log(error);
-      } else {
-        console.log(res3);
-        localStorage.setItem("token", res3.data.items);
-        this.$router.push("products");
-      }
-    },
-  },
+			const res3 = await res2.json();
+			const error = 'User does not exist';
+			if (res3 === 'Invalid username or password') {
+				console.log(error);
+			} else {
+				console.log(res3);
+				localStorage.setItem('token', res3.data.items);
+				this.$router.push('products');
+			}
+		}
+	}
 };
 </script>
 
