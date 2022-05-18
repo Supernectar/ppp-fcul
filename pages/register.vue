@@ -337,53 +337,10 @@ export default {
     // });
   },
   methods: {
-    validFirstName() {
-      console.log("first name validation");
-      return this.firstName.length > 2;
-    },
-    // validLastName() {
-    //   return this.lastName.length > 2;
-    // },
     validPassword() {
-      return this.password.length > 6;
+      return this.password.length >= 6;
     },
-    validConfirmPassword() {
-      return (
-        this.password.length != 0 && this.password.length === this.confirmPassword.length
-      );
-    },
-    validPhone() {
-      return this.phonenumber.length === 9;
-    },
-    validNIF() {
-      return this.nif.length === 9;
-    },
-    validCountry() {
-      return true;
-      // return this.nif.length === 9;
-    },
-    validCity() {
-      return true;
-      // return this.nif.length === 9;
-    },
-    validPostCode() {
-      const re = /(.+){4}-(.+){3}/;
-      return re.test(this.pcode);
-    },
-
     validEmail() {
-      /*const res = await fetch(
-				`api/users?email=${this.email}`,
-
-				{
-					method: 'GET',
-					headers: {
-						'Content-Type':
-							'application/json'
-					}
-				}
-			);
-			const res2 = await res.json();*/
       const re = /(.+)@(.+)\.(.+)/;
       return re.test(this.email);
     },
@@ -400,58 +357,64 @@ export default {
     },
 
     async RegisterUser() {
-      console.log("Registering...");
-      const res = await fetch(`/api/users?email=${this.email}`);
-      const resJson = await res.json();
-      console.log(resJson);
-      if (resJson.data.items.length <= 0) {
-        const username = await this.generateUsername();
-        console.log(username);
-        const postReq = await fetch("/api/users", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+      if (this.validEmail() && this.validPassword()) {
+        console.log("Registering...");
+        const res = await fetch(`/api/users?email=${this.email}`);
+        const resJson = await res.json();
+        console.log(resJson);
+        if (resJson.data.items.length <= 0) {
+          const username = await this.generateUsername();
+          console.log(username);
+          const postReq = await fetch("/api/users", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
 
-          body: JSON.stringify({
-            username: username,
-            email: this.email,
-            password: this.password,
-          }),
-        });
+            body: JSON.stringify({
+              username: username,
+              email: this.email,
+              password: this.password,
+            }),
+          });
 
-        const postReqJson = await postReq.json();
-        console.log(postReqJson);
-        this.$router.push("products");
+          const postReqJson = await postReq.json();
+          console.log(postReqJson);
+          alert("User was registered successfully");
+          //this.$router.push('products');
+        } else {
+          alert("Email is already registered");
+        }
       } else {
-        alert("Email is already registered");
+        console.log("fields not valid");
       }
 
-      // const res2 = await fetch("api/login", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({
-      //     // username: this.username,
-      //     email: this.email,
-      //     password: this.password,
-      //   }),
-      // });
+      const res2 = await fetch("api/authenticate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          // username: this.username,
+          email: this.email,
+          password: this.password,
+        }),
+      });
 
-      // const res3 = await res2.json();
-      // const error = "User does not exist";
-      // if (res3 === "Invalid username or password") {
-      //   console.log(error);
-      // } else {
-      //   localStorage.setItem("token", res3);
-      //   //this.$router.push("dashboard");
-      // }
+      const res3 = await res2.json();
+      const error = "User does not exist";
+      if (res3 === "Invalid username or password") {
+        console.log(error);
+      } else {
+        console.log(res3);
+        localStorage.setItem("token", res3.data.items);
+        this.$router.push("products");
+      }
     },
   },
 };
 </script>
 
 <style>
-.sign-up-with-google-btn {
+/* .sign-up-with-google-btn {
   transition: background-color 0.3s, box-shadow 0.3s;
 
   padding: 12px 16px 12px 42px;
@@ -490,5 +453,5 @@ export default {
     box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04), 0 1px 1px rgba(0, 0, 0, 0.25);
     cursor: not-allowed;
   }
-}
+} */
 </style>
