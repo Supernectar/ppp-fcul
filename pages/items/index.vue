@@ -1,20 +1,25 @@
 <template>
-  <div class="bg-success">
+  <div class="h-screen">
     <Navbar />
     <div class="row">
       <div class="col-2 m-4 p-4 rounded bg-light">
         <h5>FILTROS</h5>
         <br />
         <h6>Marca</h6>
-        <div v-for="(brand, index) in brands" :key="index" class="form-check">
+        <div
+          v-for="(brand, index) in filters2"
+          :key="index"
+          class="form-check"
+          id="marcas"
+        >
           <input
             class="form-check-input"
             type="checkbox"
             v-model="filters"
             :value="brand"
-            id="flexCheckDefault"
+            :id="'flexCheckDefault' + brand"
           />
-          <label class="form-check-label" for="flexCheckDefault">
+          <label class="form-check-label" :for="'flexCheckDefault' + brand">
             {{ brand }}
           </label>
         </div>
@@ -96,7 +101,9 @@ export default {
   name: "ItemsView",
   data() {
     return {
+      allItems: [],
       filters: [],
+      filters2: [],
       items: [],
       brands: [],
       producers: [],
@@ -106,23 +113,35 @@ export default {
     const res = await fetch("api/items", {
       method: "GET",
     });
-    // res.filter("");
     const res2 = await res.json();
-    this.items = res2.data.items;
-    this.getFilters();
 
+    this.allItems = res2.data.items;
     const items = res2.data.items;
-    console.log(items);
+    for (let i = 0; i < items.length; i++) {
+      if (!this.filters2.includes(items[i].brand)) this.filters2.push(items[i].brand);
+    }
 
-    if (filter.length <= 0) {
-      const result = items.filter((el) => this.filters.includes(el.brand));
+    this.items = res2.data.items;
+
+    let result = this.allItems;
+    if (this.filters.length != 0) {
+      console.log("hi");
+      console.log(this.items);
+      result = this.items.filter((el) => this.filters.includes(el.brand));
       console.log(result);
     }
 
     this.items = result;
   },
   watch: {
-    filters() {},
+    filters() {
+      let result = this.allItems;
+      if (this.filters.length != 0) {
+        result = this.items.filter((el) => this.filters.includes(el.brand));
+      }
+
+      this.items = result;
+    },
   },
 
   methods: {
