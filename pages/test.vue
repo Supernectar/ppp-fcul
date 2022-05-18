@@ -1,7 +1,0 @@
-<template>
-  <div>
-    <h1>Page1</h1>
-    <Accordion></Accordion>
-    <NuxtLink href="/test2">Here</NuxtLink>
-  </div>
-</template>

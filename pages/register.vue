@@ -46,13 +46,19 @@
           v-model="email"
           :class="calculateEmailClass"
           type="email"
-          class="form-control"
+          class="!border text-green-900 placeholder-green-700 text-sm rounded-lg block w-full p-2.5 dark:bg-green-100 dark:border-green-400"
           id="exampleInputEmail1"
           aria-describedby="emailHelp"
         />
         <div :class="calculateEmailFeedbackClass">
           {{ calculateEmailFeedback }}
         </div>
+        <!-- <div
+          v-if="email != null"
+          :class="isValidEmail ? ' text-green-700' : 'text-red-700'"
+        >
+          {{ calculateEmailFeedback }}
+        </div> -->
       </div>
 
       <div class="mb-3">
@@ -245,11 +251,13 @@ export default {
   computed: {
     calculateEmailClass() {
       if (this.email === null) return;
-      return this.isValidEmail ? "is-valid" : "is-invalid";
+      return this.isValidEmail
+        ? " bg-green-50 border-green-500"
+        : " bg-red-50 border-red-500";
     },
     calculateEmailFeedbackClass() {
       if (this.email === null) return;
-      return this.isValidEmail ? "valid-feedback" : "invalid-feedback";
+      return this.isValidEmail ? " text-green-500" : "text-red-500";
     },
     calculateEmailFeedback() {
       if (this.email === null) return;

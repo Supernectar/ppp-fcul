@@ -3,7 +3,7 @@
     <Navbar />
     <div class="container">
       <div class="row mt-2 text-center">
-        <table class="table table-hover align-middle mb-0 table-striped">
+        <table class="bg-white table table-hover align-middle mb-0 table-striped">
           <thead>
             <tr>
               <th scope="col">#</th>
