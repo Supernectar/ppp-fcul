@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-success vh-100">
+  <div class="h-screen">
     <Navbar />
     <form v-on:submit.prevent class="col-4 offset-4 bg-white rounded p-4">
       <h2>Registration</h2>
@@ -67,7 +67,7 @@
         <input
           v-model="password"
           type="password"
-          class="form-control"
+          class="!border text-green-900 placeholder-green-700 text-sm rounded-lg block w-full p-2.5 dark:bg-green-100 dark:border-green-400"
           :class="calculatePasswordClass"
           id="exampleInputPassword1"
         />
@@ -225,7 +225,6 @@
 <script>
 export default {
   name: "RegisterView",
-
   data() {
     return {
       type: "consumer",
@@ -273,11 +272,13 @@ export default {
     },
     calculatePasswordClass() {
       if (this.password === null) return;
-      return this.isValidPassword ? "is-valid" : "is-invalid";
+      return this.isValidPassword
+        ? " bg-green-50 border-green-500"
+        : " bg-red-50 border-red-500";
     },
     calculatePasswordFeedbackClass() {
       if (this.password === null) return;
-      return this.isValidPassword ? "valid-feedback" : "invalid-feedback";
+      return this.isValidPassword ? " text-green-500" : "text-red-500";
     },
     calculatePasswordFeedback() {
       if (this.password === null) return;

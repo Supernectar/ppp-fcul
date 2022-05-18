@@ -17,11 +17,8 @@ export default defineNuxtConfig({
 			script: [
 				{
 					src: 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js'
+					// src: 'https://cdn.tailwindcss.com'
 				}
-				// {
-				// 	// Required for dropdowns to work
-				// 	src: 'https://unpkg.com/flowbite@1.4.5/dist/flowbite.js'
-				// }
 			]
 		}
 	},
