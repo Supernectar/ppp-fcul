@@ -8,18 +8,22 @@ export default defineNuxtConfig({
 				{
 					rel: 'stylesheet',
 					href: 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css'
-				},
-				{
-					rel: 'stylesheet',
-					href: 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css'
 				}
+				// {
+				// 	rel: 'stylesheet',
+				// 	href: 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css'
+				// }
 			],
 			script: [
 				{
 					src: 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js'
 				}
+				// {
+				// 	// Required for dropdowns to work
+				// 	src: 'https://unpkg.com/flowbite@1.4.5/dist/flowbite.js'
+				// }
 			]
 		}
 	},
-	modules: ['@formkit/nuxt']
+	modules: ['nuxt-windicss']
 });

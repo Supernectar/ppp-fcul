@@ -23,7 +23,7 @@
     </div>
     <br />
     <!-- Para apagar depois do Css -->
-    <button @click="login()">Login</button>
+    <button @click="login">Login</button>
   </div>
 </template>
 

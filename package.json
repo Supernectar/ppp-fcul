@@ -9,17 +9,23 @@
 	},
 	"devDependencies": {
 		"@nuxtjs/eslint-config-typescript": "^10.0.0",
+		"@nuxtjs/tailwindcss": "^5.0.4",
 		"eslint": "^8.14.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-nuxt": "^3.2.0",
 		"nuxt": "3.0.0-rc.1",
+		"nuxt-windicss": "^2.3.1",
 		"prettier": "^2.6.2"
 	},
 	"dependencies": {
 		"@formkit/nuxt": "^1.0.0-beta.8",
+		"@headlessui/vue": "^1.6.1",
+		"@heroicons/vue": "^1.0.6",
 		"@vuelidate/core": "^2.0.0-alpha.41",
 		"@vuelidate/validators": "^2.0.0-alpha.29",
+		"flowbite": "^1.4.5",
 		"jsonwebtoken": "^8.5.1",
-		"mongoose": "^6.3.2"
+		"mongoose": "^6.3.2",
+		"unplugin-icons": "^0.14.3"
 	}
 }

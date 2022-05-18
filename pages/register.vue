@@ -1,5 +1,4 @@
 <template>
-  <!-- pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" -->
   <div class="bg-success vh-100">
     <Navbar />
     <form v-on:submit.prevent class="col-4 offset-4 bg-white rounded p-4">
