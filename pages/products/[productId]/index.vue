@@ -34,6 +34,7 @@
 // // products = data._rawValue.data.items;
 
 export default {
+  
   name: "ProductsView",
   data() {
     return {

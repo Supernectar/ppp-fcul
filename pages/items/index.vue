@@ -26,7 +26,7 @@
 
         <br />
         <h6>Produtor</h6>
-        <div v-for="producer in producers" class="form-check">
+        <div v-for="(producer, index) in producers" :key="index" class="form-check">
           <input
             class="form-check-input"
             type="checkbox"
@@ -110,6 +110,8 @@ export default {
     };
   },
   async mounted() {
+    //  const route = useRoute()
+    // route.query
     const res = await fetch("api/items", {
       method: "GET",
     });

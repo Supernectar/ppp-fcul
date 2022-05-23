@@ -20,7 +20,10 @@
 	"dependencies": {
 		"@headlessui/vue": "^1.6.1",
 		"@heroicons/vue": "^1.0.6",
+		"@pinia/nuxt": "^0.1.9",
+		"google-auth-library": "^8.0.2",
 		"jsonwebtoken": "^8.5.1",
-		"mongoose": "^6.3.2"
+		"mongoose": "^6.3.2",
+		"pinia": "^2.0.14"
 	}
 }
