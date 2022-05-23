@@ -1,12 +1,11 @@
 <template>
-  <!-- pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" -->
-  <div class="bg-success vh-100">
+  <div class="h-screen">
     <Navbar />
     <form v-on:submit.prevent class="col-4 offset-4 bg-white rounded p-4">
       <h2>Registration</h2>
       <div class="form-text">Please fill in this form to create an account</div>
       <hr />
-      <!-- <div class="form-check">
+      <div class="form-check">
         <input
           v-model="type"
           class="form-check-input"
@@ -39,7 +38,7 @@
           value="transporter"
         />
         <label class="form-check-label" for="flexRadioDefault3"> Transporter </label>
-      </div> -->
+      </div>
 
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Email address</label>
@@ -47,13 +46,19 @@
           v-model="email"
           :class="calculateEmailClass"
           type="email"
-          class="form-control"
+          class="!border text-green-900 placeholder-green-700 text-sm rounded-lg block w-full p-2.5 dark:bg-green-100 dark:border-green-400"
           id="exampleInputEmail1"
           aria-describedby="emailHelp"
         />
         <div :class="calculateEmailFeedbackClass">
           {{ calculateEmailFeedback }}
         </div>
+        <!-- <div
+          v-if="email != null"
+          :class="isValidEmail ? ' text-green-700' : 'text-red-700'"
+        >
+          {{ calculateEmailFeedback }}
+        </div> -->
       </div>
 
       <div class="mb-3">
@@ -62,7 +67,7 @@
         <input
           v-model="password"
           type="password"
-          class="form-control"
+          class="!border text-green-900 placeholder-green-700 text-sm rounded-lg block w-full p-2.5 dark:bg-green-100 dark:border-green-400"
           :class="calculatePasswordClass"
           id="exampleInputPassword1"
         />
@@ -220,7 +225,6 @@
 <script>
 export default {
   name: "RegisterView",
-
   data() {
     return {
       type: "consumer",
@@ -246,11 +250,13 @@ export default {
   computed: {
     calculateEmailClass() {
       if (this.email === null) return;
-      return this.isValidEmail ? "is-valid" : "is-invalid";
+      return this.isValidEmail
+        ? " bg-green-50 border-green-500"
+        : " bg-red-50 border-red-500";
     },
     calculateEmailFeedbackClass() {
       if (this.email === null) return;
-      return this.isValidEmail ? "valid-feedback" : "invalid-feedback";
+      return this.isValidEmail ? " text-green-500" : "text-red-500";
     },
     calculateEmailFeedback() {
       if (this.email === null) return;
@@ -266,11 +272,13 @@ export default {
     },
     calculatePasswordClass() {
       if (this.password === null) return;
-      return this.isValidPassword ? "is-valid" : "is-invalid";
+      return this.isValidPassword
+        ? " bg-green-50 border-green-500"
+        : " bg-red-50 border-red-500";
     },
     calculatePasswordFeedbackClass() {
       if (this.password === null) return;
-      return this.isValidPassword ? "valid-feedback" : "invalid-feedback";
+      return this.isValidPassword ? " text-green-500" : "text-red-500";
     },
     calculatePasswordFeedback() {
       if (this.password === null) return;
@@ -338,53 +346,10 @@ export default {
     // });
   },
   methods: {
-    validFirstName() {
-      console.log("first name validation");
-      return this.firstName.length > 2;
-    },
-    // validLastName() {
-    //   return this.lastName.length > 2;
-    // },
     validPassword() {
-      return this.password.length > 6;
+      return this.password.length >= 6;
     },
-    validConfirmPassword() {
-      return (
-        this.password.length != 0 && this.password.length === this.confirmPassword.length
-      );
-    },
-    validPhone() {
-      return this.phonenumber.length === 9;
-    },
-    validNIF() {
-      return this.nif.length === 9;
-    },
-    validCountry() {
-      return true;
-      // return this.nif.length === 9;
-    },
-    validCity() {
-      return true;
-      // return this.nif.length === 9;
-    },
-    validPostCode() {
-      const re = /(.+){4}-(.+){3}/;
-      return re.test(this.pcode);
-    },
-
     validEmail() {
-      /*const res = await fetch(
-				`api/users?email=${this.email}`,
-
-				{
-					method: 'GET',
-					headers: {
-						'Content-Type':
-							'application/json'
-					}
-				}
-			);
-			const res2 = await res.json();*/
       const re = /(.+)@(.+)\.(.+)/;
       return re.test(this.email);
     },
@@ -401,56 +366,64 @@ export default {
     },
 
     async RegisterUser() {
-      console.log("Registering...");
-      const res = await fetch(`/api/users?email=${this.email}`);
-      const resJson = await res.json();
-      console.log(resJson);
-      if (resJson.data.items.length <= 0) {
-        const username = await this.generateUsername();
-        console.log(username);
-        const postReq = await fetch("/api/users", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+      if (this.validEmail() && this.validPassword()) {
+        console.log("Registering...");
+        const res = await fetch(`/api/users?email=${this.email}`);
+        const resJson = await res.json();
+        console.log(resJson);
+        if (resJson.data.items.length <= 0) {
+          const username = await this.generateUsername();
+          console.log(username);
+          const postReq = await fetch("/api/users", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
 
-          body: JSON.stringify({
-            username: username,
-            email: this.email,
-            password: this.password,
-          }),
-        });
+            body: JSON.stringify({
+              username: username,
+              email: this.email,
+              password: this.password,
+            }),
+          });
 
-        const postReqJson = await postReq.json();
-        console.log(postReqJson);
-        this.$router.push("products");
+          const postReqJson = await postReq.json();
+          console.log(postReqJson);
+          alert("User was registered successfully");
+          //this.$router.push('products');
+        } else {
+          alert("Email is already registered");
+        }
       } else {
-        alert("Email is already registered");
+        console.log("fields not valid");
       }
 
-      // const res2 = await fetch("api/login", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({
-      //     // username: this.username,
-      //     email: this.email,
-      //     password: this.password,
-      //   }),
-      // });
+      const res2 = await fetch("api/authenticate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          // username: this.username,
+          email: this.email,
+          password: this.password,
+        }),
+      });
 
-      // const res3 = await res2.json();
-      // const error = "User does not exist";
-      // if (res3 === "Invalid username or password") {
-      //   console.log(error);
-      // } else {
-      //   localStorage.setItem("token", res3);
-      //   //this.$router.push("dashboard");
-      // }
+      const res3 = await res2.json();
+      const error = "User does not exist";
+      if (res3 === "Invalid username or password") {
+        console.log(error);
+      } else {
+        console.log(res3);
+        localStorage.setItem("token", res3.data.items);
+        this.$router.push("products");
+      }
     },
   },
 };
 </script>
 
 <style>
-.sign-up-with-google-btn {
+/* .sign-up-with-google-btn {
   transition: background-color 0.3s, box-shadow 0.3s;
 
   padding: 12px 16px 12px 42px;
@@ -489,5 +462,5 @@ export default {
     box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04), 0 1px 1px rgba(0, 0, 0, 0.25);
     cursor: not-allowed;
   }
-}
+} */
 </style>
