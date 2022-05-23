@@ -1,4 +1,4 @@
-<template>
+-<template>
   <div>
     <Navbar />
     <h1 class="text-center">NomeWebsite</h1>
