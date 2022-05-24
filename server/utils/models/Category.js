@@ -6,6 +6,10 @@ export default mongoose.model(
 	new Schema({
 		name: String,
 		description: String,
+		isRoot: {
+			type: Boolean,
+			default: false
+		},
 		categories: [
 			{
 				type: Schema.Types.ObjectId,
