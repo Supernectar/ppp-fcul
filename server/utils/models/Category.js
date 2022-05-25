@@ -6,6 +6,7 @@ export default mongoose.model(
 	new Schema({
 		name: String,
 		description: String,
+		level: Number,
 		isRoot: {
 			type: Boolean,
 			default: false
