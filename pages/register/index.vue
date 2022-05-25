@@ -72,7 +72,6 @@
 </template>
 
 <script>
-import { getGoogleAuthURL } from '~/server/utils/helpers/google';
 export default {
 	name: 'RegisterView',
 	data() {
@@ -211,10 +210,10 @@ export default {
 			const re = /(.+)@(.+)\.(.+)/;
 			return re.test(this.email);
 		},
-
+		/*
 		RegisterGoogle(req, res) {
 			getGoogleAuthURL();
-		},
+		},*/
 
 		async generateUsername() {
 			const username =

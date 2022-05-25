@@ -2,32 +2,54 @@
   <div class="h-screen">
     <Navbar />
 
-    <form v-on:submit.prevent class="col-4 offset-4 bg-white rounded p-4">
+    <div class="block m-auto p-6 rounded-lg shadow-lg bg-white max-w-md">
       <h2>Login</h2>
-      <div class="form-text">Please fill in this form to login to your account</div>
-      <hr />
-      <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Email address</label>
-        <input v-model="email" :class="calculateEmailClass" type="email"
-          class="!border text-green-900 placeholder-green-700 text-sm rounded-lg block w-full p-2.5 dark:bg-green-100 dark:border-green-400"
-          id="exampleInputEmail1" aria-describedby="emailHelp" />
-        <div :class="calculateEmailFeedbackClass">
-          {{ calculateEmailFeedback }}
+      <small class="block mt-1 text-xs text-gray-600">Please fill in this form to login to your account</small>
+      <hr class="my-2" />
+      <form v-on:submit.prevent>
+        <div class="form-group mb-6">
+          <label for="exampleInputEmail1" class="form-label">Email address</label>
+          <input v-model="email" :class="calculateEmailClass" type="email"
+            class="!border text-sm rounded-lg block w-full p-2.5" id="exampleInputEmail1" aria-describedby="emailHelp"
+            placeholder="Your email(Ex: example@email.com)" />
+          <div :class="calculateEmailFeedbackClass">
+            {{ calculateEmailFeedback }}
+          </div>
         </div>
-      </div>
+        <div class="form-group mb-6">
+          <label for="password" class="form-label">Password</label>
 
-      <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Password</label>
-
-        <input v-model="password" type="password"
-          class="!border text-green-900 placeholder-green-700 text-sm rounded-lg block w-full p-2.5 dark:bg-green-100 dark:border-green-400"
-          :class="calculatePasswordClass" id="exampleInputPassword1" />
-        <div :class="calculatePasswordFeedbackClass">
-          {{ calculatePasswordFeedback }}
+          <input v-model="password" type="password"
+            class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+            :class="calculatePasswordClass" id="password" placeholder="Password" />
+          <div :class="calculatePasswordFeedbackClass">
+            {{ calculatePasswordFeedback }}
+          </div>
         </div>
-      </div>
+        <div class="form-group form-check text-center mb-6">
+          <input type="checkbox"
+            class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain mr-2 cursor-pointer"
+            id="exampleCheck25" checked />
+          <label class="form-check-label inline-block text-gray-800" for="exampleCheck25">Subscribe to our
+            newsletter</label>
+        </div>
+        <button type="submit" @click="login"
+          class="w-full px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+          Sign up
+        </button>
+      </form>
+    </div>
 
-      <input type="submit" @click="login" class="btn btn-primary w-100" name="" value="Continue" />
+    <form class="col-4 offset-4 bg-white rounded p-4">
+      <div class="mb-3"></div>
+
+      <div class="mb-3"></div>
+
+      <div class="flex space-x-2 justify-center">
+        <input type="submit" @click="login"
+          class="inline-block my-4 w-100 px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+          name="" value="Continue" />
+      </div>
     </form>
   </div>
 </template>
@@ -97,7 +119,9 @@ export default {
     async login() {
       console.log(this.email);
       if (this.validEmail() && this.validPassword()) {
-        const res = await fetch(`/api/users?email=${this.email}&password=${this.password}`);
+        const res = await fetch(
+          `/api/users?email=${this.email}&password=${this.password}`
+        );
         const resJson = await res.json();
         console.log(resJson);
         if (resJson.data.items.length === 1) {
@@ -130,3 +154,4 @@ export default {
   },
 };
 </script>
+e-e
