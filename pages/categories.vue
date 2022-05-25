@@ -5,6 +5,7 @@
       {{ categories }}
       <br />
       {{ a }}
+      
       <!--<div
 				v-for="superCata in SuperCategories"
 				:key="superCata._id"
