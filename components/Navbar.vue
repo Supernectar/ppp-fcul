@@ -10,7 +10,7 @@
 					/>
 					<span
 						class="font-semibold px-2 hidden md:inline-block"
-						>ClearChoice</span
+						>ClearChoiceACtION</span
 					>
 				</NuxtLink>
 			</div>
