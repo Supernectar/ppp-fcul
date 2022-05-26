@@ -384,7 +384,7 @@ import {
   ShoppingCartIcon,
   BellIcon,
   SearchIcon,
-} from "@heroicons/vue/outline";
+} from "@heroicons/vue/outline/index.js";
 
 function toggleSearch() {
   document.querySelector("#dropdownMobileSearch").classList.toggle("hidden");
