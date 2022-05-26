@@ -162,7 +162,6 @@ export default {
     //     return "is-invalid";
     //   }
 
-<<<<<<< HEAD
     //   return "is-valid";
     // },
     validLastName() {
@@ -187,40 +186,10 @@ export default {
       const re = /(.+)@(.+)\.(.+)/;
       return re.test(this.email);
     },
-
-    RegisterGoogle(req, res) {
-      getGoogleAuthURL();
-    },
-=======
-		//   return "is-valid";
-		// },
-		validLastName() {
-			if (this.lastName === null) return;
-			if (this.lastName.length < 2) {
-				return false;
-			}
-			return true;
-		}
-	},
-	mounted() {
-		// this.generateUsername();
-		// this.countries = fetch("https://restcountries.com/v2/all", {
-		//   method: "GET",
-		// });
-	},
-	methods: {
-		validPassword() {
-			return this.password.length >= 6;
-		},
-		validEmail() {
-			const re = /(.+)@(.+)\.(.+)/;
-			return re.test(this.email);
-		},
-		/*
+    /*
 		RegisterGoogle(req, res) {
 			getGoogleAuthURL();
 		},*/
->>>>>>> 957399b23af2fffdd69e09375064c55efd4df4b6
 
     async generateUsername() {
       const username = "random-user-" + Math.floor(Math.random() * 500);
