@@ -6,14 +6,21 @@ export default defineNuxtConfig({
 		head: {
 			link: [
 				{
-					// rel: 'stylesheet',
-					// href: 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css'
+					rel: 'stylesheet',
+					href: 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css'
 				}
 			],
 			script: [
 				{
-					src: 'https://cdn.tailwindcss.com'
+					src: 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js'
 				}
+				// {
+				// 	src: 'https://cdn.tailwindcss.com'
+				// },
+
+				// {
+				// 	src: 'https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js'
+				// }
 			]
 		}
 	},
