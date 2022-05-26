@@ -4,7 +4,7 @@
       <div class="flex gap-4 md:col-span-2">
         <NuxtLink to="/" class="flex items-center">
           <img class="w-10 inline-block" src="/img/logo.png" alt="" />
-          <span class="font-semibold px-2 hidden md:inline-block">ClearChoice</span>
+          <span class="font-semibold px-2 hidden md:inline-block">ClearChoice2</span>
         </NuxtLink>
       </div>
 
