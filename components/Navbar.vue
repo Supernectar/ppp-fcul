@@ -53,8 +53,10 @@
 
       <!-- Left aligned Icons -->
       <div class="flex justify-end gap-2 md:col-span-2">
-        <NuxtLink to="/register">R</NuxtLink>
-        <NuxtLink to="/login">L</NuxtLink>
+        <div v-if="!logged">
+          <NuxtLink to="/register">R</NuxtLink>
+          <NuxtLink to="/login">L</NuxtLink>
+        </div>
         <!-- Mobile Search Popover -->
         <Popover v-slot="{ open }" class="block md:hidden relative">
           <PopoverButton
@@ -248,7 +250,7 @@
                         class="mr-2 h-5 w-5 text-violet-400"
                         aria-hidden="true"
                       />
-                      <NuxtLink>Edit</NuxtLink>
+                      Edit
                     </button>
                   </MenuItem>
                   <MenuItem v-slot="{ active }">
@@ -269,19 +271,21 @@
                 </div>
                 <div class="px-1 py-1">
                   <MenuItem v-slot="{ active }">
-                    <button
-                      :class="[
-                        active ? '!bg-black !bg-opacity-5' : 'text-gray-900',
-                        'group flex w-full items-center rounded-md px-2 py-2 text-sm',
-                      ]"
-                    >
-                      <ArchiveIcon
-                        :active="active"
-                        class="mr-2 h-5 w-5 text-violet-400"
-                        aria-hidden="true"
-                      />
-                      Profile
-                    </button>
+                    <NuxtLink to="/profile">
+                      <button
+                        :class="[
+                          active ? '!bg-black !bg-opacity-5' : 'text-gray-900',
+                          'group flex w-full items-center rounded-md px-2 py-2 text-sm',
+                        ]"
+                      >
+                        <ArchiveIcon
+                          :active="active"
+                          class="mr-2 h-5 w-5 text-violet-400"
+                          aria-hidden="true"
+                        />
+                        Profile
+                      </button>
+                    </NuxtLink>
                   </MenuItem>
                   <MenuItem v-slot="{ active }">
                     <button
@@ -303,6 +307,7 @@
                 <div class="px-1 py-1">
                   <MenuItem v-slot="{ active }">
                     <button
+                      @click="signOut"
                       :class="[
                         active ? '!bg-black !bg-opacity-5' : 'text-gray-900',
                         'group flex w-full items-center rounded-md px-2 py-2 text-sm',
@@ -371,6 +376,8 @@
   </nav>
 </template>
 <script setup>
+import { computed } from "@vue/reactivity";
+import { useUser } from "/store/user";
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
 import {
@@ -385,6 +392,27 @@ import {
   BellIcon,
   SearchIcon,
 } from "@heroicons/vue/outline/index.js";
+
+let logged = false;
+const store = useUser();
+if (store.userId != 0) {
+  logged = true;
+} else {
+  logged = false;
+}
+
+function signOut() {
+  console.log("aaa");
+  if (logged) {
+    store.$state = {
+      userId: 0,
+      username: "ppp.fcul",
+      email: "ppp.fcul@gmail.com",
+      password: "lala",
+    };
+  }
+  logged = false;
+}
 
 function toggleSearch() {
   document.querySelector("#dropdownMobileSearch").classList.toggle("hidden");
