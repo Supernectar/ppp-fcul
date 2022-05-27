@@ -17,14 +17,16 @@
             <ul>
               <li v-for="subCata in cata.categories" :key="subCata._id">
                 <p>
-                  <NuxtLink :href="
-                    '/items?category1=' +
-                    superCata._id +
-                    '&category2=' +
-                    cata._id +
-                    '&category3=' +
-                    subCata._id
-                  ">
+                  <NuxtLink
+                    :href="
+                      '/items?category1=' +
+                      superCata._id +
+                      '&category2=' +
+                      cata._id +
+                      '&category3=' +
+                      subCata._id
+                    "
+                  >
                     {{ subCata.name }}
                   </NuxtLink>
                 </p>
@@ -72,5 +74,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>
