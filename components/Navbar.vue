@@ -248,7 +248,7 @@
                         class="mr-2 h-5 w-5 text-violet-400"
                         aria-hidden="true"
                       />
-                      Edit
+                      <NuxtLink>Edit</NuxtLink>
                     </button>
                   </MenuItem>
                   <MenuItem v-slot="{ active }">

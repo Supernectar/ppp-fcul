@@ -6,7 +6,11 @@ export const useUser = defineStore('user', {
 	state: () => {
 		return {
 			// all these properties will have their type inferred automatically
-			userId: 0
+			storeId: 0,
+			userId: 0,
+			username: 'ppp.fcul',
+			email: 'ppp.fcul@gmail.com',
+			password: 'lala'
 		};
 	}
 });

@@ -12,7 +12,8 @@ export default defineEventHandler(async (event) => {
 		producer,
 		exp_date,
 		polution,
-		resource
+		resource,
+		category
 	} = await useBody(event);
 
 	try {
@@ -26,7 +27,8 @@ export default defineEventHandler(async (event) => {
 			producer: producer,
 			exp_date: exp_date,
 			polution: polution,
-			resource: resource
+			resource: resource,
+			category: category
 		});
 	} catch (err) {
 		event.res.jsonResponse.error = {
