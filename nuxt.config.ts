@@ -11,12 +11,12 @@ export default defineNuxtConfig({
 				}
 			],
 			script: [
-				{
-					src: 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js'
-				}
 				// {
-				// 	src: 'https://cdn.tailwindcss.com'
-				// },
+				// 	src: 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js'
+				// }
+				{
+					src: 'https://cdn.tailwindcss.com'
+				}
 
 				// {
 				// 	src: 'https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js'
@@ -24,5 +24,5 @@ export default defineNuxtConfig({
 			]
 		}
 	},
-	modules: ['nuxt-windicss', '@pinia/nuxt']
+	modules: ['nuxt-windicss', '@pinia/nuxt', '@formkit/nuxt']
 });
