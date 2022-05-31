@@ -1,3 +1,4 @@
+import { watch } from 'vue';
 import { defineStore } from 'pinia';
 
 // useStore could be anything like useUser, useCart
@@ -9,7 +10,7 @@ export const useUser = defineStore('user', {
 			storeId: 0,
 			userId: 0,
 			username: 'ppp.fcul',
-			email: 'ppp.fcul@gmail.com',
+			email: 'user@grande.gigante',
 			password: 'lala'
 		};
 	}

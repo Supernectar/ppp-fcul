@@ -1,4 +1,5 @@
--<template>
+-
+<template>
   <div>
     <Navbar />
     <div
@@ -168,6 +169,7 @@
         <span class="visually-hidden">Next</span>
       </button>
     </div> -->
+    <Footer />
   </div>
 </template>
 

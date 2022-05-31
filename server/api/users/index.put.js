@@ -13,6 +13,9 @@ export default defineEventHandler(async (event) => {
 			address
 		} = await useBody(event);
 
+		
+
+
 		try {
 			let user = await User.create({
 				username,

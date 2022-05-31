@@ -18,6 +18,8 @@
 		"prettier": "^2.6.2"
 	},
 	"dependencies": {
+		"@formkit/nuxt": "^1.0.0-beta.8",
+		"@formkit/vue": "^1.0.0-beta.8",
 		"@headlessui/vue": "^1.6.1",
 		"@heroicons/vue": "^1.0.6",
 		"@pinia/nuxt": "^0.1.9",
@@ -25,6 +27,7 @@
 		"google-auth-library": "^8.0.2",
 		"jsonwebtoken": "^8.5.1",
 		"mongoose": "^6.3.2",
+		"node-fetch": "^3.2.4",
 		"pinia": "^2.0.14"
 	}
 }
