@@ -24,5 +24,10 @@ export default defineNuxtConfig({
 			]
 		}
 	},
-	modules: ['nuxt-windicss', '@pinia/nuxt', '@formkit/nuxt']
+	modules: [
+		'nuxt-windicss',
+		'@pinia/nuxt',
+		'@formkit/nuxt',
+		'@vueuse/nuxt'
+	]
 });

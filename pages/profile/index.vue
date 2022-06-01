@@ -215,18 +215,21 @@ export default {
     },
     async updateInfo() {
       console.log(this.name);
+      console.log(this.username);
+      console.log(this.password);
       const res = await fetch(`api/users/${this.user._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: this.name,
-          address: this.address,
-          phone: this.phone,
-          credit_card: this.credit_card,
-          nif: this.nif,
-          password: this.password,
+          username: this.username === null ? this.user.username : this.username,
+          email: this.email === null ? this.user.email : this.email,
+          name: this.name === null ? this.user.name : this.name,
+          address: this.address === null ? this.user.address : this.address,
+          phone: this.phone === null ? this.user.phone : this.phone,
+          nif: this.nif === null ? this.user.nif : this.nif,
+          password: this.password === null ? this.user.password : this.password,
         }),
       });
       const res2 = await res.json();

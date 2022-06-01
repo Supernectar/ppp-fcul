@@ -20,8 +20,8 @@ export default defineEventHandler(async (event) => {
 		let result = Item.create({
 			id: id,
 			name: name,
-			type: type,
-			subtype: subtype,
+			//type: type,
+			//subtype: subtype,
 			brand: brand,
 			description: description,
 			producer: producer,

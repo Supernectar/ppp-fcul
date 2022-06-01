@@ -123,7 +123,8 @@ async function RegisterUser() {
 		})
 	});
 	console.log(postReq);
-
+	console.log(password);
+	console.log(password.value);
 	const res2 = await $fetch('api/authenticate', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
@@ -137,6 +138,7 @@ async function RegisterUser() {
 		`/api/users?email=${email.value}&password=${password.value}`
 	);
 	const resJson = await res3.json();
+	console.log(resJson)
 
 	const store = useUser();
 	store.$patch({
