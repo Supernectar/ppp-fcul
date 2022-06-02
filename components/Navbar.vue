@@ -54,8 +54,24 @@
       <!-- Left aligned Icons -->
       <div class="flex justify-end gap-2 md:col-span-2">
         <div v-if="!logged">
-          <NuxtLink to="/register">R</NuxtLink>
-          <NuxtLink to="/login">L</NuxtLink>
+          <NuxtLink to="/signup">
+            <button
+              type="button"
+              data-mdb-ripple="true"
+              data-mdb-ripple-color="light"
+              class="mr-4 inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+            >
+              Sign Up
+            </button>
+          </NuxtLink>
+          <NuxtLink to="/signin">
+            <button
+              type="button"
+              class="inline-block px-6 py-2 border-2 border-blue-600 text-blue-600 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
+            >
+              Sign In
+            </button>
+          </NuxtLink>
         </div>
         <!-- Mobile Search Popover -->
         <Popover v-slot="{ open }" class="block md:hidden relative">
@@ -69,7 +85,8 @@
           </PopoverButton>
         </Popover>
 
-        <Popover v-slot="{ open }" class="relative">
+        <!-- notifications popover -->
+        <Popover v-if="logged" v-slot="{ open }" class="relative">
           <PopoverButton
             :class="open ? '' : 'text-opacity-90'"
             class="inline-flex text-gray-500 w-full justify-center items-center rounded-md hover:(!bg-black !bg-opacity-5) px-2 py-2 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
@@ -209,7 +226,7 @@
         </div>
 
         <!-- Profile Dropdown -->
-        <div class="top-16 text-right">
+        <div v-if="logged" class="top-16 text-right">
           <Menu as="div" class="relative inline-block text-left">
             <div>
               <MenuButton
@@ -233,42 +250,32 @@
               >
                 <div class="px-1 py-1">
                   <div class="group w-full rounded-md px-2 py-2 text-sm">
-                    <div class="flex items-center">{{store.username}}</div>
-                    <div class="flex items-center font-semibold">{{store.email}}</div>
+                    <div class="flex items-center">{{ store.user.username }}</div>
+                    <div class="flex items-center font-semibold">
+                      {{ store.user.email }}
+                    </div>
                   </div>
                 </div>
-                <div class="px-1 py-1">
+                <!-- <div class="px-1 py-1">
                   <MenuItem v-slot="{ active }">
-                    <button
-                      :class="[
-                        active ? '!bg-black !bg-opacity-5' : 'text-gray-900',
-                        ' group flex w-full items-center rounded-md px-2 py-2 text-sm',
-                      ]"
-                    >
-                      <PencilIcon
-                        :active="active"
-                        class="mr-2 h-5 w-5 text-violet-400"
-                        aria-hidden="true"
-                      />
-                      Edit
-                    </button>
+                  <button :class="[
+                    active ? '!bg-black !bg-opacity-5' : 'text-gray-900',
+                    ' group flex w-full items-center rounded-md px-2 py-2 text-sm',
+                  ]">
+                    <PencilIcon :active="active" class="mr-2 h-5 w-5 text-violet-400" aria-hidden="true" />
+                    Edit
+                  </button>
                   </MenuItem>
                   <MenuItem v-slot="{ active }">
-                    <button
-                      :class="[
-                        active ? '!bg-black !bg-opacity-5' : 'text-gray-900',
-                        'group flex w-full items-center rounded-md px-2 py-2 text-sm',
-                      ]"
-                    >
-                      <DuplicateIcon
-                        :active="active"
-                        class="mr-2 h-5 w-5 text-violet-400"
-                        aria-hidden="true"
-                      />
-                      Duplicate
-                    </button>
+                  <button :class="[
+                    active ? '!bg-black !bg-opacity-5' : 'text-gray-900',
+                    'group flex w-full items-center rounded-md px-2 py-2 text-sm',
+                  ]">
+                    <DuplicateIcon :active="active" class="mr-2 h-5 w-5 text-violet-400" aria-hidden="true" />
+                    Duplicate
+                  </button>
                   </MenuItem>
-                </div>
+                </div> -->
                 <div class="px-1 py-1">
                   <MenuItem v-slot="{ active }">
                     <NuxtLink to="/profile">
@@ -376,7 +383,6 @@
   </nav>
 </template>
 <script setup>
-import { computed } from "@vue/reactivity";
 import { useUser } from "/store/user";
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
@@ -393,25 +399,29 @@ import {
   SearchIcon,
 } from "@heroicons/vue/outline/index.js";
 
+const router = useRouter();
+
 let logged = false;
 const store = useUser();
-if (store.userId != 0) {
+if (store.user.userId != 0) {
   logged = true;
 } else {
   logged = false;
 }
 
 function signOut() {
-  console.log("aaa");
   if (logged) {
-    store.$state = {
-      userId: 0,
-      username: "ppp.fcul",
-      email: "ppp.fcul@gmail.com",
-      password: "lala",
-    };
+    store.$patch({
+      user: {
+        userId: 0,
+        username: "",
+        email: "",
+        password: "",
+      },
+    });
   }
   logged = false;
+  router.push("/signin");
 }
 
 function toggleSearch() {
