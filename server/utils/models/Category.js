@@ -11,6 +11,7 @@ export default mongoose.model(
 			type: Boolean,
 			default: false
 		},
+		attributes: [],
 		categories: [
 			{
 				type: Schema.Types.ObjectId,

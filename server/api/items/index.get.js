@@ -2,8 +2,9 @@ import Item from '~~/server/utils/models/Item';
 
 export default defineEventHandler(async (event) => {
 	event.res.jsonResponse.context = event.context.params;
+	const params = useQuery(event);
 
-	const items = await Item.find();
+	const items = await Item.find(params);
 	event.res.jsonResponse.data = {
 		items: items
 	};

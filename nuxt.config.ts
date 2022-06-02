@@ -2,6 +2,7 @@ import { defineNuxtConfig } from 'nuxt';
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
+	ssr: false,
 	app: {
 		head: {
 			link: [
@@ -24,5 +25,10 @@ export default defineNuxtConfig({
 			]
 		}
 	},
-	modules: ['nuxt-windicss', '@pinia/nuxt', '@formkit/nuxt']
+	modules: [
+		'nuxt-windicss',
+		'@pinia/nuxt',
+		'@formkit/nuxt',
+		'@vueuse/nuxt'
+	]
 });

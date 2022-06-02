@@ -13,7 +13,7 @@ export default mongoose.model(
 		email: String,
 		phone: String,
 		creditCard: String,
-		nif: Number,
+		nif: String,
 		address: {
 			type: Schema.Types.ObjectId,
 			ref: 'Address'
