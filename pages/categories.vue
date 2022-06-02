@@ -2,7 +2,7 @@
   <div>
     <Navbar></Navbar>
     <div class="bg-white m-4 p-4 rounded">
-      {{ categories }}
+      <!--{{ categories }}-->
       <div v-for="superCata in categories" :key="superCata._id">
         <h1 class="text-xl font-semibold pt-2">
           {{ superCata.name }}
@@ -17,20 +17,17 @@
             <ul>
               <li v-for="subCata in cata.categories" :key="subCata._id">
                 <p>
-                  <NuxtLink
-                    :to="{
-                      name: 'items',
-                      params: {
-                        superName: superCata.name,
-						superId: superCata._id,
-                        cateName: cata.name,
-						cateId: cata._id,
-                        subName: subCata.name,
-                        subId: subCata._id,
-                      },
-                    }"
-                    >{{ subCata.name }}</NuxtLink
-                  >
+                  <NuxtLink :to="{
+                    name: 'items',
+                    params: {
+                      superName: superCata.name,
+                      superId: superCata._id,
+                      cateName: cata.name,
+                      cateId: cata._id,
+                      subName: subCata.name,
+                      subId: subCata._id,
+                    },
+                  }">{{ subCata.name }}</NuxtLink>
                   <!--<NuxtLink
 										:href="
 											'/items?category=' +
@@ -90,4 +87,5 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+</style>

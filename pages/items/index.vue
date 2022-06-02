@@ -6,19 +6,9 @@
         <h5>FILTROS</h5>
         <br />
         <h6>Marca</h6>
-        <div
-          v-for="(brand, index) in filters2"
-          :key="index"
-          class="form-check"
-          id="marcas"
-        >
-          <input
-            class="form-check-input"
-            type="checkbox"
-            v-model="filters"
-            :value="brand"
-            :id="'flexCheckDefault' + brand"
-          />
+        <div v-for="(brand, index) in filters2" :key="index" class="form-check" id="marcas">
+          <input class="form-check-input" type="checkbox" v-model="filters" :value="brand"
+            :id="'flexCheckDefault' + brand" />
           <label class="form-check-label" :for="'flexCheckDefault' + brand">
             {{ brand }}
           </label>
@@ -27,12 +17,7 @@
         <br />
         <h6>Produtor</h6>
         <div v-for="(producer, index) in producers" :key="index" class="form-check">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            value=""
-            id="flexCheckDefault"
-          />
+          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
           <label class="form-check-label" for="flexCheckDefault">
             {{ producer }}
           </label>
@@ -72,7 +57,7 @@ export default {
 
   data() {
     return {
-		  attributes: [],
+      attributes: [],
       allItems: [],
       filters: [],
       filters2: [],
@@ -84,14 +69,15 @@ export default {
   },
   async mounted() {
     console.log(
+      " super " +
       this.$route.params.superId +
-        " - " +
-        this.$route.params.cateId +
-        " - " +
-        this.$route.params.subId
+      " - cate " +
+      this.$route.params.cateId +
+      " - sub" +
+      this.$route.params.subId
     );
 
-    const res1 = await fetch(`/api/categories/${this.$route.params.superId}`, {
+    /*const res1 = await fetch(`/api/categories/${this.$route.params.superId}`, {
       method: "GET",
     });
     const res2 = await res1.json();
@@ -106,13 +92,13 @@ export default {
     console.log("res4");
     console.log(res4);
 
-	const res5 = await fetch(`/api/categories/${this.$route.params.subId}`, {
+  const res5 = await fetch(`/api/categories/${this.$route.params.subId}`, {
       method: "GET",
     });
     const res6 = await res3.json();
     console.log("res6");
     console.log(res6);
-
+  */
 
     const res7 = await fetch(`/api/items?category=${this.$route.params.subId}`, {
       method: "GET",
@@ -120,8 +106,8 @@ export default {
     const res8 = await res7.json();
     console.log(res8);
     console.log("res8");
-    this.allItems = res7.data.items;
-    const items = res7.data.items;
+    this.allItems = res8.data.items;
+    const items = res8.data.items;
     /*
     const res = await fetch("api/items", {
       method: "GET",
@@ -130,7 +116,7 @@ export default {
 
     this.allItems = res2.data.items;
     const items = res2.data.items;
-	*/
+  */
     for (let i = 0; i < items.length; i++) {
       if (!this.filters2.includes(items[i].brand)) this.filters2.push(items[i].brand);
 
@@ -140,7 +126,7 @@ export default {
     }
 
     //this.items = res2.data.items;
-    this.items = res7.data.items;
+    this.items = res8.data.items;
     let result = this.allItems;
 
     if (this.filters.length != 0) {
@@ -149,9 +135,9 @@ export default {
 
     this.items = result;
     /*
-		if (this.items.length == 0) {
-			this.items = this.allItems;
-		}*/
+    if (this.items.length == 0) {
+      this.items = this.allItems;
+    }*/
   },
   watch: {
     filters() {
@@ -186,4 +172,5 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+</style>
