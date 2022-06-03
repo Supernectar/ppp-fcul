@@ -11,7 +11,12 @@ export default mongoose.model(
 			type: Boolean,
 			default: false
 		},
-		attributes: [],
+		attributes: [
+			{
+				type: Schema.Types.ObjectId,
+				ref: 'Attribute'
+			}
+		],
 		categories: [
 			{
 				type: Schema.Types.ObjectId,

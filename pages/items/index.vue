@@ -1,43 +1,115 @@
 <template>
   <div class="h-screen">
     <Navbar />
-    <div class="row">
-      <div class="col-2 m-4 p-4 rounded bg-light">
-        <h5>FILTROS</h5>
-        <br />
-        <h6>Marca</h6>
-        <div v-for="(brand, index) in filters2" :key="index" class="form-check" id="marcas">
-          <input class="form-check-input" type="checkbox" v-model="filters" :value="brand"
-            :id="'flexCheckDefault' + brand" />
-          <label class="form-check-label" :for="'flexCheckDefault' + brand">
-            {{ brand }}
-          </label>
+    <section class="bg-light-100">
+      <div class="">Supercata>subcata>cata</div>
+      <div class="bg-gray-100 grid grid-cols-12">
+        <div class="bg-green-50 col-span-3">
+          <div class="bg-blue-100 m-2">
+            <h1 class="text-md font-semibold">
+              <NuxtLink>Catagorias</NuxtLink>
+            </h1>
+            <hr />
+            <div>
+              <ul>
+                <li>cata1</li>
+                <li>cata2</li>
+                <li>cata3</li>
+              </ul>
+            </div>
+          </div>
+          <div class="bg-blue-100 m-2">
+            <h1>Filters</h1>
+          </div>
         </div>
-
-        <br />
-        <h6>Produtor</h6>
-        <div v-for="(producer, index) in producers" :key="index" class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-          <label class="form-check-label" for="flexCheckDefault">
-            {{ producer }}
-          </label>
+        <div class="bg-red-100 col-span-9">
+          <div class="bg-green-100 p-2">
+            <div class="flex">
+              sort by:
+              <select
+                class="form-select appearance-none px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                aria-label="Default select example"
+              >
+                <option selected>Popularity</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid grid-cols-6">
+            <div class="bg-red-500 m-2 h-20">okok</div>
+            <div class="bg-red-500 m-2 h-20">okok</div>
+            <div class="bg-red-500 m-2 h-20">okok</div>
+            <div class="bg-red-500 m-2 h-20">okok</div>
+            <div class="bg-red-500 m-2 h-20">okok</div>
+            <div class="bg-red-500 m-2 h-20">okok</div>
+            <div class="bg-red-500 m-2 h-20">okok</div>
+            <div class="bg-red-500 m-2 h-20">okok</div>
+          </div>
         </div>
-
-        <br />
       </div>
-      <div class="col row">
-        <p>
-          {{ this.$route.params.superName }} > {{ this.$route.params.cateName }} >
-          {{ this.$route.params.subName }}
-        </p>
-        <div v-for="item in items" :key="item._id" class="col">
-          <div class="card" style="width: 18rem">
-            <img src="https://picsum.photos/600/300/?image=25" class="card-img-top" />
-            <div class="card-body">
+    </section>
+
+    <div class="row">
+      <div class="container mx-auto grid grid-cols-12 gap-8">
+        <div class="m-4 bg-white p-4 rounded bg-light col-span-3">
+          <h5>FILTROS</h5>
+          <br />
+          <h6>Marca</h6>
+          <div
+            v-for="(brand, index) in filters2"
+            :key="index"
+            class="form-check"
+            id="marcas"
+          >
+            <input
+              class="form-check-input"
+              type="checkbox"
+              v-model="filters"
+              :value="brand"
+              :id="'flexCheckDefault' + brand"
+            />
+            <label class="form-check-label" :for="'flexCheckDefault' + brand">
+              {{ brand }}
+            </label>
+          </div>
+
+          <br />
+          <h6>Produtor</h6>
+          <div v-for="(producer, index) in producers" :key="index" class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value=""
+              id="flexCheckDefault"
+            />
+            <label class="form-check-label" for="flexCheckDefault">
+              {{ producer }}
+            </label>
+          </div>
+
+          <br />
+        </div>
+        <div class="col-span-9">
+          <p>
+            {{ this.$route.params.superName }}
+            >
+            {{ this.$route.params.cateName }}
+            >
+            {{ this.$route.params.subName }}
+          </p>
+          <div v-for="item in items" :key="item._id" class="col">
+            <div class="block p-6 rounded-lg shadow-lg bg-white max-w-sm">
+              <img src="https://picsum.photos/600/300/?image=25" class="rounded-t-lg" />
+
               <h5 class="card-title">
                 {{ item.name }}
               </h5>
-              <a :href="'products/' + item._id" class="btn btn-primary">
+              <a
+                :href="'products/' + item._id"
+                class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+              >
                 See available products
               </a>
             </div>
@@ -52,9 +124,6 @@
 export default {
   name: "ItemsView",
 
-  //let category = fetch("/api/categories"nome=url.category)
-  //const attrs = catergory.attrs
-
   data() {
     return {
       attributes: [],
@@ -64,59 +133,56 @@ export default {
       items: [],
       brands: [],
       producers: [],
-      subName: "",
     };
   },
   async mounted() {
-    console.log(
-      " super " +
-      this.$route.params.superId +
-      " - cate " +
-      this.$route.params.cateId +
-      " - sub" +
-      this.$route.params.subId
-    );
+    /*console.log(
+			' super ' +
+				this.$route.params.superId +
+				' - cate ' +
+				this.$route.params.cateId +
+				' - sub' +
+				this.$route.params.subId
+		);*/
 
-    /*const res1 = await fetch(`/api/categories/${this.$route.params.superId}`, {
+    //get super/cate/sub categories
+    const res1 = await fetch(`/api/categories/${this.$route.params.superId}`, {
       method: "GET",
     });
     const res2 = await res1.json();
-    console.log("res2");
-    console.log(res2);
-    this.attributes.push(res2.data.attributes);
+    const attr_supercate = res2.data.items[0].attributes;
+    if (attr_supercate.length != 0) {
+      this.attributes.push(attr_supercate);
+    }
 
     const res3 = await fetch(`/api/categories/${this.$route.params.cateId}`, {
       method: "GET",
     });
     const res4 = await res3.json();
-    console.log("res4");
-    console.log(res4);
+    const attr_cate = res4.data.items[0].attributes;
+    if (attr_cate.length != 0) {
+      this.attributes.push(attr_cate);
+    }
 
-  const res5 = await fetch(`/api/categories/${this.$route.params.subId}`, {
+    const res5 = await fetch(`/api/categories/${this.$route.params.subId}`, {
       method: "GET",
     });
-    const res6 = await res3.json();
-    console.log("res6");
-    console.log(res6);
-  */
+    const res6 = await res5.json();
+    const attr_subcate = res6.data.items[0].attributes;
+    if (attr_subcate.length != 0) {
+      this.attributes.push(attr_subcate);
+    }
+    //-------------------------------------------------
+    console.log("atributos - " + this.attributes);
 
+    //get items from subcate
     const res7 = await fetch(`/api/items?category=${this.$route.params.subId}`, {
       method: "GET",
     });
     const res8 = await res7.json();
-    console.log(res8);
-    console.log("res8");
     this.allItems = res8.data.items;
     const items = res8.data.items;
-    /*
-    const res = await fetch("api/items", {
-      method: "GET",
-    });
-    const res2 = await res.json();
 
-    this.allItems = res2.data.items;
-    const items = res2.data.items;
-  */
     for (let i = 0; i < items.length; i++) {
       if (!this.filters2.includes(items[i].brand)) this.filters2.push(items[i].brand);
 
@@ -172,5 +238,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

@@ -35,5 +35,6 @@ export default defineEventHandler(async (event) => {
 		};
 	}
 	// }
+	console.log(event.res.jsonResponse);
 	return event.res.jsonResponse;
 });

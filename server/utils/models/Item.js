@@ -14,9 +14,16 @@ export default mongoose.model(
 		description: String,
 		producer: String,
 		exp_date: Date,
+		popularity: {
+			type: Number,
+			default: 0
+		},
 		category: {
 			type: Schema.Types.ObjectId,
 			ref: 'Category'
+		},
+		attributes: {
+			type: Object
 		}
 		// polution: [],
 		// resource: Resource,
