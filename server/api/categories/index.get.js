@@ -1,4 +1,4 @@
-import Category from '~~/server/utils/models/Category';
+import Category from '~~/server/models/Category';
 
 export default defineEventHandler(async (event) => {
 	event.res.jsonResponse.context = event.context.params;
