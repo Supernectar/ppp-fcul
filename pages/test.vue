@@ -3,8 +3,8 @@
     <Navbar />
     <section class="bg-light-100">
       <div class="">Supercata>subcata>cata</div>
-      <div class="bg-gray-100 grid grid-cols-12">
-        <div class="bg-green-50 col-span-3">
+      <div class="bg-gray-100 flex">
+        <div class="bg-green-50 w-80">
           <div class="bg-blue-100 m-2">
             <h1 class="text-md font-semibold">
               <NuxtLink>Catagorias</NuxtLink>
@@ -19,22 +19,133 @@
             </div>
           </div>
           <div class="bg-blue-100 m-2">
-            <h1>Filters</h1>
+            <h1 class="text-md font-semibold">Filters</h1>
+            <hr />
+            <div>
+              <ul>
+                <li>filter1</li>
+                <li>filter2</li>
+                <li>filter3</li>
+              </ul>
+            </div>
           </div>
         </div>
-        <div class="bg-red-100 col-span-9">
-          <div class="bg-red-200 p-2">
-            <div class="flex">
-              sort by:
-              <select
-                class="form-select appearance-none px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                aria-label="Default select example"
-              >
-                <option selected>Popularity</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </select>
+        <div class="bg-red-100 w-full">
+          <div class="bg-red-200 p-2 flex justify-between items-center">
+            <div class="flex items-center">
+              <div>
+                <span class="pr-2">{{ category.name }}</span>
+                <span class="text-gray-400">({{ items.length }} results)</span>
+              </div>
+              <div class="w-[1px] h-[20px] bg-gray-400 mx-2"></div>
+              <form @submit.prevent class="text-center">
+                <label
+                  for="default-search1"
+                  class="mb-2 text-sm font-medium text-gray-900 sr-only"
+                  >Search</label
+                >
+                <div class="relative">
+                  <div
+                    class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none"
+                  >
+                    <svg
+                      class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                      ></path>
+                    </svg>
+                  </div>
+                  <input
+                    type="search"
+                    id="default-search1"
+                    class="block p-2 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Search within category"
+                    required
+                  />
+                </div>
+              </form>
+            </div>
+            <div class="flex items-center justify-end">
+              <p class="px-2">sort by:</p>
+              <Combobox v-model="selected" class="w-30 z-1">
+                <div class="relative mt-1">
+                  <div
+                    class="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm"
+                  >
+                    <ComboboxInput
+                      class="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
+                      :displayValue="(sortingFilter) => sortingFilter.name"
+                      @change="query = $event.target.value"
+                    />
+                    <ComboboxButton
+                      class="absolute inset-y-0 right-0 flex items-center pr-2"
+                    >
+                      <SelectorIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+                    </ComboboxButton>
+                  </div>
+                  <TransitionRoot
+                    leave="transition ease-in duration-100"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                    @after-leave="query = ''"
+                  >
+                    <ComboboxOptions
+                      class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+                    >
+                      <div
+                        v-if="filteredSortingFilters.length === 0 && query !== ''"
+                        class="relative cursor-default select-none py-2 px-4 text-gray-700"
+                      >
+                        Nothing found.
+                      </div>
+
+                      <ComboboxOption
+                        v-for="sortingFilter in filteredSortingFilters"
+                        as="template"
+                        :key="sortingFilter.id"
+                        :value="sortingFilter"
+                        v-slot="{ selected, active }"
+                      >
+                        <li
+                          class="relative cursor-default select-none py-2 pl-10 pr-4"
+                          :class="{
+                            'bg-teal-600 text-white': active,
+                            'text-gray-900': !active,
+                          }"
+                        >
+                          <span
+                            class="block truncate"
+                            :class="{
+                              'font-medium': selected,
+                              'font-normal': !selected,
+                            }"
+                          >
+                            {{ sortingFilter.name }}
+                          </span>
+                          <span
+                            v-if="selected"
+                            class="absolute inset-y-0 left-0 flex items-center pl-3"
+                            :class="{
+                              'text-white': active,
+                              'text-teal-600': !active,
+                            }"
+                          >
+                            <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                          </span>
+                        </li>
+                      </ComboboxOption>
+                    </ComboboxOptions>
+                  </TransitionRoot>
+                </div>
+              </Combobox>
             </div>
           </div>
           <div
@@ -48,13 +159,15 @@
               <div class="p-2 overflow-hidden">
                 <img
                   src="img/627.png"
-                  class="object-contain scale-75 group-hover:scale-100 transition-all"
+                  class="object-contain scale-75 group-hover:scale-100 transition-all m-auto"
                 />
               </div>
 
               <div class="p-2 bg-white">
                 <h5 class="font-semibold text-left">
                   {{ item.name }}
+
+                  {{ getProductCheapestPrice(item._id) }}
                 </h5>
                 <div class="flex items-center justify-between">
                   <ul class="flex">
@@ -105,22 +218,7 @@
                   See available products
                 </a>
               </div>
-              <!-- <div class="rounded overflow-hidden bg-white max-w-sm">
-              </div> -->
-              <!-- <div
-                class="w-11/12 group-hover:w-full transition-width duration-75 ease-out"
-              >
-              </div> -->
             </button>
-
-            <!-- <div class="bg-red-500 m-2 h-20">okok</div>
-            <div class="bg-red-500 m-2 h-20">okok</div>
-            <div class="bg-red-500 m-2 h-20">okok</div>
-            <div class="bg-red-500 m-2 h-20">okok</div>
-            <div class="bg-red-500 m-2 h-20">okok</div>
-            <div class="bg-red-500 m-2 h-20">okok</div>
-            <div class="bg-red-500 m-2 h-20">okok</div>
-            <div class="bg-red-500 m-2 h-20">okok</div> -->
           </div>
         </div>
       </div>
@@ -247,83 +345,62 @@
     </div>
   </div>
 </template>
-<template>
-  <div class="fixed top-16 w-72">
-    <Listbox v-model="selectedPerson">
-      <div class="relative mt-1">
-        <ListboxButton
-          class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
-        >
-          <span class="block truncate">{{ selectedPerson.name }}</span>
-          <span
-            class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
-          >
-            <SelectorIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
-          </span>
-        </ListboxButton>
-
-        <transition
-          leave-active-class="transition duration-100 ease-in"
-          leave-from-class="opacity-100"
-          leave-to-class="opacity-0"
-        >
-          <ListboxOptions
-            class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
-          >
-            <ListboxOption
-              v-slot="{ active, selected }"
-              v-for="person in people"
-              :key="person.name"
-              :value="person"
-              as="template"
-            >
-              <li
-                :class="[
-                  active ? 'bg-amber-100 text-amber-900' : 'text-gray-900',
-                  'relative cursor-default select-none py-2 pl-10 pr-4',
-                ]"
-              >
-                <span
-                  :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']"
-                  >{{ person.name }}</span
-                >
-                <span
-                  v-if="selected"
-                  class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"
-                >
-                  <CheckIcon class="h-5 w-5" aria-hidden="true" />
-                </span>
-              </li>
-            </ListboxOption>
-          </ListboxOptions>
-        </transition>
-      </div>
-    </Listbox>
-  </div>
-</template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import {
-  Listbox,
-  ListboxLabel,
-  ListboxButton,
-  ListboxOptions,
-  ListboxOption,
+  Combobox,
+  ComboboxInput,
+  ComboboxButton,
+  ComboboxOptions,
+  ComboboxOption,
+  TransitionRoot,
 } from "@headlessui/vue";
 import { CheckIcon, SelectorIcon } from "@heroicons/vue/solid";
 
-const people = [
-  { name: "Wade Cooper" },
-  { name: "Arlene Mccoy" },
-  { name: "Devon Webb" },
-  { name: "Tom Cook" },
-  { name: "Tanya Fox" },
-  { name: "Hellen Schmidt" },
-];
-const selectedPerson = ref(people[0]);
-</script>
+const categoryId = "62978e39e2dbf1663f33eff5";
+const category = ref((await $fetch(`/api/categories/${categoryId}`)).data.items[0]);
 
+let supremeItems = ref([]);
+supremeItems = (await $fetch(`/api/items?category=${categoryId}`)).data.items;
+
+let prices = ref([]);
+
+// console.log(getProductCheapestPrice(el._id))
+console.log("here");
+console.log(getProductCheapestPrice("629922134995a8586a4b1baf"));
+supremeItems.forEach((el) => {
+  prices.value.push(getProductCheapestPrice(el._id));
+});
+
+console.log(prices.value);
+
+const sortingFilters = [
+  { id: 1, name: "price" },
+  { id: 2, name: "rating" },
+];
+
+let selected = ref(sortingFilters[0]);
+let query = ref("");
+
+let filteredSortingFilters = computed(() =>
+  query.value === ""
+    ? sortingFilters
+    : sortingFilters.filter((sortingFilter) =>
+        sortingFilter.name
+          .toLowerCase()
+          .replace(/\s+/g, "")
+          .includes(query.value.toLowerCase().replace(/\s+/g, ""))
+      )
+);
+
+async function getProductCheapestPrice(id) {
+  const products = (await $fetch(`/api/products?item=${id}`)).data.items;
+  let cheapest = products[0].price;
+  console.log(cheapest);
+  return cheapest;
+}
+</script>
 <script>
 export default {
   name: "ItemsView",
@@ -352,43 +429,12 @@ export default {
         this.$route.params.subId
     );
 
-    //get super/cate/sub categories
-    // const res1 = await fetch(`/api/categories/${this.$route.params.superId}`, {
-    //   method: "GET",
-    // });
-    // const res2 = await res1.json();
-    // console.log("res2");
-    // console.log(res2);
-    // console.log(res2.data.items[0].attributes);
-    // this.attributes.push(res2.data.items[0].attributes);
-
-    // const res3 = await fetch(`/api/categories/${this.$route.params.cateId}`, {
-    //   method: "GET",
-    // });
-    // const res4 = await res3.json();
-    // console.log("res4");
-    // console.log(res4);
-    // this.attributes.push(res4.data.items[0].attributes);
-
-    // const res5 = await fetch(`/api/categories/62978e39e2dbf1663f33eff5`, {
-    //   method: "GET",
-    // });
-    // const res6 = await res5.json();
-    // console.log("res6");
-    // console.log(res6);
-
-    // const datasubcate = res6.data.items[0].attributes;
-    // if (datasubcate.length != 0) {
-    //   this.attributes.push(res6.data.items[0].attributes);
-    // }
-
-    // console.log("atributos - " + this.attributes);
-
     //get items
     const res7 = await fetch(`/api/items?category=62978e39e2dbf1663f33eff5`, {
       method: "GET",
     });
     const res8 = await res7.json();
+
     console.log(res8);
     console.log("res8");
     this.allItems = res8.data.items;
@@ -458,5 +504,3 @@ export default {
 </script>
 
 <style></style>
-
-'''' '''' '' ''
