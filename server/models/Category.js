@@ -13,8 +13,7 @@ export default mongoose.model(
 		},
 		attributes: [
 			{
-				type: Schema.Types.ObjectId,
-				ref: 'Attribute'
+				type: String
 			}
 		],
 		categories: [

@@ -1,4 +1,4 @@
-import User from '~~/server/utils/models/User';
+import User from '~~/server/models/User';
 
 export default defineEventHandler(async (event) => {
 	try {
@@ -12,9 +12,6 @@ export default defineEventHandler(async (event) => {
 			nif,
 			address
 		} = await useBody(event);
-
-		
-
 
 		try {
 			let user = await User.create({

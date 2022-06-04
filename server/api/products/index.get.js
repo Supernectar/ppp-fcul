@@ -1,13 +1,12 @@
-import User from '~~/server/models/User';
+import Item from '~~/server/models/Product';
 
 export default defineEventHandler(async (event) => {
 	event.res.jsonResponse.context = event.context.params;
-
 	const params = useQuery(event);
-	const users = await User.find(params);
 
+	const items = await Item.find(params);
 	event.res.jsonResponse.data = {
-		items: users
+		items: items
 	};
 	return event.res.jsonResponse;
 });

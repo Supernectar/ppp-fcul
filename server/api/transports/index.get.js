@@ -1,4 +1,4 @@
-import Transport from '~~/server/utils/models/Transport';
+import Transport from '~~/server/models/Transport';
 
 export default defineEventHandler(async (event) => {
 	event.res.jsonResponse.context = event.context.params;

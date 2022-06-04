@@ -1,4 +1,4 @@
-import Product from '~~/server/utils/models/Product';
+import Product from '~~/server/models/Product';
 export default defineEventHandler(async (event) => {
 	event.res.jsonResponse.context = event.context.params;
 

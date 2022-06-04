@@ -334,10 +334,11 @@ export default {
 						this.name === ''
 							? this.user.name
 							: this.name,
-					address:
-						this.address === ''
-							? this.user.address
-							: this.address,
+					address: {
+						street: this.address === ''
+								? this.user
+										.address
+								: this.address},
 					phone:
 						this.phone === ''
 							? this.user.phone

@@ -1,4 +1,4 @@
-import User from '~~/server/utils/models/User';
+import User from '~~/server/models/User';
 
 export default defineEventHandler(async (event) => {
 	event.res.jsonResponse.context = event.context.params;

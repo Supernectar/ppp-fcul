@@ -1,4 +1,4 @@
-import User from '~~/server/utils/models/User';
+import User from '~~/server/models/User';
 import jwt from 'jsonwebtoken';
 
 export default defineEventHandler(async (event) => {
