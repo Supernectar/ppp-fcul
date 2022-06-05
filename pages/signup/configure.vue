@@ -1,288 +1,210 @@
 <template>
-	<div>
-		<Navbar />
-		<div class="bg-white py-2 m-6 rounded flex">
+  <div>
+    <Navbar />
+    <div class="bg-white py-2 m-6 rounded flex">
+      <div class="m-auto">
+        <form v-on:submit.prevent class="col">
+          <h2>Your personal information:</h2>
+          <hr />
+          <div class="form-check form-check-inline">
+            <input
+              v-model="type"
+              class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+              type="radio"
+              name="type"
+              id="inlineRadio1"
+              value="consumer"
+              checked
+            />
+            <label class="form-check-label inline-block text-gray-800" for="inlineRadio10"
+              >Consumer</label
+            >
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              v-model="type"
+              class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+              type="radio"
+              name="type"
+              id="inlineRadio2"
+              value="supplier"
+            />
+            <label class="form-check-label inline-block text-gray-800" for="inlineRadio20"
+              >Supplier</label
+            >
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              v-model="type"
+              class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+              type="radio"
+              name="type"
+              id="inlineRadio3"
+              value="transporter"
+            />
+            <label class="form-check-label inline-block text-gray-800" for="inlineRadio30"
+              >Transporter</label
+            >
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputName1" class="form-label">Name</label>
+            <input
+              v-model="name"
+              type="text"
+              class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              id="exampleInputName1"
+              required
+            />
+          </div>
 
-			<div class="m-auto">
-				<form v-on:submit.prevent class="col">
-					<h2>Your personal information:</h2>
-					<br />
-					<div class="mb-3">
-						<label
-							for="exampleInputName1"
-							class="form-label"
-							>Name</label
-						>
-						<input
-							v-model="name"
-							type="text"
-							class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-							id="exampleInputName1"
-							:placeholder="user.name"
-						/>
-					</div>
+          <div class="mb-3">
+            <label for="street" class="form-label">Street</label>
 
-					<div class="mb-3">
-						<label
-							for="exampleInputAddress1"
-							class="form-label"
-							>Address</label
-						>
+            <input
+              v-model="street"
+              type="text"
+              class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              id="street"
+              required
+            />
+          </div>
 
-						<input
-							v-model="address"
-							type="text"
-							class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-							:class="
-								calculateAddressClass
-							"
-							id="exampleInputAddress1"
-							placeholder="address"
-						/>
-					</div>
+          <div class="mb-3">
+            <label for="country" class="form-label">Country</label>
 
-					<div class="mb-3">
-						<label
-							for="exampleInputZipCode"
-							class="form-label"
-							>Zip-Code</label
-						>
-						<input
-							v-model="zipCode"
-							type="text"
-							class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-							id="exampleInputZipCode"
-							placeholder="1234-123"
-							pattern="\d{4}-?(\d{3})?"
-						/>
-					</div>
+            <input
+              v-model="country"
+              type="text"
+              class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              id="country"
+              required
+            />
+          </div>
 
-					<div class="mb-3">
-						<label
-							for="exampleInputEmail1"
-							class="form-label"
-							>E-mail</label
-						>
+          <div class="mb-3">
+            <label for="city" class="form-label">City</label>
 
-						<input
-							v-model="email"
-							type="text"
-							class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-							id="exampleInputEmail1"
-							:placeholder="
-								user.email
-							"
-						/>
-					</div>
+            <input
+              v-model="city"
+              type="text"
+              class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              id="city"
+              required
+            />
+          </div>
 
-					<div class="mb-3">
-						<label
-							for="exampleInputPhone1"
-							class="form-label"
-							>Phone</label
-						>
+          <div class="mb-3">
+            <label for="exampleInputZipCode" class="form-label">Zip-Code</label>
+            <input
+              v-model="zipCode"
+              type="text"
+              class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              id="exampleInputZipCode"
+              pattern="\d{4}-?(\d{3})?"
+              required
+            />
+          </div>
 
-						<input
-							v-model="phone"
-							type="text"
-							class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-							:class="
-								calculatePhoneClass
-							"
-							id="exampleInputPhone1"
-							:placeholder="
-								user.phone
-							"
-						/>
-						<div
-							:class="
-								calculatePhoneFeedbackClass
-							"
-						>
-							{{
-								calculatePhoneFeedback
-							}}
-						</div>
-					</div>
+          <div class="mb-3">
+            <label for="exampleInputPhone1" class="form-label">Phone</label>
 
-					<div class="mb-3">
-						<label
-							for="exampleInputNIF1"
-							class="form-label"
-							>NIF</label
-						>
+            <input
+              v-model="phone"
+              type="text"
+              class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              id="exampleInputPhone1"
+              required
+            />
+          </div>
 
-						<input
-							v-model="nif"
-							type="text"
-							class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-							:class="
-								calculateNIFClass
-							"
-							id="exampleInputNIF1"
-							:placeholder="user.nif"
-						/>
-						<div
-							:class="
-								calculateNIFFeedbackClass
-							"
-						>
-							{{
-								calculateNIFFeedback
-							}}
-						</div>
-					</div>
+          <div class="mb-3">
+            <label for="exampleInputNIF1" class="form-label">NIF</label>
 
-					<div class="mb-3">
-						<label
-							for="exampleInputPassword1"
-							class="form-label"
-							>Password</label
-						>
+            <input
+              v-model="nif"
+              type="text"
+              class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              id="exampleInputNIF1"
+              required
+            />
+          </div>
 
-						<input
-							v-model="password"
-							type="password"
-							class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-							:class="
-								calculatePasswordClass
-							"
-							id="exampleInputPassword1"
-							placeholder="*********"
-						/>
-						<div
-							:class="
-								calculatePasswordFeedbackClass
-							"
-						>
-							{{
-								calculatePasswordFeedback
-							}}
-						</div>
-					</div>
-
-					<div
-						class="flex space-x-2 justify-center"
-					>
-						<input
-							type="submit"
-							@click="updateInfo"
-							class="inline-block my-4 w-40 px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-							name=""
-							value="Update account"
-						/>
-					</div>
-					<hr />
-					<br />
-					<p
-						class="flex space-x-2 justify-center"
-					>
-						You have 60 days to recover your
-						account, after that your account
-						will be permanently deleted.
-					</p>
-					<div
-						class="flex space-x-2 justify-center"
-					>
-						<input
-							type="submit"
-							@click="deleteAcc"
-							class="inline-block my-4 w-40 px-6 py-2.5 bg-red-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-600 hover:shadow-lg focus:bg-red-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-700 active:shadow-lg transition duration-150 ease-in-out"
-							name=""
-							value="Delete account"
-						/>
-					</div>
-				</form>
-			</div>
-		</div>
-		<pre>
-    {{ user.user }}
-    </pre
-		>
-		<Footer></Footer>
-	</div>
+          <div class="flex space-x-2 justify-center">
+            <input
+              type="submit"
+              @click="updateInfo"
+              class="inline-block my-4 w-40 px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+              name=""
+              value="Continue"
+              required
+            />
+          </div>
+        </form>
+      </div>
+    </div>
+    <Footer></Footer>
+  </div>
 </template>
 
 <script>
-import { useUser } from '/store/user';
+import { useUser } from "/store/user";
+
+const router = useRouter();
 
 export default {
-	name: 'ProfileView',
-	data() {
-		return {
-			user: {},
-			username: '',
-			email: '',
-			name: '',
-			address: '',
-			phone: '',
-			credit_card: null,
-			nif: '',
-			password: ''
-		};
-	},
-	async mounted() {
-		const store = useUser();
-		const user = store;
-		let result = await $fetch(
-			`/api/users?email=${user.user.email}`
-		);
-		this.user = result.data.items[0];
-		// this.name =
-	},
-	methods: {
-		deleteAcc() {
-			fetch(`api/users/${this.user._id}`, {
-				method: 'DELETE',
-				headers: { 'Content-Type': 'application/json' }
-			});
-		},
-		async updateInfo() {
-			console.log(this.name);
-			console.log(this.username);
-			console.log(this.password);
-			const res = await fetch(`api/users/${this.user._id}`, {
-				method: 'PUT',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					username:
-						this.username === ''
-							? this.user.username
-							: this.username,
-					email:
-						this.email === ''
-							? this.user.email
-							: this.email,
-					name:
-						this.name === ''
-							? this.user.name
-							: this.name,
-					address: {
-						street: this.address === ''
-								? this.user
-										.address
-								: this.address},
-					phone:
-						this.phone === ''
-							? this.user.phone
-							: this.phone,
-					nif:
-						this.nif === ''
-							? this.user.nif
-							: this.nif,
-					password:
-						this.password === ''
-							? this.user.password
-							: this.password
-				})
-			});
-			const res2 = await res.json();
+  name: "ProfileView",
+  data() {
+    return {
+      user: {},
+      type: "consumer",
+      name: "",
+      street: "",
+      country: "",
+      city: "",
+      zipCode: "",
+      phone: "",
+      nif: "",
+    };
+  },
+  async mounted() {
+    const store = useUser();
+    const user = store;
+    let result = await $fetch(`/api/users?email=${user.user.email}`);
+    this.user = result.data.items[0];
+    // this.name =
+  },
+  methods: {
+    async updateInfo() {
+      const store = useUser();
+      const res = await fetch(`/api/users/${this.user._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: this.name,
+          address: {
+            street: this.street,
+            country: this.country,
+            city: this.city,
+            zipCode: this.zipCode,
+          },
+          phone: this.phone,
+          nif: this.nif,
+        }),
+      });
+      const res2 = await res.json();
 
-			console.log(res2);
-		}
-	}
+      console.log(res2);
+
+      store.$patch({
+        user: {
+          type: this.type,
+        },
+      });
+
+      router.push("/orders");
+    },
+  },
 };
 </script>
-
