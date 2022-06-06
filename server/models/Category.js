@@ -4,22 +4,25 @@ const { Schema } = mongoose;
 export default mongoose.model(
 	'Category',
 	new Schema({
-		name: String,
-		description: String,
-		level: Number,
-		isRoot: {
-			type: Boolean,
-			default: false
+		name: {
+			type: String,
+			unique: true
 		},
-		attributes: [
-			{
-				type: String
-			}
-		],
-		categories: [
+		description: String,
+		parent: {
+			type: Schema.Types.ObjectId,
+			ref: 'Category',
+			default: null
+		},
+		children: [
 			{
 				type: Schema.Types.ObjectId,
 				ref: 'Category'
+			}
+		],
+		attributes: [
+			{
+				type: String
 			}
 		]
 	})

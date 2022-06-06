@@ -1,362 +1,267 @@
 <template>
-	<div>
-		<Navbar />
-		<div class="bg-white py-2 m-6 rounded flex">
-			<div class="border-r px-4">
-				<img
-					src="/img/logo.png"
-					width="70"
-					class="rounded-circle border"
-					alt=""
-				/>
-				<p>{{ user.username }}</p>
-				<hr />
-				<ul class="py-2"></ul>
+  <div>
+    <Navbar />
+    <section class="bg-light-600 bg-red-100 p-4">
+      <div class="flex gap-2">
+        <div class="w-80 flex flex-col gap-2">
+          <div class="bg-light-100 rounded p-2 shadow">
+            <ul>
+              <li>
+                <Listbox v-model="selectedPerson">
+                  <div class="relative mt-1">
+                    <ListboxButton
+                      class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
+                    >
+                      <span class="block truncate">{{ selectedPerson.name }}</span>
+                      <span
+                        class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
+                      >
+                        <SelectorIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+                      </span>
+                    </ListboxButton>
 
-				<button
-					class="hover:(!bg-black !bg-opacity-5) text-gray-900 group flex w-full items-center rounded-md px-2 py-2 text-sm"
-				>
-					<!-- <CogIcon :active="active" class="mr-2 h-5 w-5 text-violet-400" aria-hidden="true" /> -->
-					Settings
-				</button>
-
-				<button
-					class="hover:(!bg-black !bg-opacity-5) text-gray-900 group flex w-full items-center rounded-md px-2 py-2 text-sm"
-				>
-					<!-- <CogIcon :active="active" class="mr-2 h-5 w-5 text-violet-400" aria-hidden="true" /> -->
-					My consumer info
-				</button>
-
-				<button
-					class="hover:(!bg-black !bg-opacity-5) text-gray-900 group flex w-full items-center rounded-md px-2 py-2 text-sm"
-				>
-					<!-- <CogIcon :active="active" class="mr-2 h-5 w-5 text-violet-400" aria-hidden="true" /> -->
-					My transporter info
-				</button>
-
-				<button
-					class="hover:(!bg-black !bg-opacity-5) text-gray-900 group flex w-full items-center rounded-md px-2 py-2 text-sm"
-				>
-					<!-- <CogIcon :active="active" class="mr-2 h-5 w-5 text-violet-400" aria-hidden="true" /> -->
-					My supplier info
-				</button>
-
-				<button
-					class="hover:(!bg-black !bg-opacity-5) text-gray-900 group flex w-full items-center rounded-md px-2 py-2 text-sm"
-				>
-					<!-- <tIcon :active="active" class="mr-2 h-5 w-5 text-violet-400" aria-hidden="true" /> -->
-					Sign out
-				</button>
-
-				<!--</ul>-->
-			</div>
-
-			<div class="m-auto">
-				<form v-on:submit.prevent class="col">
-					<h2>Your personal information:</h2>
-					<br />
-					<div class="mb-3">
-						<label
-							for="exampleInputName1"
-							class="form-label"
-							>Name</label
-						>
-						<input
-							v-model="name"
-							type="text"
-							class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-							id="exampleInputName1"
-							:placeholder="user.name"
-						/>
-					</div>
-
-					<div class="mb-3">
-						<label
-							for="exampleInputAddress1"
-							class="form-label"
-							>Username</label
-						>
-
-						<input
-							v-model="username"
-							type="text"
-							class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-							id="exampleInputAddress1"
-							:placeholder="
-								user.username
-							"
-						/>
-						<div
-							:class="
-								calculateAddressFeedbackClass
-							"
-						>
-							{{
-								calculateAddressFeedback
-							}}
-						</div>
-					</div>
-
-					<div class="mb-3">
-						<label
-							for="exampleInputAddress1"
-							class="form-label"
-							>Address</label
-						>
-
-						<input
-							v-model="address"
-							type="text"
-							class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-							:class="
-								calculateAddressClass
-							"
-							id="exampleInputAddress1"
-							placeholder="address"
-						/>
-					</div>
-
-					<div class="mb-3">
-						<label
-							for="exampleInputZipCode"
-							class="form-label"
-							>Zip-Code</label
-						>
-						<input
-							v-model="zipCode"
-							type="text"
-							class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-							id="exampleInputZipCode"
-							placeholder="1234-123"
-							pattern="\d{4}-?(\d{3})?"
-						/>
-					</div>
-
-					<div class="mb-3">
-						<label
-							for="exampleInputEmail1"
-							class="form-label"
-							>E-mail</label
-						>
-
-						<input
-							v-model="email"
-							type="text"
-							class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-							id="exampleInputEmail1"
-							:placeholder="
-								user.email
-							"
-						/>
-					</div>
-
-					<div class="mb-3">
-						<label
-							for="exampleInputPhone1"
-							class="form-label"
-							>Phone</label
-						>
-
-						<input
-							v-model="phone"
-							type="text"
-							class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-							:class="
-								calculatePhoneClass
-							"
-							id="exampleInputPhone1"
-							:placeholder="
-								user.phone
-							"
-						/>
-						<div
-							:class="
-								calculatePhoneFeedbackClass
-							"
-						>
-							{{
-								calculatePhoneFeedback
-							}}
-						</div>
-					</div>
-
-					<div class="mb-3">
-						<label
-							for="exampleInputNIF1"
-							class="form-label"
-							>NIF</label
-						>
-
-						<input
-							v-model="nif"
-							type="text"
-							class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-							:class="
-								calculateNIFClass
-							"
-							id="exampleInputNIF1"
-							:placeholder="user.nif"
-						/>
-						<div
-							:class="
-								calculateNIFFeedbackClass
-							"
-						>
-							{{
-								calculateNIFFeedback
-							}}
-						</div>
-					</div>
-
-					<div class="mb-3">
-						<label
-							for="exampleInputPassword1"
-							class="form-label"
-							>Password</label
-						>
-
-						<input
-							v-model="password"
-							type="password"
-							class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-							:class="
-								calculatePasswordClass
-							"
-							id="exampleInputPassword1"
-							placeholder="*********"
-						/>
-						<div
-							:class="
-								calculatePasswordFeedbackClass
-							"
-						>
-							{{
-								calculatePasswordFeedback
-							}}
-						</div>
-					</div>
-
-					<div
-						class="flex space-x-2 justify-center"
-					>
-						<input
-							type="submit"
-							@click="updateInfo"
-							class="inline-block my-4 w-40 px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-							name=""
-							value="Update account"
-						/>
-					</div>
-					<hr />
-					<br />
-					<p
-						class="flex space-x-2 justify-center"
-					>
-						You have 60 days to recover your
-						account, after that your account
-						will be permanently deleted.
-					</p>
-					<div
-						class="flex space-x-2 justify-center"
-					>
-						<input
-							type="submit"
-							@click="deleteAcc"
-							class="inline-block my-4 w-40 px-6 py-2.5 bg-red-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-600 hover:shadow-lg focus:bg-red-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-700 active:shadow-lg transition duration-150 ease-in-out"
-							name=""
-							value="Delete account"
-						/>
-					</div>
-				</form>
-			</div>
-		</div>
-		<pre>
-    {{ user.user }}
-    </pre
-		>
-		<Footer></Footer>
-	</div>
+                    <transition
+                      leave-active-class="transition duration-100 ease-in"
+                      leave-from-class="opacity-100"
+                      leave-to-class="opacity-0"
+                    >
+                      <ListboxOptions
+                        class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+                      >
+                        <ListboxOption
+                          v-slot="{ active, selected }"
+                          v-for="person in people"
+                          :key="person.name"
+                          :value="person"
+                          as="template"
+                        >
+                          <li
+                            :class="[
+                              active ? 'bg-amber-100 text-amber-900' : 'text-gray-900',
+                              'relative cursor-default select-none py-2 pl-10 pr-4',
+                            ]"
+                          >
+                            <span
+                              :class="[
+                                selected ? 'font-medium' : 'font-normal',
+                                'block truncate',
+                              ]"
+                              >{{ person.name }}</span
+                            >
+                            <span
+                              v-if="selected"
+                              class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"
+                            >
+                              <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                            </span>
+                          </li>
+                        </ListboxOption>
+                      </ListboxOptions>
+                    </transition>
+                  </div>
+                </Listbox>
+              </li>
+            </ul>
+            <hr class="my-2" />
+            <ul>
+              <li class="mt-2">
+                <NuxtLink to="/profile">
+                  <button
+                    class="text-gray-900 group flex w-full items-center rounded-md px-2 py-2 text-sm hover:(bg-black bg-opacity-5)"
+                  >
+                    <ArchiveIcon
+                      class="mr-2 h-5 w-5 text-violet-400"
+                      aria-hidden="true"
+                    />
+                    My Account
+                  </button>
+                </NuxtLink>
+              </li>
+              <li class="mt-2">
+                <NuxtLink to="/profile/edit">
+                  <button
+                    class="text-gray-900 group flex w-full items-center rounded-md px-2 py-2 text-sm hover:(bg-black bg-opacity-5)"
+                  >
+                    <UserIcon class="mr-2 h-5 w-5 text-violet-400" aria-hidden="true" />
+                    My Personal Information
+                  </button>
+                </NuxtLink>
+              </li>
+              <li class="mt-2">
+                <NuxtLink to="/profile">
+                  <button
+                    class="text-gray-900 group flex w-full items-center rounded-md px-2 py-2 text-sm hover:(bg-black bg-opacity-5)"
+                  >
+                    <BookOpenIcon
+                      class="mr-2 h-5 w-5 text-violet-400"
+                      aria-hidden="true"
+                    />
+                    My Orders
+                  </button>
+                </NuxtLink>
+              </li>
+              <li class="mt-2">
+                <NuxtLink to="/profile">
+                  <button
+                    class="text-gray-900 group flex w-full items-center rounded-md px-2 py-2 text-sm hover:(bg-black bg-opacity-5)"
+                  >
+                    <HeartIcon class="mr-2 h-5 w-5 text-violet-400" aria-hidden="true" />
+                    Wishlist
+                  </button>
+                </NuxtLink>
+              </li>
+              <li class="mt-2">
+                <NuxtLink to="/profile">
+                  <button
+                    class="text-gray-900 group flex w-full items-center rounded-md px-2 py-2 text-sm hover:(bg-black bg-opacity-5)"
+                  >
+                    <BellIcon class="mr-2 h-5 w-5 text-violet-400" aria-hidden="true" />
+                    Notifications
+                  </button>
+                </NuxtLink>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="bg-light-100 rounded p-2 shadow w-full">dsaiojfoisajflksdaç</div>
+      </div>
+    </section>
+  </div>
 </template>
 
-<script>
-import { useUser } from '/store/user';
+<script setup>
+import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxButton,
+  ComboboxOptions,
+  ComboboxOption,
+  TransitionRoot,
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
+} from "@headlessui/vue";
+import {
+  ChevronDownIcon,
+  ArchiveIcon,
+  DuplicateIcon,
+  CogIcon,
+  PencilIcon,
+  LogoutIcon,
+  UserIcon,
+  ShoppingCartIcon,
+  BookOpenIcon,
+  BellIcon,
+  SearchIcon,
+  HeartIcon,
+} from "@heroicons/vue/outline/index.js";
+import { CheckIcon, SelectorIcon, ChevronUpIcon } from "@heroicons/vue/solid";
+import { ref } from "vue";
+import {
+  Listbox,
+  ListboxLabel,
+  ListboxButton,
+  ListboxOptions,
+  ListboxOption,
+} from "@headlessui/vue";
 
-export default {
-	name: 'ProfileView',
-	data() {
-		return {
-			user: {},
-			username: '',
-			email: '',
-			name: '',
-			address: '',
-			phone: '',
-			credit_card: null,
-			nif: '',
-			password: ''
-		};
-	},
-	async mounted() {
-		const store = useUser();
-		const user = store;
-		let result = await $fetch(
-			`/api/users?email=${user.user.email}`
-		);
-		this.user = result.data.items[0];
-		// this.name =
-	},
-	methods: {
-		deleteAcc() {
-			fetch(`api/users/${this.user._id}`, {
-				method: 'DELETE',
-				headers: { 'Content-Type': 'application/json' }
-			});
-		},
-		async updateInfo() {
-			console.log(this.name);
-			console.log(this.username);
-			console.log(this.password);
-			const res = await fetch(`api/users/${this.user._id}`, {
-				method: 'PUT',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					username:
-						this.username === ''
-							? this.user.username
-							: this.username,
-					email:
-						this.email === ''
-							? this.user.email
-							: this.email,
-					name:
-						this.name === ''
-							? this.user.name
-							: this.name,
-					address: {
-						street: this.address === ''
-								? this.user
-										.address
-								: this.address},
-					phone:
-						this.phone === ''
-							? this.user.phone
-							: this.phone,
-					nif:
-						this.nif === ''
-							? this.user.nif
-							: this.nif,
-					password:
-						this.password === ''
-							? this.user.password
-							: this.password
-				})
-			});
-			const res2 = await res.json();
+let category = ref("");
+let categoryPath = ref([]);
 
-			console.log(res2);
-		}
-	}
-};
+let items = ref([]);
+let staticFilters = ref([]);
+// staticFilters.value = [
+//   {
+//     name: "filter1",
+//     type: "default", //  default, radio, range, ...
+//     values: [],
+//   },
+// ];
+let selectedFilters = ref({});
+//   {
+//     filterName: selectedValue,
+//   },
+
+category.value = (await $fetch(`/api/categories?name=lavar`)).data.items[0];
+
+// ---- Category Path ---- //
+let current = category.value;
+categoryPath.value.push(current);
+while (current.parent) {
+  current = (await $fetch(`/api/categories?_id=${current.parent}`)).data.items[0];
+  categoryPath.value.push(current);
+}
+categoryPath.value.reverse();
+
+// ---- Static Filters ---- //
+for (const category of categoryPath.value) {
+  for (const attribute of category.attributes) {
+    staticFilters.value.push({ name: attribute, type: "default", value: 1 });
+  }
+}
+
+watch(
+  selectedFilters,
+  async () => {
+    let tempItems = (await $fetch(`/api/items?category=${category.value._id}`)).data
+      .items;
+
+    for (const item of tempItems) {
+      const products = (await $fetch(`/api/products?item=${item._id}`)).data.items;
+
+      item.minPrice = Math.min(...products.map((o) => o.price));
+      item.price = item.minPrice;
+      item.maxPrice = Math.max(...products.map((o) => o.price));
+    }
+    tempItems = tempItems.filter((item) => item.rating == selectedFilters.value.rating);
+    items.value = tempItems;
+  },
+  { deep: true }
+);
+
+// ---- Loading Items ---- //
+items.value = (await $fetch(`/api/items?category=${category.value._id}`)).data.items;
+
+// for (const item of items.value) {
+//   const products = (await $fetch(`/api/products?item=${item._id}`)).data.items;
+
+//   item.minPrice = Math.min(...products.map((o) => o.price));
+//   item.price = item.minPrice;
+//   item.maxPrice = Math.max(...products.map((o) => o.price));
+// }
+
+// ---- Sorting Filters ---- //
+const sortingFilters = [
+  { id: 1, name: "price" },
+  { id: 2, name: "rating" },
+];
+
+let selected = ref("");
+let query = ref("");
+
+let filteredSortingFilters = computed(() =>
+  query.value === ""
+    ? sortingFilters
+    : sortingFilters.filter((sortingFilter) =>
+        sortingFilter.name
+          .toLowerCase()
+          .replace(/\s+/g, "")
+          .includes(query.value.toLowerCase().replace(/\s+/g, ""))
+      )
+);
+
+watch(selected, () => {
+  items.value.sort((a, b) =>
+    a[selected.value.name] > b[selected.value.name]
+      ? 1
+      : b[selected.value.name] > a[selected.value.name]
+      ? -1
+      : 0
+  );
+});
+
+const people = [{ name: "Consumer" }, { name: "Provider" }, { name: "Transporter" }];
+const selectedPerson = ref(people[0]);
 </script>
+r

@@ -1,3 +1,5 @@
+import Order from '~~/server/models/Order';
+
 export default defineEventHandler(async (event) => {
 	event.res.jsonResponse.context = event.context.params;
 	const id = req.params.username;

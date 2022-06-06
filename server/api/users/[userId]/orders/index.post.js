@@ -1,14 +1,37 @@
-export default defineEventHandler(async (event) => {
-	event.res.jsonResponse.context = event.context.params;
-	const status = req.body.status;
-	const departureDate = req.body.departureDate;
-	const arrivalDate = req.body.arrivalDate;
+import Order from '~~/server/models/Order';
 
-	Order.insertMany({
-		status: status,
-		departureDate: departureDate,
-		arrivalDate: arrivalDate
-	}).then((result) => res.send(result));
+export default defineEventHandler(async (event) => {
+	try {
+		const {
+			numberItems,
+			price,
+			status,
+			departureDate,
+			arrivalDate,
+			consumer
+		} = await useBody(event);
+
+		try {
+			let order = await Order.create({
+				numberItems,
+				price,
+				status,
+				departureDate,
+				arrivalDate,
+				consumer
+			});
+		} catch (err) {
+			event.res.jsonResponse.error = {
+				message: err._message,
+				errors: err.errors
+			};
+			console.log(err);
+		}
+	} catch (err) {
+		event.res.jsonResponse.error = {
+			message: err
+		};
+	}
 
 	return event.res.jsonResponse;
 });

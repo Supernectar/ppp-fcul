@@ -1,13 +1,13 @@
-import Order from '~~/server/models/Order';
+import Item from '~~/server/models/Item';
 
 export default defineEventHandler(async (event) => {
 	event.res.jsonResponse.context = event.context.params;
 	try {
-		const { userId } = event.context.params;
-		let order = await Order.find({ consumer: userId });
+		const { itemId } = event.context.params;
+		let item = await Item.find({ _id: itemId });
 		event.res.jsonResponse.context = event.context.params;
 		event.res.jsonResponse.data = {
-			items: order
+			items: item
 		};
 	} catch (err) {
 		console.log(err);

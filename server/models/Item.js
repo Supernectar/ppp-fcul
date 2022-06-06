@@ -14,7 +14,7 @@ export default mongoose.model(
 		description: String,
 		producer: String,
 		exp_date: Date,
-		popularity: {
+		rating: {
 			type: Number,
 			default: 0
 		},

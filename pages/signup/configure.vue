@@ -4,8 +4,9 @@
     <div class="bg-white py-2 m-6 rounded flex">
       <div class="m-auto">
         <form v-on:submit.prevent class="col">
-          <h2>Your personal information:</h2>
+          <h2>Setup your account</h2>
           <hr />
+          <div class="form-text">Add some basic info to your account</div>
           <div class="form-check form-check-inline">
             <input
               v-model="type"
@@ -46,17 +47,30 @@
               >Transporter</label
             >
           </div>
-          <div class="mb-3">
-            <label for="exampleInputName1" class="form-label">Name</label>
-            <input
-              v-model="name"
-              type="text"
-              class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-              id="exampleInputName1"
-              required
-            />
-          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="mb-6">
+              <label for="firstName" class="form-label">First Name</label>
 
+              <input
+                v-model="firstName"
+                type="text"
+                class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                aria-describedby="emailHelp123"
+                id="firstName"
+              />
+            </div>
+            <div class="mb-6">
+              <label for="lastName" class="form-label">Last Name</label>
+
+              <input
+                v-model="lastName"
+                type="text"
+                class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                id="lastName"
+                aria-describedby="emailHelp124"
+              />
+            </div>
+          </div>
           <div class="mb-3">
             <label for="street" class="form-label">Street</label>
 
@@ -149,15 +163,14 @@
 <script>
 import { useUser } from "/store/user";
 
-const router = useRouter();
-
 export default {
   name: "ProfileView",
   data() {
     return {
       user: {},
       type: "consumer",
-      name: "",
+      firstName: "",
+      lastName: "",
       street: "",
       country: "",
       city: "",
@@ -175,6 +188,7 @@ export default {
   },
   methods: {
     async updateInfo() {
+      const router = useRouter();
       const store = useUser();
       const res = await fetch(`/api/users/${this.user._id}`, {
         method: "PUT",
@@ -182,7 +196,7 @@ export default {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: this.name,
+          name: this.firstName + " " + this.lastName,
           address: {
             street: this.street,
             country: this.country,
