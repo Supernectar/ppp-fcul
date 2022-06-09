@@ -20,6 +20,11 @@ export default mongoose.model(
 		quantity: {
 			type: Number,
 			required: true
+		},
+		suplier: {
+			type: Schema.Types.ObjectId,
+			ref: 'User',
+			required: true
 		}
 	})
 );

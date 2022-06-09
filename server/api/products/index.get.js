@@ -4,7 +4,7 @@ export default defineEventHandler(async (event) => {
 	event.res.jsonResponse.context = event.context.params;
 	const params = useQuery(event);
 
-	const products = await Product.find(params);
+	const products = await Product.find(params).populate('suplier');
 	event.res.jsonResponse.data = {
 		items: products
 	};
