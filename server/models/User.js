@@ -25,6 +25,15 @@ export default mongoose.model(
 					type: Schema.Types.ObjectId,
 					ref: 'Address'
 				}
+			],
+			cart: [
+				{
+					product: {
+						type: Schema.Types.ObjectId,
+						ref: 'Product'
+					},
+					quantity: Number
+				}
 			]
 		},
 		supplierData: {

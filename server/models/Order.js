@@ -9,7 +9,6 @@ export default mongoose.model(
 		status: String,
 		departureDate: String,
 		arrivalDate: String,
-		consumer: String,
 		items: []
 	})
 );

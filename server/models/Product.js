@@ -21,7 +21,7 @@ export default mongoose.model(
 			type: Number,
 			required: true
 		},
-		suplier: {
+		supplier: {
 			type: Schema.Types.ObjectId,
 			ref: 'User',
 			required: true

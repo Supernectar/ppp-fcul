@@ -1,60 +1,47 @@
 <template>
-  <div>
-    <Navbar />
-    <b-form>
-      <b-form-group v-slot="{ ariaDescribedby }" label="Select Storages to add product:">
-        <b-form-checkbox-group
+	<div>
+		<Navbar />
+		<div>
+			<!-- <div label="Select Storages to add product:">
+        <input
           id="checkbox-group-1"
-          v-model="selected"
-          :options="options"
-          :aria-describedby="ariaDescribedby"
           name="flavour-1"
-        ></b-form-checkbox-group>
-      </b-form-group>
+        />
+      </div> -->
 
-      <b-form-input v-model="name" placeholder="Storage name"></b-form-input>
-      <b-form-input
-        v-model="location"
-        placeholder="Storage location (TODO)"
-      ></b-form-input>
-      <b-form-input v-model="visibility" placeholder="private?"></b-form-input>
-      <button @click="createStorage">ADD</button>
-    </b-form>
-  </div>
+			<input v-model="name" placeholder="Storage name" />
+			<input v-model="location" placeholder="location" />
+			<input v-model="visibility" placeholder="private?" />
+			<button @click="createStorage">ADD</button>
+		</div>
+	</div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      name: "",
-      location: "",
-      visibility: "",
-    };
-  },
-  methods: {
-    async createStorage() {
-      console.log(localStorage.getItem("token"));
+<script setup>
+import { useUser } from '~/store/user';
+const store = useUser();
 
-      await fetch(
-        "http://localhost:5000/users/" +
-          1 + //TODO: id do user, a partir do jwt?
-          "storages",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+let name = ref('');
+let location = ref('');
+let visibility = ref('');
 
-          body: JSON.stringify({
-            name: this.name,
-            popularity: this.popularity,
-            location: this.location,
-            visibility: this.visibility,
-          }),
-        }
-      );
-    },
-  },
-};
+async function createStorage() {
+	console.log(localStorage.getItem('token'));
+
+	await fetch(`/api/storages`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+
+		body: JSON.stringify({
+			name: name.value,
+			popularity: 0,
+			location: location.value,
+			visibility: visibility.value
+		})
+	});
+}
 </script>
 
 <style></style>
