@@ -28,8 +28,7 @@ export default mongoose.model(
 		products: [
 			{
 				type: Schema.Types.ObjectId,
-				ref: 'Product',
-				unique: true
+				ref: 'Product'
 			}
 		]
 	})

@@ -42,17 +42,11 @@
 				</FormKit>
 				<div class="relative flex py-2 items-center">
 					<div
-						class="
-							flex-grow
-							border-t border-gray-200
-						"
+						class="flex-grow border-t border-gray-200"
 					></div>
 					<span class="flex-shrink mx-4">or</span>
 					<div
-						class="
-							flex-grow
-							border-t border-gray-200
-						"
+						class="flex-grow border-t border-gray-200"
 					></div>
 				</div>
 				<FormKit
@@ -69,53 +63,41 @@
 <script setup>
 import { useUser } from '~/store/user';
 const store = useUser();
-// console.log("LOCALSTORAGE");
-// console.log(state);
-
-// store.$patch(state);
-
-// console.log("STORE");
-// console.log(store);
 
 const router = useRouter();
 let email = ref('');
 let password = ref('');
 
 async function login() {
-	const res = await fetch(
-		`/api/users?email=${email.value}&password=${password.value}`
-	);
-	const resJson = await res.json();
-	console.log(resJson);
+	const users = (
+		await $fetch(
+			`/api/users?email=${email.value}&password=${password.value}`
+		)
+	).data.items;
 
-	if (resJson.data.items.length === 1) {
-		const res = await fetch(`/api/authenticate`, {
+	if (users.length === 1) {
+		const res = await $fetch(`/api/authenticate`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
-				email: this.email,
-				password: this.password
+				email: email.value,
+				password: password.value
 			})
 		});
-		const res2 = await res.json();
-		if (res2.error === 'Invalid username or password') {
+		if (res.error === 'Invalid username or password') {
 			console.log('User does not exist');
 			alert('Invalid username or password');
 		} else {
 			store.$patch({
 				user: {
-					userId: resJson.data.items[0]._id,
-					username: resJson.data.items[0]
-						.username,
-					email: resJson.data.items[0].email,
-					password: resJson.data.items[0].password
+					userId: users[0]._id,
+					username: users[0].username,
+					email: users[0].email,
+					password: users[0].password
 				}
 			});
-			console.log(store.user.username);
-			//localStorage.setItem("token", res2.data.items);
-			//alert("User was successfully logged in");
 			router.push('/profile/consumer/orders');
 		}
 	} else {

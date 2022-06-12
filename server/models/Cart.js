@@ -1,8 +1,9 @@
 import mongoose from 'mongoose';
+const { Schema } = mongoose;
 
 export default mongoose.model(
 	'Cart',
-	new mongoose.Schema({
+	new Schema({
 		id: Number,
 		products: [
 			{

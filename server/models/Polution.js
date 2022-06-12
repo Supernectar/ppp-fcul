@@ -4,7 +4,7 @@ export default mongoose.model(
 	'Polution',
 	new mongoose.Schema({
 		id: Number,
-		tyoe: String,
+		type: String,
 		amount: Number,
 		unit: String
 	})

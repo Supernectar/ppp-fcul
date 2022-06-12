@@ -1,18 +1,18 @@
 export default defineEventHandler(async (event) => {
 	event.res.jsonResponse.context = event.context.params;
-
+	const authHeader = req.headers['authorization'];
+	const token = authHeader && authHeader.split(' ')[1];
 	try {
-		const { id } = req.params;
+		const decoded = await jwt.verify(token, 'secretkey');
 
 		let storages = (await Storage.find()).filter(
 			(storage) =>
 				storage.visibility == 'public' ||
-				storage.owner == id
+				storage.owner == decoded.user._id
 		);
 
 		res.json(storages);
 	} catch (err) {
 		res.json(err);
 	}
-	return event.res.jsonResponse;
 });

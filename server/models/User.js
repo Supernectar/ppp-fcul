@@ -19,7 +19,11 @@ export default mongoose.model(
 			ref: 'Address'
 		},
 		consumerData: {
-			orders: String,
+			orders: [
+				{
+					type: Schema.Types.ObjectId
+				}
+			],
 			shippingAddresses: [
 				{
 					type: Schema.Types.ObjectId,
