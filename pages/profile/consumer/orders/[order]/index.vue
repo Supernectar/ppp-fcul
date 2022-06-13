@@ -89,33 +89,25 @@
 
 <script setup>
 import { useUser } from '~/store/user';
-const router = useRouter();
+// const router = useRouter();
 const route = useRoute();
 const store = useUser();
 
-let itemIds = [];
-const res = await fetch(
-  `/api/users/${store.user.userId}/orders/${route.params.order}`
-);
-const resJson = await res.json();
-itemIds = resJson.data.items[0].items;
+let order = [];
+order = (
+  await $fetch(`/api/users/${store.user.userId}/orders/${route.params.order}`)
+).data.items;
 
 const items = [];
 const categories = [];
 
-for (let i = 0; i < itemIds.length; i++) {
-  const res2 = await fetch(`/api/items/${itemIds[i]}`);
-  const resJson2 = await res2.json();
-  console.log(resJson2);
-  const resCat = await fetch(
-    `/api/categories/${resJson2.data.items[0].category}`
+for (let i = 0; i < order.items.length; i++) {
+  const item = await $fetch(`/api/items/${order.items[i]}`);
+  const category = await $fetch(
+    `/api/categories/${item.data.items[0].category}`
   );
-  const resCatJson = await resCat.json();
-  console.log(resCatJson);
-  items.push(resJson2.data.items[0]);
-  categories.push(resCatJson.data.items[0].name);
+  items.push(item.data.items[0]);
+  categories.push(category.data.items[0].name);
 }
-console.log(items);
-console.log(categories);
 </script>
 <style></style>

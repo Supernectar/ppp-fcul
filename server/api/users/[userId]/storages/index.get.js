@@ -1,17 +1,20 @@
+import User from '~~/server/models/User';
+import Storage from '~~/server/models/Storage';
+
 export default defineEventHandler(async (event) => {
   event.res.jsonResponse.context = event.context.params;
-  const authHeader = req.headers.authorization;
-  const token = authHeader && authHeader.split(' ')[1];
   try {
-    const decoded = await jwt.verify(token, 'secretkey');
+    const { userId } = event.context.params;
+    const user = await User.findOne({ _id: userId });
+    const storageIds = user.supplierData.storages;
+    const storages = await Storage.find({ _id: storageIds });
 
-    const storages = (await Storage.find()).filter(
-      (storage) =>
-        storage.visibility == 'public' || storage.owner == decoded.user._id
-    );
-
-    res.json(storages);
+    event.res.jsonResponse.data = {
+      items: storages
+    };
   } catch (err) {
-    res.json(err);
+    event.res.jsonResponse.error = err;
   }
+
+  return event.res.jsonResponse;
 });

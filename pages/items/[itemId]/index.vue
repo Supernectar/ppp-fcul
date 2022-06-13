@@ -142,6 +142,7 @@ category.value = (
   await $fetch(`/api/categories?_id=${item.value.category}`)
 ).data.items[0];
 
+console.log(products.value);
 // ---- Category Path ---- //
 let current = category.value;
 categoryPath.value.push(current);
@@ -154,13 +155,17 @@ categoryPath.value.reverse();
 categoryPath.value.shift();
 
 // ---- Local Storage Cart ---- //
-const myCart = ref('');
+const myCart = ref([]);
+function addToCart(pid) {
+  myCart.value = store.getCart;
+  console.log(myCart.value.length);
 
-function addToCart() {
-  myCart.value = {
-    product: 'a',
-    quantity: 1
-  };
-  store.addCart(myCart.value);
+  if (myCart.value.some((el) => el.product === pid)) {
+    myCart.value[myCart.value.findIndex((el) => el.product === pid)].quantity++;
+  } else {
+    myCart.value.push({ product: pid, quantity: 1 });
+  }
+
+  store.$patch({ myCart });
 }
 </script>

@@ -5,20 +5,22 @@ import { useLocalStorage } from '@vueuse/core';
 export const useCart = defineStore('cart', {
   state: () => ({
     // all these properties will have their type inferred automatically
-    cart: useLocalStorage('cart', [
-      // {
-      // 	product: {},
-      // 	quantity: 0
-      // }
-    ])
-  }),
-
-  actions: {
-    addCart(product, quantity) {
-      this.cart.push({ product, quantity });
-    }
-    // removeTodo(index) {
-    // 	this.todos.splice(index, 1);
+    cart: useLocalStorage('cart', [])
+    // cart: []
+    // {
+    // 	product: {},
+    // 	quantity: 0
     // }
+  }),
+  getters: {
+    getCart: (state) => state.cart
   }
+  // actions: {
+  //   addCart(product, quantity) {
+  //     this.cart.push({ product, quantity });
+  //   }
+  //   // removeTodo(index) {
+  //   // 	this.todos.splice(index, 1);
+  //   // }
+  // }
 });

@@ -243,7 +243,9 @@
               >
                 <img
                   class="w-6 h-6 rounded-full"
-                  :src="'https://ui-avatars.com/api/?format=svg'"
+                  :src="`https://ui-avatars.com/api/?format=svg&name=${
+                    useUser().user.username
+                  }`"
                   alt="Rounded avatar"
                 />
                 <ChevronDownIcon class="h-4 w-4" aria-hidden="true" />

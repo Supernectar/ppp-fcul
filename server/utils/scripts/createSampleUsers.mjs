@@ -1,6 +1,4 @@
-import fetch from 'node-fetch';
-
-const users = [
+export default [
   {
     username: 'username123',
     name: 'Name123',
@@ -73,15 +71,3 @@ const users = [
     }
   }
 ];
-
-for (let i = 0; i < users.length; i++) {
-  const user = users[i];
-  try {
-    fetch('http://localhost:3000/api/users', {
-      method: 'POST',
-      body: JSON.stringify(user)
-    });
-  } catch (err) {
-    console.log(err);
-  }
-}

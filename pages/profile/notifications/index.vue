@@ -1,5 +1,18 @@
 <template>
   <div>
-    <h1>Here is notifications!!!</h1>
+    <div>
+      <Navbar />
+      <section class="bg-light-600 bg-red-100">
+        <div class="flex">
+          <div>
+            <SideNav />
+          </div>
+          <div class="bg-light-100 rounded p-2 w-full">
+            <div>Notifications</div>
+          </div>
+        </div>
+      </section>
+      <Footer />
+    </div>
   </div>
 </template>

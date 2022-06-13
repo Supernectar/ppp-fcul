@@ -10,7 +10,6 @@ export default defineEventHandler(async (event) => {
       items: user
     };
   } catch (err) {
-    console.log(err);
     event.res.jsonResponse.error = err;
   }
 

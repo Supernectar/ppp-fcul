@@ -8,12 +8,10 @@
         </div>
 
         <div class="bg-light-100 p-2 w-full">
-          <h1>WishList</h1>
+          <h1>Deliveries</h1>
         </div>
       </div>
     </section>
     <Footer />
   </div>
 </template>
-
-<script setup></script>
