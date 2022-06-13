@@ -1,63 +1,57 @@
 <template>
-	<div>
-		<Navbar />
-		<div class="flex h-[calc(100vh-4rem)] items-center">
-			<div class="w-100 m-auto bg-white rounded p-4">
-				<h1 class="text-center text-3xl font-semibold">
-					Login
-				</h1>
-				<hr class="my-2" />
-				<FormKit type="form" @submit="login">
-					<FormKit
-						v-model="email"
-						label="Email address"
-						type="email"
-						validation="required|email"
-						outer-class="mb-4"
-						label-class="form-label inline-block mb-2 text-gray-700"
-						input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-						help-class="text-sm text-gray-500 mt-1"
-						message-class="mt-1 text-sm text-red-600"
-					/>
+  <div>
+    <Navbar />
+    <div class="flex h-[calc(100vh-4rem)] items-center">
+      <div class="w-100 m-auto bg-white rounded p-4">
+        <h1 class="text-center text-3xl font-semibold">Login</h1>
+        <hr class="my-2" />
+        <FormKit type="form" @submit="login">
+          <FormKit
+            v-model="email"
+            label="Email address"
+            type="email"
+            validation="required|email"
+            outer-class="mb-4"
+            label-class="form-label inline-block mb-2 text-gray-700"
+            input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+            help-class="text-sm text-gray-500 mt-1"
+            message-class="mt-1 text-sm text-red-600"
+          />
 
-					<FormKit
-						v-model="password"
-						label="Password"
-						type="password"
-						validation="required"
-						outer-class="mb-4"
-						label-class="form-label inline-block mb-2 text-gray-700"
-						input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-						help-class="text-sm text-gray-500 mt-1"
-						message-class="mt-1 text-sm text-red-600"
-					/>
+          <FormKit
+            v-model="password"
+            label="Password"
+            type="password"
+            validation="required"
+            outer-class="mb-4"
+            label-class="form-label inline-block mb-2 text-gray-700"
+            input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+            help-class="text-sm text-gray-500 mt-1"
+            message-class="mt-1 text-sm text-red-600"
+          />
 
-					<template #submit>
-						<FormKit
-							type="submit"
-							label="Continue"
-							input-class="w-full  ml-auto px-2 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-						/>
-					</template>
-				</FormKit>
-				<div class="relative flex py-2 items-center">
-					<div
-						class="flex-grow border-t border-gray-200"
-					></div>
-					<span class="flex-shrink mx-4">or</span>
-					<div
-						class="flex-grow border-t border-gray-200"
-					></div>
-				</div>
-				<FormKit
-					type="button"
-					label="Sign in with Google"
-					input-class="w-full  ml-auto px-2 py-2.5 bg-red-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-600 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-				/>
-			</div>
-		</div>
-		<Footer></Footer>
-	</div>
+          <template #submit>
+            <FormKit
+              type="submit"
+              label="Continue"
+              input-class="w-full  ml-auto px-2 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+            />
+          </template>
+        </FormKit>
+        <div class="relative flex py-2 items-center">
+          <div class="flex-grow border-t border-gray-200"></div>
+          <span class="flex-shrink mx-4">or</span>
+          <div class="flex-grow border-t border-gray-200"></div>
+        </div>
+        <FormKit
+          type="button"
+          label="Sign in with Google"
+          input-class="w-full  ml-auto px-2 py-2.5 bg-red-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-600 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+        />
+      </div>
+    </div>
+    <Footer></Footer>
+  </div>
 </template>
 
 <script setup>
@@ -69,40 +63,38 @@ const email = ref('');
 const password = ref('');
 
 async function login() {
-	const users = (
-		await $fetch(
-			`/api/users?email=${email.value}&password=${password.value}`
-		)
-	).data.items;
+  const users = (
+    await $fetch(`/api/users?email=${email.value}&password=${password.value}`)
+  ).data.items;
 
-	if (users.length === 1) {
-		const res = await $fetch(`/api/authenticate`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				email: email.value,
-				password: password.value
-			})
-		});
-		if (res.error === 'Invalid username or password') {
-			console.log('User does not exist');
-			alert('Invalid username or password');
-		} else {
-			store.$patch({
-				user: {
-					userId: users[0]._id,
-					username: users[0].username,
-					email: users[0].email,
-					password: users[0].password
-				}
-			});
-			router.push('/profile/consumer/orders');
-		}
-	} else {
-		alert('Invalid email or password');
-	}
+  if (users.length === 1) {
+    const res = await $fetch(`/api/authenticate`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: email.value,
+        password: password.value
+      })
+    });
+    if (res.error === 'Invalid username or password') {
+      console.log('User does not exist');
+      alert('Invalid username or password');
+    } else {
+      store.$patch({
+        user: {
+          userId: users[0]._id,
+          username: users[0].username,
+          email: users[0].email,
+          password: users[0].password
+        }
+      });
+      router.push('/profile/consumer/orders');
+    }
+  } else {
+    alert('Invalid email or password');
+  }
 }
 </script>
 

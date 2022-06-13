@@ -1,7 +1,7 @@
 export default defineEventHandler(async (event) => {
-	event.res.jsonResponse.context = event.context.params;
-	const id = req.params.id;
-	Transport.deleteMany({ id }).then((result) => res.send(result));
+  event.res.jsonResponse.context = event.context.params;
+  const id = req.params.id;
+  Transport.deleteMany({ id }).then((result) => res.send(result));
 
-	return event.res.jsonResponse;
+  return event.res.jsonResponse;
 });

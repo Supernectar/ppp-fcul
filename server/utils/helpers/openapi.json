@@ -1,1046 +1,1046 @@
 {
-	"openapi": "3.0.0",
-	"info": {
-		"title": "ClearChoiceAPI",
-		"description": "Api for an app",
-		"contact": {
-			"name": "ClearChoiceAPI Support",
-			"url": "https://www.clearchoice.com/support",
-			"email": "support@clearchoice.com"
-		},
-		"version": "1.0.0"
-	},
-	"servers": [
-		{
-			"url": "https://github.com/swagger-api/swagger-codegen",
-			"description": "Development server"
-		},
-		{
-			"url": "https://staging.gigantic-server.com/v1",
-			"description": "Staging server"
-		},
-		{
-			"url": "https://api.gigantic-server.com/v1",
-			"description": "Production server"
-		}
-	],
-	"paths": {
-		"/users": {
-			"get": {
-				"tags": ["Users"],
-				"summary": "Returns all users registered in the system.",
-				"responses": {
-					"200": {
-						"description": "Successful operation.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"users": {
-											"type": "array",
-											"items": {
-												"$ref": "#/components/schemas/User"
-											}
-										}
-									}
-								}
-							}
-						}
-					},
-					"default": {
-						"description": "Unexpected error."
-					}
-				}
-			},
-			"post": {
-				"tags": ["Users"],
-				"summary": "Inserts a new user into the system.",
-				"requestBody": {
-					"description": "Details of the new user.",
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/User"
-							}
-						}
-					}
-				},
-				"responses": {
-					"200": {
-						"description": "Successful operation."
-					},
-					"default": {
-						"description": "Unexpected error."
-					}
-				}
-			},
-			"delete": {
-				"tags": ["Users"],
-				"summary": "Deletes all users.",
-				"responses": {
-					"200": {
-						"description": "Successful operation."
-					},
-					"default": {
-						"description": "Unexpected error."
-					}
-				}
-			}
-		},
-		"/users/{username}": {
-			"get": {
-				"tags": ["Users"],
-				"summary": "Returns a single user.",
-				"parameters": [
-					{
-						"name": "username",
-						"in": "path",
-						"schema": {
-							"type": "string"
-						},
-						"required": true
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Successful operation.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/User"
-								}
-							}
-						}
-					},
-					"400": {
-						"description": "User not found."
-					},
-					"default": {
-						"description": "Unexpected error."
-					}
-				}
-			},
-			"put": {
-				"tags": ["Users"],
-				"summary": "Updates user by username.",
-				"parameters": [
-					{
-						"name": "username",
-						"in": "path",
-						"schema": {
-							"type": "string"
-						},
-						"required": true
-					}
-				],
-				"requestBody": {
-					"description": "Details of the new user.",
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/User"
-							}
-						}
-					}
-				},
-				"responses": {
-					"200": {
-						"description": "Successful operation."
-					},
-					"400": {
-						"description": "User not found."
-					},
-					"default": {
-						"description": "Unexpected error."
-					}
-				}
-			},
-			"delete": {
-				"tags": ["Users"],
-				"summary": "Deletes user by username.",
-				"parameters": [
-					{
-						"name": "username",
-						"in": "path",
-						"schema": {
-							"type": "string"
-						},
-						"required": true
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Successful operation."
-					},
-					"400": {
-						"description": "User not found."
-					},
-					"default": {
-						"description": "Unexpected error."
-					}
-				}
-			}
-		},
-		"/users/{username}/orders": {
-			"get": {
-				"tags": ["Orders"],
-				"summary": "Returns all orders from a user.",
-				"parameters": [
-					{
-						"name": "username",
-						"in": "path",
-						"schema": {
-							"type": "string"
-						},
-						"required": true
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Successful operation.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"orders": {
-											"type": "array",
-											"items": {
-												"type": "object",
-												"properties": {
-													"products": {
-														"type": "array",
-														"items": {
-															"$ref": "#/components/schemas/Product"
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					},
-					"400": {
-						"description": "User not found."
-					},
-					"default": {
-						"description": "Unexpected error."
-					}
-				}
-			},
-			"post": {
-				"tags": ["Orders"],
-				"summary": "Creates a new order.",
-				"parameters": [
-					{
-						"name": "username",
-						"in": "path",
-						"schema": {
-							"type": "string"
-						},
-						"required": true
-					}
-				],
-				"requestBody": {
-					"description": "Details of the order.",
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"products": {
-										"type": "array",
-										"items": {
-											"$ref": "#/components/schemas/User"
-										}
-									}
-								}
-							}
-						}
-					}
-				},
-				"responses": {
-					"200": {
-						"description": "Successful operation."
-					},
-					"400": {
-						"description": "User not found."
-					},
-					"default": {
-						"description": "Unexpected error."
-					}
-				}
-			},
-			"delete": {
-				"tags": ["Orders"],
-				"summary": "Deletes all orders from a user.",
-				"parameters": [
-					{
-						"name": "username",
-						"in": "path",
-						"schema": {
-							"type": "string"
-						},
-						"required": true
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Successful operation."
-					},
-					"400": {
-						"description": "User not found."
-					},
-					"default": {
-						"description": "Unexpected error."
-					}
-				}
-			}
-		},
-		"/users/{username}/orders/{id}": {
-			"get": {
-				"tags": ["Orders"],
-				"summary": "Returns an order from a user.",
-				"parameters": [
-					{
-						"name": "username",
-						"in": "path",
-						"schema": {
-							"type": "string"
-						},
-						"required": true
-					},
-					{
-						"name": "id",
-						"in": "path",
-						"schema": {
-							"type": "number"
-						},
-						"required": true
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Successful operation.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"products": {
-											"type": "array",
-											"items": {
-												"$ref": "#/components/schemas/Product"
-											}
-										}
-									}
-								}
-							}
-						}
-					},
-					"400": {
-						"description": "User not found."
-					},
-					"default": {
-						"description": "Unexpected error."
-					}
-				}
-			},
-			"put": {
-				"tags": ["Orders"],
-				"summary": "Updates an order by id.",
-				"parameters": [
-					{
-						"name": "username",
-						"in": "path",
-						"schema": {
-							"type": "string"
-						},
-						"required": true
-					},
-					{
-						"name": "id",
-						"in": "path",
-						"schema": {
-							"type": "number"
-						},
-						"required": true
-					}
-				],
-				"requestBody": {
-					"description": "Details of the order.",
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"products": {
-										"type": "array",
-										"items": {
-											"$ref": "#/components/schemas/User"
-										}
-									}
-								}
-							}
-						}
-					}
-				},
-				"responses": {
-					"200": {
-						"description": "Successful operation."
-					},
-					"400": {
-						"description": "User not found."
-					},
-					"default": {
-						"description": "Unexpected error."
-					}
-				}
-			},
-			"delete": {
-				"tags": ["Orders"],
-				"summary": "Deletes a order by id from a user.",
-				"parameters": [
-					{
-						"name": "username",
-						"in": "path",
-						"schema": {
-							"type": "string"
-						},
-						"required": true
-					},
-					{
-						"name": "id",
-						"in": "path",
-						"schema": {
-							"type": "number"
-						},
-						"required": true
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Successful operation."
-					},
-					"400": {
-						"description": "User not found."
-					},
-					"default": {
-						"description": "Unexpected error."
-					}
-				}
-			}
-		},
-		"/products": {
-			"get": {
-				"tags": ["Products"],
-				"summary": "Returns all products.",
-				"responses": {
-					"200": {
-						"description": "Successful operation.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"products": {
-											"type": "array",
-											"items": {
-												"$ref": "#/components/schemas/Product"
-											}
-										}
-									}
-								}
-							}
-						}
-					},
-					"default": {
-						"description": "Unexpected error."
-					}
-				}
-			},
-			"post": {
-				"tags": ["Products"],
-				"summary": "Inserts a new product.",
-				"requestBody": {
-					"description": "Details of the new product.",
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/Product"
-							}
-						}
-					}
-				},
-				"responses": {
-					"200": {
-						"description": "Successful operation."
-					},
-					"default": {
-						"description": "Unexpected error."
-					}
-				}
-			},
-			"delete": {
-				"tags": ["Products"],
-				"summary": "Deletes all products.",
-				"responses": {
-					"200": {
-						"description": "Successful operation."
-					},
-					"default": {
-						"description": "Unexpected error."
-					}
-				}
-			}
-		},
-		"/products/{id}": {
-			"get": {
-				"tags": ["Products"],
-				"summary": "Returns a single product.",
-				"parameters": [
-					{
-						"name": "id",
-						"in": "path",
-						"schema": {
-							"type": "string"
-						},
-						"required": true
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Successful operation.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/Product"
-								}
-							}
-						}
-					},
-					"400": {
-						"description": "Product not found."
-					},
-					"default": {
-						"description": "Unexpected error."
-					}
-				}
-			},
-			"put": {
-				"tags": ["Products"],
-				"summary": "Updates product by id.",
-				"parameters": [
-					{
-						"name": "id",
-						"in": "path",
-						"schema": {
-							"type": "string"
-						},
-						"required": true
-					}
-				],
-				"requestBody": {
-					"description": "Details of the new product.",
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/Product"
-							}
-						}
-					}
-				},
-				"responses": {
-					"200": {
-						"description": "Successful operation."
-					},
-					"400": {
-						"description": "Product not found."
-					},
-					"default": {
-						"description": "Unexpected error."
-					}
-				}
-			},
-			"delete": {
-				"tags": ["Products"],
-				"summary": "Deletes product by id.",
-				"parameters": [
-					{
-						"name": "id",
-						"in": "path",
-						"schema": {
-							"type": "string"
-						},
-						"required": true
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Successful operation."
-					},
-					"400": {
-						"description": "Product not found."
-					},
-					"default": {
-						"description": "Unexpected error."
-					}
-				}
-			}
-		},
-		"/products/{id}/polution": {
-			"get": {
-				"tags": ["Products"],
-				"summary": "Returns the polution created from a product.",
-				"parameters": [
-					{
-						"name": "id",
-						"in": "path",
-						"schema": {
-							"type": "string"
-						},
-						"required": true
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Successful operation.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"polution": {
-											"type": "array",
-											"items": {
-												"$ref": "#/components/schemas/Product"
-											}
-										}
-									}
-								}
-							}
-						}
-					},
-					"400": {
-						"description": "Product not found."
-					},
-					"default": {
-						"description": "Unexpected error."
-					}
-				}
-			}
-		},
-		"/products/{id}/resources": {
-			"get": {
-				"tags": ["Products"],
-				"summary": "Returns the resources used to create a product.",
-				"parameters": [
-					{
-						"name": "id",
-						"in": "path",
-						"schema": {
-							"type": "string"
-						},
-						"required": true
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Successful operation.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"resources": {
-											"type": "array",
-											"items": {
-												"$ref": "#/components/schemas/Resource"
-											}
-										}
-									}
-								}
-							}
-						}
-					},
-					"400": {
-						"description": "Product not found."
-					},
-					"default": {
-						"description": "Unexpected error."
-					}
-				}
-			}
-		},
-		"/storages/{id}/products": {
-			"get": {
-				"tags": ["Products"],
-				"summary": "Returns all products in a storage.",
-				"parameters": [
-					{
-						"name": "id",
-						"in": "path",
-						"schema": {
-							"type": "string"
-						},
-						"required": true
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Successful operation.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/Product"
-								}
-							}
-						}
-					},
-					"400": {
-						"description": "Storage not found."
-					},
-					"default": {
-						"description": "Unexpected error."
-					}
-				}
-			},
-			"delete": {
-				"tags": ["Products"],
-				"summary": "Deletes all products from a storage.",
-				"parameters": [
-					{
-						"name": "id",
-						"in": "path",
-						"schema": {
-							"type": "string"
-						},
-						"required": true
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Successful operation."
-					},
-					"400": {
-						"description": "Storage not found."
-					},
-					"default": {
-						"description": "Unexpected error."
-					}
-				}
-			}
-		},
-		"/transports": {
-			"get": {
-				"tags": ["Transports"],
-				"summary": "Returns all transports.",
-				"responses": {
-					"200": {
-						"description": "Successful operation.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"products": {
-											"type": "array",
-											"items": {
-												"$ref": "#/components/schemas/Transport"
-											}
-										}
-									}
-								}
-							}
-						}
-					},
-					"default": {
-						"description": "Unexpected error."
-					}
-				}
-			},
-			"post": {
-				"tags": ["Transports"],
-				"summary": "Inserts a new transport.",
-				"requestBody": {
-					"description": "Details of the new transport.",
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/Transport"
-							}
-						}
-					}
-				},
-				"responses": {
-					"200": {
-						"description": "Successful operation."
-					},
-					"default": {
-						"description": "Unexpected error."
-					}
-				}
-			},
-			"delete": {
-				"tags": ["Transports"],
-				"summary": "Deletes all products.",
-				"responses": {
-					"200": {
-						"description": "Successful operation."
-					},
-					"default": {
-						"description": "Unexpected error."
-					}
-				}
-			}
-		},
-		"/transports/{id}": {
-			"get": {
-				"tags": ["Transports"],
-				"summary": "Returns a single transport.",
-				"parameters": [
-					{
-						"name": "id",
-						"in": "path",
-						"schema": {
-							"type": "string"
-						},
-						"required": true
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Successful operation.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/Transport"
-								}
-							}
-						}
-					},
-					"400": {
-						"description": "Transport not found."
-					},
-					"default": {
-						"description": "Unexpected error."
-					}
-				}
-			},
-			"delete": {
-				"tags": ["Transports"],
-				"summary": "Deletes transports by registry.",
-				"parameters": [
-					{
-						"name": "id",
-						"in": "path",
-						"schema": {
-							"type": "string"
-						},
-						"required": true
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Successful operation."
-					},
-					"400": {
-						"description": "Transport not found."
-					},
-					"default": {
-						"description": "Unexpected error."
-					}
-				}
-			}
-		},
-		"/transports/{id}/polution": {
-			"get": {
-				"tags": ["Transports"],
-				"summary": "Returns the polution created from a transport.",
-				"parameters": [
-					{
-						"name": "id",
-						"in": "path",
-						"schema": {
-							"type": "string"
-						},
-						"required": true
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Successful operation.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"polution": {
-											"type": "array",
-											"items": {
-												"$ref": "#/components/schemas/Resource"
-											}
-										}
-									}
-								}
-							}
-						}
-					},
-					"400": {
-						"description": "Product not found."
-					},
-					"default": {
-						"description": "Unexpected error."
-					}
-				}
-			}
-		},
-		"/transports/{id}/resources": {
-			"get": {
-				"tags": ["Transports"],
-				"summary": "Returns the resources used to create a transport.",
-				"parameters": [
-					{
-						"name": "id",
-						"in": "path",
-						"schema": {
-							"type": "string"
-						},
-						"required": true
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Successful operation.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"resources": {
-											"type": "array",
-											"items": {
-												"$ref": "#/components/schemas/Resource"
-											}
-										}
-									}
-								}
-							}
-						}
-					},
-					"400": {
-						"description": "Product not found."
-					},
-					"default": {
-						"description": "Unexpected error."
-					}
-				}
-			}
-		}
-	},
-	"tags": [
-		{
-			"name": "Users",
-			"description": "Operations about users"
-		},
-		{
-			"name": "Products",
-			"description": "Access to products"
-		},
-		{
-			"name": "Transports",
-			"description": "Transport management"
-		},
-		{
-			"name": "Orders",
-			"description": "Operations about orders"
-		}
-	],
-	"components": {
-		"schemas": {
-			"User": {
-				"type": "object",
-				"properties": {
-					"username": {
-						"type": "string"
-					},
-					"name": {
-						"type": "string"
-					},
-					"email": {
-						"type": "string",
-						"format": "email"
-					},
-					"password": {
-						"type": "string"
-					}
-				}
-			},
-			"Product": {
-				"type": "object",
-				"properties": {
-					"name": {
-						"type": "string"
-					},
-					"quantity": {
-						"type": "number"
-					},
-					"type": {
-						"type": "string"
-					}
-				}
-			},
-			"Storage": {
-				"type": "object",
-				"properties": {
-					"name": {
-						"type": "string"
-					},
-					"owner": {
-						"type": "string",
-						"example": "Owner username"
-					}
-				}
-			},
-			"Transport": {
-				"type": "object",
-				"properties": {
-					"registry": {
-						"type": "string"
-					}
-				}
-			},
-			"Polution": {
-				"type": "object",
-				"properties": {
-					"type": {
-						"type": "string"
-					},
-					"quantity": {
-						"type": "number"
-					},
-					"units": {
-						"type": "string"
-					}
-				}
-			},
-			"Resource": {
-				"type": "object",
-				"properties": {
-					"type": {
-						"type": "string"
-					},
-					"quantity": {
-						"type": "number"
-					},
-					"units": {
-						"type": "string"
-					}
-				}
-			}
-		}
-	}
+  "openapi": "3.0.0",
+  "info": {
+    "title": "ClearChoiceAPI",
+    "description": "Api for an app",
+    "contact": {
+      "name": "ClearChoiceAPI Support",
+      "url": "https://www.clearchoice.com/support",
+      "email": "support@clearchoice.com"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://github.com/swagger-api/swagger-codegen",
+      "description": "Development server"
+    },
+    {
+      "url": "https://staging.gigantic-server.com/v1",
+      "description": "Staging server"
+    },
+    {
+      "url": "https://api.gigantic-server.com/v1",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Returns all users registered in the system.",
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "users": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/User"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error."
+          }
+        }
+      },
+      "post": {
+        "tags": ["Users"],
+        "summary": "Inserts a new user into the system.",
+        "requestBody": {
+          "description": "Details of the new user.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation."
+          },
+          "default": {
+            "description": "Unexpected error."
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Users"],
+        "summary": "Deletes all users.",
+        "responses": {
+          "200": {
+            "description": "Successful operation."
+          },
+          "default": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "/users/{username}": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Returns a single user.",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User not found."
+          },
+          "default": {
+            "description": "Unexpected error."
+          }
+        }
+      },
+      "put": {
+        "tags": ["Users"],
+        "summary": "Updates user by username.",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "description": "Details of the new user.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation."
+          },
+          "400": {
+            "description": "User not found."
+          },
+          "default": {
+            "description": "Unexpected error."
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Users"],
+        "summary": "Deletes user by username.",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation."
+          },
+          "400": {
+            "description": "User not found."
+          },
+          "default": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "/users/{username}/orders": {
+      "get": {
+        "tags": ["Orders"],
+        "summary": "Returns all orders from a user.",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "orders": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "products": {
+                            "type": "array",
+                            "items": {
+                              "$ref": "#/components/schemas/Product"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User not found."
+          },
+          "default": {
+            "description": "Unexpected error."
+          }
+        }
+      },
+      "post": {
+        "tags": ["Orders"],
+        "summary": "Creates a new order.",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "description": "Details of the order.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "products": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/User"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation."
+          },
+          "400": {
+            "description": "User not found."
+          },
+          "default": {
+            "description": "Unexpected error."
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Orders"],
+        "summary": "Deletes all orders from a user.",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation."
+          },
+          "400": {
+            "description": "User not found."
+          },
+          "default": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "/users/{username}/orders/{id}": {
+      "get": {
+        "tags": ["Orders"],
+        "summary": "Returns an order from a user.",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "number"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "products": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Product"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User not found."
+          },
+          "default": {
+            "description": "Unexpected error."
+          }
+        }
+      },
+      "put": {
+        "tags": ["Orders"],
+        "summary": "Updates an order by id.",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "number"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "description": "Details of the order.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "products": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/User"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation."
+          },
+          "400": {
+            "description": "User not found."
+          },
+          "default": {
+            "description": "Unexpected error."
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Orders"],
+        "summary": "Deletes a order by id from a user.",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "number"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation."
+          },
+          "400": {
+            "description": "User not found."
+          },
+          "default": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "/products": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Returns all products.",
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "products": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Product"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error."
+          }
+        }
+      },
+      "post": {
+        "tags": ["Products"],
+        "summary": "Inserts a new product.",
+        "requestBody": {
+          "description": "Details of the new product.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation."
+          },
+          "default": {
+            "description": "Unexpected error."
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Products"],
+        "summary": "Deletes all products.",
+        "responses": {
+          "200": {
+            "description": "Successful operation."
+          },
+          "default": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "/products/{id}": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Returns a single product.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Product not found."
+          },
+          "default": {
+            "description": "Unexpected error."
+          }
+        }
+      },
+      "put": {
+        "tags": ["Products"],
+        "summary": "Updates product by id.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "description": "Details of the new product.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation."
+          },
+          "400": {
+            "description": "Product not found."
+          },
+          "default": {
+            "description": "Unexpected error."
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Products"],
+        "summary": "Deletes product by id.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation."
+          },
+          "400": {
+            "description": "Product not found."
+          },
+          "default": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "/products/{id}/polution": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Returns the polution created from a product.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "polution": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Product"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Product not found."
+          },
+          "default": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "/products/{id}/resources": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Returns the resources used to create a product.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "resources": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Resource"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Product not found."
+          },
+          "default": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "/storages/{id}/products": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Returns all products in a storage.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Storage not found."
+          },
+          "default": {
+            "description": "Unexpected error."
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Products"],
+        "summary": "Deletes all products from a storage.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation."
+          },
+          "400": {
+            "description": "Storage not found."
+          },
+          "default": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "/transports": {
+      "get": {
+        "tags": ["Transports"],
+        "summary": "Returns all transports.",
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "products": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Transport"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error."
+          }
+        }
+      },
+      "post": {
+        "tags": ["Transports"],
+        "summary": "Inserts a new transport.",
+        "requestBody": {
+          "description": "Details of the new transport.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Transport"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation."
+          },
+          "default": {
+            "description": "Unexpected error."
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Transports"],
+        "summary": "Deletes all products.",
+        "responses": {
+          "200": {
+            "description": "Successful operation."
+          },
+          "default": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "/transports/{id}": {
+      "get": {
+        "tags": ["Transports"],
+        "summary": "Returns a single transport.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Transport"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Transport not found."
+          },
+          "default": {
+            "description": "Unexpected error."
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Transports"],
+        "summary": "Deletes transports by registry.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation."
+          },
+          "400": {
+            "description": "Transport not found."
+          },
+          "default": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "/transports/{id}/polution": {
+      "get": {
+        "tags": ["Transports"],
+        "summary": "Returns the polution created from a transport.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "polution": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Resource"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Product not found."
+          },
+          "default": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "/transports/{id}/resources": {
+      "get": {
+        "tags": ["Transports"],
+        "summary": "Returns the resources used to create a transport.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "resources": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Resource"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Product not found."
+          },
+          "default": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Users",
+      "description": "Operations about users"
+    },
+    {
+      "name": "Products",
+      "description": "Access to products"
+    },
+    {
+      "name": "Transports",
+      "description": "Transport management"
+    },
+    {
+      "name": "Orders",
+      "description": "Operations about orders"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "number"
+          },
+          "type": {
+            "type": "string"
+          }
+        }
+      },
+      "Storage": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "owner": {
+            "type": "string",
+            "example": "Owner username"
+          }
+        }
+      },
+      "Transport": {
+        "type": "object",
+        "properties": {
+          "registry": {
+            "type": "string"
+          }
+        }
+      },
+      "Polution": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "number"
+          },
+          "units": {
+            "type": "string"
+          }
+        }
+      },
+      "Resource": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "number"
+          },
+          "units": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
 }

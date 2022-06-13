@@ -1,11 +1,11 @@
 import Category from '~~/server/models/Category';
 export default defineEventHandler(async (event) => {
-	event.res.jsonResponse.context = event.context.params;
+  event.res.jsonResponse.context = event.context.params;
 
-	const { name } = await useBody(event);
+  const { name } = await useBody(event);
 
-	try {
-		/*
+  try {
+    /*
 		await Category.create({
 			name: 'SUPER',
 			description: 'categoria suprema',
@@ -106,10 +106,10 @@ export default defineEventHandler(async (event) => {
 				})
 			]
 		}); */
-	} catch (err) {
-		event.res.jsonResponse.error = {
-			message: err
-		};
-	}
-	return event.res.jsonResponse;
+  } catch (err) {
+    event.res.jsonResponse.error = {
+      message: err
+    };
+  }
+  return event.res.jsonResponse;
 });
