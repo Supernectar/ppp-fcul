@@ -9,8 +9,8 @@
 				<hr class="my-2" />
 				<FormKit type="form" @submit="RegisterUser">
 					<FormKit
-						label="Email address"
 						v-model="email"
+						label="Email address"
 						type="email"
 						help="What email should we use?"
 						validation="required|email|emailIsRegistered"
@@ -29,8 +29,8 @@
 					/>
 
 					<FormKit
-						label="Password"
 						v-model="password"
+						label="Password"
 						type="password"
 						help="Choose an account password"
 						validation="required|length:6|matches:/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/"
@@ -99,9 +99,9 @@
 <script setup>
 import { useUser } from '~/store/user';
 const router = useRouter();
-let email = ref('');
-let password = ref('');
-let terms = ref('');
+const email = ref('');
+const password = ref('');
+const terms = ref('');
 
 async function emailIsRegistered(node) {
 	const res = await $fetch(`/api/users?email=${node.value}`);
@@ -109,7 +109,7 @@ async function emailIsRegistered(node) {
 }
 
 async function RegisterUser() {
-	let username = await generateUsername();
+	const username = await generateUsername();
 	const postReq = await fetch('/api/users', {
 		method: 'POST',
 		headers: {
@@ -117,7 +117,7 @@ async function RegisterUser() {
 		},
 
 		body: JSON.stringify({
-			username: username,
+			username,
 			email: email.value,
 			password: password.value
 		})
@@ -144,12 +144,12 @@ async function RegisterUser() {
 	store.$patch({
 		user: {
 			userId: resJson.data.items[0]._id,
-			username: username,
+			username,
 			email: email.value,
 			password: password.value
 		}
 	});
-	//console.log(store.user.userId);
+	// console.log(store.user.userId);
 
 	alert('User was registered successfully');
 

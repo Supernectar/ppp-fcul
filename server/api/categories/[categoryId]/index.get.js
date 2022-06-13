@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
 	const { categoryId } = event.context.params;
 
 	try {
-		let category = await Category.find({ _id: categoryId });
+		const category = await Category.find({ _id: categoryId });
 		event.res.jsonResponse.context = event.context.params;
 		event.res.jsonResponse.data = {
 			items: category

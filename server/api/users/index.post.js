@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
 		} = await useBody(event);
 
 		try {
-			let user = await User.create({
+			const user = await User.create({
 				username,
 				name,
 				password,

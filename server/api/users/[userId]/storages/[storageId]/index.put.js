@@ -1,14 +1,14 @@
 export default defineEventHandler(async (event) => {
 	event.res.jsonResponse.context = event.context.params;
-	const authHeader = req.headers['authorization'];
+	const authHeader = req.headers.authorization;
 	const token = authHeader && authHeader.split(' ')[1];
 
 	try {
 		const decoded = await jwt.verify(token, 'secretkey');
 
-		let { id } = req.params;
+		const { id } = req.params;
 
-		let storage = await Storage.findById(id);
+		const storage = await Storage.findById(id);
 
 		if (!storage) {
 			res.status = 404;
@@ -18,13 +18,13 @@ export default defineEventHandler(async (event) => {
 				error: 'You must be the owner to change this storage'
 			});
 		} else {
-			let { name, location } = req.body;
+			const { name, location } = req.body;
 
-			let storage = await Storage.updateOne(
+			const storage = await Storage.updateOne(
 				{ _id: id },
 				{
-					name: name,
-					location: location
+					name,
+					location
 				}
 			);
 

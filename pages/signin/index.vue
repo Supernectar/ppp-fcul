@@ -9,8 +9,8 @@
 				<hr class="my-2" />
 				<FormKit type="form" @submit="login">
 					<FormKit
-						label="Email address"
 						v-model="email"
+						label="Email address"
 						type="email"
 						validation="required|email"
 						outer-class="mb-4"
@@ -21,8 +21,8 @@
 					/>
 
 					<FormKit
-						label="Password"
 						v-model="password"
+						label="Password"
 						type="password"
 						validation="required"
 						outer-class="mb-4"
@@ -65,8 +65,8 @@ import { useUser } from '~/store/user';
 const store = useUser();
 
 const router = useRouter();
-let email = ref('');
-let password = ref('');
+const email = ref('');
+const password = ref('');
 
 async function login() {
 	const users = (

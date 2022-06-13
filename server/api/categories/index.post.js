@@ -105,7 +105,7 @@ export default defineEventHandler(async (event) => {
 					]
 				})
 			]
-		});*/
+		}); */
 	} catch (err) {
 		event.res.jsonResponse.error = {
 			message: err

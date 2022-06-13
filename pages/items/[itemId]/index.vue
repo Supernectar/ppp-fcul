@@ -9,7 +9,7 @@
 					<div class="flex justify-start mx-60">
 						<span
 							v-for="(
-								category, i
+								cat, i
 							) in categoryPath"
 							:key="i"
 						>
@@ -20,9 +20,7 @@
 								to="/categories"
 								class="text-blue-600 hover:text-blue-700 transition duration-300 ease-in-out mb-4"
 							>
-								{{
-									category.name
-								}}
+								{{ cat.name }}
 							</NuxtLink>
 						</span>
 					</div>
@@ -58,11 +56,11 @@
 											i,
 											index
 										) in item.attributes"
-										:key="
-											index
-										"
 										:id="
 											i
+										"
+										:key="
+											index
 										"
 									>
 										<p>
@@ -110,13 +108,13 @@
 												product,
 												index
 											) in products"
+											:id="
+												product
+											"
 											:key="
 												index
 											"
 											class="bg-white"
-											:id="
-												product
-											"
 										>
 											<td
 												class="p-8 text-sm text-gray-700 whitespace-nowrap text-center"
@@ -149,13 +147,13 @@
 											</td>
 											<td>
 												<button
+													type="button"
+													class="text-white bg-gradient-to-br from-red-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
 													@click="
 														addToCart(
 															product._id
 														)
 													"
-													type="button"
-													class="text-white bg-gradient-to-br from-red-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
 												>
 													Add
 													to
@@ -178,7 +176,6 @@
 
 <script setup>
 import { useCart } from '~/store/cart';
-console.log(1);
 const store = useCart();
 const route = useRoute();
 // const products = ref("");
@@ -193,21 +190,18 @@ const route = useRoute();
 
 // item: {},
 // products: []
-//http://localhost:3000/items/629dfc18c3c6375a112cf3a2
+// http://localhost:3000/items/629dfc18c3c6375a112cf3a2
 
-let item = ref({});
-let products = ref([]);
+const item = ref({});
+const products = ref([]);
 item.value = (await $fetch('/api/items/' + route.params.itemId)).data.items[0];
-
-console.log(item.value);
 
 products.value = (
 	await $fetch('/api/products?item=' + route.params.itemId)
 ).data.items;
-console.log(products.value);
 
-let category = ref('');
-let categoryPath = ref([]);
+const category = ref('');
+const categoryPath = ref([]);
 category.value = (
 	await $fetch(`/api/categories?_id=${item.value.category}`)
 ).data.items[0];
@@ -226,8 +220,7 @@ categoryPath.value.shift();
 // ---- Local Storage Cart ---- //
 const myCart = ref('');
 
-function addToCart(pid) {
-	console.log(1);
+function addToCart() {
 	myCart.value = {
 		product: 'a',
 		quantity: 1

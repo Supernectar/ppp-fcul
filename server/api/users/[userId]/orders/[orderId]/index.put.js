@@ -6,9 +6,9 @@ export default defineEventHandler(async (event) => {
 	User.updateMany(
 		{ username: id },
 		{
-			status: status,
-			departureDate: departureDate,
-			arrivalDate: arrivalDate
+			status,
+			departureDate,
+			arrivalDate
 		}
 	).then((result) => res.send(result));
 

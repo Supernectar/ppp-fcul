@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
 		const { product, quantity } = await useBody(event);
 
 		try {
-			let cart = await Cart.create({
+			const cart = await Cart.create({
 				product,
 				quantity
 			});

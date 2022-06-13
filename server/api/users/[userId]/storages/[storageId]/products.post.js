@@ -1,16 +1,16 @@
 export default defineEventHandler(async (event) => {
 	event.res.jsonResponse.context = event.context.params;
-	const authHeader = req.headers['authorization'];
+	const authHeader = req.headers.authorization;
 	const token = authHeader && authHeader.split(' ')[1];
 
 	try {
 		const decoded = await jwt.verify(token, 'secretkey');
 
-		let { id } = req.params;
-		let { item, price, unit, quantity } = req.body;
+		const { id } = req.params;
+		const { item, price, unit, quantity } = req.body;
 
-		let storage = await Storage.findById(id);
-		let itm = await Item.findById(item);
+		const storage = await Storage.findById(id);
+		const itm = await Item.findById(item);
 
 		if (!itm) {
 			res.json({ error: 'Item not found' });
@@ -23,14 +23,14 @@ export default defineEventHandler(async (event) => {
 		} else {
 			// Falta verificar se o item que esta a ser inserido existe na lista de produtos do storage, se sim deve retornar um erro
 
-			let product = await Product.create({
-				item: item,
-				price: price,
-				unit: unit,
-				quantity: quantity
+			const product = await Product.create({
+				item,
+				price,
+				unit,
+				quantity
 			});
 
-			let storage = await Storage.updateOne(
+			const storage = await Storage.updateOne(
 				{ _id: id },
 				{
 					$push: { products: product }

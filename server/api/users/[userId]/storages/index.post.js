@@ -7,14 +7,14 @@ export default defineEventHandler(async (event) => {
 	const { userId } = event.context.params;
 
 	try {
-		let storage = await Storage.create({
-			name: name,
-			location: location
+		const storage = await Storage.create({
+			name,
+			location
 		});
 
 		// let b = await User.updateOne({ _id: userId });
 
-		let user = await User.updateOne(
+		const user = await User.updateOne(
 			{ _id: userId },
 			{
 				$push: {

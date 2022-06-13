@@ -5,7 +5,7 @@
 		"dev": "nuxt dev",
 		"generate": "nuxt generate",
 		"preview": "nuxt preview",
-		"lintfix": "prettier --write --list-different . && eslint --ext \".js,.vue\" --ignore-path .gitignore ."
+		"lintfix": "prettier --write  --list-different . && eslint --fix --ext \".js,.vue\" --ignore-path .gitignore ."
 	},
 	"devDependencies": {
 		"@nuxtjs/eslint-config-typescript": "^10.0.0",
@@ -21,7 +21,6 @@
 	},
 	"dependencies": {
 		"@formkit/nuxt": "^1.0.0-beta.8",
-		"@formkit/vue": "^1.0.0-beta.8",
 		"@headlessui/vue": "^1.6.1",
 		"@heroicons/vue": "^1.0.6",
 		"@pinia/nuxt": "^0.1.9",

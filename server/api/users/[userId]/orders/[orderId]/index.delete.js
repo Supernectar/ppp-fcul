@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
 	event.res.jsonResponse.context = event.context.params;
 	try {
 		const { userId, orderId } = event.context.params;
-		let order = await User.updateOne(
+		const order = await User.updateOne(
 			{ _id: userId },
 			{
 				$pull: {
@@ -13,9 +13,9 @@ export default defineEventHandler(async (event) => {
 				}
 			}
 		);
-		/*let order = await Order.deleteMany({
+		/* let order = await Order.deleteMany({
 			_id: orderId
-		});*/
+		}); */
 		event.res.jsonResponse.context = event.context.params;
 		event.res.jsonResponse.data = {
 			items: order

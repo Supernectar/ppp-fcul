@@ -4,7 +4,7 @@ export default defineEventHandler(async (event) => {
 	event.res.jsonResponse.context = event.context.params;
 	try {
 		const { itemId } = event.context.params;
-		let item = await Item.find({ _id: itemId });
+		const item = await Item.find({ _id: itemId });
 		event.res.jsonResponse.context = event.context.params;
 		event.res.jsonResponse.data = {
 			items: item

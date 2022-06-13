@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
 		} = await useBody(event);
 
 		try {
-			let order = await Order.create({
+			const order = await Order.create({
 				numberItems,
 				price,
 				status,

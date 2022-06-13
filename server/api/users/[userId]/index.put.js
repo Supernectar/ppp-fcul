@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
 	// 	};
 	// } else {
 	try {
-		let user = await User.updateOne(
+		const user = await User.updateOne(
 			{ _id: userId },
 			{
 				name,

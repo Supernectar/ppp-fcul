@@ -1,7 +1,7 @@
 export default defineEventHandler(async (event) => {
 	event.res.jsonResponse.context = event.context.params;
 	try {
-		const authHeader = req.headers['authorization'];
+		const authHeader = req.headers.authorization;
 		const token = authHeader && authHeader.split(' ')[1];
 		decoded = jwt.decode(token, 'secretkey');
 
@@ -11,7 +11,7 @@ export default defineEventHandler(async (event) => {
 				error: 'You must be the owner to change this profile'
 			});
 		} else {
-			let user = await User.deleteMany({ _id: id });
+			const user = await User.deleteMany({ _id: id });
 			res.json(user);
 		}
 	} catch (err) {

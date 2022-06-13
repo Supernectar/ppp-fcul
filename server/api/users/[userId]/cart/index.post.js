@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
 		} = await useBody(event);
 
 		try {
-			let user = await Cart.create({
+			const user = await Cart.create({
 				username,
 				name,
 				password,

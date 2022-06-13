@@ -1,305 +1,202 @@
 <template>
-	<div class="bg-light-100 rounded p-2 shadow">
-		<div class="flex justify-center">
-			<img
-				:src="
-					'https://ui-avatars.com/api/?format=svg&color=' +
-					textColor.replace('#', '') +
-					'&background=' +
-					bgColor.replace('#', '') +
-					'&name=' +
-					useUser().user.username
-				"
-				class="w-60 rounded-full border"
-				alt=""
-			/>
+	<div class="bg-light-100 p-2 w-60">
+		<div>
+			<ul>
+				<li>
+					<NuxtLink
+						to="/profile"
+						class="text-gray-900 flex items-center rounded-md p-2 my-2 hover:(bg-black bg-opacity-5)"
+					>
+						<img
+							:src="
+								'https://ui-avatars.com/api/?format=svg&color=' +
+								textColor.replace(
+									'#',
+									''
+								) +
+								'&background=' +
+								bgColor.replace(
+									'#',
+									''
+								) +
+								'&name=' +
+								useUser().user
+									.username
+							"
+							class="w-6 mr-2 rounded-full border"
+							alt=""
+						/>
+						{{ useUser().user.username }}
+					</NuxtLink>
+				</li>
+				<li>
+					<Listbox
+						v-model="selectedRole"
+						class="my-2"
+					>
+						<div class="relative">
+							<ListboxButton
+								class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
+							>
+								<span
+									class="block truncate"
+									>{{
+										selectedRole
+									}}</span
+								>
+								<span
+									class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
+								>
+									<SelectorIcon
+										class="h-5 w-5 text-gray-400"
+										aria-hidden="true"
+									/>
+								</span>
+							</ListboxButton>
+
+							<transition
+								leave-active-class="transition duration-100 ease-in"
+								leave-from-class="opacity-100"
+								leave-to-class="opacity-0"
+							>
+								<ListboxOptions
+									class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+								>
+									<ListboxOption
+										v-for="(
+											role,
+											index
+										) in roles"
+										v-slot="{
+											active,
+											selected
+										}"
+										:key="
+											index
+										"
+										:value="
+											role
+										"
+										as="template"
+									>
+										<li
+											:class="[
+												active
+													? 'bg-amber-100 text-amber-900'
+													: 'text-gray-900',
+												'relative cursor-default select-none py-2 pl-10 pr-4'
+											]"
+										>
+											<span
+												:class="[
+													selected
+														? 'font-medium'
+														: 'font-normal',
+													'block truncate'
+												]"
+												>{{
+													role
+												}}</span
+											>
+											<span
+												v-if="
+													selected
+												"
+												class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"
+											>
+												<CheckIcon
+													class="h-5 w-5"
+													aria-hidden="true"
+												/>
+											</span>
+										</li>
+									</ListboxOption>
+								</ListboxOptions>
+							</transition>
+						</div>
+					</Listbox>
+				</li>
+			</ul>
 		</div>
+		<hr class="my-2" />
+		<div>
+			<ul>
+				<li>
+					<NuxtLink
+						to="/profile"
+						class="text-gray-900 flex items-center rounded-md p-2 my-2 hover:(bg-black bg-opacity-5)"
+						active-class="bg-black bg-opacity-5"
+					>
+						<TemplateIcon
+							class="mr-2 h-6 text-green-400"
+							aria-hidden="true"
+						/>
+						Dashboard
+					</NuxtLink>
+				</li>
+
+				<li>
+					<NuxtLink
+						to="/profile/edit"
+						active-class="bg-black bg-opacity-10"
+						class="text-gray-900 group flex w-full items-center rounded-md px-2 py-2 text-sm hover:(bg-black bg-opacity-5)"
+					>
+						<UserIcon
+							class="mr-2 h-5 w-5 text-violet-400"
+							aria-hidden="true"
+						/>
+						My Personal Information
+					</NuxtLink>
+				</li>
+				<li>
+					<NuxtLink
+						to="/profile/notifications"
+						active-class="bg-black bg-opacity-10"
+						class="text-gray-900 group flex w-full items-center rounded-md px-2 py-2 mt-2 text-sm hover:(bg-black bg-opacity-5)"
+					>
+						<BellIcon
+							class="mr-2 h-5 w-5 text-violet-400"
+							aria-hidden="true"
+						/>
+						Notifications
+					</NuxtLink>
+				</li>
+			</ul>
+		</div>
+
 		<div>
 			<input
+				id="backgroundColor"
 				v-model="bgColor"
 				type="color"
-				id="backgroundColor"
 				name="backgroundColor"
 			/>
 			<label for="colorPalette">Background color</label>
 		</div>
 		<div>
 			<input
+				id="textColor"
 				v-model="textColor"
 				type="color"
-				id="textColor"
 				name="textColor"
 			/>
 			<label for="textColor">Text color</label>
 		</div>
 		<ul>
-			<li>
-				<Listbox v-model="selectedRole">
-					<div class="relative mt-1">
-						<ListboxButton
-							class="
-								relative
-								w-full
-								cursor-default
-								rounded-lg
-								bg-white
-								py-2
-								pl-3
-								pr-10
-								text-left
-								shadow-md
-								focus:outline-none
-								focus-visible:border-indigo-500
-								focus-visible:ring-2
-								focus-visible:ring-white
-								focus-visible:ring-opacity-75
-								focus-visible:ring-offset-2
-								focus-visible:ring-offset-orange-300
-								sm:text-sm
-							"
-						>
-							<span
-								class="
-									block
-									truncate
-								"
-								>{{
-									selectedRole
-								}}</span
-							>
-							<span
-								class="
-									pointer-events-none
-									absolute
-									inset-y-0
-									right-0
-									flex
-									items-center
-									pr-2
-								"
-							>
-								<SelectorIcon
-									class="
-										h-5
-										w-5
-										text-gray-400
-									"
-									aria-hidden="true"
-								/>
-							</span>
-						</ListboxButton>
-
-						<transition
-							leave-active-class="transition duration-100 ease-in"
-							leave-from-class="opacity-100"
-							leave-to-class="opacity-0"
-						>
-							<ListboxOptions
-								class="
-									absolute
-									mt-1
-									max-h-60
-									w-full
-									overflow-auto
-									rounded-md
-									bg-white
-									py-1
-									text-base
-									shadow-lg
-									ring-1
-									ring-black
-									ring-opacity-5
-									focus:outline-none
-									sm:text-sm
-								"
-							>
-								<ListboxOption
-									v-slot="{
-										active,
-										selected
-									}"
-									v-for="(
-										role,
-										index
-									) in roles"
-									:key="
-										index
-									"
-									:value="
-										role
-									"
-									as="template"
-								>
-									<li
-										:class="[
-											active
-												? 'bg-amber-100 text-amber-900'
-												: 'text-gray-900',
-											'relative cursor-default select-none py-2 pl-10 pr-4'
-										]"
-									>
-										<span
-											:class="[
-												selected
-													? 'font-medium'
-													: 'font-normal',
-												'block truncate'
-											]"
-											>{{
-												role
-											}}</span
-										>
-										<span
-											v-if="
-												selected
-											"
-											class="
-												absolute
-												inset-y-0
-												left-0
-												flex
-												items-center
-												pl-3
-												text-amber-600
-											"
-										>
-											<CheckIcon
-												class="
-													h-5
-													w-5
-												"
-												aria-hidden="true"
-											/>
-										</span>
-									</li>
-								</ListboxOption>
-							</ListboxOptions>
-						</transition>
-					</div>
-				</Listbox>
-			</li>
+			<li></li>
 		</ul>
 		<hr class="my-2" />
-		<ul>
-			<li class="mt-2">
-				<NuxtLink
-					to="/profile"
-					active-class="bg-black bg-opacity-10"
-					class="
-						text-gray-900
-						group
-						flex
-						w-full
-						items-center
-						rounded-md
-						px-2
-						py-2
-						text-sm
-						hover:(bg-black
-						bg-opacity-5)
-					"
-				>
-					<ArchiveIcon
-						class="
-							mr-2
-							h-5
-							w-5
-							text-violet-400
-						"
-						aria-hidden="true"
-					/>
-					My Account
-				</NuxtLink>
-			</li>
-
-			<li class="mt-2">
-				<NuxtLink
-					to="/profile/edit"
-					active-class="bg-black bg-opacity-10"
-					class="
-						text-gray-900
-						group
-						flex
-						w-full
-						items-center
-						rounded-md
-						px-2
-						py-2
-						text-sm
-						hover:(bg-black
-						bg-opacity-5)
-					"
-				>
-					<UserIcon
-						class="
-							mr-2
-							h-5
-							w-5
-							text-violet-400
-						"
-						aria-hidden="true"
-					/>
-					My Personal Information
-				</NuxtLink>
-			</li>
-			<li class="mt-2">
-				<NuxtLink
-					to="/profile/notifications"
-					active-class="bg-black bg-opacity-10"
-					class="
-						text-gray-900
-						group
-						flex
-						w-full
-						items-center
-						rounded-md
-						px-2
-						py-2
-						text-sm
-						hover:(bg-black
-						bg-opacity-5)
-					"
-				>
-					<BellIcon
-						class="
-							mr-2
-							h-5
-							w-5
-							text-violet-400
-						"
-						aria-hidden="true"
-					/>
-					Notifications
-				</NuxtLink>
-			</li>
-		</ul>
+		<ul></ul>
 		<hr class="my-2" />
 		<ul v-if="selectedRole === roles[0]">
 			<li class="mt-2">
 				<NuxtLink
 					to="/profile/consumer/orders"
 					active-class="bg-black bg-opacity-10"
-					class="
-						text-gray-900
-						group
-						flex
-						w-full
-						items-center
-						rounded-md
-						px-2
-						py-2
-						text-sm
-						hover:(bg-black
-						bg-opacity-5)
-					"
+					class="text-gray-900 group flex w-full items-center rounded-md px-2 py-2 text-sm hover:(bg-black bg-opacity-5)"
 				>
 					<BookOpenIcon
-						class="
-							mr-2
-							h-5
-							w-5
-							text-violet-400
-						"
+						class="mr-2 h-5 w-5 text-violet-400"
 						aria-hidden="true"
 					/>
 					My Orders
@@ -309,27 +206,10 @@
 				<NuxtLink
 					to="/profile/consumer/wishlist"
 					active-class="bg-black bg-opacity-10"
-					class="
-						text-gray-900
-						group
-						flex
-						w-full
-						items-center
-						rounded-md
-						px-2
-						py-2
-						text-sm
-						hover:(bg-black
-						bg-opacity-5)
-					"
+					class="text-gray-900 group flex w-full items-center rounded-md px-2 py-2 text-sm hover:(bg-black bg-opacity-5)"
 				>
 					<HeartIcon
-						class="
-							mr-2
-							h-5
-							w-5
-							text-violet-400
-						"
+						class="mr-2 h-5 w-5 text-violet-400"
 						aria-hidden="true"
 					/>
 					Wishlist
@@ -341,27 +221,10 @@
 				<NuxtLink
 					to="/profile/supplier/storages"
 					active-class="bg-black bg-opacity-10"
-					class="
-						text-gray-900
-						group
-						flex
-						w-full
-						items-center
-						rounded-md
-						px-2
-						py-2
-						text-sm
-						hover:(bg-black
-						bg-opacity-5)
-					"
+					class="text-gray-900 group flex w-full items-center rounded-md px-2 py-2 text-sm hover:(bg-black bg-opacity-5)"
 				>
 					<UserIcon
-						class="
-							mr-2
-							h-5
-							w-5
-							text-violet-400
-						"
+						class="mr-2 h-5 w-5 text-violet-400"
 						aria-hidden="true"
 					/>
 					My Storages
@@ -371,27 +234,10 @@
 				<NuxtLink
 					to="/profile/orders"
 					active-class="bg-black bg-opacity-10"
-					class="
-						text-gray-900
-						group
-						flex
-						w-full
-						items-center
-						rounded-md
-						px-2
-						py-2
-						text-sm
-						hover:(bg-black
-						bg-opacity-5)
-					"
+					class="text-gray-900 group flex w-full items-center rounded-md px-2 py-2 text-sm hover:(bg-black bg-opacity-5)"
 				>
 					<BookOpenIcon
-						class="
-							mr-2
-							h-5
-							w-5
-							text-violet-400
-						"
+						class="mr-2 h-5 w-5 text-violet-400"
 						aria-hidden="true"
 					/>
 					Orders
@@ -403,27 +249,10 @@
 				<NuxtLink
 					to="/profile/myTransports"
 					active-class="bg-black bg-opacity-10"
-					class="
-						text-gray-900
-						group
-						flex
-						w-full
-						items-center
-						rounded-md
-						px-2
-						py-2
-						text-sm
-						hover:(bg-black
-						bg-opacity-5)
-					"
+					class="text-gray-900 group flex w-full items-center rounded-md px-2 py-2 text-sm hover:(bg-black bg-opacity-5)"
 				>
 					<TruckIcon
-						class="
-							mr-2
-							h-5
-							w-5
-							text-violet-400
-						"
+						class="mr-2 h-5 w-5 text-violet-400"
 						aria-hidden="true"
 					/>
 					My Tranports
@@ -433,27 +262,10 @@
 				<NuxtLink
 					to="/profile/orders"
 					active-class="bg-black bg-opacity-10"
-					class="
-						text-gray-900
-						group
-						flex
-						w-full
-						items-center
-						rounded-md
-						px-2
-						py-2
-						text-sm
-						hover:(bg-black
-						bg-opacity-5)
-					"
+					class="text-gray-900 group flex w-full items-center rounded-md px-2 py-2 text-sm hover:(bg-black bg-opacity-5)"
 				>
 					<BookOpenIcon
-						class="
-							mr-2
-							h-5
-							w-5
-							text-violet-400
-						"
+						class="mr-2 h-5 w-5 text-violet-400"
 						aria-hidden="true"
 					/>
 					Deliveries
@@ -465,7 +277,7 @@
 
 <script setup>
 import {
-	ArchiveIcon,
+	TemplateIcon,
 	UserIcon,
 	BookOpenIcon,
 	BellIcon,
@@ -496,6 +308,6 @@ watch(selectedRole, () => {
 	});
 });
 
-let bgColor = ref('#000000');
-let textColor = ref('#ffffff');
+const bgColor = ref('#000000');
+const textColor = ref('#ffffff');
 </script>

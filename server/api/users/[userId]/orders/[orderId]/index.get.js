@@ -4,7 +4,7 @@ export default defineEventHandler(async (event) => {
 	event.res.jsonResponse.context = event.context.params;
 	try {
 		const { userId, orderId } = event.context.params;
-		let order = await Order.find({
+		const order = await Order.find({
 			_id: orderId,
 			consumer: userId
 		});

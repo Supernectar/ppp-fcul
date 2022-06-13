@@ -17,18 +17,18 @@ export default defineEventHandler(async (event) => {
 	} = await useBody(event);
 
 	try {
-		let result = Item.create({
-			id: id,
-			name: name,
-			//type: type,
-			//subtype: subtype,
-			brand: brand,
-			description: description,
-			producer: producer,
-			exp_date: exp_date,
-			polution: polution,
-			resource: resource,
-			category: category
+		const result = Item.create({
+			id,
+			name,
+			// type: type,
+			// subtype: subtype,
+			brand,
+			description,
+			producer,
+			exp_date,
+			polution,
+			resource,
+			category
 		});
 	} catch (err) {
 		event.res.jsonResponse.error = {

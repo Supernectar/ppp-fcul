@@ -1,6 +1,6 @@
-import Category from '~~/server/models/Category';
 import Item from '../models/Item';
 import Product from '../models/Product';
+import Category from '~~/server/models/Category';
 import sampleCategories from '~~/server/utils/scripts/categories';
 import sampleItems from '~~/server/utils/scripts/items';
 import sampleProducts from '~~/server/utils/scripts/products';
@@ -12,12 +12,14 @@ export default defineEventHandler(async (event) => {
 
 	// Categories
 	for (const category of sampleCategories) {
-		let { parent, ...processedCategory } = category;
+		const { parent, ...processedCategory } = category;
 		await Category.create(processedCategory);
 	}
 	for (const category of sampleCategories) {
-		let current = await Category.findOne({ name: category.name });
-		let parent = await Category.findOne({ name: category.parent });
+		const current = await Category.findOne({ name: category.name });
+		const parent = await Category.findOne({
+			name: category.parent
+		});
 		if (parent) {
 			try {
 				await Category.updateOne(current, { parent });

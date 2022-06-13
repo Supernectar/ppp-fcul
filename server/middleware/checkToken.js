@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 
 export default defineEventHandler(async (event) => {
-	//Middleware executed for server routes only
+	// Middleware executed for server routes only
 	const url = event.req.url;
 
 	if (url[1] === 'api') {

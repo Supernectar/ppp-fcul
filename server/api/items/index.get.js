@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
 
 	const items = await Item.find(params);
 	event.res.jsonResponse.data = {
-		items: items
+		items
 	};
 	return event.res.jsonResponse;
 });

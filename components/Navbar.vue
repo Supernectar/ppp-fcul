@@ -9,56 +9,27 @@
 						alt=""
 					/>
 					<span
-						class="
-							font-semibold
-							px-2
-							hidden
-							md:inline-block
-						"
+						class="font-semibold px-2 hidden md:inline-block"
 						>ClearChoice</span
 					>
 				</NuxtLink>
 			</div>
 
 			<form
+				class="text-center invisible md:(!visible col-span-5)"
 				@submit.prevent
-				class="
-					text-center
-					invisible
-					md:(!visible
-					col-span-5)
-				"
 			>
 				<label
 					for="default-search1"
-					class="
-						mb-2
-						text-sm
-						font-medium
-						text-gray-900
-						sr-only
-					"
+					class="mb-2 text-sm font-medium text-gray-900 sr-only"
 					>Search</label
 				>
 				<div class="relative">
 					<div
-						class="
-							flex
-							absolute
-							inset-y-0
-							left-0
-							items-center
-							pl-3
-							pointer-events-none
-						"
+						class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none"
 					>
 						<svg
-							class="
-								w-5
-								h-5
-								text-gray-500
-								dark:text-gray-400
-							"
+							class="w-5 h-5 text-gray-500 dark:text-gray-400"
 							fill="none"
 							stroke="currentColor"
 							viewBox="0 0 24 24"
@@ -73,42 +44,16 @@
 						</svg>
 					</div>
 					<input
-						type="search"
 						id="default-search1"
-						class="
-							block
-							!p-4
-							!pl-10
-							w-full
-							text-sm text-gray-900
-							bg-gray-50
-							rounded-lg
-							border border-gray-300
-							focus:ring-blue-500
-							focus:border-blue-500
-						"
+						type="search"
+						class="block !p-4 !pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
 						placeholder="Search Products (name, category, ...)"
 						required
 					/>
 					<NuxtLink to="/items">
 						<button
 							type="submit"
-							class="
-								text-white
-								absolute
-								right-2.5
-								bottom-2.5
-								bg-blue-700
-								hover:bg-blue-800
-								focus:ring-4
-								focus:outline-none
-								focus:ring-blue-300
-								font-medium
-								rounded-lg
-								text-sm
-								px-4
-								py-2
-							"
+							class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
 						>
 							Search
 						</button>
@@ -122,32 +67,7 @@
 					<NuxtLink to="/signup">
 						<button
 							type="button"
-							class="
-								mr-4
-								inline-block
-								px-6
-								py-2
-								border-2
-								bg-blue-600
-								text-white
-								font-medium
-								text-xs
-								leading-tight
-								uppercase
-								rounded
-								shadow-md
-								hover:bg-blue-700
-								hover:shadow-lg
-								focus:bg-blue-700
-								focus:shadow-lg
-								focus:outline-none
-								focus:ring-0
-								active:bg-blue-800
-								active:shadow-lg
-								transition
-								duration-150
-								ease-in-out
-							"
+							class="mr-4 inline-block px-6 py-2 border-2 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
 						>
 							Sign Up
 						</button>
@@ -155,26 +75,7 @@
 					<NuxtLink to="/signin">
 						<button
 							type="button"
-							class="
-								inline-block
-								px-6
-								py-2
-								border-2
-								border-blue-600
-								text-blue-600
-								font-medium
-								text-xs
-								leading-tight
-								uppercase
-								rounded
-								hover:bg-black
-								hover:bg-opacity-5
-								focus:outline-none
-								focus:ring-0
-								transition
-								duration-150
-								ease-in-out
-							"
+							class="inline-block px-6 py-2 border-2 border-blue-600 text-blue-600 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
 						>
 							Sign In
 						</button>
@@ -186,30 +87,13 @@
 					class="block md:hidden relative"
 				>
 					<PopoverButton
-						@click="toggleSearch"
 						:class="
 							open
 								? ''
 								: 'text-opacity-90'
 						"
-						class="
-							inline-flex
-							text-gray-500
-							w-full
-							justify-center
-							items-center
-							rounded-md
-							hover:(!bg-black
-							!bg-opacity-5)
-							px-2
-							py-2
-							text-sm
-							font-medium
-							focus:outline-none
-							focus-visible:ring-2
-							focus-visible:ring-white
-							focus-visible:ring-opacity-75
-						"
+						class="inline-flex text-gray-500 w-full justify-center items-center rounded-md hover:(!bg-black !bg-opacity-5) px-2 py-2 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+						@click="toggleSearch"
 					>
 						<SearchIcon
 							class="h-6 w-6"
@@ -231,24 +115,7 @@
 								? ''
 								: 'text-opacity-90'
 						"
-						class="
-							inline-flex
-							text-gray-500
-							w-full
-							justify-center
-							items-center
-							rounded-md
-							hover:(!bg-black
-							!bg-opacity-5)
-							px-2
-							py-2
-							text-sm
-							font-medium
-							focus:outline-none
-							focus-visible:ring-2
-							focus-visible:ring-white
-							focus-visible:ring-opacity-75
-						"
+						class="inline-flex text-gray-500 w-full justify-center items-center rounded-md hover:(!bg-black !bg-opacity-5) px-2 py-2 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
 					>
 						<BellIcon
 							class="h-6 w-6"
@@ -269,26 +136,10 @@
 						leave-to-class="translate-y-1 opacity-0"
 					>
 						<PopoverPanel
-							class="
-								absolute
-								right-0
-								mt-2
-								z-50
-								origin-top-right
-								rounded-md
-								bg-white
-								shadow-lg
-								focus:outline-none
-							"
+							class="absolute right-0 mt-2 z-50 origin-top-right rounded-md bg-white shadow-lg focus:outline-none"
 						>
 							<div
-								class="
-									overflow-hidden
-									rounded-lg
-									shadow-lg
-									ring-1
-									bg-white
-								"
+								class="overflow-hidden rounded-lg shadow-lg ring-1 bg-white"
 							></div>
 							Hello
 						</PopoverPanel>
@@ -304,24 +155,7 @@
 								? ''
 								: 'text-opacity-90'
 						"
-						class="
-							inline-flex
-							text-gray-500
-							w-full
-							justify-center
-							items-center
-							rounded-md
-							hover:(!bg-black
-							!bg-opacity-5)
-							px-2
-							py-2
-							text-sm
-							font-medium
-							focus:outline-none
-							focus-visible:ring-2
-							focus-visible:ring-white
-							focus-visible:ring-opacity-75
-						"
+						class="inline-flex text-gray-500 w-full justify-center items-center rounded-md hover:(!bg-black !bg-opacity-5) px-2 py-2 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
 					>
 						<ShoppingCartIcon
 							class="h-6 w-6"
@@ -342,86 +176,43 @@
 						leave-to-class="translate-y-1 opacity-0"
 					>
 						<PopoverPanel
-							class="
-								absolute
-								right-0
-								mt-2
-								z-50
-								origin-top-right
-								rounded-md
-								bg-white
-								shadow-lg
-								ring-1
-								ring-black
-								ring-opacity-5
-								focus:outline-none
-							"
+							class="absolute right-0 mt-2 z-50 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
 						>
 							<div
-								class="
-									overflow-hidden
-									rounded-lg
-									shadow-lg
-									ring-1
-									bg-white
-								"
+								class="overflow-hidden rounded-lg shadow-lg ring-1 bg-white"
 							>
 								<table
-									class="
-										w-full
-										text-sm
-										text-left
-										text-gray-500
-									"
+									class="w-full text-sm text-left text-gray-500"
 								>
 									<thead
-										class="
-											text-xs
-											text-gray-700
-											uppercase
-											bg-gray-50
-										"
+										class="text-xs text-gray-700 uppercase bg-gray-50"
 									>
 										<tr>
 											<th
 												scope="col"
-												class="
-													px-2
-													py-3
-												"
+												class="px-2 py-3"
 											>
 												Product
 												name
 											</th>
 											<th
 												scope="col"
-												class="
-													px-2
-													py-3
-												"
+												class="px-2 py-3"
 											>
 												Price
 											</th>
 											<th
 												scope="col"
-												class="
-													px-2
-													py-3
-												"
+												class="px-2 py-3"
 											>
 												Amount
 											</th>
 											<th
 												scope="col"
-												class="
-													px-2
-													py-3
-												"
+												class="px-2 py-3"
 											>
 												<span
-													class="
-														sr-only
-													"
+													class="sr-only"
 													>Edit</span
 												>
 											</th>
@@ -429,21 +220,11 @@
 									</thead>
 									<tbody>
 										<tr
-											class="
-												bg-white
-												border-b
-												hover:bg-gray-50
-											"
+											class="bg-white border-b hover:bg-gray-50"
 										>
 											<th
 												scope="row"
-												class="
-													px-2
-													py-4
-													font-medium
-													text-gray-900
-													whitespace-nowrap
-												"
+												class="px-2 py-4 font-medium text-gray-900 whitespace-nowrap"
 											>
 												Apple
 												MacBook
@@ -451,108 +232,66 @@
 												17"
 											</th>
 											<td
-												class="
-													px-2
-													py-4
-												"
+												class="px-2 py-4"
 											>
 												$2999
 											</td>
 											<td
-												class="
-													px-2
-													py-4
-												"
+												class="px-2 py-4"
 											>
 												<input
-													class="
-														w-16
-													"
+													id=""
+													class="w-16"
 													type="number"
 													min="0"
 													name=""
-													id=""
 													value="3"
 												/>
 											</td>
 											<td
-												class="
-													px-2
-													py-4
-													text-right
-												"
+												class="px-2 py-4 text-right"
 											>
 												<a
 													href="#"
-													class="
-														font-medium
-														text-blue-600
-														hover:underline
-													"
+													class="font-medium text-blue-600 hover:underline"
 													>Edit</a
 												>
 											</td>
 										</tr>
 										<tr
-											class="
-												bg-white
-												border-b
-												hover:bg-gray-50
-											"
+											class="bg-white border-b hover:bg-gray-50"
 										>
 											<th
 												scope="row"
-												class="
-													px-2
-													py-4
-													font-medium
-													text-gray-900
-													whitespace-nowrap
-												"
+												class="px-2 py-4 font-medium text-gray-900 whitespace-nowrap"
 											>
 												Microsoft
 												Surface
 												Pro
 											</th>
 											<td
-												class="
-													px-2
-													py-4
-												"
+												class="px-2 py-4"
 											>
 												$1999
 											</td>
 											<td
-												class="
-													px-2
-													py-4
-												"
+												class="px-2 py-4"
 											>
 												<input
-													class="
-														w-16
-													"
+													id=""
+													class="w-16"
 													type="number"
 													min="0"
 													name=""
-													id=""
 													value="2"
 												/>
 											</td>
 											<td
-												class="
-													px-2
-													py-4
-													text-right
-												"
+												class="px-2 py-4 text-right"
 											>
 												<a
 													href="#"
-													class="
-														font-medium
-														text-blue-600
-														hover:underline
-													"
+													class="font-medium text-blue-600 hover:underline"
 													>Edit</a
 												>
 											</td>
@@ -560,25 +299,13 @@
 									</tbody>
 								</table>
 								<div
-									class="
-										flex
-										justify-evenly
-										p-2
-									"
+									class="flex justify-evenly p-2"
 								>
 									<NuxtLink
 										to="/cart"
 									>
 										<button
-											class="
-												bg-blue-500
-												hover:bg-blue-700
-												text-white
-												font-bold
-												py-2
-												px-4
-												rounded
-											"
+											class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
 										>
 											See
 											more
@@ -588,15 +315,7 @@
 										to="#"
 									>
 										<button
-											class="
-												bg-blue-500
-												hover:bg-blue-700
-												text-white
-												font-bold
-												py-2
-												px-4
-												rounded
-											"
+											class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
 										>
 											Finish
 											order
@@ -610,22 +329,10 @@
 
 				<div
 					id="dropdownCart"
-					class="
-						z-10
-						hidden
-						bg-white
-						divide-y divide-gray-100
-						rounded
-						shadow
-					"
+					class="z-10 hidden bg-white divide-y divide-gray-100 rounded shadow"
 				>
 					<div
-						class="
-							relative
-							overflow-x-auto
-							shadow-md
-							sm:rounded-lg
-						"
+						class="relative overflow-x-auto shadow-md sm:rounded-lg"
 					></div>
 				</div>
 
@@ -633,47 +340,19 @@
 				<div v-if="logged" class="top-16 text-right">
 					<Menu
 						as="div"
-						class="
-							relative
-							inline-block
-							text-left
-						"
+						class="relative inline-block text-left"
 					>
 						<div>
 							<MenuButton
-								class="
-									inline-flex
-									text-gray-500
-									w-full
-									justify-center
-									items-center
-									rounded-md
-									hover:(!bg-black
-									!bg-opacity-5)
-									px-2
-									py-2
-									text-sm
-									font-medium
-									focus:outline-none
-									focus-visible:ring-2
-									focus-visible:ring-white
-									focus-visible:ring-opacity-75
-								"
+								class="inline-flex text-gray-500 w-full justify-center items-center rounded-md hover:(!bg-black !bg-opacity-5) px-2 py-2 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
 							>
 								<img
-									class="
-										w-6
-										h-6
-										rounded-full
-									"
+									class="w-6 h-6 rounded-full"
 									:src="'https://ui-avatars.com/api/?format=svg'"
 									alt="Rounded avatar"
 								/>
 								<ChevronDownIcon
-									class="
-										h-4
-										w-4
-									"
+									class="h-4 w-4"
 									aria-hidden="true"
 								/>
 							</MenuButton>
@@ -688,45 +367,16 @@
 							leave-to-class="transform scale-95 opacity-0"
 						>
 							<MenuItems
-								class="
-									absolute
-									right-0
-									mt-2
-									z-50
-									w-56
-									origin-top-right
-									divide-y
-									divide-gray-100
-									rounded-md
-									bg-white
-									shadow-lg
-									ring-1
-									ring-black
-									ring-opacity-5
-									focus:outline-none
-								"
+								class="absolute right-0 mt-2 z-50 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
 							>
 								<div
-									class="
-										px-1
-										py-1
-									"
+									class="px-1 py-1"
 								>
 									<div
-										class="
-											group
-											w-full
-											rounded-md
-											px-2
-											py-2
-											text-sm
-										"
+										class="group w-full rounded-md px-2 py-2 text-sm"
 									>
 										<div
-											class="
-												flex
-												items-center
-											"
+											class="flex items-center"
 										>
 											{{
 												store
@@ -735,11 +385,7 @@
 											}}
 										</div>
 										<div
-											class="
-												flex
-												items-center
-												font-semibold
-											"
+											class="flex items-center font-semibold"
 										>
 											{{
 												store
@@ -770,10 +416,7 @@
                   </MenuItem>
                 </div> -->
 								<div
-									class="
-										px-1
-										py-1
-									"
+									class="px-1 py-1"
 								>
 									<MenuItem
 										v-slot="{
@@ -795,12 +438,7 @@
 													:active="
 														active
 													"
-													class="
-														mr-2
-														h-5
-														w-5
-														text-violet-400
-													"
+													class="mr-2 h-5 w-5 text-violet-400"
 													aria-hidden="true"
 												/>
 												Profile
@@ -824,12 +462,7 @@
 												:active="
 													active
 												"
-												class="
-													mr-2
-													h-5
-													w-5
-													text-violet-400
-												"
+												class="mr-2 h-5 w-5 text-violet-400"
 												aria-hidden="true"
 											/>
 											Settings
@@ -838,10 +471,7 @@
 								</div>
 
 								<div
-									class="
-										px-1
-										py-1
-									"
+									class="px-1 py-1"
 								>
 									<MenuItem
 										v-slot="{
@@ -849,26 +479,21 @@
 										}"
 									>
 										<button
-											@click="
-												signOut
-											"
 											:class="[
 												active
 													? '!bg-black !bg-opacity-5'
 													: 'text-gray-900',
 												'group flex w-full items-center rounded-md px-2 py-2 text-sm'
 											]"
+											@click="
+												signOut
+											"
 										>
 											<LogoutIcon
 												:active="
 													active
 												"
-												class="
-													mr-2
-													h-5
-													w-5
-													text-violet-400
-												"
+												class="mr-2 h-5 w-5 text-violet-400"
 												aria-hidden="true"
 											/>
 											Sign
@@ -890,37 +515,18 @@
 			id="dropdownMobileSearch"
 			class="pt-4 z-10 hidden md:hidden bg-white rounded"
 		>
-			<form @submit.prevent class="text-center">
+			<form class="text-center" @submit.prevent>
 				<label
 					for="default-search1"
-					class="
-						mb-2
-						text-sm
-						font-medium
-						text-gray-900
-						sr-only
-					"
+					class="mb-2 text-sm font-medium text-gray-900 sr-only"
 					>Search</label
 				>
 				<div class="relative">
 					<div
-						class="
-							flex
-							absolute
-							inset-y-0
-							left-0
-							items-center
-							pl-3
-							pointer-events-none
-						"
+						class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none"
 					>
 						<svg
-							class="
-								w-5
-								h-5
-								text-gray-500
-								dark:text-gray-400
-							"
+							class="w-5 h-5 text-gray-500 dark:text-gray-400"
 							fill="none"
 							stroke="currentColor"
 							viewBox="0 0 24 24"
@@ -935,42 +541,16 @@
 						</svg>
 					</div>
 					<input
-						type="search"
 						id="default-search2"
-						class="
-							block
-							!p-4
-							!pl-10
-							w-full
-							text-sm text-gray-900
-							bg-gray-50
-							rounded-lg
-							border border-gray-300
-							focus:ring-blue-500
-							focus:border-blue-500
-						"
+						type="search"
+						class="block !p-4 !pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
 						placeholder="Search Products (name, category, ...)"
 						required
 					/>
 					<NuxtLink :to="'/items?search='">
 						<button
 							type="submit"
-							class="
-								text-white
-								absolute
-								right-2.5
-								bottom-2.5
-								bg-blue-700
-								hover:bg-blue-800
-								focus:ring-4
-								focus:outline-none
-								focus:ring-blue-300
-								font-medium
-								rounded-lg
-								text-sm
-								px-4
-								py-2
-							"
+							class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
 						>
 							Search
 						</button>
@@ -981,27 +561,31 @@
 	</nav>
 </template>
 <script setup>
-import { useUser } from '/store/user';
-import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
-import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue';
+import {
+	Menu,
+	MenuButton,
+	MenuItems,
+	MenuItem,
+	Popover,
+	PopoverButton,
+	PopoverPanel
+} from '@headlessui/vue';
 import {
 	ChevronDownIcon,
 	ArchiveIcon,
-	DuplicateIcon,
 	CogIcon,
-	PencilIcon,
 	LogoutIcon,
-	UserCircleIcon,
 	ShoppingCartIcon,
 	BellIcon,
 	SearchIcon
 } from '@heroicons/vue/outline/index.js';
+import { useUser } from '~/store/user';
 
 const router = useRouter();
 
 let logged = false;
 const store = useUser();
-if (store.user.userId != 0) {
+if (store.user.userId !== 0) {
 	logged = true;
 } else {
 	logged = false;

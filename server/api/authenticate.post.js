@@ -1,13 +1,13 @@
-import User from '~~/server/models/User';
 import jwt from 'jsonwebtoken';
+import User from '~~/server/models/User';
 
 export default defineEventHandler(async (event) => {
 	event.res.jsonResponse.context = event.context.params;
 
 	const { email, password } = await useBody(event);
 	try {
-		let user = await User.findOne({
-			email: email
+		const user = await User.findOne({
+			email
 			// password: password
 		});
 		if (!user) {
@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
 				message: 'Invalid username or password'
 			};
 		} else {
-			let token = jwt.sign({ id: user._id }, 'secretkey');
+			const token = jwt.sign({ id: user._id }, 'secretkey');
 			event.res.jsonResponse.data = {
 				items: [token]
 			};

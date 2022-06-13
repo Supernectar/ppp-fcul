@@ -51,7 +51,6 @@
 									</thead>
 									<tbody>
 										<tr
-											class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
 											v-for="(
 												order,
 												index
@@ -59,6 +58,7 @@
 											:key="
 												index
 											"
+											class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
 										>
 											<td
 												class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
@@ -94,13 +94,13 @@
 											>
 												<div>
 													<button
+														type="button"
+														class="inline-block rounded-full bg-blue-600 text-white leading-normal uppercase shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-9 h-9"
 														@click="
 															cancelOrder(
 																order
 															)
 														"
-														type="button"
-														class="inline-block rounded-full bg-blue-600 text-white leading-normal uppercase shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-9 h-9"
 													>
 														<svg
 															xmlns="http://www.w3.org/2000/svg"
@@ -146,16 +146,16 @@ function goToOrder(order) {
 	if (order._id != undefined) {
 		router.push(`/profile/consumer/orders/${order._id}`);
 	}
-}*/
+} */
 
 async function cancelOrder(order) {
-	let aaa = (await $fetch(
+	const aaa = await $fetch(
 		`/api/users/${store.user.userId}/orders/${order._id}`,
 		{
 			method: 'DELETE',
 			headers: { 'Content-Type': 'application/json' }
 		}
-	));
+	);
 	console.log(aaa);
 }
 </script>
