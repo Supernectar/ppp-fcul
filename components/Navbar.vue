@@ -1,14 +1,19 @@
 <template>
-  <nav class="shadow-md sticky top-0 bg-white py-2 px-4 z-10">
+  <nav class="shadow-md sticky top-0 bg-white py-2 px-4 z-10 h-20">
     <div class="grid items-center grid-cols-3 md:grid-cols-9">
       <div class="flex gap-4 md:col-span-2">
         <NuxtLink to="/" class="flex items-center">
           <img class="w-10 inline-block" src="/img/logo.png" alt="" />
-          <span class="font-semibold px-2 hidden md:inline-block">ClearChoice</span>
+          <span class="font-semibold px-2 hidden md:inline-block"
+            >ClearChoice</span
+          >
         </NuxtLink>
       </div>
 
-      <form @submit.prevent class="text-center invisible md:(!visible col-span-5)">
+      <form
+        class="text-center invisible md:(!visible col-span-5)"
+        @submit.prevent
+      >
         <label
           for="default-search1"
           class="mb-2 text-sm font-medium text-gray-900 sr-only"
@@ -34,8 +39,8 @@
             </svg>
           </div>
           <input
-            type="search"
             id="default-search1"
+            type="search"
             class="block !p-4 !pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
             placeholder="Search Products (name, category, ...)"
             required
@@ -57,9 +62,7 @@
           <NuxtLink to="/signup">
             <button
               type="button"
-              data-mdb-ripple="true"
-              data-mdb-ripple-color="light"
-              class="mr-4 inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+              class="mr-4 inline-block px-6 py-2 border-2 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
             >
               Sign Up
             </button>
@@ -76,9 +79,9 @@
         <!-- Mobile Search Popover -->
         <Popover v-slot="{ open }" class="block md:hidden relative">
           <PopoverButton
-            @click="toggleSearch"
             :class="open ? '' : 'text-opacity-90'"
             class="inline-flex text-gray-500 w-full justify-center items-center rounded-md hover:(!bg-black !bg-opacity-5) px-2 py-2 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+            @click="toggleSearch"
           >
             <SearchIcon class="h-6 w-6" aria-hidden="true" />
             <!-- <ChevronDownIcon class="h-4 w-4" aria-hidden="true" /> -->
@@ -106,7 +109,9 @@
             <PopoverPanel
               class="absolute right-0 mt-2 z-50 origin-top-right rounded-md bg-white shadow-lg focus:outline-none"
             >
-              <div class="overflow-hidden rounded-lg shadow-lg ring-1 bg-white"></div>
+              <div
+                class="overflow-hidden rounded-lg shadow-lg ring-1 bg-white"
+              ></div>
               Hello
             </PopoverPanel>
           </transition>
@@ -157,16 +162,18 @@
                       <td class="px-2 py-4">$2999</td>
                       <td class="px-2 py-4">
                         <input
+                          id=""
                           class="w-16"
                           type="number"
                           min="0"
                           name=""
-                          id=""
                           value="3"
                         />
                       </td>
                       <td class="px-2 py-4 text-right">
-                        <a href="#" class="font-medium text-blue-600 hover:underline"
+                        <a
+                          href="#"
+                          class="font-medium text-blue-600 hover:underline"
                           >Edit</a
                         >
                       </td>
@@ -181,16 +188,18 @@
                       <td class="px-2 py-4">$1999</td>
                       <td class="px-2 py-4">
                         <input
+                          id=""
                           class="w-16"
                           type="number"
                           min="0"
                           name=""
-                          id=""
                           value="2"
                         />
                       </td>
                       <td class="px-2 py-4 text-right">
-                        <a href="#" class="font-medium text-blue-600 hover:underline"
+                        <a
+                          href="#"
+                          class="font-medium text-blue-600 hover:underline"
                           >Edit</a
                         >
                       </td>
@@ -232,7 +241,13 @@
               <MenuButton
                 class="inline-flex text-gray-500 w-full justify-center items-center rounded-md hover:(!bg-black !bg-opacity-5) px-2 py-2 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
               >
-                <UserCircleIcon class="h-6 w-6" aria-hidden="true" />
+                <img
+                  class="w-6 h-6 rounded-full"
+                  :src="`https://ui-avatars.com/api/?format=svg&name=${
+                    useUser().user.username
+                  }`"
+                  alt="Rounded avatar"
+                />
                 <ChevronDownIcon class="h-4 w-4" aria-hidden="true" />
               </MenuButton>
             </div>
@@ -250,7 +265,9 @@
               >
                 <div class="px-1 py-1">
                   <div class="group w-full rounded-md px-2 py-2 text-sm">
-                    <div class="flex items-center">{{ store.user.username }}</div>
+                    <div class="flex items-center">
+                      {{ store.user.username }}
+                    </div>
                     <div class="flex items-center font-semibold">
                       {{ store.user.email }}
                     </div>
@@ -282,7 +299,7 @@
                       <button
                         :class="[
                           active ? '!bg-black !bg-opacity-5' : 'text-gray-900',
-                          'group flex w-full items-center rounded-md px-2 py-2 text-sm',
+                          'group flex w-full items-center rounded-md px-2 py-2 text-sm'
                         ]"
                       >
                         <ArchiveIcon
@@ -298,7 +315,7 @@
                     <button
                       :class="[
                         active ? '!bg-black !bg-opacity-5' : 'text-gray-900',
-                        'group flex w-full items-center rounded-md px-2 py-2 text-sm',
+                        'group flex w-full items-center rounded-md px-2 py-2 text-sm'
                       ]"
                     >
                       <CogIcon
@@ -314,11 +331,11 @@
                 <div class="px-1 py-1">
                   <MenuItem v-slot="{ active }">
                     <button
-                      @click="signOut"
                       :class="[
                         active ? '!bg-black !bg-opacity-5' : 'text-gray-900',
-                        'group flex w-full items-center rounded-md px-2 py-2 text-sm',
+                        'group flex w-full items-center rounded-md px-2 py-2 text-sm'
                       ]"
+                      @click="signOut"
                     >
                       <LogoutIcon
                         :active="active"
@@ -333,11 +350,17 @@
             </transition>
           </Menu>
         </div>
+        <!-- <div>
+          {{ store.user.username }}
+        </div> -->
       </div>
     </div>
 
-    <div id="dropdownMobileSearch" class="pt-4 z-10 hidden md:hidden bg-white rounded">
-      <form @submit.prevent class="text-center">
+    <div
+      id="dropdownMobileSearch"
+      class="pt-4 z-10 hidden md:hidden bg-white rounded"
+    >
+      <form class="text-center" @submit.prevent>
         <label
           for="default-search1"
           class="mb-2 text-sm font-medium text-gray-900 sr-only"
@@ -363,8 +386,8 @@
             </svg>
           </div>
           <input
-            type="search"
             id="default-search2"
+            type="search"
             class="block !p-4 !pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
             placeholder="Search Products (name, category, ...)"
             required
@@ -383,27 +406,31 @@
   </nav>
 </template>
 <script setup>
-import { useUser } from "/store/user";
-import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
-import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
+import {
+  Menu,
+  MenuButton,
+  MenuItems,
+  MenuItem,
+  Popover,
+  PopoverButton,
+  PopoverPanel
+} from '@headlessui/vue';
 import {
   ChevronDownIcon,
   ArchiveIcon,
-  DuplicateIcon,
   CogIcon,
-  PencilIcon,
   LogoutIcon,
-  UserCircleIcon,
   ShoppingCartIcon,
   BellIcon,
-  SearchIcon,
-} from "@heroicons/vue/outline/index.js";
+  SearchIcon
+} from '@heroicons/vue/outline/index.js';
+import { useUser } from '~/store/user';
 
 const router = useRouter();
 
 let logged = false;
 const store = useUser();
-if (store.user.userId != 0) {
+if (store.user.userId !== 0) {
   logged = true;
 } else {
   logged = false;
@@ -414,18 +441,22 @@ function signOut() {
     store.$patch({
       user: {
         userId: 0,
-        username: "",
-        email: "",
-        password: "",
-      },
+        username: '',
+        email: '',
+        password: '',
+        type: '',
+        consumerData: {
+          wishlist: []
+        }
+      }
     });
   }
   logged = false;
-  router.push("/signin");
+  router.push('/signin');
 }
 
 function toggleSearch() {
-  document.querySelector("#dropdownMobileSearch").classList.toggle("hidden");
+  document.querySelector('#dropdownMobileSearch').classList.toggle('hidden');
 }
 </script>
 <style></style>

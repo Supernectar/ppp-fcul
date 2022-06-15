@@ -148,9 +148,9 @@
 
             <div class="md:mb-6">
               <input
+                id="exampleFormControlInput1"
                 type="text"
                 class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                id="exampleFormControlInput1"
                 placeholder="Email address"
               />
             </div>
@@ -169,9 +169,10 @@
 
       <div class="mb-6">
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt distinctio earum
-          repellat quaerat voluptatibus placeat nam, commodi optio pariatur est quia
-          magnam eum harum corrupti dicta, aliquam sequi voluptate quas.
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt
+          distinctio earum repellat quaerat voluptatibus placeat nam, commodi
+          optio pariatur est quia magnam eum harum corrupti dicta, aliquam sequi
+          voluptate quas.
         </p>
       </div>
 
@@ -256,7 +257,9 @@
 
     <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.2)">
       © 2021 Copyright:
-      <a class="text-white" href="https://tailwind-elements.com/">Tailwind Elements</a>
+      <a class="text-white" href="https://tailwind-elements.com/"
+        >Tailwind Elements</a
+      >
     </div>
   </footer>
 </template>

@@ -1,7 +1,9 @@
-export default defineEventHandler(async (event) => {
-	event.res.jsonResponse.context = event.context.params;
-	const id = req.params.username;
-	Order.deleteMany({ username: id }).then((result) => res.send(result));
+import Order from '~~/server/models/Order';
 
-	return event.res.jsonResponse;
+export default defineEventHandler(async (event) => {
+  event.res.jsonResponse.context = event.context.params;
+  const id = req.params.username;
+  Order.deleteMany({ username: id }).then((result) => res.send(result));
+
+  return event.res.jsonResponse;
 });

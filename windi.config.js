@@ -1,5 +1,11 @@
 module.exports = {
-	content: [],
-	theme: {},
-	plugins: []
+  content: [],
+  theme: {
+    extend: {
+      transitionProperty: {
+        width: 'width'
+      }
+    }
+  },
+  plugins: []
 };

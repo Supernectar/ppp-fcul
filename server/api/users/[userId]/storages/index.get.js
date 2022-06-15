@@ -1,18 +1,20 @@
+import User from '~~/server/models/User';
+import Storage from '~~/server/models/Storage';
+
 export default defineEventHandler(async (event) => {
-	event.res.jsonResponse.context = event.context.params;
+  event.res.jsonResponse.context = event.context.params;
+  try {
+    const { userId } = event.context.params;
+    const user = await User.findOne({ _id: userId });
+    const storageIds = user.supplierData.storages;
+    const storages = await Storage.find({ _id: storageIds });
 
-	try {
-		const { id } = req.params;
+    event.res.jsonResponse.data = {
+      items: storages
+    };
+  } catch (err) {
+    event.res.jsonResponse.error = err;
+  }
 
-		let storages = (await Storage.find()).filter(
-			(storage) =>
-				storage.visibility == 'public' ||
-				storage.owner == id
-		);
-
-		res.json(storages);
-	} catch (err) {
-		res.json(err);
-	}
-	return event.res.jsonResponse;
+  return event.res.jsonResponse;
 });

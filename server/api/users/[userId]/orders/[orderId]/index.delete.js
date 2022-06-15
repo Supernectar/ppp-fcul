@@ -1,7 +1,29 @@
-export default defineEventHandler(async (event) => {
-	event.res.jsonResponse.context = event.context.params;
-	const id = req.params.username;
-	Order.deleteMany({ username: id }).then((result) => res.send(result));
+import Order from '~~/server/models/Order';
+import User from '~~/server/models/User';
 
-	return event.res.jsonResponse;
+export default defineEventHandler(async (event) => {
+  event.res.jsonResponse.context = event.context.params;
+  try {
+    const { userId, orderId } = event.context.params;
+    const orderUser = await User.updateOne(
+      { _id: userId },
+      {
+        $pull: {
+          'consumerData.orders': orderId
+        }
+      }
+    );
+    await Order.deleteMany({
+      _id: orderId
+    });
+    event.res.jsonResponse.context = event.context.params;
+    event.res.jsonResponse.data = {
+      items: orderUser
+    };
+  } catch (err) {
+    console.log(err);
+    event.res.jsonResponse.error = err;
+  }
+
+  return event.res.jsonResponse;
 });

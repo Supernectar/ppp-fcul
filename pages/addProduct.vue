@@ -3,7 +3,9 @@
     <Navbar />
 
     <form>
-      <label for="storage" class="form-label">Select storage to add products</label>
+      <label for="storage" class="form-label"
+        >Select storage to add products</label
+      >
       <select
         id="storage"
         v-model="storage"
@@ -18,34 +20,36 @@
       <div class="mb-3">
         <label for="itemId" class="form-label">Item</label>
         <input
-          type="text"
-          v-model="productId"
-          class="form-control"
           id="itemId"
+          v-model="productId"
+          type="text"
+          class="form-control"
           placeholder="item id"
         />
       </div>
       <div class="mb-3">
         <label for="price" class="form-label">Price</label>
         <input
-          type="text"
-          v-model="price"
-          class="form-control"
           id="price"
+          v-model="price"
+          type="text"
+          class="form-control"
           placeholder="0.99"
         />
       </div>
       <div class="mb-3">
         <label for="units" class="form-label">Units</label>
         <input
-          type="text"
-          v-model="units"
-          class="form-control"
           id="units"
+          v-model="units"
+          type="text"
+          class="form-control"
           placeholder="€"
         />
       </div>
-      <button type="submit" class="btn btn-primary" @click="addProduct">Submit</button>
+      <button type="submit" class="btn btn-primary" @click="addProduct">
+        Submit
+      </button>
     </form>
 
     <ul>
@@ -62,14 +66,14 @@ export default {
     return {
       products: [],
       selected: [],
-      storage: "",
+      storage: '',
       // TODO: fazer fetch dos armazens do fornecedor
       options: [
-        { value: "a1", text: "Armazem 1" },
-        { value: "a2", text: "Armazem 2" },
-        { value: "a3", text: "Armazem 3" },
-        { value: "a4", text: "Armazem 4" },
-      ],
+        { value: 'a1', text: 'Armazem 1' },
+        { value: 'a2', text: 'Armazem 2' },
+        { value: 'a3', text: 'Armazem 3' },
+        { value: 'a4', text: 'Armazem 4' }
+      ]
     };
   },
   mounted() {
@@ -77,24 +81,24 @@ export default {
   },
   methods: {
     async addProduct() {
-      await fetch("http://localhost:5000/products", {
-        method: "POST",
+      await fetch('http://localhost:5000/products', {
+        method: 'POST'
       });
       this.loadProducts();
     },
     async loadProducts() {
-      const res = await fetch("http://localhost:5000/products", {
-        method: "GET",
+      const res = await fetch('http://localhost:5000/products', {
+        method: 'GET'
       });
       this.products = await res.json();
     },
     async loadStorages() {
-      const res = await fetch("http://localhost:5000/storage", {
-        method: "GET",
+      const res = await fetch('http://localhost:5000/storage', {
+        method: 'GET'
       });
       this.storage = await res.json();
-    },
-  },
+    }
+  }
 };
 </script>
 

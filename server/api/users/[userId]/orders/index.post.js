@@ -1,14 +1,38 @@
+import Order from '~~/server/models/Order';
+import User from '~~/server/models/User';
+
 export default defineEventHandler(async (event) => {
-	event.res.jsonResponse.context = event.context.params;
-	const status = req.body.status;
-	const departureDate = req.body.departureDate;
-	const arrivalDate = req.body.arrivalDate;
+  event.res.jsonResponse.context = event.context.params;
+  try {
+    const { numberItems, price, status, departureDate, arrivalDate, consumer } =
+      await useBody(event);
+    const { userId } = event.context.params;
 
-	Order.insertMany({
-		status: status,
-		departureDate: departureDate,
-		arrivalDate: arrivalDate
-	}).then((result) => res.send(result));
+    const order = await Order.create({
+      numberItems,
+      price,
+      status,
+      departureDate,
+      arrivalDate,
+      consumer
+    });
 
-	return event.res.jsonResponse;
+    const orderUser = await User.updateOne(
+      { _id: userId },
+      {
+        $push: {
+          'consumerData.orders': order._id
+        }
+      }
+    );
+    event.res.jsonResponse.context = event.context.params;
+    event.res.jsonResponse.data = {
+      items: orderUser
+    };
+  } catch (err) {
+    console.log(err);
+    event.res.jsonResponse.error = err;
+  }
+
+  return event.res.jsonResponse;
 });

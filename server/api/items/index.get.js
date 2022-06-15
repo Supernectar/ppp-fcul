@@ -1,12 +1,12 @@
-import Item from '~~/server/utils/models/Item';
+import Item from '~~/server/models/Item';
 
 export default defineEventHandler(async (event) => {
-	event.res.jsonResponse.context = event.context.params;
-	const params = useQuery(event);
+  event.res.jsonResponse.context = event.context.params;
+  const params = useQuery(event);
 
-	const items = await Item.find(params);
-	event.res.jsonResponse.data = {
-		items: items
-	};
-	return event.res.jsonResponse;
+  const items = await Item.find(params);
+  event.res.jsonResponse.data = {
+    items
+  };
+  return event.res.jsonResponse;
 });

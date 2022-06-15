@@ -3,7 +3,9 @@
     <Navbar />
     <div class="container">
       <div class="row mt-2 text-center">
-        <table class="bg-white table table-hover align-middle mb-0 table-striped">
+        <table
+          class="bg-white table table-hover align-middle mb-0 table-striped"
+        >
           <thead>
             <tr>
               <th scope="col">#</th>
@@ -33,7 +35,10 @@
                 />
               </td>
               <td width="10%">
-                <button @click="removeProduct(product.id)" class="btn btn-danger">
+                <button
+                  class="btn btn-danger"
+                  @click="removeProduct(product.id)"
+                >
                   <i class="bi bi-x-circle-fill"></i>
                 </button>
               </td>
@@ -54,7 +59,10 @@
                 />
               </td>
               <td>
-                <button @click="removeProduct(product.id)" class="btn btn-danger">
+                <button
+                  class="btn btn-danger"
+                  @click="removeProduct(product.id)"
+                >
                   <i class="bi bi-x-circle-fill"></i>
                 </button>
               </td>
@@ -75,7 +83,10 @@
                 />
               </td>
               <td>
-                <button @click="removeProduct(product.id)" class="btn btn-danger">
+                <button
+                  class="btn btn-danger"
+                  @click="removeProduct(product.id)"
+                >
                   <i class="bi bi-x-circle-fill"></i>
                 </button>
               </td>
@@ -83,7 +94,9 @@
           </tbody>
         </table>
         <div class="text-center">
-          <a class="btn btn-primary" @click="finishCart(productList)">Finish Order</a>
+          <a class="btn btn-primary" @click="finishCart(productList)"
+            >Finish Order</a
+          >
           <!-- Falta um href (em cima) para a pagina de pagamento -->
         </div>
       </div>
@@ -93,17 +106,17 @@
 
 <script>
 export default {
-  name: "cartPage",
+  name: 'CartPage'
 
-  //methods: {
-  //removeProduct() { fetch("api/products/,")
-  //method: "DELETE",
-  //}
-  //finishCart() {fetch("api/products/,")
-  //method: "POST",
+  // methods: {
+  // removeProduct() { fetch("api/products/,")
+  // method: "DELETE",
+  // }
+  // finishCart() {fetch("api/products/,")
+  // method: "POST",
   // this.$router.push("payment")
 
-  //}
-  //}
+  // }
+  // }
 };
 </script>
