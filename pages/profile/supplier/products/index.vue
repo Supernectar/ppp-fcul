@@ -1,7 +1,7 @@
 <template>
   <div>
     <Navbar />
-    <section class="bg-light-600 bg-red-100">
+    <section class="">
       <div class="flex">
         <div>
           <SideNav />

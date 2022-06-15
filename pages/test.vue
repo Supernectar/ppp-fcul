@@ -1,7 +1,7 @@
 <template>
   <div>
     <Navbar />
-    <section class="bg-light-600 bg-red-100 px-4 pb-4">
+    <section class="bg-blue-100 px-4 pb-4">
       <div class="text-xl py-2">
         <!-- {{ categoryPath }}
         <NuxtLink
@@ -442,7 +442,13 @@
             v-if="items.length > 0"
             class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2"
           >
-            <NuxtLink
+            <ItemCard
+              v-for="item in items"
+              :key="item._id"
+              :itemValue="item"
+              @open-modal="(info) => openModal(info)"
+            />
+            <!-- <NuxtLink
               v-for="item in items"
               :key="item._id"
               :to="{
@@ -511,19 +517,8 @@
                   <p>{{ item.minPrice }}€ - {{ item.maxPrice }}€</p>
                 </div>
 
-                <!-- <a
-									:href="
-										'products/' +
-										item._id
-									"
-									class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-								>
-									See
-									available
-									products
-								</a> -->
               </div>
-            </NuxtLink>
+            </NuxtLink> -->
           </div>
           <div v-else class="mt-20 flex items-center justify-center">
             <img src="img/itemNotFound.png" class="h-64" alt="" />
@@ -531,6 +526,63 @@
         </div>
       </div>
     </section>
+    <TransitionRoot appear :show="isOpen" as="template">
+      <Dialog class="relative z-10" as="div" @close="closeModal">
+        <TransitionChild
+          as="template"
+          enter="duration-300 ease-out"
+          enter-from="opacity-0"
+          enter-to="opacity-100"
+          leave="duration-200 ease-in"
+          leave-from="opacity-100"
+          leave-to="opacity-0"
+        >
+          <div class="fixed inset-0 bg-black bg-opacity-25" />
+        </TransitionChild>
+
+        <div class="fixed inset-0 overflow-y-auto">
+          <div
+            class="flex min-h-full items-center justify-center p-4 text-center"
+          >
+            <TransitionChild
+              as="template"
+              enter="duration-300 ease-out"
+              enter-from="opacity-0 scale-95"
+              enter-to="opacity-100 scale-100"
+              leave="duration-200 ease-in"
+              leave-from="opacity-100 scale-100"
+              leave-to="opacity-0 scale-95"
+            >
+              <DialogPanel
+                class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
+              >
+                <DialogTitle
+                  as="h3"
+                  class="text-lg font-medium leading-6 text-gray-900"
+                >
+                  {{ modalContent.name }}
+                </DialogTitle>
+                <div class="mt-2">
+                  <p class="text-sm text-gray-500">
+                    {{ modalContent.description }}
+                  </p>
+                </div>
+
+                <div class="mt-4">
+                  <button
+                    type="button"
+                    class="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                    @click="closeModal"
+                  >
+                    Got it, thanks!
+                  </button>
+                </div>
+              </DialogPanel>
+            </TransitionChild>
+          </div>
+        </div>
+      </Dialog>
+    </TransitionRoot>
     <Footer />
   </div>
 </template>
@@ -545,7 +597,11 @@ import {
   TransitionRoot,
   Disclosure,
   DisclosureButton,
-  DisclosurePanel
+  DisclosurePanel,
+  TransitionChild,
+  Dialog,
+  DialogPanel,
+  DialogTitle
 } from '@headlessui/vue';
 import { CheckIcon, SelectorIcon, ChevronUpIcon } from '@heroicons/vue/solid';
 
@@ -566,30 +622,6 @@ const selectedFilters = ref({});
 //     filterName: selectedValue,
 //   },
 
-category.value = (await $fetch(`/api/categories?name=lavar`)).data.items[0];
-
-// ---- Category Path ---- //
-let current = category.value;
-categoryPath.value.push(current);
-while (current.parent) {
-  current = (await $fetch(`/api/categories?_id=${current.parent}`)).data
-    .items[0];
-  categoryPath.value.push(current);
-}
-categoryPath.value.reverse();
-categoryPath.value.shift();
-
-// ---- Static Filters ---- //
-for (const category of categoryPath.value) {
-  for (const attribute of category.attributes) {
-    staticFilters.value.push({
-      name: attribute,
-      type: 'default',
-      value: 1
-    });
-  }
-}
-
 watch(
   selectedFilters,
   async () => {
@@ -605,25 +637,52 @@ watch(
       item.maxPrice = Math.max(...products.map((o) => o.price));
     }
     tempItems = tempItems.filter(
-      (item) => item.rating == selectedFilters.value.rating
+      (item) => item.rating === selectedFilters.value.rating
     );
     items.value = tempItems;
   },
   { deep: true }
 );
 
-// ---- Loading Items ---- //
-items.value = (
-  await $fetch(`/api/items?category=${category.value._id}`)
-).data.items;
+onMounted(async () => {
+  category.value = (await $fetch(`/api/categories?name=lavar`)).data.items[0];
 
-for (const item of items.value) {
-  const products = (await $fetch(`/api/products?item=${item._id}`)).data.items;
+  // ---- Category Path ---- //
+  let current = category.value;
+  categoryPath.value.push(current);
+  while (current.parent) {
+    current = (await $fetch(`/api/categories?_id=${current.parent}`)).data
+      .items[0];
+    categoryPath.value.push(current);
+  }
+  categoryPath.value.reverse();
+  categoryPath.value.shift();
 
-  item.minPrice = Math.min(...products.map((o) => o.price));
-  item.price = item.minPrice;
-  item.maxPrice = Math.max(...products.map((o) => o.price));
-}
+  // ---- Static Filters ---- //
+  for (const category of categoryPath.value) {
+    for (const attribute of category.attributes) {
+      staticFilters.value.push({
+        name: attribute,
+        type: 'default',
+        value: 1
+      });
+    }
+  }
+
+  // ---- Loading Items ---- //
+  items.value = (
+    await $fetch(`/api/items?category=${category.value._id}`)
+  ).data.items;
+
+  for (const item of items.value) {
+    const products = (await $fetch(`/api/products?item=${item._id}`)).data
+      .items;
+
+    item.minPrice = Math.min(...products.map((o) => o.price));
+    item.price = item.minPrice;
+    item.maxPrice = Math.max(...products.map((o) => o.price));
+  }
+});
 
 // ---- Sorting Filters ---- //
 const sortingFilters = [
@@ -654,4 +713,16 @@ watch(selected, () => {
       : 0
   );
 });
+
+// ---- Dialog ---- //
+const modalContent = ref({});
+const isOpen = ref(false);
+
+function closeModal() {
+  isOpen.value = false;
+}
+function openModal(info) {
+  modalContent.value = info;
+  isOpen.value = true;
+}
 </script>

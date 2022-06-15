@@ -11,7 +11,10 @@ export const useUser = defineStore('user', {
       username: '',
       email: '',
       password: '',
-      type: ''
+      type: '',
+      consumerData: {
+        wishlist: []
+      }
     })
   })
 });

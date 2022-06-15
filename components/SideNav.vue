@@ -1,6 +1,6 @@
 <template>
-  <div class="bg-light-100 w-60 h-full">
-    <div class="p-2">
+  <div class="sticky top-20">
+    <div class="w-60 p-2 max-h-screen overflow-auto">
       <div>
         <ul>
           <li>
@@ -148,6 +148,19 @@
               Notifications
             </NuxtLink>
           </li>
+          <li>
+            <NuxtLink
+              to="/profile/preferences"
+              class="text-gray-900 text-sm flex items-center rounded-md p-2 my-2 hover:(bg-black bg-opacity-5)"
+              active-class="bg-black bg-opacity-10"
+            >
+              <CogIcon
+                class="mr-2 h-5 w-5 text-violet-400"
+                aria-hidden="true"
+              />
+              Preferences
+            </NuxtLink>
+          </li>
         </ul>
       </div>
       <hr class="my-2" />
@@ -263,10 +276,10 @@ import {
   BookOpenIcon,
   BellIcon,
   HeartIcon,
-  TruckIcon
+  TruckIcon,
+  CogIcon
 } from '@heroicons/vue/outline/index.js';
 import { CheckIcon, SelectorIcon } from '@heroicons/vue/solid';
-import { ref } from 'vue';
 import {
   Listbox,
   ListboxButton,
@@ -274,6 +287,7 @@ import {
   ListboxOption
 } from '@headlessui/vue';
 import { useUser } from '~/store/user';
+const route = useRouter();
 
 // Listbox
 const store = useUser();
@@ -287,6 +301,7 @@ watch(selectedRole, () => {
       //   .toLowerCase(),
     }
   });
+  route.push('/profile');
 });
 
 const bgColor = ref('#000000');

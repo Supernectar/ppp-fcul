@@ -1,5 +1,5 @@
 <template>
-  <nav class="shadow-md sticky top-0 bg-white py-2 px-4 z-10">
+  <nav class="shadow-md sticky top-0 bg-white py-2 px-4 z-10 h-20">
     <div class="grid items-center grid-cols-3 md:grid-cols-9">
       <div class="flex gap-4 md:col-span-2">
         <NuxtLink to="/" class="flex items-center">
@@ -444,7 +444,10 @@ function signOut() {
         username: '',
         email: '',
         password: '',
-        type: ''
+        type: '',
+        consumerData: {
+          wishlist: []
+        }
       }
     });
   }

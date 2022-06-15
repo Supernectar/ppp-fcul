@@ -2,7 +2,7 @@
   <div>
     <div>
       <Navbar />
-      <section class="bg-light-600 bg-red-100">
+      <section>
         <div class="flex">
           <div>
             <SideNav />

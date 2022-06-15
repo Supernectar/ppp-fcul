@@ -1,12 +1,12 @@
 <template>
   <div>
     <Navbar />
-    <section class="bg-light-600 bg-red-100">
+    <section>
       <div class="flex">
         <div>
           <SideNav />
         </div>
-        <div class="bg-light-100 p-2 w-full">
+        <div class="p-2 grow">
           <form class="col" @submit.prevent>
             <h2>Your personal information:</h2>
             <br />

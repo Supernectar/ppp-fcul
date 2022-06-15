@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="bg-blue-200">
     <Navbar />
     <div class="bg-white py-2 m-6 rounded flex">
       <div class="m-auto">

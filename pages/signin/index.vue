@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="bg-blue-200">
     <Navbar />
     <div class="flex h-[calc(100vh-4rem)] items-center">
       <div class="w-100 m-auto bg-white rounded p-4">
