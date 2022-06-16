@@ -4,6 +4,9 @@ module.exports = {
     extend: {
       transitionProperty: {
         width: 'width'
+      },
+      fontFamily: {
+        sans: ['Inter', 'sans-serif']
       }
     }
   },

@@ -14,6 +14,10 @@ export const useUser = defineStore('user', {
       type: '',
       consumerData: {
         wishlist: []
+      },
+      preferences: {
+        profileIconBgColor: '#000000',
+        profileIconTextColor: '#ffffff'
       }
     })
   })

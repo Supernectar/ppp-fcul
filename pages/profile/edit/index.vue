@@ -7,6 +7,17 @@
           <SideNav />
         </div>
         <div class="p-2 grow">
+          <FormKit
+            v-model="password"
+            label="Password"
+            type="password"
+            validation="required"
+            outer-class="mb-4"
+            label-class="form-label inline-block mb-2 text-gray-700"
+            input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+            help-class="text-sm text-gray-500 mt-1"
+            message-class="mt-1 text-sm text-red-600"
+          />
           <form class="col" @submit.prevent>
             <h2>Your personal information:</h2>
             <br />
@@ -162,6 +173,8 @@
 </template>
 
 <script>
+import { useUser } from '~/store/user';
+
 export default {
   name: 'ProfileView',
   data() {
@@ -192,10 +205,7 @@ export default {
       });
     },
     async updateInfo() {
-      console.log(this.name);
-      console.log(this.username);
-      console.log(this.password);
-      const res = await fetch(`api/users/${this.user._id}`, {
+      await fetch(`api/users/${this.user._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -212,9 +222,6 @@ export default {
           password: this.password === '' ? this.user.password : this.password
         })
       });
-      const res2 = await res.json();
-
-      console.log(res2);
     }
   }
 };

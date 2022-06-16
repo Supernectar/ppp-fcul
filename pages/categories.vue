@@ -45,8 +45,7 @@
 const categories = ref({});
 
 const expandNode = async (node) => {
-  if (node.children.length <= 0) {
-  } else {
+  if (node.children.length > 0) {
     for (let i = 0; i < node.children.length; i++) {
       node.children[i] = (
         await $fetch(`/api/categories?_id=${node.children[i]}`)

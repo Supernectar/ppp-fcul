@@ -243,9 +243,20 @@
               >
                 <img
                   class="w-6 h-6 rounded-full"
-                  :src="`https://ui-avatars.com/api/?format=svg&name=${
+                  :src="
+                    'https://ui-avatars.com/api/?format=svg&color=' +
+                    useUser().user.preferences.profileIconTextColor.replace(
+                      '#',
+                      ''
+                    ) +
+                    '&background=' +
+                    useUser().user.preferences.profileIconBgColor.replace(
+                      '#',
+                      ''
+                    ) +
+                    '&name=' +
                     useUser().user.username
-                  }`"
+                  "
                   alt="Rounded avatar"
                 />
                 <ChevronDownIcon class="h-4 w-4" aria-hidden="true" />
@@ -430,6 +441,7 @@ const router = useRouter();
 
 let logged = false;
 const store = useUser();
+
 if (store.user.userId !== 0) {
   logged = true;
 } else {
@@ -447,6 +459,10 @@ function signOut() {
         type: '',
         consumerData: {
           wishlist: []
+        },
+        preferences: {
+          profileIconBgColor: '#000000',
+          profileIconTextColor: '#ffffff'
         }
       }
     });

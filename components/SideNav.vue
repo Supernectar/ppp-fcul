@@ -11,9 +11,9 @@
               <img
                 :src="
                   'https://ui-avatars.com/api/?format=svg&color=' +
-                  textColor.replace('#', '') +
+                  profileIconTextColor.replace('#', '') +
                   '&background=' +
-                  bgColor.replace('#', '') +
+                  profileIconBgColor.replace('#', '') +
                   '&name=' +
                   useUser().user.username
                 "
@@ -28,7 +28,7 @@
               <div>
                 <input
                   id="backgroundColor"
-                  v-model="bgColor"
+                  v-model="profileIconBgColor"
                   type="color"
                   name="backgroundColor"
                 />
@@ -36,12 +36,12 @@
               </div>
               <div>
                 <input
-                  id="textColor"
-                  v-model="textColor"
+                  id="profileIconTextColor"
+                  v-model="profileIconTextColor"
                   type="color"
-                  name="textColor"
+                  name="profileIconTextColor"
                 />
-                <label for="textColor">Text color</label>
+                <label for="profileIconTextColor">Text color</label>
               </div>
             </div>
           </li>
@@ -304,6 +304,28 @@ watch(selectedRole, () => {
   route.push('/profile');
 });
 
-const bgColor = ref('#000000');
-const textColor = ref('#ffffff');
+// ---- profile icon ---- //
+const profileIconBgColor = ref(store.user.preferences.profileIconBgColor);
+const profileIconTextColor = ref(store.user.preferences.profileIconTextColor);
+watch(profileIconBgColor, () => {
+  store.$patch({
+    user: {
+      preferences: {
+        profileIconBgColor: profileIconBgColor.value
+      }
+    }
+  });
+});
+
+watch(profileIconTextColor, () => {
+  store.$patch({
+    user: {
+      preferences: {
+        profileIconTextColor: profileIconTextColor.value
+      }
+    }
+  });
+});
+
+// watch();
 </script>
