@@ -19,6 +19,9 @@ export const useUser = defineStore('user', {
         profileIconBgColor: '#000000',
         profileIconTextColor: '#ffffff'
       }
-    })
+    }),
+    getters: {
+      isLoggedIn: () => userId !== 0
+    }
   })
 });

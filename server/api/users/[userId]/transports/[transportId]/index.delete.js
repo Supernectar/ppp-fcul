@@ -1,4 +1,4 @@
-import Storage from '~/server/models/Storage';
+import Transport from '~/server/models/Transport';
 
 export default defineEventHandler(async (event) => {
   event.res.jsonResponse.context = event.context.params;
@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
 
   // const decoded = await jwt.verify(token, 'secretkey');
 
-  const { storageId } = event.context.params;
+  const { transportId } = event.context.params;
 
   // const transport = await Transport.findById(id);
 
@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
   //   });
   // } else {
   try {
-    await Storage.deleteOne({ _id: storageId });
+    await Transport.deleteOne({ _id: transportId });
     return 'Good';
   } catch (err) {
     console.log(err);

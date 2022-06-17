@@ -83,7 +83,7 @@
             v-model="street"
             label="Street"
             type="text"
-            validation="required"
+            validation="required|length:6"
             outer-class="mb-4"
             label-class="form-label inline-block mb-2 text-gray-700"
             input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
@@ -94,7 +94,9 @@
           <FormKit
             v-model="country"
             label="Country"
-            type="text"
+            type="select"
+            placeholder="Choose a country"
+            :options="countries"
             validation="required"
             outer-class="mb-4"
             label-class="form-label inline-block mb-2 text-gray-700"
@@ -107,7 +109,7 @@
             v-model="city"
             label="City"
             type="text"
-            validation="required"
+            validation="required|length:4"
             outer-class="mb-4"
             label-class="form-label inline-block mb-2 text-gray-700"
             input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
@@ -166,51 +168,58 @@
 </template>
 
 <script>
-import { useUser } from "~/store/user";
+import { useUser } from '~/store/user';
 
 export default {
-  name: "ProfileView",
+  name: 'ProfileView',
   data() {
     return {
       user: {},
-      type: "consumer",
-      firstName: "",
-      lastName: "",
-      street: "",
-      country: "",
-      city: "",
-      zipCode: "",
-      phone: "",
-      nif: "",
+      countries: [],
+      type: 'consumer',
+      firstName: '',
+      lastName: '',
+      street: '',
+      country: '',
+      city: '',
+      zipCode: '',
+      phone: '',
+      nif: ''
     };
   },
   async mounted() {
     const store = useUser();
     const user = store;
+    const names = [];
     const result = await $fetch(`/api/users?email=${user.user.email}`);
     this.user = result.data.items[0];
-    // this.name =
+    const result2 = await $fetch(`https://restcountries.com/v3.1/all`);
+    for (let i = 0; i < result2.length; i++) {
+      names.push(result2[i].name.common);
+    }
+    names.sort((a, b) => a.localeCompare(b));
+    this.countries = toRaw(names);
   },
   methods: {
     async updateInfo() {
       const router = useRouter();
       const store = useUser();
       const res = await fetch(`/api/users/${this.user._id}`, {
-        method: "PUT",
+        method: 'PUT',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          name: this.firstName + " " + this.lastName,
+          name: this.firstName + ' ' + this.lastName,
           address: {
             street: this.street,
             country: this.country,
             city: this.city,
-            zipCode: this.zipCode,
+            zipCode: this.zipCode
           },
           phone: this.phone,
-          nif: this.nif,
-        }),
+          nif: this.nif
+        })
       });
       const res2 = await res.json();
 
@@ -218,12 +227,12 @@ export default {
 
       store.$patch({
         user: {
-          type: this.type,
-        },
+          type: this.type
+        }
       });
 
-      router.push("/profile/consumer/orders");
-    },
-  },
+      router.push('/profile/consumer/orders');
+    }
+  }
 };
 </script>

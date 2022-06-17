@@ -4,16 +4,11 @@ const { Schema } = mongoose;
 export default mongoose.model(
   'Transport',
   new Schema({
-    id: {
-      type: Number,
-      required: true,
-      unique: true
-    },
-    marca: {
+    brand: {
       type: String,
       required: true
     },
-    modelo: {
+    model: {
       type: String,
       required: true
     },

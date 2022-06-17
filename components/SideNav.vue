@@ -247,7 +247,7 @@
                 class="mr-2 h-5 w-5 text-violet-400"
                 aria-hidden="true"
               />
-              My Tranports
+              My Transports
             </NuxtLink>
           </li>
           <li class="mt-2">

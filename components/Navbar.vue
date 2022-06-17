@@ -435,6 +435,7 @@ import {
   BellIcon,
   SearchIcon
 } from '@heroicons/vue/outline/index.js';
+
 import { useUser } from '~/store/user';
 
 const router = useRouter();

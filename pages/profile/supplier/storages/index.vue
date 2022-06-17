@@ -67,6 +67,17 @@
                           >
                             {{ storage.popularity }}
                           </td>
+                          <td
+                            class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
+                          >
+                            <button
+                              type="button"
+                              class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                              @click="deleteStorage(storage._id)"
+                            >
+                              Delete
+                            </button>
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -144,11 +155,25 @@ storages.value = (
 // Create new storage
 const name = ref('');
 const location = ref('');
-// let visibility = ref('');
+const visibility = ref('');
 
 async function createStorage() {
   await $fetch(`/api/users/${store.user.userId}/storages`, {
     method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+
+    body: JSON.stringify({
+      name: name.value,
+      location: location.value,
+      visibility: visibility.value
+    })
+  });
+}
+async function deleteStorage(storageId) {
+  await $fetch(`/api/users/${store.user.userId}/storages/${storageId}`, {
+    method: 'DELETE',
     headers: {
       'Content-Type': 'application/json'
     },
