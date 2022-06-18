@@ -48,7 +48,8 @@
         <FormKit
           type="button"
           label="Sign in with Google"
-          input-class="w-full  ml-auto px-2 py-2.5 bg-red-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-600 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+          input-class="w-full ml-auto px-2 py-2.5 bg-red-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-600 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+          @click="googleSignIn"
         />
       </div>
     </div>
@@ -102,6 +103,15 @@
 </template>
 
 <script setup>
+async function googleSignIn() {
+  try {
+    const res = await gapi.auth2.getAuthInstance().signIn();
+    console.log(res.getBasicProfile());
+  } catch (err) {
+    console.log('something went wrong');
+  }
+}
+
 const user = useUser();
 
 const router = useRouter();

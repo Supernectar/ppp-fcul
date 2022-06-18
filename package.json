@@ -29,6 +29,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.3.2",
     "node-fetch": "^3.2.4",
-    "pinia": "^2.0.14"
+    "pinia": "^2.0.14",
+    "vue3-google-oauth2": "^1.0.6"
   }
 }
