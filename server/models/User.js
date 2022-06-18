@@ -38,6 +38,12 @@ export default mongoose.model(
           },
           quantity: Number
         }
+      ],
+      wishlist: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: 'Item'
+        }
       ]
     },
     supplierData: {
@@ -56,6 +62,16 @@ export default mongoose.model(
           ref: 'Transport'
         }
       ]
+    },
+    preferences: {
+      profileIconBgColor: {
+        type: String,
+        default: '000000'
+      },
+      profileIconTextColor: {
+        type: String,
+        default: 'ffffff'
+      }
     }
   })
 );

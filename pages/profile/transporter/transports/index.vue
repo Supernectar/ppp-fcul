@@ -256,13 +256,11 @@
 </template>
 
 <script setup>
-import { useUser } from '~/store/user';
-
-const store = useUser();
+const user = useUser();
 
 const transports = ref([]);
 transports.value = (
-  await $fetch(`/api/users/${store.user.userId}/transports`)
+  await $fetch(`/api/users/${user.data._id}/transports`)
 ).data.items;
 
 // Create new transport
@@ -273,7 +271,7 @@ const model = ref('');
 const plate = ref('');
 
 async function createVehicle() {
-  await $fetch(`/api/users/${store.user.userId}/transports`, {
+  await $fetch(`/api/users/${user.data._id}/transports`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -290,7 +288,7 @@ async function createVehicle() {
 }
 
 async function deleteVehicle(transportId) {
-  await $fetch(`/api/users/${store.user.userId}/transports/${transportId}`, {
+  await $fetch(`/api/users/${user.data._id}/transports/${transportId}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json'

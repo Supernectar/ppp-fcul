@@ -63,38 +63,4 @@ categories.value = (
 expandNode(categories.value);
 </script>
 
-<script>
-// export default {
-//   name: "CategoriesView",
-//   data() {
-//     return {
-//       categories: [],
-//     };
-//   },
-//   async mounted() {
-//     const res1 = await fetch(`api/categories?isRoot=true`, {
-//       method: "GET",
-//     });
-//     const res2 = await res1.json();
-//     this.categories = res2.data.items;
-
-//     /*
-//     for (let i = 0; i < this.categories.length; i++) {
-//       let superCata = this.categories[i];
-//       this.a.push(superCata);
-//       let listCata = [];
-//       for (let f = 0; f < superCata.categories.length; f++) {
-//         let cata = superCata.categories[f];
-//         listCata.push(cata);
-//         const res3 = await fetch(`api/categories?_id=${cata}`, {
-//           method: "GET",
-//         });
-//         const res4 = await res3.json();
-//       }
-//       this.a.push(listCata);
-//     }*/
-//   },
-// };
-</script>
-
 <style></style>

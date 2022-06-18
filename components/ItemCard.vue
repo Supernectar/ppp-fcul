@@ -52,7 +52,9 @@
           @click="toggleFavourite($attrs.itemValue._id)"
         >
           <HeartIconSolid
-            v-if="store.consumerData.wishlist.includes($attrs.itemValue._id)"
+            v-if="
+              user.data.consumerData.wishlist.includes($attrs.itemValue._id)
+            "
             class="h-8 w-8 p-1 text-purple-500"
           />
           <HeartIconOutline v-else class="h-8 w-8 p-1 text-purple-500" />
@@ -75,8 +77,7 @@ import {
 } from '@heroicons/vue/outline';
 import { HeartIcon as HeartIconSolid } from '@heroicons/vue/solid';
 
-import { useUser } from '~/store/user';
-const store = useUser().user;
+const user = useUser();
 const { itemValue } = useAttrs();
 const products = (await $fetch(`/api/products?item=${itemValue._id}`)).data
   .items;
@@ -86,11 +87,11 @@ itemValue.price = itemValue.minPrice;
 itemValue.maxPrice = Math.max(...products.map((o) => o.price));
 
 const toggleFavourite = (itemId) => {
-  if (store.consumerData.wishlist.includes(itemId)) {
-    store.consumerData.wishlist.splice(
-      store.consumerData.wishlist.indexOf(itemId),
+  if (user.data.consumerData.wishlist.includes(itemId)) {
+    user.data.consumerData.wishlist.splice(
+      user.data.consumerData.wishlist.indexOf(itemId),
       1
     );
-  } else store.consumerData.wishlist.push(itemId);
+  } else user.data.consumerData.wishlist.push(itemId);
 };
 </script>

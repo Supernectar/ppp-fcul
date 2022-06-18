@@ -111,7 +111,7 @@
 </template>
 
 <script setup>
-import { useCart } from '~/store/cart';
+import useCart from '~/stores/cart';
 const store = useCart();
 const route = useRoute();
 // const products = ref("");

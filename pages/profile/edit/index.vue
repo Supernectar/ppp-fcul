@@ -173,8 +173,6 @@
 </template>
 
 <script>
-import { useUser } from '~/store/user';
-
 export default {
   name: 'ProfileView',
   data() {
@@ -191,9 +189,8 @@ export default {
     };
   },
   async mounted() {
-    const store = useUser();
-    const user = store;
-    const result = await $fetch(`/api/users?email=${user.user.email}`);
+    const user = useUser();
+    const result = await $fetch(`/api/users?email=${user.data.email}`);
     this.user = result.data.items[0];
     // this.name =
   },

@@ -168,8 +168,6 @@
 </template>
 
 <script>
-import { useUser } from '~/store/user';
-
 export default {
   name: 'ProfileView',
   data() {
@@ -188,10 +186,9 @@ export default {
     };
   },
   async mounted() {
-    const store = useUser();
-    const user = store;
+    const user = useUser();
     const names = [];
-    const result = await $fetch(`/api/users?email=${user.user.email}`);
+    const result = await $fetch(`/api/users?email=${user.data.email}`);
     this.user = result.data.items[0];
     const result2 = await $fetch(`https://restcountries.com/v3.1/all`);
     for (let i = 0; i < result2.length; i++) {
@@ -203,7 +200,7 @@ export default {
   methods: {
     async updateInfo() {
       const router = useRouter();
-      const store = useUser();
+      const user = useUser();
       const res = await fetch(`/api/users/${this.user._id}`, {
         method: 'PUT',
         headers: {
@@ -225,7 +222,7 @@ export default {
 
       console.log(res2);
 
-      store.$patch({
+      user.$patch({
         user: {
           type: this.type
         }

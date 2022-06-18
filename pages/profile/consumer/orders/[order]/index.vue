@@ -88,14 +88,13 @@
 </template>
 
 <script setup>
-import { useUser } from '~/store/user';
 // const router = useRouter();
 const route = useRoute();
-const store = useUser();
+const user = useUser();
 
 let order = [];
 order = (
-  await $fetch(`/api/users/${store.user.userId}/orders/${route.params.order}`)
+  await $fetch(`/api/users/${user.data._id}/orders/${route.params.order}`)
 ).data.items;
 
 const items = [];

@@ -6,11 +6,21 @@
       <table v-if="cart.length != 0" class="">
         <thead class="bg-gray-500 border-b-2 border-gray-500">
           <tr>
-            <th class="w-92 p-2 text-sm text-gray-200 whitespace-nowrap">&nbsp;</th>
-            <th class="w-92 p-2 text-sm text-gray-200 whitespace-nowrap">Product</th>
-            <th class="w-92 p-2 text-sm text-gray-200 whitespace-nowrap">Quantity</th>
-            <th class="w-92 p-2 text-sm text-gray-200 whitespace-nowrap">Price</th>
-            <th class="w-92 p-2 text-sm text-gray-200 whitespace-nowrap">Remove</th>
+            <th class="w-92 p-2 text-sm text-gray-200 whitespace-nowrap">
+              &nbsp;
+            </th>
+            <th class="w-92 p-2 text-sm text-gray-200 whitespace-nowrap">
+              Product
+            </th>
+            <th class="w-92 p-2 text-sm text-gray-200 whitespace-nowrap">
+              Quantity
+            </th>
+            <th class="w-92 p-2 text-sm text-gray-200 whitespace-nowrap">
+              Price
+            </th>
+            <th class="w-92 p-2 text-sm text-gray-200 whitespace-nowrap">
+              Remove
+            </th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-300">
@@ -21,7 +31,10 @@
             class="bg-white"
           >
             <td class="p-8 text-sm text-gray-700 whitespace-nowrap text-center">
-              <img src="/img/627.png" class="h-full rounded-t-lg h-full m-auto border" />
+              <img
+                src="/img/627.png"
+                class="h-full rounded-t-lg h-full m-auto border"
+              />
             </td>
             <td class="p-8 text-sm text-gray-700 whitespace-nowrap text-center">
               {{ myItems[index].name }}
@@ -83,13 +96,13 @@
 </template>
 
 <script setup>
-import { TrashIcon } from "@heroicons/vue/outline";
-import { useCart } from "~/store/cart";
-import { useUser } from "~/store/user";
+import { TrashIcon } from '@heroicons/vue/outline';
+import useCart from '~/stores/cart';
+
 const store = useCart();
-const userStore = useUser();
+const user = useUser();
 const cart = ref(store.getCart);
-const logged = ref(userStore.isLoggedIn);
+const logged = ref(user.isLoggedIn);
 const myProducts = ref([]);
 const myItems = ref([]);
 const total = ref(0);
@@ -105,7 +118,8 @@ for (let i = 0; i < cart.value.length; i++) {
 }
 
 for (let i = 0; i < myProducts.value.length; i++) {
-  total.value = total.value + myProducts.value[i].price * cart.value[i].quantity;
+  total.value =
+    total.value + myProducts.value[i].price * cart.value[i].quantity;
 }
 
 watch(
@@ -113,7 +127,8 @@ watch(
   () => {
     total.value = 0;
     for (let i = 0; i < myProducts.value.length; i++) {
-      total.value = total.value + myProducts.value[i].price * cart.value[i].quantity;
+      total.value =
+        total.value + myProducts.value[i].price * cart.value[i].quantity;
     }
   },
   { deep: true }
@@ -121,9 +136,9 @@ watch(
 
 function purchase() {
   if (logged) {
-    router.push("/signin");
+    router.push('/signin');
   } else {
-    router.push("/signin");
+    router.push('/signin');
   }
 }
 

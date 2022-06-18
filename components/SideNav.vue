@@ -15,12 +15,12 @@
                   '&background=' +
                   profileIconBgColor.replace('#', '') +
                   '&name=' +
-                  useUser().user.username
+                  user.data.username
                 "
                 class="w-5 mr-2 rounded-full border"
                 alt=""
               />
-              {{ useUser().user.username }}
+              {{ user.data.username }}
             </NuxtLink>
           </li>
           <li>
@@ -286,17 +286,16 @@ import {
   ListboxOptions,
   ListboxOption
 } from '@headlessui/vue';
-import { useUser } from '~/store/user';
 const route = useRouter();
 
 // Listbox
-const store = useUser();
+const user = useUser();
 const roles = ['Consumer', 'Supplier', 'Transporter'];
-const selectedRole = ref(store.user.type === '' ? roles[0] : store.user.type);
+const selectedRole = ref(user.data.type === '' ? roles[0] : user.data.type);
 
 watch(selectedRole, () => {
-  store.$patch({
-    user: {
+  user.$patch({
+    data: {
       type: selectedRole.value
       //   .toLowerCase(),
     }
@@ -305,11 +304,11 @@ watch(selectedRole, () => {
 });
 
 // ---- profile icon ---- //
-const profileIconBgColor = ref(store.user.preferences.profileIconBgColor);
-const profileIconTextColor = ref(store.user.preferences.profileIconTextColor);
+const profileIconBgColor = ref(user.data.preferences.profileIconBgColor);
+const profileIconTextColor = ref(user.data.preferences.profileIconTextColor);
 watch(profileIconBgColor, () => {
-  store.$patch({
-    user: {
+  user.$patch({
+    data: {
       preferences: {
         profileIconBgColor: profileIconBgColor.value
       }
@@ -318,7 +317,7 @@ watch(profileIconBgColor, () => {
 });
 
 watch(profileIconTextColor, () => {
-  store.$patch({
+  user.$patch({
     user: {
       preferences: {
         profileIconTextColor: profileIconTextColor.value

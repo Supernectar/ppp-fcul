@@ -54,8 +54,8 @@
     </div>
     <!-- Modal -->
     <div
-      class="modal fade fixed top-60 left-120 hidden w-100 h-100 outline-none overflow-x-hidden overflow-y-auto"
       id="exampleModal"
+      class="modal fade fixed top-60 left-120 hidden w-100 h-100 outline-none overflow-x-hidden overflow-y-auto"
       tabindex="-1"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
@@ -68,8 +68,8 @@
             class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md"
           >
             <h5
-              class="text-xl font-medium leading-normal text-gray-800"
               id="exampleModalLabel"
+              class="text-xl font-medium leading-normal text-gray-800"
             >
               Login
             </h5>
@@ -102,8 +102,7 @@
 </template>
 
 <script setup>
-import { useUser } from '~/store/user';
-const store = useUser();
+const user = useUser();
 
 const router = useRouter();
 const email = ref('');
@@ -125,16 +124,12 @@ async function login() {
         password: password.value
       })
     });
+
     if (res.error === 'Invalid username or password') {
       console.log('User does not exist');
     } else {
-      store.$patch({
-        user: {
-          userId: users[0]._id,
-          username: users[0].username,
-          email: users[0].email,
-          password: users[0].password
-        }
+      user.$patch({
+        data: users[0]
       });
       router.push('/profile/consumer/orders');
     }
@@ -148,7 +143,7 @@ async function login() {
 
 
 // console.log(state);
-// console.log(store);
+// console.log(user);
 
 // // definePageMeta({
 // //   middleware: ["checkLogin"],

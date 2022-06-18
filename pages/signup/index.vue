@@ -54,7 +54,7 @@
             help-class="text-sm text-gray-500 mt-1"
             message-class="mt-1 text-sm text-red-600"
           >
-            <template #label="context">
+            <template #label>
               I agree with the
               <a
                 href="terms-and-conditions.pdf"
@@ -65,7 +65,7 @@
             </template>
           </FormKit>
 
-          <template #submit="context">
+          <template #submit>
             <FormKit
               type="submit"
               label="Continue"
@@ -89,8 +89,8 @@
     </div>
     <!-- Modal -->
     <div
-      class="modal fade fixed top-60 left-120 hidden w-100 h-100 outline-none overflow-x-hidden overflow-y-auto"
       id="exampleModal"
+      class="modal fade fixed top-60 left-120 hidden w-100 h-100 outline-none overflow-x-hidden overflow-y-auto"
       tabindex="-1"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
@@ -103,8 +103,8 @@
             class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md"
           >
             <h5
-              class="text-xl font-medium leading-normal text-gray-800"
               id="exampleModalLabel"
+              class="text-xl font-medium leading-normal text-gray-800"
             >
               Register
             </h5>
@@ -137,7 +137,6 @@
 </template>
 
 <script setup>
-import { useUser } from '~/store/user';
 const router = useRouter();
 const email = ref('');
 const password = ref('');
@@ -150,7 +149,7 @@ async function emailIsRegistered(node) {
 
 async function RegisterUser() {
   const username = await generateUsername();
-  const postReq = await fetch('/api/users', {
+  await fetch('/api/users', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -162,10 +161,7 @@ async function RegisterUser() {
       password: password.value
     })
   });
-  console.log(postReq);
-  console.log(password);
-  console.log(password.value);
-  const res2 = await $fetch('api/authenticate', {
+  await $fetch('api/authenticate', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -174,22 +170,13 @@ async function RegisterUser() {
     })
   });
 
-  const res3 = await fetch(
-    `/api/users?email=${email.value}&password=${password.value}`
-  );
-  const resJson = await res3.json();
-  console.log(resJson);
+  const res3 = (
+    await $fetch(`/api/users?email=${email.value}&password=${password.value}`)
+  ).data.items[0];
 
-  const store = useUser();
-  store.$patch({
-    user: {
-      userId: resJson.data.items[0]._id,
-      username,
-      email: email.value,
-      password: password.value
-    }
-  });
-  // console.log(store.user.userId);
+  const user = useUser();
+  user.$patch({ data: res3 });
+  // console.log(user.user.userId);
 
   router.push('/signup/configure');
 }

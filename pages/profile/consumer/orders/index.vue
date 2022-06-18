@@ -112,27 +112,25 @@
 </template>
 
 <script setup>
-import { useUser } from '~/store/user';
 const router = useRouter();
-const store = useUser();
+const user = useUser();
 
 let orders = [];
-orders = (await $fetch(`/api/users/${store.user.userId}/orders`)).data.items;
+orders = (await $fetch(`/api/users/${user.data._id}/orders`)).data.items;
 
 async function goToOrder(order) {
   let checkOrder = [];
-  checkOrder = (
-    await $fetch(`/api/users/${store.user.userId}/orders/${order._id}`)
-  ).data.items;
+  checkOrder = (await $fetch(`/api/users/${user.data._id}/orders/${order._id}`)).data
+    .items;
   if (checkOrder.length !== 0) {
     router.push(`/profile/consumer/orders/${order._id}`);
   }
 }
 
 async function cancelOrder(order) {
-  await $fetch(`/api/users/${store.user.userId}/orders/${order._id}`, {
-    method: 'DELETE',
-    headers: { 'Content-Type': 'application/json' }
+  await $fetch(`/api/users/${user.data._id}/orders/${order._id}`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
   });
 }
 </script>

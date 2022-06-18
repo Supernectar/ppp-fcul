@@ -143,13 +143,11 @@
 </template>
 
 <script setup>
-import { useUser } from '~/store/user';
-
-const store = useUser();
+const user = useUser();
 
 const storages = ref([]);
 storages.value = (
-  await $fetch(`/api/users/${store.user.userId}/storages`)
+  await $fetch(`/api/users/${user.data._id}/storages`)
 ).data.items;
 
 // Create new storage
@@ -158,7 +156,7 @@ const location = ref('');
 const visibility = ref('');
 
 async function createStorage() {
-  await $fetch(`/api/users/${store.user.userId}/storages`, {
+  await $fetch(`/api/users/${user.data._id}/storages`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -172,7 +170,7 @@ async function createStorage() {
   });
 }
 async function deleteStorage(storageId) {
-  await $fetch(`/api/users/${store.user.userId}/storages/${storageId}`, {
+  await $fetch(`/api/users/${user.data._id}/storages/${storageId}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json'

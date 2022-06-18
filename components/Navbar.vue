@@ -1,19 +1,21 @@
 <template>
-  <nav class="shadow-md sticky top-0 bg-white py-2 px-4 z-10 h-20">
-    <div class="grid items-center grid-cols-3 md:grid-cols-9">
-      <div class="flex gap-4 md:col-span-2">
-        <NuxtLink to="/" class="flex items-center">
-          <img class="w-10 inline-block" src="/img/logo.png" alt="" />
-          <span class="font-semibold px-2 hidden md:inline-block"
-            >ClearChoice</span
-          >
-        </NuxtLink>
-      </div>
-
-      <form
-        class="text-center invisible md:(!visible col-span-5)"
-        @submit.prevent
-      >
+  <nav
+    class="h-20 grid grid-cols-[1fr,600px,1fr] shadow-md sticky top-0 bg-white py-2 px-4 z-10"
+  >
+    <div class="flex items-center">
+      <NuxtLink to="/" class="flex items-center">
+        <img
+          class="w-10 inline-block"
+          src="/img/logo.png"
+          alt="Navbar home button"
+        />
+        <span class="font-semibold px-2 hidden md:inline-block"
+          >ClearChoice</span
+        >
+      </NuxtLink>
+    </div>
+    <div class="flex items-center">
+      <form class="text-center flex-grow invisible md:visible" @submit.prevent>
         <label
           for="default-search1"
           class="mb-2 text-sm font-medium text-gray-900 sr-only"
@@ -23,25 +25,12 @@
           <div
             class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none"
           >
-            <svg
-              class="w-5 h-5 text-gray-500 dark:text-gray-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              ></path>
-            </svg>
+            <SearchIcon class="w-5 h-5 text-gray-500 dark:text-gray-400" />
           </div>
           <input
             id="default-search1"
             type="search"
-            class="block !p-4 !pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+            class="p-4 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
             placeholder="Search Products (name, category, ...)"
             required
           />
@@ -55,177 +44,283 @@
           </NuxtLink>
         </div>
       </form>
+    </div>
+    <div class="flex justify-end">
+      <Popover v-slot="{ open }" class="relative">
+        <PopoverButton
+          :class="open ? '' : 'text-opacity-90'"
+          class="inline-flex text-gray-500 w-full justify-center items-center rounded-md hover:(!bg-black !bg-opacity-5) px-2 py-2 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+        >
+          <ShoppingCartIcon class="h-6 w-6" aria-hidden="true" />
+          <ChevronDownIcon class="h-4 w-4" aria-hidden="true" />
+        </PopoverButton>
 
-      <!-- Left aligned Icons -->
-      <div class="flex justify-end gap-2 md:col-span-2">
-        <div v-if="!logged">
-          <NuxtLink to="/signup">
-            <button
-              type="button"
-              class="mr-4 inline-block px-6 py-2 border-2 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-            >
-              Sign Up
-            </button>
-          </NuxtLink>
-          <NuxtLink to="/signin">
-            <button
-              type="button"
-              class="inline-block px-6 py-2 border-2 border-blue-600 text-blue-600 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
-            >
-              Sign In
-            </button>
-          </NuxtLink>
-        </div>
-        <!-- Mobile Search Popover -->
-        <Popover v-slot="{ open }" class="block md:hidden relative">
-          <PopoverButton
-            :class="open ? '' : 'text-opacity-90'"
-            class="inline-flex text-gray-500 w-full justify-center items-center rounded-md hover:(!bg-black !bg-opacity-5) px-2 py-2 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
-            @click="toggleSearch"
+        <transition
+          enter-active-class="transition duration-200 ease-out"
+          enter-from-class="translate-y-1 opacity-0"
+          enter-to-class="translate-y-0 opacity-100"
+          leave-active-class="transition duration-150 ease-in"
+          leave-from-class="translate-y-0 opacity-100"
+          leave-to-class="translate-y-1 opacity-0"
+        >
+          <PopoverPanel
+            class="absolute right-0 mt-2 z-50 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
           >
-            <SearchIcon class="h-6 w-6" aria-hidden="true" />
-            <!-- <ChevronDownIcon class="h-4 w-4" aria-hidden="true" /> -->
-          </PopoverButton>
-        </Popover>
+            <div class="overflow-hidden rounded-lg shadow-lg ring-1 bg-white">
+              <table class="w-full text-sm text-left text-gray-500">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                  <tr>
+                    <th scope="col" class="px-2 py-3">Product name</th>
+                    <th scope="col" class="px-2 py-3">Price</th>
+                    <th scope="col" class="px-2 py-3">Amount</th>
+                    <th scope="col" class="px-2 py-3">
+                      <span class="sr-only">Edit</span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b hover:bg-gray-50">
+                    <th
+                      scope="row"
+                      class="px-2 py-4 font-medium text-gray-900 whitespace-nowrap"
+                    >
+                      Apple MacBook Pro 17"
+                    </th>
+                    <td class="px-2 py-4">$2999</td>
+                    <td class="px-2 py-4">
+                      <input
+                        id=""
+                        class="w-16"
+                        type="number"
+                        min="0"
+                        name=""
+                        value="3"
+                      />
+                    </td>
+                    <td class="px-2 py-4 text-right">
+                      <a
+                        href="#"
+                        class="font-medium text-blue-600 hover:underline"
+                        >Edit</a
+                      >
+                    </td>
+                  </tr>
+                  <tr class="bg-white border-b hover:bg-gray-50">
+                    <th
+                      scope="row"
+                      class="px-2 py-4 font-medium text-gray-900 whitespace-nowrap"
+                    >
+                      Microsoft Surface Pro
+                    </th>
+                    <td class="px-2 py-4">$1999</td>
+                    <td class="px-2 py-4">
+                      <input
+                        id=""
+                        class="w-16"
+                        type="number"
+                        min="0"
+                        name=""
+                        value="2"
+                      />
+                    </td>
+                    <td class="px-2 py-4 text-right">
+                      <a
+                        href="#"
+                        class="font-medium text-blue-600 hover:underline"
+                        >Edit</a
+                      >
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="flex justify-evenly p-2">
+                <NuxtLink to="/cart">
+                  <button
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  >
+                    See more
+                  </button>
+                </NuxtLink>
+                <NuxtLink to="#">
+                  <button
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  >
+                    Finish order
+                  </button>
+                </NuxtLink>
+              </div>
+            </div>
+          </PopoverPanel>
+        </transition>
+      </Popover>
+      <div v-if="!user.isLoggedIn">
+        <NuxtLink to="/signup" class="invisible md:visible">
+          <button
+            type="button"
+            class="mr-4 inline-block px-6 py-2 border-2 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+          >
+            Sign Up
+          </button>
+        </NuxtLink>
+        <NuxtLink to="/signin">
+          <button
+            type="button"
+            class="inline-block px-6 py-2 border-2 border-blue-600 text-blue-600 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
+          >
+            Sign In
+          </button>
+        </NuxtLink>
+      </div>
 
-        <!-- notifications popover -->
-        <Popover v-if="logged" v-slot="{ open }" class="relative">
-          <PopoverButton
-            :class="open ? '' : 'text-opacity-90'"
+      <Popover v-if="user.isLoggedIn" v-slot="{ open }" class="relative">
+        <PopoverButton
+          :class="open ? '' : 'text-opacity-90'"
+          class="inline-flex text-gray-500 w-full justify-center items-center rounded-md hover:(!bg-black !bg-opacity-5) px-2 py-2 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+        >
+          <BellIcon class="h-6 w-6" aria-hidden="true" />
+          <ChevronDownIcon class="h-4 w-4" aria-hidden="true" />
+        </PopoverButton>
+
+        <transition
+          enter-active-class="transition duration-200 ease-out"
+          enter-from-class="translate-y-1 opacity-0"
+          enter-to-class="translate-y-0 opacity-100"
+          leave-active-class="transition duration-150 ease-in"
+          leave-from-class="translate-y-0 opacity-100"
+          leave-to-class="translate-y-1 opacity-0"
+        >
+          <PopoverPanel
+            class="absolute right-0 mt-2 z-50 origin-top-right rounded-md bg-white shadow-lg focus:outline-none"
+          >
+            <div
+              class="overflow-hidden rounded-lg shadow-lg ring-1 bg-white"
+            ></div>
+            Hello
+          </PopoverPanel>
+        </transition>
+      </Popover>
+
+      <div v-if="user.isLoggedIn" class="top-16 text-right">
+        <Menu as="div" class="relative inline-block text-left">
+          <MenuButton
             class="inline-flex text-gray-500 w-full justify-center items-center rounded-md hover:(!bg-black !bg-opacity-5) px-2 py-2 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
           >
-            <BellIcon class="h-6 w-6" aria-hidden="true" />
+            <img
+              class="w-6 h-6 rounded-full"
+              :src="
+                'https://ui-avatars.com/api/?format=svg&color=' +
+                user.data.preferences.profileIconTextColor.replace('#', '') +
+                '&background=' +
+                user.data.preferences.profileIconBgColor.replace('#', '') +
+                '&name=' +
+                user.data.username
+              "
+              alt="Rounded avatar"
+            />
             <ChevronDownIcon class="h-4 w-4" aria-hidden="true" />
-          </PopoverButton>
+          </MenuButton>
 
           <transition
-            enter-active-class="transition duration-200 ease-out"
-            enter-from-class="translate-y-1 opacity-0"
-            enter-to-class="translate-y-0 opacity-100"
-            leave-active-class="transition duration-150 ease-in"
-            leave-from-class="translate-y-0 opacity-100"
-            leave-to-class="translate-y-1 opacity-0"
+            enter-active-class="transition duration-100 ease-out"
+            enter-from-class="transform scale-95 opacity-0"
+            enter-to-class="transform scale-100 opacity-100"
+            leave-active-class="transition duration-75 ease-in"
+            leave-from-class="transform scale-100 opacity-100"
+            leave-to-class="transform scale-95 opacity-0"
           >
-            <PopoverPanel
-              class="absolute right-0 mt-2 z-50 origin-top-right rounded-md bg-white shadow-lg focus:outline-none"
+            <MenuItems
+              class="absolute right-0 mt-2 z-50 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
             >
-              <div
-                class="overflow-hidden rounded-lg shadow-lg ring-1 bg-white"
-              ></div>
-              Hello
-            </PopoverPanel>
-          </transition>
-        </Popover>
-
-        <!-- Cart Dropdown -->
-
-        <Popover v-slot="{ open }" class="relative">
-          <PopoverButton
-            :class="open ? '' : 'text-opacity-90'"
-            class="inline-flex text-gray-500 w-full justify-center items-center rounded-md hover:(!bg-black !bg-opacity-5) px-2 py-2 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
-          >
-            <ShoppingCartIcon class="h-6 w-6" aria-hidden="true" />
-            <ChevronDownIcon class="h-4 w-4" aria-hidden="true" />
-          </PopoverButton>
-
-          <transition
-            enter-active-class="transition duration-200 ease-out"
-            enter-from-class="translate-y-1 opacity-0"
-            enter-to-class="translate-y-0 opacity-100"
-            leave-active-class="transition duration-150 ease-in"
-            leave-from-class="translate-y-0 opacity-100"
-            leave-to-class="translate-y-1 opacity-0"
-          >
-            <PopoverPanel
-              class="absolute right-0 mt-2 z-50 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-            >
-              <div class="overflow-hidden rounded-lg shadow-lg ring-1 bg-white">
-                <table class="w-full text-sm text-left text-gray-500">
-                  <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                    <tr>
-                      <th scope="col" class="px-2 py-3">Product name</th>
-                      <th scope="col" class="px-2 py-3">Price</th>
-                      <th scope="col" class="px-2 py-3">Amount</th>
-                      <th scope="col" class="px-2 py-3">
-                        <span class="sr-only">Edit</span>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr class="bg-white border-b hover:bg-gray-50">
-                      <th
-                        scope="row"
-                        class="px-2 py-4 font-medium text-gray-900 whitespace-nowrap"
-                      >
-                        Apple MacBook Pro 17"
-                      </th>
-                      <td class="px-2 py-4">$2999</td>
-                      <td class="px-2 py-4">
-                        <input
-                          id=""
-                          class="w-16"
-                          type="number"
-                          min="0"
-                          name=""
-                          value="3"
-                        />
-                      </td>
-                      <td class="px-2 py-4 text-right">
-                        <a
-                          href="#"
-                          class="font-medium text-blue-600 hover:underline"
-                          >Edit</a
-                        >
-                      </td>
-                    </tr>
-                    <tr class="bg-white border-b hover:bg-gray-50">
-                      <th
-                        scope="row"
-                        class="px-2 py-4 font-medium text-gray-900 whitespace-nowrap"
-                      >
-                        Microsoft Surface Pro
-                      </th>
-                      <td class="px-2 py-4">$1999</td>
-                      <td class="px-2 py-4">
-                        <input
-                          id=""
-                          class="w-16"
-                          type="number"
-                          min="0"
-                          name=""
-                          value="2"
-                        />
-                      </td>
-                      <td class="px-2 py-4 text-right">
-                        <a
-                          href="#"
-                          class="font-medium text-blue-600 hover:underline"
-                          >Edit</a
-                        >
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div class="flex justify-evenly p-2">
-                  <NuxtLink to="/cart">
-                    <button
-                      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    >
-                      See more
-                    </button>
-                  </NuxtLink>
-                  <NuxtLink to="#">
-                    <button
-                      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    >
-                      Finish order
-                    </button>
-                  </NuxtLink>
+              <div class="px-1 py-1">
+                <div class="group w-full rounded-md px-2 py-2 text-sm">
+                  <div class="flex items-center">
+                    {{ user.data.username }}
+                  </div>
+                  <div class="flex items-center font-semibold">
+                    {{ user.data.email }}
+                  </div>
                 </div>
               </div>
-            </PopoverPanel>
+              <div class="px-1 py-1">
+                <MenuItem v-slot="{ active }">
+                  <NuxtLink to="/profile">
+                    <button
+                      :class="[
+                        active ? '!bg-black !bg-opacity-5' : 'text-gray-900',
+                        'group flex w-full items-center rounded-md px-2 py-2 text-sm'
+                      ]"
+                    >
+                      <ArchiveIcon
+                        :active="active"
+                        class="mr-2 h-5 w-5 text-violet-400"
+                        aria-hidden="true"
+                      />
+                      Profile
+                    </button>
+                  </NuxtLink>
+                </MenuItem>
+                <MenuItem v-slot="{ active }">
+                  <button
+                    :class="[
+                      active ? '!bg-black !bg-opacity-5' : 'text-gray-900',
+                      'group flex w-full items-center rounded-md px-2 py-2 text-sm'
+                    ]"
+                  >
+                    <CogIcon
+                      :active="active"
+                      class="mr-2 h-5 w-5 text-violet-400"
+                      aria-hidden="true"
+                    />
+                    Settings
+                  </button>
+                </MenuItem>
+              </div>
+
+              <div class="px-1 py-1">
+                <MenuItem v-slot="{ active }">
+                  <button
+                    :class="[
+                      active ? '!bg-black !bg-opacity-5' : 'text-gray-900',
+                      'group flex w-full items-center rounded-md px-2 py-2 text-sm'
+                    ]"
+                    @click="signOut"
+                  >
+                    <LogoutIcon
+                      :active="active"
+                      class="mr-2 h-5 w-5 text-violet-400"
+                      aria-hidden="true"
+                    />
+                    Sign out
+                  </button>
+                </MenuItem>
+              </div>
+            </MenuItems>
           </transition>
-        </Popover>
+        </Menu>
+      </div>
+      <!-- <Popover v-slot="{ open }" class="block md:hidden relative">
+        <PopoverButton
+          :class="open ? '' : 'text-opacity-90'"
+          class="inline-flex text-gray-500 w-full justify-center items-center rounded-md hover:(!bg-black !bg-opacity-5) px-2 py-2 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+          @click="toggleSearch"
+        >
+          <SearchIcon class="h-6 w-6" aria-hidden="true" />
+        </PopoverButton>
+      </Popover> -->
+    </div>
+    <!-- 
+      Left aligned Icons
+      <div class="flex justify-end gap-2 md:col-span-2">
+        
+        Mobile Search Popover
+        
+
+        notifications popover
+        
+
+        Cart Dropdown
+
+        
 
         <div
           id="dropdownCart"
@@ -234,136 +329,8 @@
           <div class="relative overflow-x-auto shadow-md sm:rounded-lg"></div>
         </div>
 
-        <!-- Profile Dropdown -->
-        <div v-if="logged" class="top-16 text-right">
-          <Menu as="div" class="relative inline-block text-left">
-            <div>
-              <MenuButton
-                class="inline-flex text-gray-500 w-full justify-center items-center rounded-md hover:(!bg-black !bg-opacity-5) px-2 py-2 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
-              >
-                <img
-                  class="w-6 h-6 rounded-full"
-                  :src="
-                    'https://ui-avatars.com/api/?format=svg&color=' +
-                    useUser().user.preferences.profileIconTextColor.replace(
-                      '#',
-                      ''
-                    ) +
-                    '&background=' +
-                    useUser().user.preferences.profileIconBgColor.replace(
-                      '#',
-                      ''
-                    ) +
-                    '&name=' +
-                    useUser().user.username
-                  "
-                  alt="Rounded avatar"
-                />
-                <ChevronDownIcon class="h-4 w-4" aria-hidden="true" />
-              </MenuButton>
-            </div>
-
-            <transition
-              enter-active-class="transition duration-100 ease-out"
-              enter-from-class="transform scale-95 opacity-0"
-              enter-to-class="transform scale-100 opacity-100"
-              leave-active-class="transition duration-75 ease-in"
-              leave-from-class="transform scale-100 opacity-100"
-              leave-to-class="transform scale-95 opacity-0"
-            >
-              <MenuItems
-                class="absolute right-0 mt-2 z-50 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-              >
-                <div class="px-1 py-1">
-                  <div class="group w-full rounded-md px-2 py-2 text-sm">
-                    <div class="flex items-center">
-                      {{ store.user.username }}
-                    </div>
-                    <div class="flex items-center font-semibold">
-                      {{ store.user.email }}
-                    </div>
-                  </div>
-                </div>
-                <!-- <div class="px-1 py-1">
-                  <MenuItem v-slot="{ active }">
-                  <button :class="[
-                    active ? '!bg-black !bg-opacity-5' : 'text-gray-900',
-                    ' group flex w-full items-center rounded-md px-2 py-2 text-sm',
-                  ]">
-                    <PencilIcon :active="active" class="mr-2 h-5 w-5 text-violet-400" aria-hidden="true" />
-                    Edit
-                  </button>
-                  </MenuItem>
-                  <MenuItem v-slot="{ active }">
-                  <button :class="[
-                    active ? '!bg-black !bg-opacity-5' : 'text-gray-900',
-                    'group flex w-full items-center rounded-md px-2 py-2 text-sm',
-                  ]">
-                    <DuplicateIcon :active="active" class="mr-2 h-5 w-5 text-violet-400" aria-hidden="true" />
-                    Duplicate
-                  </button>
-                  </MenuItem>
-                </div> -->
-                <div class="px-1 py-1">
-                  <MenuItem v-slot="{ active }">
-                    <NuxtLink to="/profile">
-                      <button
-                        :class="[
-                          active ? '!bg-black !bg-opacity-5' : 'text-gray-900',
-                          'group flex w-full items-center rounded-md px-2 py-2 text-sm'
-                        ]"
-                      >
-                        <ArchiveIcon
-                          :active="active"
-                          class="mr-2 h-5 w-5 text-violet-400"
-                          aria-hidden="true"
-                        />
-                        Profile
-                      </button>
-                    </NuxtLink>
-                  </MenuItem>
-                  <MenuItem v-slot="{ active }">
-                    <button
-                      :class="[
-                        active ? '!bg-black !bg-opacity-5' : 'text-gray-900',
-                        'group flex w-full items-center rounded-md px-2 py-2 text-sm'
-                      ]"
-                    >
-                      <CogIcon
-                        :active="active"
-                        class="mr-2 h-5 w-5 text-violet-400"
-                        aria-hidden="true"
-                      />
-                      Settings
-                    </button>
-                  </MenuItem>
-                </div>
-
-                <div class="px-1 py-1">
-                  <MenuItem v-slot="{ active }">
-                    <button
-                      :class="[
-                        active ? '!bg-black !bg-opacity-5' : 'text-gray-900',
-                        'group flex w-full items-center rounded-md px-2 py-2 text-sm'
-                      ]"
-                      @click="signOut"
-                    >
-                      <LogoutIcon
-                        :active="active"
-                        class="mr-2 h-5 w-5 text-violet-400"
-                        aria-hidden="true"
-                      />
-                      Sign out
-                    </button>
-                  </MenuItem>
-                </div>
-              </MenuItems>
-            </transition>
-          </Menu>
-        </div>
-        <!-- <div>
-          {{ store.user.username }}
-        </div> -->
+        Profile Dropdown
+        
       </div>
     </div>
 
@@ -413,7 +380,7 @@
           </NuxtLink>
         </div>
       </form>
-    </div>
+    -->
   </nav>
 </template>
 <script setup>
@@ -436,42 +403,18 @@ import {
   SearchIcon
 } from '@heroicons/vue/outline/index.js';
 
-import { useUser } from '~/store/user';
-
 const router = useRouter();
 
-let logged = false;
-const store = useUser();
-
-if (store.user.userId !== 0) {
-  logged = true;
-} else {
-  logged = false;
-}
+const user = useUser();
 
 function signOut() {
-  if (logged) {
-    store.$patch({
-      user: {
-        userId: 0,
-        username: '',
-        email: '',
-        password: '',
-        type: '',
-        consumerData: {
-          wishlist: []
-        },
-        preferences: {
-          profileIconBgColor: '#000000',
-          profileIconTextColor: '#ffffff'
-        }
-      }
-    });
+  if (user.isLoggedIn) {
+    user.reset();
   }
-  logged = false;
   router.push('/signin');
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function toggleSearch() {
   document.querySelector('#dropdownMobileSearch').classList.toggle('hidden');
 }

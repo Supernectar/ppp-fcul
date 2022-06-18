@@ -7,8 +7,12 @@
         <thead class="bg-gray-500 border-gray-500">
           <tr>
             <th class="w-20 text-sm text-gray-200 whitespace-nowrap">&nbsp;</th>
-            <th class="w-20 text-sm text-gray-200 whitespace-nowrap">Product</th>
-            <th class="w-20 text-sm text-gray-200 whitespace-nowrap">Quantity</th>
+            <th class="w-20 text-sm text-gray-200 whitespace-nowrap">
+              Product
+            </th>
+            <th class="w-20 text-sm text-gray-200 whitespace-nowrap">
+              Quantity
+            </th>
             <th class="w-20 text-sm text-gray-200 whitespace-nowrap">Price</th>
           </tr>
         </thead>
@@ -19,7 +23,9 @@
             :key="index"
             class="bg-white"
           >
-            <td class="py-2 text-sm text-gray-700 whitespace-nowrap text-center">
+            <td
+              class="py-2 text-sm text-gray-700 whitespace-nowrap text-center"
+            >
               <img src="/img/627.png" class="h-16 rounded-lg border" />
             </td>
             <td class="p-4 text-sm text-gray-700 whitespace-nowrap text-center">
@@ -44,7 +50,9 @@
             <td class=""></td>
             <td></td>
 
-            <td class="text-sm text-gray-700 whitespace-nowrap text-center">Total:</td>
+            <td class="text-sm text-gray-700 whitespace-nowrap text-center">
+              Total:
+            </td>
             <td class="text-sm text-gray-700 whitespace-nowrap text-center">
               {{ total }}€
             </td>
@@ -56,8 +64,8 @@
 </template>
 
 <script setup>
-import { TrashIcon } from "@heroicons/vue/outline";
-import { useCart } from "~/store/cart";
+import { TrashIcon } from '@heroicons/vue/outline';
+import useCart from '~/stores/cart';
 const store = useCart();
 const cart = ref(store.getCart);
 const myProducts = ref([]);
@@ -75,6 +83,7 @@ for (let i = 0; i < cart.value.length; i++) {
 }
 
 for (let i = 0; i < myProducts.value.length; i++) {
-  total.value = total.value + myProducts.value[i].price * cart.value[i].quantity;
+  total.value =
+    total.value + myProducts.value[i].price * cart.value[i].quantity;
 }
 </script>

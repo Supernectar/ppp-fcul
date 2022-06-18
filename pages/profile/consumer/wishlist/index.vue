@@ -44,10 +44,9 @@
 </template>
 
 <script setup>
-import { useUser } from '~/store/user';
-const store = useUser().user;
+const user = useUser();
 
-const wishlistIds = store.consumerData.wishlist;
+const wishlistIds = user.data.consumerData.wishlist;
 
 const whishlistItems = ref([]);
 for (let i = 0; i < wishlistIds.length; i++) {
