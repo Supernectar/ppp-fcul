@@ -1,7 +1,7 @@
 <template>
   <nav class="sticky top-0 z-50">
     <div
-      class="shadow-md h-20 grid grid-cols-[1fr,auto,1fr] md:grid-cols-[1fr,600px,1fr] flex-grow bg-white px-4 z-30"
+      class="shadow-md h-20 grid grid-cols-[1fr,auto,1fr] md:grid-cols-[1fr,400px,1fr] lg:grid-cols-[1fr,600px,1fr] flex-grow bg-white px-4 z-30"
     >
       <div class="flex items-center">
         <NuxtLink to="/" class="flex items-center">
@@ -80,6 +80,7 @@
               class="absolute right-0 mt-2 z-50 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
             >
               <div class="overflow-hidden rounded-lg shadow-lg ring-1 bg-white">
+                <!-- v-if="cartItemList.length > 0" -->
                 <table class="w-full text-sm text-left text-gray-500">
                   <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
@@ -162,6 +163,14 @@
                     </button>
                   </NuxtLink>
                 </div>
+                <!-- <div v-else>
+                  <NuxtLink to="/test" class="text-blue-500">
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    start browsing items
+                    </button>
+                  </NuxtLink>
+                </div>
+                -->
               </div>
             </PopoverPanel>
           </transition>
@@ -309,164 +318,18 @@
       </div>
     </div>
 
+    <!-- Categories/Items search -->
     <div :class="isOpen ? 'block' : 'hidden'">
       <div
         class="fixed w-screen h-screen bg-black opacity-25"
         @click="closeModal"
       ></div>
       <div class="fixed h-60 w-full pr-2 bg-white overflow-auto">
-        heyhey
+        Categories
+        <NuxtLink to="/test">lavar</NuxtLink>
         <div class="w-6 h-screen bg-pink-100">ds</div>
       </div>
     </div>
-
-    <!-- <div
-      class="flex flex-col h-[calc(100vh-5rem)]"
-      :class="isOpen ? 'block' : 'hidden'"
-    >
-      <div>
-        <div class="h-60 bg-blue-300">
-          <div>Categories here</div>
-          <div>content</div>
-          <div>content</div>
-          <div>content</div>
-          <div>content</div>
-        </div>
-      </div>
-      <div class="bg-black opacity-25 flex-grow" @click="closeModal"></div>
-    </div> -->
-
-    <!-- <div class="absolute">
-      <div class="bg-black opacity-30 h-screen w-screen z-10"></div>
-      <div class="absolute top-0 w-screen h-60 bg-white overflow-auto">
-        <div>Categories here</div>
-        <div class="w-20 h-screen bg-pink-100">ok</div>
-      </div>
-    </div> -->
-
-    <!-- <Dialog :open="isOpen" as="div" @close="closeModal" class="z-10">
-      <div class="fixed inset-0 bg-black bg-opacity-25" />
-
-      <DialogPanel
-        class="absolute top-20 w-screen max-w-md transform overflow-hidden bg-white p-6 text-left align-middle shadow-xl transition-all"
-      >
-        <DialogTitle
-          as="h3"
-          class="text-lg font-medium leading-6 text-gray-900"
-        >
-          Payment successful
-        </DialogTitle>
-        <div class="mt-2">
-          <p class="text-sm text-gray-500">
-            Your payment has been successfully submitted. We’ve sent you an
-            email with all of the details of your order.
-          </p>
-        </div>
-
-        <div class="mt-4">
-          <button
-            type="button"
-            class="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-            @click="closeModal"
-          >
-            Got it, thanks!
-          </button>
-        </div>
-      </DialogPanel>
-      <div class="fixed inset-0 overflow-y-auto">
-        <div
-          class="flex min-h-full items-center justify-center p-4 text-center"
-        >
-        </div>
-      </div>
-    </Dialog> -->
-    <!-- <TransitionRoot appear :show="isOpen" as="template">
-    </TransitionRoot> -->
-    <!-- <Popover :open="open" class="bg-blue-100">
-      <PopoverPanel static class="z-10 w-full">
-        <div class="grid grid-cols-2">
-          <a href="/analytics">Analytics</a>
-          <a href="/engagement">Engagement</a>
-          <a href="/security">Security</a>
-          <a href="/integrations">Integrations</a>
-        </div>
-
-        <img src="/solutions.jpg" alt="" />
-      </PopoverPanel>
-    </Popover> -->
-    <!-- 
-      Left aligned Icons
-      <div class="flex justify-end gap-2 md:col-span-2">
-        
-        Mobile Search Popover
-        
-
-        notifications popover
-        
-
-        Cart Dropdown
-
-        
-
-        <div
-          id="dropdownCart"
-          class="z-10 hidden bg-white divide-y divide-gray-100 rounded shadow"
-        >
-          <div class="relative overflow-x-auto shadow-md sm:rounded-lg"></div>
-        </div>
-
-        Profile Dropdown
-        
-      </div>
-    </div>
-
-    <div
-      id="dropdownMobileSearch"
-      class="pt-4 z-10 hidden md:hidden bg-white rounded"
-    >
-      <form class="text-center" @submit.prevent>
-        <label
-          for="default-search1"
-          class="mb-2 text-sm font-medium text-gray-900 sr-only"
-          >Search</label
-        >
-        <div class="relative">
-          <div
-            class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none"
-          >
-            <svg
-              class="w-5 h-5 text-gray-500 dark:text-gray-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              ></path>
-            </svg>
-          </div>
-          <input
-            id="default-search2"
-            type="search"
-            class="block !p-4 !pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Search Products (name, category, ...)"
-            required
-          />
-          <NuxtLink :to="'/items?search='">
-            <button
-              type="submit"
-              class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
-            >
-              Search
-            </button>
-          </NuxtLink>
-        </div>
-      </form>
-    -->
   </nav>
 </template>
 <script setup>
@@ -493,8 +356,22 @@ const router = useRouter();
 
 const user = useUser();
 
-function signOut() {
+async function signOut() {
   if (user.isLoggedIn) {
+    await $fetch(`/api/users/${user.data._id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        a: 'okok',
+        preferences: {
+          profileIconBgColor: user.data.preferences.profileIconBgColor,
+          profileIconTextColor: user.data.preferences.profileIconTextColor
+        }
+      })
+    });
+
     user.reset();
   }
   router.push('/signin');

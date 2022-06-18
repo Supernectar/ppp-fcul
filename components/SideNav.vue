@@ -318,7 +318,7 @@ watch(profileIconBgColor, () => {
 
 watch(profileIconTextColor, () => {
   user.$patch({
-    user: {
+    data: {
       preferences: {
         profileIconTextColor: profileIconTextColor.value
       }

@@ -56,9 +56,7 @@ const expandNode = async (node) => {
     }
   }
 };
-categories.value = (
-  await $fetch(`/api/categories?name=categoria`)
-).data.items[0];
+categories.value = (await $fetch(`/api/categories?name=main`)).data.items[0];
 
 expandNode(categories.value);
 </script>

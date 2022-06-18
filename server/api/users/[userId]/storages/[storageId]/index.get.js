@@ -1,26 +1,19 @@
+import User from '~~/server/models/User';
+import Storage from '~~/server/models/Storage';
+
 export default defineEventHandler(async (event) => {
   event.res.jsonResponse.context = event.context.params;
-  const authHeader = req.headers.authorization;
-  const token = authHeader && authHeader.split(' ')[1];
-
   try {
-    const decoded = await jwt.verify(token, 'secretkey');
+    const { userId, storageId } = event.context.params;
+    const user = await User.findOne({ _id: userId });
+    // const storageIds = user.supplierData.storages;
+    const storages = await Storage.find({ _id: storageId });
 
-    const { id } = req.params;
-
-    const storage = await Storage.findById(id);
-
-    if (!storage) {
-      res.status = 404;
-      res.send('storage not found');
-    } else if (storage.visibility == 'private') {
-      if (storage.owner != decoded.user._id) {
-        res.status(401);
-        res.send('storage visibility is private');
-      } else res.json(storage);
-    } else res.json(storage);
+    event.res.jsonResponse.data = {
+      items: storages
+    };
   } catch (err) {
-    res.send(err);
+    event.res.jsonResponse.error = err;
   }
 
   return event.res.jsonResponse;

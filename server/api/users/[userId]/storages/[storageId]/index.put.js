@@ -1,39 +1,33 @@
+import Storage from '~~/server/models/Storage';
+import Product from '~~/server/models/Product';
+
 export default defineEventHandler(async (event) => {
   event.res.jsonResponse.context = event.context.params;
-  const authHeader = req.headers.authorization;
-  const token = authHeader && authHeader.split(' ')[1];
+
+  const { storageId } = event.context.params;
+  const { item, price, unit, departureDate, arrivalDate } = await useBody(
+    event
+  );
 
   try {
-    const decoded = await jwt.verify(token, 'secretkey');
-
-    const { id } = req.params;
-
-    const storage = await Storage.findById(id);
-
-    if (!storage) {
-      res.status = 404;
-      res.send('storage not found');
-    } else if (storage.owner != decoded.user._id) {
-      res.json({
-        error: 'You must be the owner to change this storage'
-      });
-    } else {
-      const { name, location } = req.body;
-
-      const storage = await Storage.updateOne(
-        { _id: id },
-        {
-          name,
-          location
-        }
-      );
-
-      res.json(storage);
-    }
+    const order = await Order.updateOne(
+      { _id: orderId },
+      {
+        numberItems,
+        price,
+        status,
+        departureDate,
+        arrivalDate
+      }
+    );
+    event.res.jsonResponse.data = {
+      items: [order]
+    };
   } catch (err) {
     console.log(err);
-    res.json(err);
+    event.res.jsonResponse.error = {
+      message: err
+    };
   }
-
   return event.res.jsonResponse;
 });

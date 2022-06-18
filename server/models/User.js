@@ -66,11 +66,11 @@ export default mongoose.model(
     preferences: {
       profileIconBgColor: {
         type: String,
-        default: '000000'
+        default: '#000000'
       },
       profileIconTextColor: {
         type: String,
-        default: 'ffffff'
+        default: '#ffffff'
       }
     }
   })

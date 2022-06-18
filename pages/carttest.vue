@@ -106,7 +106,6 @@ const logged = ref(user.isLoggedIn);
 const myProducts = ref([]);
 const myItems = ref([]);
 const total = ref(0);
-// cart.value = ;
 for (let i = 0; i < cart.value.length; i++) {
   myProducts.value[i] = (
     await $fetch(`/api/products?_id=${cart.value[i].product}`)
@@ -138,7 +137,7 @@ function purchase() {
   if (logged) {
     router.push('/signin');
   } else {
-    router.push('/signin');
+    router.push('/purchase');
   }
 }
 

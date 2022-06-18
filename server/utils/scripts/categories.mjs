@@ -1,68 +1,78 @@
 export default [
   // >
   {
-    name: 'categoria',
-    description: 'categoria suprema',
+    nameId: 'main',
+    name: 'main',
+    description: 'This is the main category hihihehehaha',
     parent: '',
     attributes: []
   },
   // ->
   {
-    name: 'Grandes Eletrodomésticos',
+    nameId: 'largeAppliances',
+    name: 'Large appliances',
     description: '',
-    parent: 'categoria',
+    parent: 'main',
     attributes: []
   },
   // -->
   {
-    name: 'máquinas de roupa',
+    nameId: 'washingMachines',
+    name: 'Washing machines',
     description: '',
-    parent: 'Grandes Eletrodomésticos',
+    parent: 'largeAppliances',
     attributes: ['filtro maquina da roupa']
   },
   // --->
   {
-    name: 'lavar',
+    nameId: 'wash',
+    name: 'wash',
     description: '',
-    parent: 'máquinas de roupa',
+    parent: 'washingMachines',
     attributes: ['altura', 'largura', 'tamanho']
   },
   {
-    name: 'secar',
+    nameId: 'dry',
+    name: 'dry',
     description: '',
-    parent: 'máquinas de roupa',
+    parent: 'washingMachines',
     attributes: []
   },
   {
-    name: 'lavar e secar',
+    nameId: 'washAndDry',
+    name: 'Wash and dry',
     description: '',
-    parent: 'máquinas de roupa',
+    parent: 'washingMachines',
     attributes: []
   },
   {
-    name: 'outras máquinas de roupa',
+    nameId: 'otherWashingMachines',
+    name: 'Other washing machines',
     description: '',
-    parent: 'máquinas de roupa',
+    parent: 'washingMachines',
     attributes: []
   },
   // -->
   {
-    name: 'máquinas de loiça',
+    nameId: 'dishwashers',
+    name: 'Dishwashers',
     description: '',
-    parent: 'Grandes Eletrodomésticos',
+    parent: 'largeAppliances',
     attributes: []
   },
   // --->
   {
-    name: 'máquinas',
+    nameId: 'dishwasherMachines',
+    name: 'Dishwasher machines',
     description: '',
-    parent: 'máquinas de loiça',
+    parent: 'dishwashers',
     attributes: []
   },
   {
-    name: 'outras máquinas de loiça',
+    nameId: 'otherDishwashers',
+    name: 'Other dishwashers',
     description: '',
-    parent: 'máquinas de loiça',
+    parent: 'dishwashers',
     attributes: []
   }
 ];

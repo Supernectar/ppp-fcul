@@ -1,44 +1,51 @@
 export default [
   {
-    item: 'maquina de lavar 1',
+    item: 'washing machine 1',
     price: 8,
     unit: '€',
-    quantity: 2
+    quantity: 2,
+    supplier: 'user-a'
   },
   {
-    item: 'maquina de lavar 1',
+    item: 'washing machine 1',
     price: 12,
     unit: '€',
-    quantity: 4
+    quantity: 4,
+    supplier: 'user-b'
   },
   {
-    item: 'maquina de lavar 1',
+    item: 'washing machine 1',
     price: 2,
     unit: '€',
-    quantity: 4
+    quantity: 4,
+    supplier: 'user-b'
   },
   {
-    item: 'maquina de lavar 2',
+    item: 'washing machine 2',
     price: 4,
     unit: '€',
-    quantity: 3
+    quantity: 3,
+    supplier: 'user-c'
   },
   {
-    item: 'maquina de lavar 2',
+    item: 'washing machine 2',
     price: 6,
     unit: '€',
-    quantity: 2
+    quantity: 2,
+    supplier: 'user-a'
   },
   {
-    item: 'maquina de lavar 3',
+    item: 'washing machine 3',
     price: 1,
     unit: '€',
-    quantity: 3
+    quantity: 3,
+    supplier: 'user-b'
   },
   {
-    item: 'maquina de lavar 3',
+    item: 'washing machine 3',
     price: 1,
     unit: '€',
-    quantity: 3
+    quantity: 3,
+    supplier: 'user-b'
   }
 ];

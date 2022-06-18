@@ -1,37 +1,43 @@
 export default [
   {
-    name: 'maquina de lavar 1',
+    name: 'washing machine 1',
     description:
       'Através de um sistema de Big Data, o AI DD™ reconhece o tipo de tecido...',
-    category: 'lavar',
+    category: 'wash',
     rating: 2,
     attributes: {
-      brand: 'lg'
+      brand: 'lg',
+      color: 'ffffff',
+      minPrice: Infinity,
+      manPrice: -Infinity
     }
   },
   {
-    name: 'maquina de lavar 2',
+    name: 'washing machine 2',
     description:
       'Através de um sistema de Big Data, o AI DD™ reconhece o tipo de tecido e escolhe automaticamente o padrão de lavagem mais adequado para proteger as suas roupas. O AI DD™ deteta não apenas o peso, como também a textura dos tecidos. Selecione o programa pretendido e em seguida a máquina irá adaptar automaticamente os movimentos ideais à lavagem.\n\n',
     producer: 'maneldascoubes',
-    category: 'lavar',
+    category: 'wash',
     rating: 4,
     attributes: {
-      brand: 'samsung'
+      brand: 'samsung',
+      color: '456734',
+      minPrice: Infinity,
+      manPrice: -Infinity
     }
   },
   {
-    name: 'maquina de lavar 3',
+    name: 'washing machine 3',
     description:
       'Através de um sistema de Big Data, o AI DD™ reconhece o tipo de tecido e escolhe automaticamente o padrão de lavagem mais adequado para proteger as suas roupas. O AI DD™ deteta não apenas o peso, como também a textura dos tecidos. Selecione o programa pretendido e em seguida a máquina irá adaptar automaticamente os movimentos ideais à lavagem.\n\n',
     producer: 'ritapepita',
-    category: 'lavar',
+    category: 'wash',
     rating: 2,
     attributes: {
       brand: 'lg',
       capacity: '10 kg',
       color: 'black',
-      'energy class': 'B',
+      energyClass: 'B',
       height: '200 cm',
       length: '100 cm',
       producer: 'ritapep',
@@ -39,17 +45,17 @@ export default [
     }
   },
   {
-    name: 'maquina de lavar 4',
+    name: 'washing machine 4',
     description:
       'Através de um sistema de Big Data, o AI DD™ reconhece o tipo de tecido e escolhe automaticamente o padrão de lavagem mais adequado para proteger as suas roupas. O AI DD™ deteta não apenas o peso, como também a textura dos tecidos. Selecione o programa pretendido e em seguida a máquina irá adaptar automaticamente os movimentos ideais à lavagem.\n\n',
     producer: 'ritapepita',
-    category: 'lavar',
+    category: 'wash',
     rating: 2,
     attributes: {
       brand: 'lg',
       capacity: '10 kg',
       color: 'black',
-      'energy class': 'B',
+      energyClass: 'B',
       height: '200 cm',
       length: '100 cm',
       producer: 'ritapep',
@@ -57,12 +63,12 @@ export default [
     }
   },
   {
-    name: 'maquina de lavar 5',
+    name: 'washing machine 5',
 
     description:
       'Através de um sistema de Big Data, o AI DD™ reconhece o tipo de tecido e escolhe automaticamente o padrão de lavagem mais adequado para proteger as suas roupas. O AI DD™ deteta não apenas o peso, como também a textura dos tecidos. Selecione o programa pretendido e em seguida a máquina irá adaptar automaticamente os movimentos ideais à lavagem.\n\n',
     producer: 'maneldascoubes',
-    category: 'lavar',
+    category: 'wash',
     rating: 4,
     attributes: {
       brand: 'samsung'

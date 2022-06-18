@@ -645,7 +645,7 @@ watch(
 );
 
 onMounted(async () => {
-  category.value = (await $fetch(`/api/categories?name=lavar`)).data.items[0];
+  category.value = (await $fetch(`/api/categories?name=wash`)).data.items[0];
 
   // ---- Category Path ---- //
   let current = category.value;

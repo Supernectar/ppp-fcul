@@ -4,9 +4,12 @@ const { Schema } = mongoose;
 export default mongoose.model(
   'Category',
   new Schema({
-    name: {
+    nameId: {
       type: String,
       unique: true
+    },
+    name: {
+      type: String
     },
     description: String,
     parent: {

@@ -4,8 +4,16 @@ export default defineEventHandler(async (event) => {
   event.res.jsonResponse.context = event.context.params;
 
   const { userId } = event.context.params;
-  const { name, username, address, phone, credit_card, nif, password } =
-    await useBody(event);
+  const {
+    name,
+    username,
+    address,
+    phone,
+    credit_card,
+    nif,
+    password,
+    preferences
+  } = JSON.parse(await useBody(event));
 
   // if (userId !== event.req.userId) {
   // 	event.res.jsonResponse.error = {
@@ -22,7 +30,8 @@ export default defineEventHandler(async (event) => {
         phone,
         credit_card,
         nif,
-        password
+        password,
+        preferences
       }
     );
     event.res.jsonResponse.data = {

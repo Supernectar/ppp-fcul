@@ -48,6 +48,7 @@
       </div>
       <div class="flex justify-end">
         <button
+          v-if="user.isLoggedIn"
           class="rounded hover:(bg-black bg-opacity-5)"
           @click="toggleFavourite($attrs.itemValue._id)"
         >

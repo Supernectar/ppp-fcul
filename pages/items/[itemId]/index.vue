@@ -114,19 +114,6 @@
 import useCart from '~/stores/cart';
 const store = useCart();
 const route = useRoute();
-// const products = ref("");
-
-// const { data } = await useFetch("/api/items/" + route.params.productId, {
-//   method: "GET",
-// });
-
-// // const res2 = await res.json();
-// console.log(data._rawValue);
-// // products = data._rawValue.data.items;
-
-// item: {},
-// products: []
-// http://localhost:3000/items/629dfc18c3c6375a112cf3a2
 
 const item = ref({});
 const products = ref([]);
@@ -142,7 +129,6 @@ category.value = (
   await $fetch(`/api/categories?_id=${item.value.category}`)
 ).data.items[0];
 
-console.log(products.value);
 // ---- Category Path ---- //
 let current = category.value;
 categoryPath.value.push(current);
@@ -158,8 +144,6 @@ categoryPath.value.shift();
 const myCart = ref([]);
 function addToCart(pid) {
   myCart.value = store.getCart;
-  console.log(myCart.value.length);
-
   if (myCart.value.some((el) => el.product === pid)) {
     myCart.value[myCart.value.findIndex((el) => el.product === pid)].quantity++;
   } else {

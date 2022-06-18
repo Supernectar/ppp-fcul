@@ -3,6 +3,27 @@
     <Navbar />
     <header>Carrinho</header>
     <div class="rounded-lg shadow hidden md:block mx-10 m-4">
+      {{ steps }}
+      <div id="multi-step-form">
+        <form class="p-10">
+          <div v-for="(fieldKeys, step) in steps" :id="step" :key="fieldKeys">
+            <!--<div>{{ step }}</div>-->
+            <div v-for="field in fieldKeys" :key="field" class="relative">
+              <div class="form-control">
+                <label class="label">
+                  <!--{{ fields[field].label }}-->
+                  {{ fields.value }}
+                  <input
+                    class="input input-bordered m-2 w-full"
+                    type="text"
+                    v-model="fields.value"
+                  /><!-- v-model="fields[field].value" -->
+                </label>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
       <table v-if="cart.length != 0" class="m-auto">
         <thead class="bg-gray-500 border-gray-500">
           <tr>
@@ -28,11 +49,12 @@
             >
               <img src="/img/627.png" class="h-16 rounded-lg border" />
             </td>
+            <!--
             <td class="p-4 text-sm text-gray-700 whitespace-nowrap text-center">
               {{ myItems[index].name }}
               <br />
               {{ myProducts[index].supplier.username }}
-            </td>
+            </td>-->
 
             <td class="p-4 text-sm text-gray-700 whitespace-nowrap text-center">
               {{ cartItem.quantity }}
@@ -64,14 +86,28 @@
 </template>
 
 <script setup>
-import { TrashIcon } from '@heroicons/vue/outline';
 import useCart from '~/stores/cart';
 const store = useCart();
 const cart = ref(store.getCart);
 const myProducts = ref([]);
 const myItems = ref([]);
 const total = ref(0);
-// cart.value = ;
+const steps = ref([
+  ['name', 'email'],
+  ['address', 'city', 'state', 'zip'],
+  ['donationAmount']
+]);
+const fields = ref({
+  name: {
+    label: 'Name',
+    value: ''
+  },
+  email: {
+    label: 'Email',
+    value: ''
+  }
+});
+
 for (let i = 0; i < cart.value.length; i++) {
   myProducts.value[i] = (
     await $fetch(`/api/products?_id=${cart.value[i].product}`)
