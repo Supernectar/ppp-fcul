@@ -45,7 +45,7 @@
                           <td
                             class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
                           >
-                            {{ items[index] }}
+                            {{ product.name }}
                           </td>
                           <td
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
@@ -82,7 +82,7 @@
                           v-model="item"
                           type="select"
                           placeholder="Choose your item"
-                          :options="names"
+                          :options="items"
                           validation="required"
                           outer-class="mb-4"
                           label-class="form-label inline-block mb-2 text-gray-700"
@@ -159,7 +159,7 @@ const user = useUser();
 
 const storage = ref([]);
 
-const item = ref('');
+const item = ref({});
 const price = ref('');
 const unit = ref('');
 const quantity = ref('');
@@ -168,21 +168,41 @@ storage.value = (
   await $fetch(`/api/users/${user.data._id}/storages/${route.params.storageId}`)
 ).data.items[0];
 
-let products = [];
-let items = [];
-const productIds = storage.value.products;
-for (let i = 0; i < productIds.length; i++) {
-  let product = (await $fetch(`/api/products/${productIds[i]}`)).data.items;
-  let item = (await $fetch(`/api/items/${product.item}`)).data.items[0].name;
-  products.push(product);
-  items.push(item);
+// let products = [];
+
+const items = ref([]);
+items.value = (await $fetch(`/api/items`)).data.items;
+console.log(items.value);
+for (const item of items.value) {
+  item.label = item.name;
+  item.value = item._id;
 }
 
-let names = [];
-const allItems = (await $fetch(`/api/items`)).data.items;
-for (let j = 0; j < allItems.length; j++) {
-  names.push(allItems[j].name);
+const products = ref([]);
+products.value = (
+  await $fetch(
+    `/api/users/${user.data._id}/storages/${route.params.storageId}/products`
+  )
+).data.items;
+for (const product of products.value) {
+  product.name = (
+    await $fetch(`/api/items/${product.item}`)
+  ).data.items[0].name;
 }
+console.log(products.value);
+
+// for (let i = 0; i < productIds.length; i++) {
+//   let product = (await $fetch(`/api/products/${productIds[i]}`)).data.items;
+//   let item = (await $fetch(`/api/items/${product.item}`)).data.items[0].name;
+//   products.push(product);
+//   items.push(item);
+// }
+
+// let names = [];
+// const allItems = (await $fetch(`/api/items`)).data.items;
+// for (let j = 0; j < allItems.length; j++) {
+//   names.push(allItems[j].name);
+// }
 
 async function addProduct() {
   console.log(item.value);
@@ -200,8 +220,9 @@ async function addProduct() {
       item: item.value,
       price: price.value,
       unit: unit.value,
-      supplier: toRaw(user.data),
-      quantity: quantity.value
+      supplier: user.data._id,
+      quantity: quantity.value,
+      storageId: route.params.storageId
     })
   });
   console.log(product);
