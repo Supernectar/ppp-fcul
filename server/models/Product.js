@@ -25,6 +25,7 @@ export default mongoose.model(
       type: Schema.Types.ObjectId,
       ref: 'User',
       required: true
-    }
+    },
+    polution: {}
   })
 );

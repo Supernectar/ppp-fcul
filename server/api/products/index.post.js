@@ -1,8 +1,11 @@
 import Product from '~~/server/models/Product';
+import Storage from '~~/server/models/Storage';
 
 export default defineEventHandler(async (event) => {
   try {
-    const { item, price, unit, supplier, quantity } = await useBody(event);
+    const { item, price, unit, supplier, quantity, storageId } = JSON.parse(
+      await useBody(event)
+    );
 
     try {
       const product = await Product.create({
@@ -12,6 +15,15 @@ export default defineEventHandler(async (event) => {
         supplier,
         quantity
       });
+
+      const storage = await Storage.updateOne(
+        { _id: storageId },
+        {
+          $push: {
+            products: product
+          }
+        }
+      );
     } catch (err) {
       event.res.jsonResponse.error = {
         message: err._message,

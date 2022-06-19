@@ -24,8 +24,8 @@ export default mongoose.model(
     },
     attributes: {
       type: Object
-    }
-    // polution: [],
+    },
+    polution: {}
     // resource: Resource,
   })
 );
