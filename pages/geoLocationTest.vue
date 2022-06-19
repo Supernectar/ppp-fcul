@@ -1,5 +1,5 @@
 <script>
-import { Loader } from '@googlemaps/js-api-loader';
+// import { Loader } from '@googlemaps/js-api-loader';
 const GOOGLE_MAPS_API_KEY =
   '526321408660-95ndo3seb63apcmpc4gudt6vf6d810hb.apps.googleusercontent.com';
 export default {
