@@ -9,6 +9,12 @@ export default mongoose.model(
     status: String,
     departureDate: String,
     arrivalDate: String,
+    itineraries: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Itinerary'
+      }
+    ],
     items: []
   })
 );
