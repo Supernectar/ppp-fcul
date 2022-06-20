@@ -1,5 +1,6 @@
 export default [
   {
+    nameId: 'prod1',
     item: 'washing machine 1',
     price: 8,
     unit: '€',
@@ -7,6 +8,7 @@ export default [
     supplier: 'user-a'
   },
   {
+    nameId: 'prod2',
     item: 'washing machine 1',
     price: 12,
     unit: '€',
@@ -14,6 +16,7 @@ export default [
     supplier: 'user-b'
   },
   {
+    nameId: 'prod3',
     item: 'washing machine 1',
     price: 2,
     unit: '€',
@@ -21,6 +24,7 @@ export default [
     supplier: 'user-b'
   },
   {
+    nameId: 'prod4',
     item: 'washing machine 2',
     price: 4,
     unit: '€',
@@ -28,6 +32,7 @@ export default [
     supplier: 'user-c'
   },
   {
+    nameId: 'prod5',
     item: 'washing machine 2',
     price: 6,
     unit: '€',
@@ -35,6 +40,7 @@ export default [
     supplier: 'user-a'
   },
   {
+    nameId: 'prod6',
     item: 'washing machine 3',
     price: 1,
     unit: '€',
@@ -42,6 +48,7 @@ export default [
     supplier: 'user-b'
   },
   {
+    nameId: 'prod7',
     item: 'washing machine 3',
     price: 1,
     unit: '€',

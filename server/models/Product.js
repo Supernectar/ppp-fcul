@@ -4,6 +4,10 @@ const { Schema } = mongoose;
 export default mongoose.model(
   'Product',
   new Schema({
+    nameId: {
+      type: String,
+      unique: true
+    },
     item: {
       type: Schema.Types.ObjectId,
       ref: 'Item',

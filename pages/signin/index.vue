@@ -34,9 +34,7 @@
             <FormKit
               type="submit"
               label="Continue"
-              data-bs-toggle="modal"
-              data-bs-target="#exampleModal"
-              input-class="w-full  ml-auto px-2 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+              input-class="w-full ml-auto px-2 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
             />
           </template>
         </FormKit>
@@ -53,56 +51,76 @@
         />
       </div>
     </div>
-    <!-- Modal -->
-    <div
-      id="exampleModal"
-      class="modal fade fixed top-60 left-120 hidden w-100 h-100 outline-none overflow-x-hidden overflow-y-auto"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog relative w-auto pointer-events-none">
-        <div
-          class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current"
+    <!-- Dialog -->
+    <TransitionRoot appear :show="isOpen" as="template">
+      <Dialog class="relative z-10" as="div" @close="closeModal">
+        <TransitionChild
+          as="template"
+          enter="duration-300 ease-out"
+          enter-from="opacity-0"
+          enter-to="opacity-100"
+          leave="duration-200 ease-in"
+          leave-from="opacity-100"
+          leave-to="opacity-0"
         >
+          <div class="fixed inset-0 bg-black bg-opacity-25" />
+        </TransitionChild>
+
+        <div class="fixed inset-0 overflow-y-auto">
           <div
-            class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md"
+            class="flex min-h-full items-center justify-center p-4 text-center"
           >
-            <h5
-              id="exampleModalLabel"
-              class="text-xl font-medium leading-normal text-gray-800"
+            <TransitionChild
+              as="template"
+              enter="duration-300 ease-out"
+              enter-from="opacity-0 scale-95"
+              enter-to="opacity-100 scale-100"
+              leave="duration-200 ease-in"
+              leave-from="opacity-100 scale-100"
+              leave-to="opacity-0 scale-95"
             >
-              Login
-            </h5>
-            <button
-              type="button"
-              class="btn-close box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body relative p-4">
-            User was logged successfully.
-          </div>
-          <div
-            class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md"
-          >
-            <button
-              type="button"
-              class="px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
+              <DialogPanel
+                class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
+              >
+                <DialogTitle
+                  as="h3"
+                  class="text-lg font-medium leading-6 text-gray-900"
+                >
+                  {{ 'You were logged successfully' }}
+                </DialogTitle>
+                <div class="mt-2">
+                  <p class="text-sm text-gray-500">Gooooood :)</p>
+                </div>
+
+                <div class="mt-4">
+                  <button
+                    type="button"
+                    class="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                    @click="closeModal"
+                  >
+                    Got it, thanks!
+                  </button>
+                </div>
+              </DialogPanel>
+            </TransitionChild>
           </div>
         </div>
-      </div>
-    </div>
+      </Dialog>
+    </TransitionRoot>
+
     <Footer />
   </div>
 </template>
 
 <script setup>
+import {
+  TransitionRoot,
+  TransitionChild,
+  Dialog,
+  DialogPanel,
+  DialogTitle
+} from '@headlessui/vue';
+
 async function googleSignIn() {
   try {
     const res = await gapi.auth2.getAuthInstance().signIn();
@@ -117,6 +135,15 @@ const user = useUser();
 const router = useRouter();
 const email = ref('');
 const password = ref('');
+
+const isOpen = ref(false);
+
+function closeModal() {
+  isOpen.value = false;
+}
+function openModal() {
+  isOpen.value = true;
+}
 
 async function login() {
   const users = (
@@ -141,7 +168,11 @@ async function login() {
       user.$patch({
         data: users[0]
       });
-      router.push('/profile/consumer/orders');
+
+      openModal();
+      setTimeout(() => {
+        router.push('/profile/consumer/orders');
+      }, 3000);
     }
   } else {
     console.log('Invalid email or password');

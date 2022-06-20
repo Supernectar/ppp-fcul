@@ -1,7 +1,31 @@
+<template>
+  <div ref="mapDiv">
+    <!-- <div class="d-flex text-center">
+     <div class="m-auto">
+        <h4>Your Position</h4>
+        Latitude: {{ currPos.lat.toFixed(2) }}, Longitude:
+        {{ currPos.lng.toFixed(2) }}
+      </div>
+      <div class="m-auto">
+        <h4>Distance</h4>
+        {{ distance.toFixed(2) }} miles
+      </div>
+      <div class="m-auto">
+        <h4>Clicked Position</h4>
+        <span v-if="otherPos">
+          Latitude: {{ otherPos.lat.toFixed(2) }}, Longitude:
+          {{ otherPos.lng.toFixed(2) }}
+        </span>
+        <span v-else>Click the map to select a position</span>
+      </div>
+    </div> -->
+    <!-- <div ref="mapDiv" /> -->
+  </div>
+</template>
+
 <script>
 import { Loader } from '@googlemaps/js-api-loader';
-const GOOGLE_MAPS_API_KEY =
-  '526321408660-95ndo3seb63apcmpc4gudt6vf6d810hb.apps.googleusercontent.com';
+const GOOGLE_MAPS_API_KEY = 'AIzaSyA-xeZY8mvozEc9HQ7_s7qh1M8dYw8uOgA';
 export default {
   name: 'App',
   setup() {
@@ -13,13 +37,13 @@ export default {
     const otherPos = ref(null);
     const loader = new Loader({ apiKey: GOOGLE_MAPS_API_KEY });
     const mapDiv = ref(null);
-    let map = ref(null);
+    const map = ref(null);
     let clickListener = null;
     onMounted(async () => {
       await loader.load();
       map.value = new google.maps.Map(mapDiv.value, {
         center: currPos.value,
-        zoom: 7
+        zoom: 16
       });
       clickListener = map.value.addListener(
         'click',
@@ -27,7 +51,7 @@ export default {
           (otherPos.value = { lat: lat(), lng: lng() })
       );
     });
-    onUnmounted(async () => {
+    onUnmounted(() => {
       if (clickListener) clickListener.remove();
     });
     let line = null;
@@ -68,28 +92,3 @@ export default {
   }
 };
 </script>
-
-<template>
-  <div>
-    <div class="d-flex text-center" style="height: 20vh">
-      <div class="m-auto">
-        <h4>Your Position</h4>
-        Latitude: {{ currPos.lat.toFixed(2) }}, Longitude:
-        {{ currPos.lng.toFixed(2) }}
-      </div>
-      <div class="m-auto">
-        <h4>Distance</h4>
-        {{ distance.toFixed(2) }} miles
-      </div>
-      <div class="m-auto">
-        <h4>Clicked Position</h4>
-        <span v-if="otherPos">
-          Latitude: {{ otherPos.lat.toFixed(2) }}, Longitude:
-          {{ otherPos.lng.toFixed(2) }}
-        </span>
-        <span v-else>Click the map to select a position</span>
-      </div>
-    </div>
-    <div ref="mapDiv" style="width: 100%; height: 80vh" />
-  </div>
-</template>

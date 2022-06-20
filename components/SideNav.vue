@@ -11,9 +11,9 @@
               <img
                 :src="
                   'https://ui-avatars.com/api/?format=svg&color=' +
-                  profileIconTextColor.replace('#', '') +
+                  user.data.preferences.profileIconTextColor.replace('#', '') +
                   '&background=' +
-                  profileIconBgColor.replace('#', '') +
+                  user.data.preferences.profileIconBgColor.replace('#', '') +
                   '&name=' +
                   user.data.username
                 "
@@ -22,28 +22,6 @@
               />
               {{ user.data.username }}
             </NuxtLink>
-          </li>
-          <li>
-            <div>
-              <div>
-                <input
-                  id="backgroundColor"
-                  v-model="profileIconBgColor"
-                  type="color"
-                  name="backgroundColor"
-                />
-                <label for="colorPalette">Background color</label>
-              </div>
-              <div>
-                <input
-                  id="profileIconTextColor"
-                  v-model="profileIconTextColor"
-                  type="color"
-                  name="profileIconTextColor"
-                />
-                <label for="profileIconTextColor">Text color</label>
-              </div>
-            </div>
           </li>
           <li>
             <Listbox v-model="selectedRole" class="my-2">

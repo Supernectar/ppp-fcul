@@ -50,57 +50,61 @@
                 </tr>
               </thead>
               <tbody>
-                <tr
+                <NuxtLink
                   v-for="(order, index) in orders"
                   :key="index"
-                  class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
-                  @click="goToOrder(order)"
+                  :to="`/profile/consumer/orders/${order._id}`"
                 >
-                  <td
-                    class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                  <tr
+                    class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
+                    @click="goToOrder(order)"
                   >
-                    {{ index + 1 }}
-                  </td>
-                  <td
-                    class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                  >
-                    {{ order.numberItems }}
-                  </td>
-                  <td
-                    class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                  >
-                    {{ order.price }}
-                  </td>
-                  <td
-                    class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                  >
-                    {{ order.status }}
-                  </td>
-                  <div class="flex space-x-2 justify-center">
-                    <div>
-                      <button
-                        type="button"
-                        class="inline-block rounded-full bg-blue-600 text-white leading-normal uppercase shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-9 h-9"
-                        @click="cancelOrder(order)"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="w-6 mx-auto"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          stroke-width="2"
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                    >
+                      {{ index + 1 }}
+                    </td>
+                    <td
+                      class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                    >
+                      {{ order.numberItems }}
+                    </td>
+                    <td
+                      class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                    >
+                      {{ order.price }}
+                    </td>
+                    <td
+                      class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                    >
+                      {{ order.status }}
+                    </td>
+                    <div class="flex space-x-2 justify-center">
+                      <div>
+                        <button
+                          type="button"
+                          class="inline-block rounded-full bg-blue-600 text-white leading-normal uppercase shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-9 h-9"
+                          @click="cancelOrder(order)"
                         >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                          />
-                        </svg>
-                      </button>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="w-6 mx-auto"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                          </svg>
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                </tr>
+                  </tr>
+                </NuxtLink>
               </tbody>
             </table>
           </div>
@@ -116,12 +120,13 @@ const router = useRouter();
 const user = useUser();
 
 let orders = [];
+console.log(`/api/users/${user.data._id}/orders`);
 orders = (await $fetch(`/api/users/${user.data._id}/orders`)).data.items;
 
 async function goToOrder(order) {
   let checkOrder = [];
-  checkOrder = (await $fetch(`/api/users/${user.data._id}/orders/${order._id}`)).data
-    .items;
+  checkOrder = (await $fetch(`/api/users/${user.data._id}/orders/${order._id}`))
+    .data.items;
   if (checkOrder.length !== 0) {
     router.push(`/profile/consumer/orders/${order._id}`);
   }
@@ -129,8 +134,8 @@ async function goToOrder(order) {
 
 async function cancelOrder(order) {
   await $fetch(`/api/users/${user.data._id}/orders/${order._id}`, {
-    method: "DELETE",
-    headers: { "Content-Type": "application/json" },
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' }
   });
 }
 </script>

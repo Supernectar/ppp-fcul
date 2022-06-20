@@ -15,6 +15,11 @@ export default mongoose.model(
         ref: 'Itinerary'
       }
     ],
-    items: []
+    products: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Product'
+      }
+    ]
   })
 );

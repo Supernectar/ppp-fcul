@@ -2,12 +2,15 @@ import User from '../models/User';
 import Item from '../models/Item';
 import Product from '../models/Product';
 import Category from '~~/server/models/Category';
+import Order from '~~/server/models/Order';
 import sampleUsers from '~~/server/utils/scripts/users';
 import sampleCategories from '~~/server/utils/scripts/categories';
 import sampleItems from '~~/server/utils/scripts/items';
 import sampleProducts from '~~/server/utils/scripts/products';
+import sampleOrders from '~~/server/utils/scripts/orders';
 
 export default defineEventHandler(async (event) => {
+  await Order.collection.drop();
   await Product.collection.drop();
   await Item.collection.drop();
   await Category.collection.drop();
@@ -66,6 +69,30 @@ export default defineEventHandler(async (event) => {
     product.supplier = await User.findOne({ username: product.supplier });
     try {
       await Product.create(product);
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  }
+
+  // Orders
+  for (const order of JSON.parse(JSON.stringify(sampleOrders))) {
+    for (let i = 0; i < order.products.length; i++) {
+      order.products[i] = await Product.findOne({
+        nameId: order.products[i].nameId
+      });
+    }
+
+    try {
+      const bdOrder = await Order.create(order);
+      await User.updateOne(
+        { username: 'user-a' },
+        {
+          $push: {
+            'consumerData.orders': bdOrder
+          }
+        }
+      );
     } catch (err) {
       console.log(err);
       return err;
