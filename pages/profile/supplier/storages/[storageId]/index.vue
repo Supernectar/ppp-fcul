@@ -34,6 +34,12 @@
                           >
                             Quantity
                           </th>
+                          <th
+                            scope="col"
+                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          >
+                            Polution
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -56,6 +62,11 @@
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                           >
                             {{ product.quantity }}
+                          </td>
+                          <td
+                            class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                          >
+                            {{ totalPolution }}
                           </td>
                           <td
                             class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
@@ -108,9 +119,10 @@
                       <div>
                         <FormKit
                           v-model="unit"
-                          placeholder="Unit ($/€)"
-                          type="text"
+                          placeholder="Unit"
+                          type="select"
                           name="unit"
+                          :options="['$', '€']"
                           validation="required"
                           outer-class="mb-4"
                           label-class="form-label inline-block mb-2 text-gray-700"
@@ -172,7 +184,6 @@ storage.value = (
 
 const items = ref([]);
 items.value = (await $fetch(`/api/items`)).data.items;
-console.log(items.value);
 for (const item of items.value) {
   item.label = item.name;
   item.value = item._id;
@@ -189,7 +200,42 @@ for (const product of products.value) {
     await $fetch(`/api/items/${product.item}`)
   ).data.items[0].name;
 }
-console.log(products.value);
+
+const itemsOfProducts = ref([]);
+for (const product of products.value) {
+  for (const item of items.value) {
+    if (product.item === item.value) {
+      itemsOfProducts.value.push(item);
+    }
+  }
+}
+
+const polutionsItems = ref([]);
+for (const itemOfProduct of itemsOfProducts.value) {
+  polutionsItems.value = (
+    await $fetch(`/api/items/${itemOfProduct._id}/polution`)
+  ).data.items;
+}
+console.log(polutionsItems.value);
+
+const polutionsProducts = ref([]);
+for (const product of products.value) {
+  polutionsProducts.value = (
+    await $fetch(`/api/products/${product._id}/polution`)
+  ).data.items;
+}
+console.log(polutionsProducts.value);
+
+const totalPolution = ref([]);
+for (const polutionItem of polutionsItems.value) {
+  totalPolution.value += polutionItem.quantity;
+}
+for (const polutionProduct of polutionsProducts.value) {
+  if (polutionsProducts.length !== 0) {
+    totalPolution.value += polutionProduct.quantity;
+  }
+}
+console.log(totalPolution.value);
 
 // for (let i = 0; i < productIds.length; i++) {
 //   let product = (await $fetch(`/api/products/${productIds[i]}`)).data.items;
@@ -205,12 +251,7 @@ console.log(products.value);
 // }
 
 async function addProduct() {
-  console.log(item.value);
-  console.log(price.value);
-  console.log(unit.value);
-  console.log(toRaw(user.data));
-  console.log(quantity.value);
-  let product = await $fetch(`/api/products`, {
+  await $fetch(`/api/products`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -225,10 +266,9 @@ async function addProduct() {
       storageId: route.params.storageId
     })
   });
-  console.log(product);
 }
 
-async function deleteProduct(productId) {
+async function deleteProduct() {
   await $fetch(
     `/api/users/${user.data._id}/storages/${route.params.storageId}`,
     {

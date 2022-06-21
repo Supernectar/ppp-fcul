@@ -1,6 +1,7 @@
 <template>
   <div>
     <Navbar />
+    <button @click="insertItem">djisajdoisa</button>
     <div
       id="carouselExampleIndicators"
       class="carousel slide relative"
@@ -119,4 +120,19 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+function insertItem() {
+  $fetch('/api/items', {
+    method: 'POST',
+    body: {
+      name: 'dsdaj',
+      weight: 2,
+      type: 'ds',
+      brand: 'jdsk',
+      website: 'test',
+      description: 'test',
+      rating: 'test'
+    }
+  });
+}
+</script>

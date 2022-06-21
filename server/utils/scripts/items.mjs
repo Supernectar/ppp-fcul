@@ -10,7 +10,9 @@ export default [
       color: 'ffffff',
       minPrice: Infinity,
       manPrice: -Infinity
-    }
+    },
+    // polutions: ['pol1'],
+    resources: ['res1']
   },
   {
     name: 'washing machine 2',
@@ -24,7 +26,9 @@ export default [
       color: '456734',
       minPrice: Infinity,
       manPrice: -Infinity
-    }
+    },
+    polutions: ['pol1'],
+    resources: ['res1']
   },
   {
     name: 'washing machine 3',
@@ -42,7 +46,9 @@ export default [
       length: '100 cm',
       producer: 'ritapep',
       width: '150 cm'
-    }
+    },
+    polutions: ['pol1'],
+    resources: ['res1']
   },
   {
     name: 'washing machine 4',
@@ -60,7 +66,9 @@ export default [
       length: '100 cm',
       producer: 'ritapep',
       width: '150 cm'
-    }
+    },
+    polutions: ['pol1'],
+    resources: ['res1']
   },
   {
     name: 'washing machine 5',
@@ -72,6 +80,8 @@ export default [
     rating: 4,
     attributes: {
       brand: 'samsung'
-    }
+    },
+    polutions: ['pol1'],
+    resources: ['res1']
   }
 ];

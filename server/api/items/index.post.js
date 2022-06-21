@@ -1,34 +1,42 @@
 import Item from '~~/server/models/Item';
+import Polution from '~~/server/models/Polution';
 export default defineEventHandler(async (event) => {
   event.res.jsonResponse.context = event.context.params;
 
   const {
     id,
     name,
-    type,
-    subtype,
     brand,
     description,
     producer,
     exp_date,
-    polution,
     resource,
     category
   } = await useBody(event);
 
+  const tempPolutions = [];
+  const polTypes = ['CO2', 'pol2', 'c'];
+  for (let i = 0; i < Math.floor(Math.random() * 10); i++) {
+    const pol = await Polution.create({
+      type: Math.floor(Math.random() * polTypes.length),
+      quantity: Math.floor(Math.random() * 1000) + 500,
+      unit: 'kg'
+    });
+
+    tempPolutions.push(pol);
+  }
+
   try {
-    const result = Item.create({
+    Item.create({
       id,
       name,
-      // type: type,
-      // subtype: subtype,
       brand,
       description,
       producer,
       exp_date,
-      polution,
       resource,
-      category
+      category,
+      polutions: tempPolutions
     });
   } catch (err) {
     event.res.jsonResponse.error = {

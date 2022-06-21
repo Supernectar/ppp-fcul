@@ -213,6 +213,7 @@ import {
   DialogTitle
 } from '@headlessui/vue';
 
+const router = useRouter();
 const user = useUser();
 const suggestedItems = ref([]);
 

@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
-import Polution from '~~/server/models/Polution';
-import Resource from '~~/server/models/Resource';
+
 const { Schema } = mongoose;
 export default mongoose.model(
   'Item',
@@ -25,7 +24,17 @@ export default mongoose.model(
     attributes: {
       type: Object
     },
-    polution: {}
-    // resource: Resource,
+    polutions: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Polution'
+      }
+    ],
+    resources: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Resource'
+      }
+    ]
   })
 );

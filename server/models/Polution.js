@@ -1,11 +1,14 @@
 import mongoose from 'mongoose';
+const { Schema } = mongoose;
 
 export default mongoose.model(
   'Polution',
-  new mongoose.Schema({
-    id: Number,
+  new Schema({
+    nameId: {
+      type: String
+    },
     type: String,
-    amount: Number,
+    quantity: Number,
     unit: String
   })
 );

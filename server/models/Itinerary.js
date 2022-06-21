@@ -17,6 +17,12 @@ export default mongoose.model(
     ],
     totalDistance: Number,
     departureDate: String,
-    arrivalDate: String
+    arrivalDate: String,
+    polution: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Polution'
+      }
+    ]
   })
 );

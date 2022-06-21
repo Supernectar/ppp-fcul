@@ -3,7 +3,7 @@
     <div class="container px-6 pt-6">
       <div class="flex justify-center mb-6">
         <a
-          href="#!"
+          href="https://www.facebook.com/profile.php?id=100082250961891"
           type="button"
           class="rounded-full border-2 border-white text-white leading-normal uppercase hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out w-9 h-9 m-1"
         >
@@ -25,7 +25,7 @@
         </a>
 
         <a
-          href="#!"
+          href="https://twitter.com/PppProjeto"
           type="button"
           class="rounded-full border-2 border-white text-white leading-normal uppercase hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out w-9 h-9 m-1"
         >
@@ -47,29 +47,7 @@
         </a>
 
         <a
-          href="#!"
-          type="button"
-          class="rounded-full border-2 border-white text-white leading-normal uppercase hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out w-9 h-9 m-1"
-        >
-          <svg
-            aria-hidden="true"
-            focusable="false"
-            data-prefix="fab"
-            data-icon="google"
-            class="w-3 h-full mx-auto"
-            role="img"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 488 512"
-          >
-            <path
-              fill="currentColor"
-              d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"
-            ></path>
-          </svg>
-        </a>
-
-        <a
-          href="#!"
+          href="https://www.instagram.com/clearchoice123"
           type="button"
           class="rounded-full border-2 border-white text-white leading-normal uppercase hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out w-9 h-9 m-1"
         >
@@ -91,29 +69,7 @@
         </a>
 
         <a
-          href="#!"
-          type="button"
-          class="rounded-full border-2 border-white text-white leading-normal uppercase hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out w-9 h-9 m-1"
-        >
-          <svg
-            aria-hidden="true"
-            focusable="false"
-            data-prefix="fab"
-            data-icon="linkedin-in"
-            class="w-3 h-full mx-auto"
-            role="img"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 448 512"
-          >
-            <path
-              fill="currentColor"
-              d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"
-            ></path>
-          </svg>
-        </a>
-
-        <a
-          href="#!"
+          href="https://github.com/supernectar/ppp-fcul"
           type="button"
           class="rounded-full border-2 border-white text-white leading-normal uppercase hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out w-9 h-9 m-1"
         >
@@ -167,99 +123,79 @@
         </form>
       </div>
 
-      <div class="mb-6">
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt
-          distinctio earum repellat quaerat voluptatibus placeat nam, commodi
-          optio pariatur est quia magnam eum harum corrupti dicta, aliquam sequi
-          voluptate quas.
-        </p>
-      </div>
-
       <div class="grid lg:grid-cols-4 md:grid-cols-2">
         <div class="mb-6">
-          <h5 class="uppercase font-bold mb-2.5">Links</h5>
+          <h5 class="uppercase font-bold mb-2.5">About Clearchoice</h5>
 
           <ul class="list-none mb-0">
             <li>
-              <a href="#!" class="text-white">Link 1</a>
+              <a href="#!" class="text-white">About Clearchoice</a>
             </li>
             <li>
-              <a href="#!" class="text-white">Link 2</a>
+              <a href="#!" class="text-white">About our products</a>
             </li>
             <li>
-              <a href="#!" class="text-white">Link 3</a>
+              <a href="#!" class="text-white">Payments methods</a>
             </li>
             <li>
-              <a href="#!" class="text-white">Link 4</a>
+              <a href="#!" class="text-white">Privacy policies</a>
             </li>
           </ul>
         </div>
 
         <div class="mb-6">
-          <h5 class="uppercase font-bold mb-2.5">Links</h5>
+          <h5 class="uppercase font-bold mb-2.5">Useful links</h5>
 
           <ul class="list-none mb-0">
             <li>
-              <a href="#!" class="text-white">Link 1</a>
+              <a href="http://clearchoice.website/items" class="text-white"
+                >Products</a
+              >
             </li>
             <li>
-              <a href="#!" class="text-white">Link 2</a>
+              <a href="#!" class="text-white">Brands</a>
             </li>
             <li>
-              <a href="#!" class="text-white">Link 3</a>
+              <a href="#!" class="text-white">Christmas</a>
             </li>
             <li>
-              <a href="#!" class="text-white">Link 4</a>
+              <a href="#!" class="text-white">Black Friday</a>
             </li>
           </ul>
         </div>
 
         <div class="mb-6">
-          <h5 class="uppercase font-bold mb-2.5">Links</h5>
+          <h5 class="uppercase font-bold mb-2.5">Client Support</h5>
 
           <ul class="list-none mb-0">
             <li>
-              <a href="#!" class="text-white">Link 1</a>
+              <a href="#!" class="text-white">Contacts</a>
             </li>
             <li>
-              <a href="#!" class="text-white">Link 2</a>
+              <a href="#!" class="text-white">Help</a>
             </li>
             <li>
-              <a href="#!" class="text-white">Link 3</a>
+              <a href="#!" class="text-white">Cookies policies</a>
             </li>
             <li>
-              <a href="#!" class="text-white">Link 4</a>
+              <a href="#!" class="text-white">Return policies</a>
             </li>
           </ul>
         </div>
 
         <div class="mb-6">
-          <h5 class="uppercase font-bold mb-2.5">Links</h5>
+          <h5 class="uppercase font-bold mb-2.5">Opinion</h5>
 
           <ul class="list-none mb-0">
             <li>
-              <a href="#!" class="text-white">Link 1</a>
+              <a href="#!" class="text-white">Leave a review</a>
             </li>
             <li>
-              <a href="#!" class="text-white">Link 2</a>
-            </li>
-            <li>
-              <a href="#!" class="text-white">Link 3</a>
-            </li>
-            <li>
-              <a href="#!" class="text-white">Link 4</a>
+              <a href="#!" class="text-white">Complaint book</a>
             </li>
           </ul>
         </div>
       </div>
-    </div>
-
-    <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.2)">
-      © 2021 Copyright:
-      <a class="text-white" href="https://tailwind-elements.com/"
-        >Tailwind Elements</a
-      >
     </div>
   </footer>
 </template>

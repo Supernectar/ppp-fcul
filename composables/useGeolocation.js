@@ -1,5 +1,5 @@
 export function useGeolocation() {
-  const coords = ref({ latitude: 0, longitude: 0 });
+  const coords = ref({ latitude: 38.7562078, longitude: -9.1583683 });
   const isSupported = 'navigator' in window && 'geolocation' in navigator;
 
   let watcher = null;

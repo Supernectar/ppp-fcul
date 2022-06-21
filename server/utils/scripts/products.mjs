@@ -5,7 +5,9 @@ export default [
     price: 8,
     unit: '€',
     quantity: 2,
-    supplier: 'user-a'
+    supplier: 'user-a',
+    polutions: ['pol1'],
+    resources: ['res1']
   },
   {
     nameId: 'prod2',
@@ -13,7 +15,9 @@ export default [
     price: 12,
     unit: '€',
     quantity: 4,
-    supplier: 'user-b'
+    supplier: 'user-b',
+    polutions: ['pol1'],
+    resources: ['res1']
   },
   {
     nameId: 'prod3',
@@ -21,7 +25,9 @@ export default [
     price: 2,
     unit: '€',
     quantity: 4,
-    supplier: 'user-b'
+    supplier: 'user-b',
+    polutions: ['pol1'],
+    resources: ['res1']
   },
   {
     nameId: 'prod4',
@@ -29,7 +35,9 @@ export default [
     price: 4,
     unit: '€',
     quantity: 3,
-    supplier: 'user-c'
+    supplier: 'user-c',
+    polutions: ['pol1'],
+    resources: ['res1']
   },
   {
     nameId: 'prod5',
@@ -37,7 +45,9 @@ export default [
     price: 6,
     unit: '€',
     quantity: 2,
-    supplier: 'user-a'
+    supplier: 'user-a',
+    polutions: ['pol1'],
+    resources: ['res1']
   },
   {
     nameId: 'prod6',
@@ -45,7 +55,9 @@ export default [
     price: 1,
     unit: '€',
     quantity: 3,
-    supplier: 'user-b'
+    supplier: 'user-b',
+    polutions: ['pol1'],
+    resources: ['res1']
   },
   {
     nameId: 'prod7',
@@ -53,6 +65,8 @@ export default [
     price: 1,
     unit: '€',
     quantity: 3,
-    supplier: 'user-b'
+    supplier: 'user-b',
+    polutions: ['pol1'],
+    resources: ['res1']
   }
 ];

@@ -1,8 +1,197 @@
 <template>
   <div>
     <Navbar />
-    <section class="bg-light-600 bg-red-100 p-4">
-      <div class="flex gap-2">
+    <section class="m-4 p-4 rounded-xl overflow-hidden">
+      <div class="grid grid-cols-1 md:grid-cols-2">
+        <div class="flex flex-col">
+          <img
+            src="/items/washingMachine_black.png"
+            alt=""
+            class="w-80 m-auto"
+          />
+          <div>
+            <h2>Components:</h2>
+            <ul class="flex gap-2 overflow-auto">
+              <li>
+                <div class="h-20 w-20 bg-blue-200"></div>
+              </li>
+              <li>
+                <div class="h-20 w-20 bg-blue-200"></div>
+              </li>
+              <li>
+                <div class="h-20 w-20 bg-blue-200"></div>
+              </li>
+              <li>
+                <div class="h-20 w-20 bg-blue-200"></div>
+              </li>
+              <li>
+                <div class="h-20 w-20 bg-blue-200"></div>
+              </li>
+              <li>
+                <div class="h-20 w-20 bg-blue-200"></div>
+              </li>
+              <li>
+                <div class="h-20 w-20 bg-blue-200"></div>
+              </li>
+              <li>
+                <div class="h-20 w-20 bg-blue-200"></div>
+              </li>
+              <li>
+                <div class="h-20 w-20 bg-blue-200"></div>
+              </li>
+              <li>
+                <div class="h-20 w-20 bg-blue-200"></div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="bg-green-100 flex-grow">
+          <table class="bg-light-100">
+            <thead class="bg-gray-500 border-b-2 border-gray-500">
+              <tr>
+                <th class="w-92 p-2 text-sm text-gray-200 whitespace-nowrap">
+                  Supplier
+                </th>
+                <th class="w-92 p-2 text-sm text-gray-200 whitespace-nowrap">
+                  Price
+                </th>
+                <th class="w-92 p-2 text-sm text-gray-200 whitespace-nowrap">
+                  Quantity available
+                </th>
+                <th
+                  class="w-92 p-2 text-sm text-gray-200 whitespace-nowrap"
+                ></th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-300">
+              <tr
+                v-for="(product, index) in products"
+                :id="product"
+                :key="index"
+                class="bg-white"
+              >
+                <td
+                  class="p-8 text-sm text-gray-700 whitespace-nowrap text-center"
+                >
+                  <p>
+                    {{ product.supplier.username }}
+                  </p>
+                  <p>
+                    {{ product.supplier.email }}
+                  </p>
+                </td>
+                <td
+                  class="p-8 text-sm text-gray-700 whitespace-nowrap text-center"
+                >
+                  {{ product.price }}€
+                </td>
+                <td
+                  class="p-8 text-sm text-gray-700 whitespace-nowrap text-center"
+                >
+                  {{ product.quantity }}
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    class="text-white bg-gradient-to-br from-red-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                    @click="addToCart(product._id)"
+                  >
+                    Add to cart
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <hr class="my-2" />
+      <div id="description" class="mt-4">
+        <h2 class="text-xl font-semibold">Description</h2>
+        <div>
+          {{ item.description }}
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div id="polution" class="mt-4">
+          <h2 class="text-xl font-semibold">Polution</h2>
+          <div>
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+              <table
+                class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
+              >
+                <thead
+                  class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+                >
+                  <tr>
+                    <th scope="col" class="px-6 py-3">Type</th>
+                    <th scope="col" class="px-6 py-3">Quantity</th>
+                    <th scope="col" class="px-6 py-3">Unit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="(polution, index) in products.polution"
+                    :key="index"
+                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                  >
+                    <td class="px-6 py-4">polution.type</td>
+                    <td class="px-6 py-4">polution.quantity</td>
+                    <td class="px-6 py-4">polution.unit</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div id="resources" class="mt-4">
+          <h2 class="text-xl font-semibold">Resources</h2>
+          <div>
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+              <table
+                class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
+              >
+                <thead
+                  class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+                >
+                  <tr>
+                    <th scope="col" class="px-6 py-3">Type</th>
+                    <th scope="col" class="px-6 py-3">Quantity</th>
+                    <th scope="col" class="px-6 py-3">Unit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="(resources, index) in products.resources"
+                    :key="index"
+                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                  >
+                    <td class="px-6 py-4">resources.type</td>
+                    <td class="px-6 py-4">resources.quantity</td>
+                    <td class="px-6 py-4">resources.unit</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="location" class="mt-4">
+        <h2 class="text-xl font-semibold">Location</h2>
+        <div>
+          <gMap class="h-40 w-40" />
+        </div>
+      </div>
+      <div id="details" class="mt-4">
+        <h2 class="text-xl font-semibold">Details</h2>
+        <div>
+          <ul>
+            <li>-validity</li>
+            <li>-attributes?</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- <div class="flex gap-2">
         <div class="bg-light-100 rounded p-2 shadow w-full">
           <div class="flex justify-start mx-60">
             <span v-for="(cat, i) in categoryPath" :key="i">
@@ -21,7 +210,7 @@
                 src="/img/627.png"
                 class="h-full rounded-t-lg h-full m-auto border"
               />
-              <!-- <div class="h-60 bg-light-100 rounded p-2 shadow w-full"></div> -->
+              <div class="h-60 bg-light-100 rounded p-2 shadow w-full"></div>
               <div class="flex flex-col bg-gray-50">
                 <p class="font-bold">
                   {{ item.name }}
@@ -104,7 +293,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </section>
     <Footer />
   </div>

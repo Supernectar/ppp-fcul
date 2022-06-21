@@ -5,8 +5,7 @@ export default mongoose.model(
   'Product',
   new Schema({
     nameId: {
-      type: String,
-      unique: true
+      type: String
     },
     item: {
       type: Schema.Types.ObjectId,
@@ -30,6 +29,17 @@ export default mongoose.model(
       ref: 'User',
       required: true
     },
-    polution: {}
+    polutions: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Polution'
+      }
+    ],
+    resources: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Resource'
+      }
+    ]
   })
 );
