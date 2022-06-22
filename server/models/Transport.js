@@ -19,6 +19,12 @@ export default mongoose.model(
     status: {
       type: String
     },
+    resources: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Resource'
+      }
+    ],
     plate: {
       type: String,
       required: true

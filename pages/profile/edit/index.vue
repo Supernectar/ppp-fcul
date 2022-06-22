@@ -7,6 +7,38 @@
           <SideNav />
         </div>
         <div class="p-2 grow">
+          <h1 class="text-4xl font-bold">My information</h1>
+          <div id="addresses" class="mt-4 border rounded-xl p-2">
+            <h2 class="text-xl font-semibold">My addresses</h2>
+            <p>
+              Here is a list of your saved addresses you can use to autocomplete
+              storage locations, delivery locations, ...
+            </p>
+            <div>
+              <table>
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Address</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><LocationMarkerIcon class="w-5 h-5" /></td>
+                    <td>Rua abc, baby baby lote 89, 2º direito</td>
+                  </tr>
+                  <tr>
+                    <td><LocationMarkerIcon class="w-5 h-5" /></td>
+                    <td>Rua hello how is you, baby baby lote 89, 2º direito</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <button class="p-1 rounded border bg-blue-100">
+                Register new address
+              </button>
+            </div>
+          </div>
           <FormKit
             v-model="password"
             label="Password"
@@ -173,6 +205,7 @@
 </template>
 
 <script>
+import { LocationMarkerIcon } from '@heroicons/vue/outline/index.js';
 export default {
   name: 'ProfileView',
   data() {

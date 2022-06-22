@@ -29,6 +29,12 @@ export default mongoose.model(
       ref: 'User',
       required: true
     },
+    storages: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Storage'
+      }
+    ],
     polutions: [
       {
         type: Schema.Types.ObjectId,

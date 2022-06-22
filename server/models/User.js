@@ -53,6 +53,11 @@ export default mongoose.model(
           type: Schema.Types.ObjectId,
           ref: 'Storage'
         }
+      ],
+      orders: [
+        {
+          type: Schema.Types.ObjectId
+        }
       ]
     },
     transporterData: {

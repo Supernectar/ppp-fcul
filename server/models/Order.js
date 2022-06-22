@@ -3,23 +3,28 @@ const { Schema } = mongoose;
 
 export default mongoose.model(
   'Order',
-  new Schema({
-    numberItems: String,
-    price: String,
-    status: String,
-    departureDate: String,
-    arrivalDate: String,
-    itineraries: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Itinerary'
-      }
-    ],
-    products: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Product'
-      }
-    ]
-  })
+  new Schema(
+    {
+      numberItems: String,
+      price: String,
+      status: String,
+      departureDate: String,
+      arrivalDate: String,
+      itineraries: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: 'Itinerary'
+        }
+      ],
+      products: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: 'Product'
+        }
+      ]
+    },
+    {
+      timestamps: true
+    }
+  )
 );

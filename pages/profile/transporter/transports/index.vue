@@ -44,14 +44,20 @@
                       scope="col"
                       class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                     >
+                      Resources consumed
+                    </th>
+                    <th
+                      scope="col"
+                      class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                    >
                       Plate
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr
-                    v-for="transport in transports"
-                    :key="transport._id"
+                    v-for="(transport, index) in transports"
+                    :key="index"
                     class="border-b"
                   >
                     <td
@@ -77,6 +83,16 @@
                     <td
                       class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
                     >
+                      {{
+                        resourcesTransports[index].quantity +
+                        ' ' +
+                        resourcesTransports[index].unit +
+                        '/km'
+                      }}
+                    </td>
+                    <td
+                      class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
+                    >
                       {{ transport.plate }}
                     </td>
                     <td
@@ -97,78 +113,13 @@
           </div>
           <div id="orders" class="mt-4">
             <h2 class="text-xl font-semibold">Register a new vehicle</h2>
-            <!-- <p>See your registered vehicles here</p> 
             <div>
-              <table class="min-w-full">
-                <thead class="bg-white border-b">
-                  <tr>
-                    <th
-                      scope="col"
-                      class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                    >
-                      Name
-                    </th>
-                    <th
-                      scope="col"
-                      class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                    >
-                      Vehicle
-                    </th>
-                    <th
-                      scope="col"
-                      class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                    >
-                      Manage
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td
-                      class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
-                    >
-                      My Special Friend
-                    </td>
-                    <td
-                      class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
-                    >
-                      Peujot
-                    </td>
-                    <td
-                      class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
-                    >
-                      Manage
-                    </td>
-                  </tr>
-                  <tr>
-                    <td
-                      class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
-                    >
-                      Vihacle
-                    </td>
-                    <td
-                      class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
-                    >
-                      Citroën
-                    </td>
-                    <td
-                      class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
-                    >
-                      Manage
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            -->
-            <div>
-              <h3>Add a new vehicle:</h3>
-
               <div class="flex gap-4">
                 <div>
                   <FormKit
+                    label="Brand of vehicle"
                     v-model="brand"
-                    placeholder="brand of vehicle"
+                    placeholder=""
                     type="text"
                     name="brand"
                     validation="required"
@@ -182,8 +133,9 @@
 
                 <div>
                   <FormKit
+                    label="Model of vehicle"
                     v-model="model"
-                    placeholder="Model of vehicle"
+                    placeholder=""
                     type="text"
                     name="model"
                     validation="required"
@@ -197,8 +149,9 @@
 
                 <div>
                   <FormKit
+                    label="Maximum load"
                     v-model="maxLoad"
-                    placeholder="Maximum load"
+                    placeholder=""
                     type="number"
                     name="maxLoad"
                     validation="required|min:0"
@@ -212,8 +165,9 @@
 
                 <div>
                   <FormKit
+                    label="Status of vehicle"
                     v-model="status"
-                    placeholder="status of vehicle"
+                    placeholder=""
                     type="text"
                     name="status"
                     validation="required"
@@ -227,8 +181,42 @@
 
                 <div>
                   <FormKit
+                    label="Quantity consumed"
+                    v-model="quantityPerKm"
+                    placeholder="per km"
+                    type="text"
+                    name="quantityPerKm"
+                    validation="required"
+                    outer-class="mb-4"
+                    label-class="form-label inline-block mb-2 text-gray-700"
+                    input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                    help-class="text-sm text-gray-500 mt-1"
+                    message-class="mt-1 text-sm text-red-600"
+                  />
+                </div>
+
+                <div>
+                  <FormKit
+                    label="Unit"
+                    v-model="unit"
+                    placeholder=""
+                    type="select"
+                    name="unit"
+                    :options="['L', 'kWh']"
+                    validation="required"
+                    outer-class="mb-4"
+                    label-class="form-label inline-block mb-2 text-gray-700"
+                    input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                    help-class="text-sm text-gray-500 mt-1"
+                    message-class="mt-1 text-sm text-red-600"
+                  />
+                </div>
+
+                <div>
+                  <FormKit
+                    label="Plate of vehicle"
                     v-model="plate"
-                    placeholder="plate of vehicle"
+                    placeholder=""
                     type="text"
                     name="plate"
                     validation="required"
@@ -263,11 +251,25 @@ transports.value = (
   await $fetch(`/api/users/${user.data._id}/transports`)
 ).data.items;
 
+const resourcesTransports = ref([]);
+for (const transport of transports.value) {
+  resourcesTransports.value.push(
+    (
+      await $fetch(
+        `/api/users/${user.data._id}/transports/${transport._id}/resources`
+      )
+    ).data.items[0]
+  );
+}
+console.log(resourcesTransports.value);
+
 // Create new transport
 const maxLoad = ref('');
 const status = ref('');
 const brand = ref('');
 const model = ref('');
+const quantityPerKm = ref('');
+const unit = ref('');
 const plate = ref('');
 
 async function createVehicle() {
@@ -282,6 +284,8 @@ async function createVehicle() {
       brand: brand.value,
       model: model.value,
       status: status.value,
+      quantity: quantityPerKm.value,
+      unit: unit.value,
       plate: plate.value
     })
   });

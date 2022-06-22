@@ -166,7 +166,7 @@ async function login() {
     const resJson = await res.json();
     if (resJson.error != null) {
       if (resJson.error.message === 'Invalid username or password') {
-        openModal('Invalid username or password');
+        openModal('Invalid email or password');
       }
     } else {
       user.$patch({
@@ -179,7 +179,7 @@ async function login() {
       }, 3000);
     }
   } else {
-    openModal('User does not exist');
+    openModal('Invalid email or password');
   }
 }
 </script>

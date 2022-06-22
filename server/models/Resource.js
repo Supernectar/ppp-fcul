@@ -6,7 +6,6 @@ export default mongoose.model(
     nameId: {
       type: String
     },
-    type: String,
     quantity: Number,
     unit: String
   })

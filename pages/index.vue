@@ -1,7 +1,6 @@
 <template>
   <div>
     <Navbar />
-    <button @click="insertItem">djisajdoisa</button>
     <div
       id="carouselExampleIndicators"
       class="carousel slide relative"

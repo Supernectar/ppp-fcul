@@ -72,12 +72,12 @@
                           <td
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                           >
-                            {{ totalPolution }}
+                            {{ totalPolution + ' ' + polutionsItems[0].unit }}
                           </td>
                           <td
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                           >
-                            {{ totalResources }}
+                            {{ totalResources + ' ' + resourcesItems[0].unit }}
                           </td>
                           <td
                             class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
@@ -227,6 +227,7 @@ for (const itemOfProduct of itemsOfProducts.value) {
     await $fetch(`/api/items/${itemOfProduct._id}/polutions`)
   ).data.items;
 }
+console.log(polutionsItems.value[0].unit);
 
 const polutionsProducts = ref([]);
 for (const product of products.value) {

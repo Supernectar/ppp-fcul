@@ -121,10 +121,12 @@
                   as="h3"
                   class="text-lg font-medium leading-6 text-gray-900"
                 >
-                  {{ 'You were registered successfully' }}
+                  {{ 'Register' }}
                 </DialogTitle>
                 <div class="mt-2">
-                  <p class="text-sm text-gray-500">Gooooood :)</p>
+                  <p class="text-sm text-gray-500">
+                    You were registered successfully
+                  </p>
                 </div>
 
                 <div class="mt-4">
