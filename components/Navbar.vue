@@ -93,48 +93,27 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr class="bg-white border-b hover:bg-gray-50">
+                    <tr
+                      v-for="(cartItem, index) in cart"
+                      :id="cartItem.product"
+                      :key="index"
+                      class="bg-white border-b hover:bg-gray-50"
+                    >
                       <th
                         scope="row"
                         class="px-2 py-4 font-medium text-gray-900 whitespace-nowrap"
                       >
-                        Apple MacBook Pro 17"
+                        {{ myItems[index].name }}
                       </th>
-                      <td class="px-2 py-4">$2999</td>
-                      <td class="px-2 py-4">
+                      <td class="px-2 py-4">{{ myProducts[index].price }}</td>
+                      <td class="px-2 py-4"></td>
                         <input
                           id=""
                           class="w-16"
                           type="number"
                           min="0"
                           name=""
-                          value="3"
-                        />
-                      </td>
-                      <td class="px-2 py-4 text-right">
-                        <a
-                          href="#"
-                          class="font-medium text-blue-600 hover:underline"
-                          >Edit</a
-                        >
-                      </td>
-                    </tr>
-                    <tr class="bg-white border-b hover:bg-gray-50">
-                      <th
-                        scope="row"
-                        class="px-2 py-4 font-medium text-gray-900 whitespace-nowrap"
-                      >
-                        Microsoft Surface Pro
-                      </th>
-                      <td class="px-2 py-4">$1999</td>
-                      <td class="px-2 py-4">
-                        <input
-                          id=""
-                          class="w-16"
-                          type="number"
-                          min="0"
-                          name=""
-                          value="2"
+                          value="5"
                         />
                       </td>
                       <td class="px-2 py-4 text-right">
@@ -351,10 +330,30 @@ import {
   BellIcon,
   SearchIcon
 } from '@heroicons/vue/outline/index.js';
+import useCart from '~/stores/cart';
 
 const router = useRouter();
 
 const user = useUser();
+
+const store = useCart();
+
+const cart = ref(store.getCart);
+
+const myProducts = ref([]);
+const myItems = ref([]);
+
+for (let i = 0; i < cart.value.length; i++) {
+  if (cart.value.length <= 4) {
+    myProducts.value[i] = (
+      await $fetch(`/api/products?_id=${cart.value[i].product}`)
+    ).data.items[0];
+
+    myItems.value[i] = (
+      await $fetch(`/api/items?_id=${myProducts.value[i].item}`)
+    ).data.items[0];
+  }
+}
 
 async function signOut() {
   if (user.isLoggedIn) {
