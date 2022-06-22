@@ -1,12 +1,12 @@
-import Product from '~~/server/models/Product';
+import Item from '~~/server/models/Item';
 import Resource from '~~/server/models/Resource';
 
 export default defineEventHandler(async (event) => {
   event.res.jsonResponse.context = event.context.params;
   try {
-    const { productId } = event.context.params;
-    const product = await Product.findOne({ _id: productId });
-    const resourcesIds = product.resources;
+    const { itemId } = event.context.params;
+    const item = await Item.findOne({ _id: itemId });
+    const resourcesIds = item.resources;
     const resources = [];
     for (let i = 0; i < resourcesIds.length; i++) {
       const resource = await Resource.findOne({

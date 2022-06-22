@@ -6,11 +6,15 @@ export default defineEventHandler(async (event) => {
 
   const { email, password } = await useBody(event);
   try {
+    console.log(email);
+    console.log(password);
     const user = await User.findOne({
-      email
-      // password: password
+      email,
+      password
     });
+    console.log(user);
     if (!user) {
+      console.log('alo');
       event.res.jsonResponse.error = {
         message: 'Invalid username or password'
       };

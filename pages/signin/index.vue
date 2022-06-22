@@ -10,6 +10,7 @@
             v-model="email"
             label="Email address"
             type="email"
+            help="Enter your account's email address"
             validation="required|email"
             outer-class="mb-4"
             label-class="form-label inline-block mb-2 text-gray-700"
@@ -22,6 +23,7 @@
             v-model="password"
             label="Password"
             type="password"
+            help="Enter your account's password"
             validation="required"
             outer-class="mb-4"
             label-class="form-label inline-block mb-2 text-gray-700"
@@ -86,10 +88,10 @@
                   as="h3"
                   class="text-lg font-medium leading-6 text-gray-900"
                 >
-                  {{ 'You were logged successfully' }}
+                  {{ 'Login' }}
                 </DialogTitle>
                 <div class="mt-2">
-                  <p class="text-sm text-gray-500">Gooooood :)</p>
+                  <p class="text-sm text-gray-500">{{ modalContent }}</p>
                 </div>
 
                 <div class="mt-4">
@@ -136,22 +138,22 @@ const router = useRouter();
 const email = ref('');
 const password = ref('');
 
+const modalContent = ref('');
 const isOpen = ref(false);
 
 function closeModal() {
   isOpen.value = false;
 }
-function openModal() {
+function openModal(msg) {
+  modalContent.value = msg;
   isOpen.value = true;
 }
 
 async function login() {
-  const users = (
-    await $fetch(`/api/users?email=${email.value}&password=${password.value}`)
-  ).data.items;
+  const users = (await $fetch(`/api/users?email=${email.value}`)).data.items;
 
   if (users.length === 1) {
-    const res = await $fetch(`/api/authenticate`, {
+    const res = await fetch(`/api/authenticate`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -161,21 +163,23 @@ async function login() {
         password: password.value
       })
     });
-
-    if (res.error === 'Invalid username or password') {
-      console.log('User does not exist');
+    const resJson = await res.json();
+    if (resJson.error != null) {
+      if (resJson.error.message === 'Invalid username or password') {
+        openModal('Invalid username or password');
+      }
     } else {
       user.$patch({
         data: users[0]
       });
 
-      openModal();
+      openModal('You were logged successfully');
       setTimeout(() => {
         router.push('/profile/consumer/orders');
       }, 3000);
     }
   } else {
-    console.log('Invalid email or password');
+    openModal('User does not exist');
   }
 }
 </script>

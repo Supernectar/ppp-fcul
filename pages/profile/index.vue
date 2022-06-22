@@ -71,7 +71,7 @@
                   >
                     {{ order.status }}
                   </td>
-                  <div class="flex space-x-2 justify-center">
+                  <div class="flex my-1.5">
                     <div>
                       <button
                         type="button"
