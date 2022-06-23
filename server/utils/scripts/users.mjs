@@ -26,6 +26,12 @@ export default [
     password: 'Pp123!',
     email: 'a@a.com',
     phone: 132435465,
+    address: {
+      street: 'Rua das Marias',
+      country: 'Portugal',
+      city: 'Lisboa',
+      zipCode: '1111-111'
+    },
     creditCard: 'sampleCredit',
     nif: 123
   },
@@ -35,6 +41,12 @@ export default [
     password: 'Pp123!',
     email: 'b@b.com',
     phone: 132435465,
+    address: {
+      street: 'Rua dos Marios',
+      country: 'Portugal',
+      city: 'Lisboa',
+      zipCode: '2222-111'
+    },
     creditCard: 'sampleCredit',
     nif: 123
   },
@@ -44,6 +56,12 @@ export default [
     password: 'Pp123!',
     email: 'c@c.com',
     phone: 132435465,
+    address: {
+      street: 'Rua das Marias',
+      country: 'Portugal',
+      city: 'Lisboa',
+      zipCode: '1111-111'
+    },
     creditCard: 'sampleCredit',
     nif: 123
   }

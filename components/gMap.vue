@@ -1,5 +1,6 @@
 <template>
-  <div ref="mapDiv">
+  <div @click="abc" ref="mapDiv">
+    <button class="bg-red-300 h-80 w-80">oioi</button>
     <!-- <div class="d-flex text-center">
      <div class="m-auto">
         <h4>Your Position</h4>
@@ -45,6 +46,7 @@ export default {
         center: currPos.value,
         zoom: 16
       });
+
       clickListener = map.value.addListener(
         'click',
         ({ latLng: { lat, lng } }) =>
@@ -88,6 +90,35 @@ export default {
         ? 0
         : haversineDistance(currPos.value, otherPos.value)
     );
+
+    function abc() {
+      console.log('drawing');
+      const directionsService = new google.maps.DirectionsService();
+      const directionsDisplay = new google.maps.DirectionsRenderer();
+      directionsDisplay.setMap(map);
+      const start = 'New Delhi';
+      const end = 'Gurgaon';
+      drawPath(directionsService, directionsDisplay, start, end);
+    }
+
+    function drawPath(directionsService, directionsDisplay, start, end) {
+      directionsService.route(
+        {
+          origin: start,
+          destination: end,
+          optimizeWaypoints: true,
+          travelMode: 'DRIVING'
+        },
+        function (response, status) {
+          if (status === 'OK') {
+            directionsDisplay.setDirections(response);
+          } else {
+            window.alert('Problem in showing direction due to ' + status);
+          }
+        }
+      );
+    }
+
     return { currPos, otherPos, distance, mapDiv };
   }
 };

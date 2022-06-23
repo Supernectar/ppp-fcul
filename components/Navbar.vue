@@ -39,7 +39,7 @@
               required
               @focusin="openModal"
             />
-            <NuxtLink to="/items">
+            <NuxtLink to="/test">
               <button
                 type="submit"
                 class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
@@ -106,7 +106,7 @@
                         {{ myItems[index].name }}
                       </th>
                       <td class="px-2 py-4">{{ myProducts[index].price }}</td>
-                      <td class="px-2 py-4"></td>
+                      <td class="px-2 py-4">
                         <input
                           id=""
                           class="w-16"
@@ -304,9 +304,40 @@
         @click="closeModal"
       ></div>
       <div class="fixed h-60 w-full pr-2 bg-white overflow-auto">
-        Categories
-        <NuxtLink to="/test">lavar</NuxtLink>
-        <div class="w-6 h-screen bg-pink-100">ds</div>
+        <h1 class="text-center font-bold">Categories</h1>
+        <div class="h-screen bg-pink-100">
+          <div
+            v-for="categoriasPrincipal in categories.children"
+            :key="categoriasPrincipal._id"
+          >
+            <h2 class="text-center font-semibold">
+              {{ categoriasPrincipal.name }}
+            </h2>
+            <div
+              v-for="segundaCategoria in categoriasPrincipal.children"
+              :key="segundaCategoria._id"
+            >
+              <h3>
+                {{ segundaCategoria.name }}
+              </h3>
+
+              <div
+                v-for="terceiraCategoria in segundaCategoria.children"
+                :key="terceiraCategoria._id"
+              >
+                <ul
+                  role="list"
+                  class="marker:black pl-5 space-y-3 text-slate-600"
+                >
+                  <h4 class="hover:underline">
+                    <NuxtLink to="/test">{{ terceiraCategoria.name }}</NuxtLink>
+                  </h4>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- <NuxtLink to="/test">lavar</NuxtLink> -->
+        </div>
       </div>
     </div>
   </nav>
@@ -390,5 +421,21 @@ function openModal() {
 function toggleSearch() {
   document.querySelector('#dropdownMobileSearch').classList.toggle('hidden');
 }
+
+const categories = ref({});
+const expandNode = async (node) => {
+  if (node.children.length > 0) {
+    for (let i = 0; i < node.children.length; i++) {
+      node.children[i] = (
+        await $fetch(`/api/categories?_id=${node.children[i]}`)
+      ).data.items[0];
+    }
+    for (const child of node.children) {
+      expandNode(child);
+    }
+  }
+};
+categories.value = (await $fetch(`/api/categories?name=main`)).data.items[0];
+expandNode(categories.value);
 </script>
 <style></style>

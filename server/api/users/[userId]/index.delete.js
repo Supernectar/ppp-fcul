@@ -1,21 +1,17 @@
+import User from '~~/server/models/User';
+
 export default defineEventHandler(async (event) => {
   event.res.jsonResponse.context = event.context.params;
   try {
-    const authHeader = req.headers.authorization;
-    const token = authHeader && authHeader.split(' ')[1];
-    decoded = jwt.decode(token, 'secretkey');
-
-    const { id } = req.params;
-    if (id != decoded.user._id) {
-      res.json({
-        error: 'You must be the owner to change this profile'
-      });
-    } else {
-      const user = await User.deleteMany({ _id: id });
-      res.json(user);
-    }
+    const { userId } = event.context.params;
+    const user = await User.deleteMany({ _id: userId });
+    event.res.jsonResponse.context = event.context.params;
+    event.res.jsonResponse.data = {
+      items: user
+    };
   } catch (err) {
-    res.json(err);
+    event.res.jsonResponse.error = err;
   }
+
   return event.res.jsonResponse;
 });

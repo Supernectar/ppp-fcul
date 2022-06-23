@@ -14,6 +14,7 @@ import samplePolutions from '~~/server/utils/scripts/polutions';
 import sampleResources from '~~/server/utils/scripts/resources';
 
 export default defineEventHandler(async (event) => {
+  // try {
   await Resource.collection.drop();
   await Polution.collection.drop();
   await Order.collection.drop();
@@ -21,6 +22,7 @@ export default defineEventHandler(async (event) => {
   await Item.collection.drop();
   await Category.collection.drop();
   await User.collection.drop();
+  // } catch {}
 
   // Users
   for (const user of sampleUsers) {

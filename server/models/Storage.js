@@ -13,9 +13,9 @@ export default mongoose.model(
       type: Number,
       default: 0
     },
-    location: {
-      type: Number,
-      required: true
+    address: {
+      type: Schema.Types.Object,
+      ref: 'Address'
     },
     owner: {
       type: Schema.Types.ObjectId,

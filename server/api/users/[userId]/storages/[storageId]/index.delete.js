@@ -1,33 +1,29 @@
-import Storage from '~/server/models/Storage';
+import Storage from '~~/server/models/Storage';
+import User from '~~/server/models/User';
 
 export default defineEventHandler(async (event) => {
   event.res.jsonResponse.context = event.context.params;
-  // const authHeader = req.headers.authorization;
-  // const token = authHeader && authHeader.split(' ')[1];
-
-  // try {
-
-  // const decoded = await jwt.verify(token, 'secretkey');
-
-  const { storageId } = event.context.params;
-
-  // const transport = await Transport.findById(id);
-
-  // if (!transport) {
-  //   res.status = 404;
-  //   res.send('transport not found');
-  // } else if (transport.owner !== decoded.user._id) {
-  //   res.json({
-  //     error: 'You must be the owner to change this transport'
-  //   });
-  // } else {
   try {
-    await Storage.deleteOne({ _id: storageId });
-    return 'Good';
+    const { userId, storageId } = event.context.params;
+    const storageUser = await User.updateOne(
+      { _id: userId },
+      {
+        $pull: {
+          'supplierData.storages': storageId
+        }
+      }
+    );
+    await Storage.deleteMany({
+      _id: storageId
+    });
+    event.res.jsonResponse.context = event.context.params;
+    event.res.jsonResponse.data = {
+      items: storageUser
+    };
   } catch (err) {
     console.log(err);
-    return 'Bad';
+    event.res.jsonResponse.error = err;
   }
 
-  // return event.res.jsonResponse;
+  return event.res.jsonResponse;
 });

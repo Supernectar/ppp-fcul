@@ -72,12 +72,12 @@
                           <td
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                           >
-                            {{ totalPolution + ' ' + polutionsItems[0].unit }}
+                            <!-- {{ totalPolution + ' ' + polutionsItems[0].unit }} -->
                           </td>
                           <td
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                           >
-                            {{ totalResources + ' ' + resourcesItems[0].unit }}
+                            <!-- {{ totalResources + ' ' + resourcesItems[0].unit }} -->
                           </td>
                           <td
                             class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
@@ -169,9 +169,31 @@
               </div>
             </div>
           </div>
+          <table>
+            <tr>
+              <th>Type</th>
+              <th>Quantity</th>
+              <th>Unit</th>
+            </tr>
+            <div v-for="(product, i) in products" :key="i">
+              <tr v-for="(polution, j) in product.polutions" :key="j">
+                <td>{{ polution.nameId }}</td>
+                <td>{{ polution.quantity }}</td>
+                <td>{{ polution.unit }}</td>
+              </tr>
+            </div>
+            <div v-for="(itemss, i) in items" :key="i">
+              <tr v-for="(polution, j) in itemss.polutions" :key="j">
+                <td>{{ polution.nameId }}</td>
+                <td>{{ polution.quantity }}</td>
+                <td>{{ polution.unit }}</td>
+              </tr>
+            </div>
+          </table>
         </div>
       </div>
     </section>
+
     <Footer />
   </div>
 </template>
@@ -204,6 +226,7 @@ products.value = (
     `/api/users/${user.data._id}/storages/${route.params.storageId}/products`
   )
 ).data.items;
+
 for (const product of products.value) {
   product.name = (
     await $fetch(`/api/items/${product.item}`)
@@ -227,7 +250,6 @@ for (const itemOfProduct of itemsOfProducts.value) {
     await $fetch(`/api/items/${itemOfProduct._id}/polutions`)
   ).data.items;
 }
-console.log(polutionsItems.value[0].unit);
 
 const polutionsProducts = ref([]);
 for (const product of products.value) {
@@ -271,7 +293,8 @@ for (const resourceProduct of resourcesProducts.value) {
     totalResources.value += resourceProduct.quantity;
   }
 }
-console.log(totalResources.value);
+console.log('unit value:');
+console.log(unit.value);
 
 async function addProduct() {
   await $fetch(`/api/products`, {

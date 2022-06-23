@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
     nif,
     password,
     preferences
-  } = JSON.parse(await useBody(event));
+  } = await useBody(event);
 
   // if (userId !== event.req.userId) {
   // 	event.res.jsonResponse.error = {

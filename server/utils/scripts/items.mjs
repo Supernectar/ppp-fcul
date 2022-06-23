@@ -27,7 +27,7 @@ export default [
       minPrice: Infinity,
       manPrice: -Infinity
     },
-    polutions: ['pol1'],
+    // polutions: ['pol1'],
     resources: ['res1']
   },
   {

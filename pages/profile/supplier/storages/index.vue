@@ -60,7 +60,13 @@
                           <td
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                           >
-                            {{ storage.location }}
+                            {{
+                              storage.address.street +
+                              ', ' +
+                              storage.address.city +
+                              ', ' +
+                              storage.address.country
+                            }}
                           </td>
                           <td
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
@@ -119,11 +125,39 @@
                   </div>
                   <div>
                     <FormKit
-                      v-model="location"
-                      placeholder="location"
-                      type="number"
-                      name="location"
-                      validation="required|min:0"
+                      v-model="street"
+                      placeholder="street"
+                      type="text"
+                      name="street"
+                      validation="required"
+                      outer-class="mb-4"
+                      label-class="form-label inline-block mb-2 text-gray-700"
+                      input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                      help-class="text-sm text-gray-500 mt-1"
+                      message-class="mt-1 text-sm text-red-600"
+                    />
+                  </div>
+                  <div>
+                    <FormKit
+                      v-model="city"
+                      placeholder="city"
+                      type="text"
+                      name="city"
+                      validation="required"
+                      outer-class="mb-4"
+                      label-class="form-label inline-block mb-2 text-gray-700"
+                      input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                      help-class="text-sm text-gray-500 mt-1"
+                      message-class="mt-1 text-sm text-red-600"
+                    />
+                  </div>
+                  <div>
+                    <FormKit
+                      v-model="country"
+                      placeholder="country"
+                      type="text"
+                      name="country"
+                      validation="required"
                       outer-class="mb-4"
                       label-class="form-label inline-block mb-2 text-gray-700"
                       input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
@@ -167,7 +201,9 @@ storages.value = (
 
 // Create new storage
 const name = ref('');
-const location = ref('');
+const street = ref('');
+const city = ref('');
+const country = ref('');
 const visibility = ref('');
 
 async function createStorage() {
@@ -179,11 +215,86 @@ async function createStorage() {
 
     body: JSON.stringify({
       name: name.value,
-      location: location.value,
+      address: {
+        street: street.value,
+        city: city.value,
+        country: country.value
+      },
       visibility: visibility.value
     })
   });
+
+  const userdb = (await $fetch(`/api/users/${user.data._id}`)).data.items[0];
+
+  user.$patch({
+    data: userdb
+
+    //     :D :D :DBabyyyy I like your style cha cha cha cha cha  cha wait oki
+    // JCFUFJHJFFHFFFJFJFJFJF MORRI
+    // tens de ser mais especifica >:((( senao tens 0 xD
+    //                               _   -  -
+    //                  _    -   "   -        -             _-" - _
+    //      -     "      .  -       '_"-        -        -_"- /|\\ \
+    //  -       -         -- "        ___        -      // / /|/ | \\\
+    //        -..-         __        -___.-       -    / / / / ||\ \ \
+    // -          ___    -..___-                    -  ///"||"!|"!"| |\
+    //         ____.-                                 || /|| >    o ;||
+    //  -                      __        _""".-"-.__   ||/||        ;||
+    //                       -   ".      - ."     . "-_|| |     ----------------"   /||
+    //           .-'"'-      "----"      .'         .  "|||   `==' / |/
+    //    -      -___ /                ."  /         ".  | ',. _,-' |/
+    //          _..,---,._       .   ."   /      /     "       /
+    //     - .-"          '"'-,.  _."    |      /             /"-_
+    //     ."                   ~'      .|      |          -_.-   -
+    //    .              .   '         . |      |     .            "
+    //    '              ; .'           .|   . _|____/|_....,,--,. /
+    //    `.              ;              |  ~        "            "'-,.
+    //   .'`              !.        `    \            ___..---__   .,\/-_
+    //  .  '              ';              \__.,---'"""          "'\\\\\\  - _
+    //     _-              |-----------=--"                        ' " '     \   codigo 120941
+    //       `             ;        _-"                       . _ - -'"-"'- -/
+    //        '.           ;   _- "                      _ -"
+    //          .          ' "                       . -
+    //       . ' .          ;                   .  '
+    //     .      .                    .  '  '
+    //   .         .         ;    . '
+    //              '        ;  '
+    //            _ '        '
+    //        _-"           '
+    //       -             '
+    //     .-          . '
+    //    "         .
+
+    // `Estudem pelo livro` codigo 120941
+    //       __...--~~~~~-._   _.-~~~~~--...__
+    //     //               `V'               \\
+    //    //                 |                 \\
+    //   //__...--~~~~~~-._  |  _.-~~~~~~--...__\\
+    //  //__.....----~~~~._\ | /_.~~~~----.....__\\
+    // ====================\\|//====================
+    //                 dwb `---`
+
+    // Da-me a tua chave privada e dou-te 20
+    //    +--------------+
+    //    |.------------.|
+    //    ||            ||
+    //    ||            ||
+    //    ||            ||
+    //    ||            ||
+    //    |+------------+|
+    //    +-..--------..-+
+    //    .--------------.
+    //   / /============\ \
+    //  / /==============\ \
+    // /____________________\
+    // \____________________/
+
+    // se disserem "cifrar com a chave publica" têm 0. sei la o que é que tao a cifrar - codigo 120941
+
+    // Dulce gabana 2022 ---------
+  });
 }
+
 async function deleteStorage(storageId) {
   await $fetch(`/api/users/${user.data._id}/storages/${storageId}`, {
     method: 'DELETE',
@@ -193,9 +304,19 @@ async function deleteStorage(storageId) {
 
     body: JSON.stringify({
       name: name.value,
-      location: location.value,
+      address: {
+        street: street.value,
+        city: city.value,
+        country: country.value
+      },
       visibility: visibility.value
     })
+  });
+
+  const userdb = (await $fetch(`/api/users/${user.data._id}`)).data.items[0];
+
+  user.$patch({
+    data: userdb
   });
 }
 </script>

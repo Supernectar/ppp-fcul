@@ -25,11 +25,47 @@
                 <tbody>
                   <tr>
                     <td><LocationMarkerIcon class="w-5 h-5" /></td>
-                    <td>Rua abc, baby baby lote 89, 2º direito</td>
+                    <td>
+                      {{
+                        info.address.street +
+                        ', ' +
+                        info.address.city +
+                        ', ' +
+                        info.address.country
+                      }}
+                    </td>
                   </tr>
-                  <tr>
+                  <tr
+                    v-for="(shipAddress, index) in info.consumerData
+                      .shippingAddresses"
+                    :key="index"
+                  >
                     <td><LocationMarkerIcon class="w-5 h-5" /></td>
-                    <td>Rua hello how is you, baby baby lote 89, 2º direito</td>
+                    <td>
+                      {{
+                        shipAddress.street +
+                        ', ' +
+                        shipAddress.city +
+                        ', ' +
+                        shipAddress.country
+                      }}
+                    </td>
+                  </tr>
+                  <tr
+                    v-for="(storageAddress, index) in info.supplierData
+                      .storages"
+                    :key="index"
+                  >
+                    <td><LocationMarkerIcon class="w-5 h-5" /></td>
+                    <td>
+                      {{
+                        storageAddress.address.street +
+                        ', ' +
+                        storageAddress.address.city +
+                        ', ' +
+                        storageAddress.address.country
+                      }}
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -39,6 +75,7 @@
               </button>
             </div>
           </div>
+          <!--
           <FormKit
             v-model="password"
             label="Password"
@@ -50,6 +87,7 @@
             help-class="text-sm text-gray-500 mt-1"
             message-class="mt-1 text-sm text-red-600"
           />
+          -->
           <form class="col" @submit.prevent>
             <h2>Your personal information:</h2>
             <br />
@@ -60,7 +98,7 @@
                 v-model="name"
                 type="text"
                 class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                :placeholder="user.name"
+                :placeholder="info.name"
               />
             </div>
 
@@ -74,40 +112,11 @@
                 v-model="username"
                 type="text"
                 class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                :placeholder="user.username"
+                :placeholder="info.username"
               />
               <div :class="calculateAddressFeedbackClass">
                 {{ calculateAddressFeedback }}
               </div>
-            </div>
-
-            <div class="mb-3">
-              <label for="exampleInputAddress1" class="form-label"
-                >Address</label
-              >
-
-              <input
-                id="exampleInputAddress1"
-                v-model="address"
-                type="text"
-                class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                :class="calculateAddressClass"
-                placeholder="address"
-              />
-            </div>
-
-            <div class="mb-3">
-              <label for="exampleInputZipCode" class="form-label"
-                >Zip-Code</label
-              >
-              <input
-                id="exampleInputZipCode"
-                v-model="zipCode"
-                type="text"
-                class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                placeholder="1234-123"
-                pattern="\d{4}-?(\d{3})?"
-              />
             </div>
 
             <div class="mb-3">
@@ -118,7 +127,7 @@
                 v-model="email"
                 type="text"
                 class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                :placeholder="user.email"
+                :placeholder="info.email"
               />
             </div>
 
@@ -131,7 +140,7 @@
                 type="text"
                 class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                 :class="calculatePhoneClass"
-                :placeholder="user.phone"
+                :placeholder="info.phone"
               />
               <div :class="calculatePhoneFeedbackClass">
                 {{ calculatePhoneFeedback }}
@@ -147,7 +156,7 @@
                 type="text"
                 class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                 :class="calculateNIFClass"
-                :placeholder="user.nif"
+                :placeholder="info.nif"
               />
               <div :class="calculateNIFFeedbackClass">
                 {{ calculateNIFFeedback }}
@@ -200,59 +209,131 @@
         </div>
       </div>
     </section>
+    <!-- Dialog -->
+    <TransitionRoot appear :show="isOpen" as="template">
+      <Dialog class="relative z-10" as="div" @close="closeModal">
+        <TransitionChild
+          as="template"
+          enter="duration-300 ease-out"
+          enter-from="opacity-0"
+          enter-to="opacity-100"
+          leave="duration-200 ease-in"
+          leave-from="opacity-100"
+          leave-to="opacity-0"
+        >
+          <div class="fixed inset-0 bg-black bg-opacity-25" />
+        </TransitionChild>
+
+        <div class="fixed inset-0 overflow-y-auto">
+          <div
+            class="flex min-h-full items-center justify-center p-4 text-center"
+          >
+            <TransitionChild
+              as="template"
+              enter="duration-300 ease-out"
+              enter-from="opacity-0 scale-95"
+              enter-to="opacity-100 scale-100"
+              leave="duration-200 ease-in"
+              leave-from="opacity-100 scale-100"
+              leave-to="opacity-0 scale-95"
+            >
+              <DialogPanel
+                class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
+              >
+                <DialogTitle
+                  as="h3"
+                  class="text-lg font-medium leading-6 text-gray-900"
+                >
+                  {{ 'Login' }}
+                </DialogTitle>
+                <div class="mt-2">
+                  <p class="text-sm text-gray-500">{{ modalContent }}</p>
+                </div>
+
+                <div class="mt-4">
+                  <button
+                    type="button"
+                    class="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                    @click="closeModal"
+                  >
+                    Got it, thanks!
+                  </button>
+                </div>
+              </DialogPanel>
+            </TransitionChild>
+          </div>
+        </div>
+      </Dialog>
+    </TransitionRoot>
     <Footer />
   </div>
 </template>
 
-<script>
+<script setup>
 import { LocationMarkerIcon } from '@heroicons/vue/outline/index.js';
-export default {
-  name: 'ProfileView',
-  data() {
-    return {
-      user: {},
-      username: '',
-      email: '',
-      name: '',
-      address: '',
-      phone: '',
-      credit_card: null,
-      nif: '',
-      password: ''
-    };
-  },
-  async mounted() {
-    const user = useUser();
-    const result = await $fetch(`/api/users?email=${user.data.email}`);
-    this.user = result.data.items[0];
-    // this.name =
-  },
-  methods: {
-    deleteAcc() {
-      fetch(`api/users/${this.user._id}`, {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' }
-      });
+
+const user = useUser();
+const router = useRouter();
+
+const info = ref([]);
+info.value = (
+  await $fetch(`/api/users?email=${user.data.email}`)
+).data.items[0];
+
+const username = ref('');
+const email = ref('');
+const name = ref('');
+const address = ref('');
+const phone = ref('');
+const nif = ref('');
+const password = ref('');
+
+const modalContent = ref('');
+const isOpen = ref(false);
+
+function closeModal() {
+  isOpen.value = false;
+}
+function openModal(msg) {
+  modalContent.value = msg;
+  isOpen.value = true;
+}
+
+async function deleteAcc() {
+  await $fetch(`/api/users/${user.data._id}`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' }
+  });
+  user.reset();
+
+  openModal('Your account was deleted successfully');
+  setTimeout(() => {
+    router.push('/signup');
+  }, 3000);
+}
+async function updateInfo() {
+  const res = await fetch(`/api/users/${user.data._id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
     },
-    async updateInfo() {
-      await fetch(`api/users/${this.user._id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          username: this.username === '' ? this.user.username : this.username,
-          email: this.email === '' ? this.user.email : this.email,
-          name: this.name === '' ? this.user.name : this.name,
-          address: {
-            street: this.address === '' ? this.user.address : this.address
-          },
-          phone: this.phone === '' ? this.user.phone : this.phone,
-          nif: this.nif === '' ? this.user.nif : this.nif,
-          password: this.password === '' ? this.user.password : this.password
-        })
-      });
-    }
-  }
-};
+    body: JSON.stringify({
+      username: user.data.username === '' ? user.data.username : username.value,
+      email: user.data.email === '' ? user.data.email : email.value,
+      name: user.data.name === '' ? user.data.name : name.value,
+      address: {
+        street: user.data.address === '' ? user.data.address : address.value
+      },
+      phone: user.data.phone === '' ? user.data.phone : phone.value,
+      nif: user.data.nif === '' ? user.data.nif : nif.value,
+      password: user.data.password === '' ? user.data.password : password.value
+    })
+  });
+  const resjson = await res.json();
+  console.log(resjson);
+  const res3 = (
+    await $fetch(`/api/users?email=${email.value}&password=${password.value}`)
+  ).data.items[0];
+  user.$patch({ data: res3 });
+}
 </script>

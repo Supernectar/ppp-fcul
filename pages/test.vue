@@ -725,4 +725,21 @@ function openModal(info) {
   modalContent.value = info;
   isOpen.value = true;
 }
+
+// --- Categories --- //
+const categories = ref({});
+const expandNode = async (node) => {
+  if (node.children.length > 0) {
+    for (let i = 0; i < node.children.length; i++) {
+      node.children[i] = (
+        await $fetch(`/api/categories?_id=${node.children[i]}`)
+      ).data.items[0];
+    }
+    for (const child of node.children) {
+      expandNode(child);
+    }
+  }
+};
+categories.value = (await $fetch(`/api/categories?name=main`)).data.items[0];
+expandNode(categories.value);
 </script>

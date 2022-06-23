@@ -216,9 +216,14 @@ import {
 const router = useRouter();
 const user = useUser();
 const suggestedItems = ref([]);
+let orders = [];
 
-// ---- Loading Items ---- //
-suggestedItems.value = (await $fetch(`/api/items`)).data.items;
+onBeforeMount(async () => {
+  // ---- Loading Items ---- //
+  suggestedItems.value = (await $fetch(`/api/items`)).data.items;
+  // ---- Loading Orders ---- //
+  orders = (await $fetch(`/api/users/${user.data._id}/orders`)).data.items;
+});
 
 // ---- Dialog ---- //
 const modalContent = ref({});
@@ -231,10 +236,6 @@ function openModal(info) {
   modalContent.value = info;
   isOpen.value = true;
 }
-
-// ---- Loading Orders ---- //
-let orders = [];
-orders = (await $fetch(`/api/users/${user.data._id}/orders`)).data.items;
 
 async function goToOrder(order) {
   let checkOrder = [];

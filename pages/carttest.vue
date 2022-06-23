@@ -1,8 +1,8 @@
 <template>
   <div>
     <Navbar />
-    <header>Carrinho</header>
     <div class="rounded-lg shadow hidden md:block mx-60 mt-4">
+      <p class="font-800 px-2 py-2.5">My cart</p>
       <table v-if="cart.length != 0" class="">
         <thead class="bg-gray-500 border-b-2 border-gray-500">
           <tr>
@@ -80,7 +80,7 @@
               {{ total }}€
             </td>
             <td class="p-8 text-sm text-gray-700 whitespace-nowrap text-center">
-              <NuxtLink :to="user.isLoggedIn ? '/purchase' : '/signin'">
+              <NuxtLink :to="user.isLoggedIn ? '/purchase/cart' : '/signin'">
                 <button
                   type="button"
                   class="text-white bg-gradient-to-br from-red-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
@@ -99,19 +99,19 @@
 <script setup>
 import { TrashIcon } from '@heroicons/vue/outline';
 import useCart from '~/stores/cart';
-
 const store = useCart();
 const user = useUser();
 const cart = ref(store.getCart);
-const logged = ref(user.isLoggedIn);
 const myProducts = ref([]);
 const myItems = ref([]);
 const total = ref(0);
 for (let i = 0; i < cart.value.length; i++) {
+  // console.log(cart.value);
+  // console.log(cart.value[i].product);
   myProducts.value[i] = (
     await $fetch(`/api/products?_id=${cart.value[i].product}`)
   ).data.items[0];
-
+  console.log(myProducts.value);
   myItems.value[i] = (
     await $fetch(`/api/items?_id=${myProducts.value[i].item}`)
   ).data.items[0];
