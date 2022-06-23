@@ -27,9 +27,9 @@
 </template>
 
 <script>
-import maplibregl from 'maplibre-gl';
-import { Auth, Signer } from 'aws-amplify';
-import awsconfig from '/public/aws-exports';
+// import maplibregl from 'maplibre-gl';
+// import { Auth, Signer } from 'aws-amplify';
+// import awsconfig from '/public/aws-exports';
 
 // amplify --version
 

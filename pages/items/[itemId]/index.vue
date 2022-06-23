@@ -90,6 +90,15 @@
                       <td>
                         <button
                           type="button"
+                          class="text-white bg-gradient-to-br from-blue-700 to-blue-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                          @click="addToCompare(product._id)"
+                        >
+                          Compare
+                        </button>
+                      </td>
+                      <td>
+                        <button
+                          type="button"
                           class="text-white bg-gradient-to-br from-red-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
                           @click="addToCart(product._id)"
                         >
@@ -112,7 +121,9 @@
 
 <script setup>
 import useCart from '~/stores/cart';
+import useCompare from '~/stores/compare';
 const store = useCart();
+const storeCompare = useCompare();
 const route = useRoute();
 
 const item = ref({});
@@ -151,5 +162,22 @@ function addToCart(pid) {
   }
 
   store.$patch({ myCart });
+}
+// ---- Local Storage Compare 2 Products ---- //
+const compare = ref([]);
+function addToCompare(pid) {
+  compare.value = storeCompare.getCompare;
+  if (
+    compare.length <= 2 ||
+    (compare.value[0] !== pid && compare.value[1] !== pid)
+  ) {
+    if (compare.value.length === 2) {
+      compare.value.splice(0, 1);
+      compare.value.push(pid);
+    } else {
+      compare.value.push(pid);
+    }
+    storeCompare.$patch({ compare });
+  }
 }
 </script>

@@ -1,8 +1,8 @@
 <template>
   <div>
     <Navbar />
-    <header>Carrinho</header>
     <div class="rounded-lg shadow hidden md:block mx-60 mt-4">
+      <p class="font-800 px-2 py-2.5">My cart</p>
       <table v-if="cart.length != 0" class="">
         <thead class="bg-gray-500 border-b-2 border-gray-500">
           <tr>
@@ -98,7 +98,7 @@
 <script setup>
 import { TrashIcon } from '@heroicons/vue/outline';
 import useCart from '~/stores/cart';
-
+const router = useRouter();
 const store = useCart();
 const user = useUser();
 const cart = ref(store.getCart);
@@ -107,10 +107,12 @@ const myProducts = ref([]);
 const myItems = ref([]);
 const total = ref(0);
 for (let i = 0; i < cart.value.length; i++) {
+  // console.log(cart.value);
+  // console.log(cart.value[i].product);
   myProducts.value[i] = (
     await $fetch(`/api/products?_id=${cart.value[i].product}`)
   ).data.items[0];
-
+  console.log(myProducts.value);
   myItems.value[i] = (
     await $fetch(`/api/items?_id=${myProducts.value[i].item}`)
   ).data.items[0];
@@ -134,10 +136,11 @@ watch(
 );
 
 function purchase() {
-  if (logged) {
-    router.push('/signin');
+  console.log(logged.value);
+  if (logged.value === true) {
+    router.push('/purchase/cart');
   } else {
-    router.push('/purchase');
+    router.push('/signin');
   }
 }
 
