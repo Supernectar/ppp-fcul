@@ -222,10 +222,11 @@ export default {
 
       console.log(res2);
 
+      const userdb = (await $fetch(`/api/users/${user.data._id}`)).data
+        .items[0];
+
       user.$patch({
-        user: {
-          type: this.type
-        }
+        data: userdb
       });
 
       router.push('/profile/consumer/orders');

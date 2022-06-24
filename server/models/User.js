@@ -14,20 +14,20 @@ export default mongoose.model(
     phone: String,
     creditCard: String,
     nif: String,
-    address: {
-      type: Schema.Types.Object,
-      ref: 'Address'
-    },
+    addresses: [
+      {
+        type: Schema.Types.Object,
+        ref: 'Address'
+      }
+    ],
     consumerData: {
+      address: {
+        type: Schema.Types.Object,
+        ref: 'Address'
+      },
       orders: [
         {
           type: Schema.Types.ObjectId
-        }
-      ],
-      shippingAddresses: [
-        {
-          type: Schema.Types.ObjectId,
-          ref: 'Address'
         }
       ],
       cart: [
@@ -47,6 +47,10 @@ export default mongoose.model(
       ]
     },
     supplierData: {
+      address: {
+        type: Schema.Types.Object,
+        ref: 'Address'
+      },
       InstitutionName: String,
       storages: [
         {
@@ -61,6 +65,10 @@ export default mongoose.model(
       ]
     },
     transporterData: {
+      address: {
+        type: Schema.Types.Object,
+        ref: 'Address'
+      },
       vehicles: [
         {
           type: Schema.Types.ObjectId,

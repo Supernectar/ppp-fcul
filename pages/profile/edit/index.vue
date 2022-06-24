@@ -21,50 +21,62 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td><LocationMarkerIcon class="w-5 h-5" /></td>
-                    <td>
-                      {{
-                        info.address.street +
-                        ', ' +
-                        info.address.city +
-                        ', ' +
-                        info.address.country
-                      }}
-                    </td>
-                  </tr>
-                  <tr
-                    v-for="(shipAddress, index) in info.consumerData
-                      .shippingAddresses"
-                    :key="index"
-                  >
-                    <td><LocationMarkerIcon class="w-5 h-5" /></td>
-                    <td>
-                      {{
-                        shipAddress.street +
-                        ', ' +
-                        shipAddress.city +
-                        ', ' +
-                        shipAddress.country
-                      }}
-                    </td>
-                  </tr>
-                  <tr
-                    v-for="(storageAddress, index) in info.supplierData
-                      .storages"
-                    :key="index"
-                  >
-                    <td><LocationMarkerIcon class="w-5 h-5" /></td>
-                    <td>
-                      {{
-                        storageAddress.address.street +
-                        ', ' +
-                        storageAddress.address.city +
-                        ', ' +
-                        storageAddress.address.country
-                      }}
-                    </td>
-                  </tr>
+                  <div>
+                    <tr>
+                      <td><LocationMarkerIcon class="w-5 h-5" /></td>
+                      <td>Main address:</td>
+                      <td></td>
+                      <td>
+                        {{
+                          info.address.street +
+                          ', ' +
+                          info.address.zipCode +
+                          ' ' +
+                          info.address.city +
+                          ', ' +
+                          info.address.country
+                        }}
+                      </td>
+                    </tr>
+                  </div>
+                  <!--
+                  <div v-if="info.consumerData.shippingAddresses.length !== 0">
+                    <tr
+                      v-for="(shipAddress, index) in info.consumerData
+                        .shippingAddresses"
+                      :key="index"
+                    >
+                      <td><LocationMarkerIcon class="w-5 h-5" /></td>
+                      <td>
+                        {{
+                          shipAddress.street +
+                          ', ' +
+                          shipAddress.city +
+                          ', ' +
+                          shipAddress.country
+                        }}
+                      </td>
+                    </tr>
+                  </div>
+                  <div v-if="info.supplierData.storages.length !== 0">
+                    <tr
+                      v-for="(storageAddress, index) in storagesAddress"
+                      :key="index"
+                    >
+                      <td><LocationMarkerIcon class="w-5 h-5" /></td>
+                      <td>
+                        {{
+                          storageAddress.address.street +
+                          ', ' +
+                          storageAddress.address.zipCode +
+                          ' ' +
+                          storageAddress.address.city +
+                          ', ' +
+                          storageAddress.address.country
+                        }}
+                      </td>
+                    </tr>
+                  </div>-->
                 </tbody>
               </table>
 
@@ -73,137 +85,171 @@
               </button>
             </div>
           </div>
-          <!--
-          <FormKit
-            v-model="password"
-            label="Password"
-            type="password"
-            validation="required"
-            outer-class="mb-4"
-            label-class="form-label inline-block mb-2 text-gray-700"
-            input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-            help-class="text-sm text-gray-500 mt-1"
-            message-class="mt-1 text-sm text-red-600"
-          />
-          -->
-          <form class="col" @submit.prevent>
-            <h2>Your personal information:</h2>
-            <br />
-            <div class="mb-3">
-              <label for="exampleInputName1" class="form-label">Name</label>
-              <input
-                id="exampleInputName1"
-                v-model="name"
-                type="text"
-                class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                :placeholder="info.name"
-              />
-            </div>
 
-            <div class="mb-3">
-              <label for="exampleInputAddress1" class="form-label"
-                >Username</label
-              >
+          <FormKit type="form" @submit="updateInfo">
+            <FormKit
+              v-model="name"
+              label="Name"
+              type="text"
+              validation="length:3"
+              outer-class="mb-4"
+              label-class="form-label inline-block mb-2 text-gray-700"
+              input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              help-class="text-sm text-gray-500 mt-1"
+              message-class="mt-1 text-sm text-red-600"
+              :placeholder="info.name"
+            />
 
-              <input
-                id="exampleInputAddress1"
-                v-model="username"
-                type="text"
-                class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                :placeholder="info.username"
-              />
-              <div :class="calculateAddressFeedbackClass">
-                {{ calculateAddressFeedback }}
-              </div>
-            </div>
+            <FormKit
+              v-model="username"
+              label="Username"
+              type="text"
+              validation="length:3"
+              outer-class="mb-4"
+              label-class="form-label inline-block mb-2 text-gray-700"
+              input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              help-class="text-sm text-gray-500 mt-1"
+              message-class="mt-1 text-sm text-red-600"
+              :placeholder="info.username"
+            />
 
-            <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">E-mail</label>
+            <FormKit
+              v-model="email"
+              label="Email"
+              type="text"
+              validation="email"
+              outer-class="mb-4"
+              label-class="form-label inline-block mb-2 text-gray-700"
+              input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              help-class="text-sm text-gray-500 mt-1"
+              message-class="mt-1 text-sm text-red-600"
+              :placeholder="info.email"
+            />
 
-              <input
-                id="exampleInputEmail1"
-                v-model="email"
-                type="text"
-                class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                :placeholder="info.email"
-              />
-            </div>
+            <FormKit
+              v-model="password"
+              label="Password"
+              type="password"
+              validation="length:6|matches:/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/"
+              :validation-messages="{
+                matches:
+                  'Password must contain at least 1 number, 1 uppercase character, 1 lowercase character, 1 special character'
+              }"
+              outer-class="mb-4"
+              label-class="form-label inline-block mb-2 text-gray-700"
+              input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              help-class="text-sm text-gray-500 mt-1"
+              message-class="mt-1 text-sm text-red-600"
+              placeholder="********"
+            />
 
-            <div class="mb-3">
-              <label for="exampleInputPhone1" class="form-label">Phone</label>
-
-              <input
-                id="exampleInputPhone1"
-                v-model="phone"
-                type="text"
-                class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                :class="calculatePhoneClass"
-                :placeholder="info.phone"
-              />
-              <div :class="calculatePhoneFeedbackClass">
-                {{ calculatePhoneFeedback }}
-              </div>
-            </div>
-
-            <div class="mb-3">
-              <label for="exampleInputNIF1" class="form-label">NIF</label>
-
-              <input
-                id="exampleInputNIF1"
-                v-model="nif"
-                type="text"
-                class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                :class="calculateNIFClass"
-                :placeholder="info.nif"
-              />
-              <div :class="calculateNIFFeedbackClass">
-                {{ calculateNIFFeedback }}
-              </div>
-            </div>
-
-            <div class="mb-3">
-              <label for="exampleInputPassword1" class="form-label"
-                >Password</label
-              >
-
-              <input
-                id="exampleInputPassword1"
-                v-model="password"
-                type="password"
-                class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                :class="calculatePasswordClass"
-                placeholder="*********"
-              />
-              <div :class="calculatePasswordFeedbackClass">
-                {{ calculatePasswordFeedback }}
-              </div>
-            </div>
-
-            <div class="flex space-x-2 justify-center">
-              <input
-                type="submit"
-                class="inline-block my-4 w-40 px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-                name=""
-                value="Update account"
-                @click="updateInfo"
-              />
-            </div>
+            <p>Main address</p>
             <hr />
-            <br />
-            <p class="flex space-x-2 justify-center">
-              You have 60 days to recover your account, after that your account
-              will be permanently deleted.
-            </p>
-            <div class="flex space-x-2 justify-center">
-              <input
-                type="submit"
-                class="inline-block my-4 w-40 px-6 py-2.5 bg-red-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-600 hover:shadow-lg focus:bg-red-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-700 active:shadow-lg transition duration-150 ease-in-out"
-                name=""
-                value="Delete account"
-                @click="deleteAcc"
-              />
-            </div>
-          </form>
+
+            <FormKit
+              v-model="street"
+              label="Street"
+              type="text"
+              validation="length:6"
+              outer-class="mb-4"
+              label-class="form-label inline-block mb-2 text-gray-700"
+              input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              help-class="text-sm text-gray-500 mt-1"
+              message-class="mt-1 text-sm text-red-600"
+              :placeholder="info.address.street"
+            />
+
+            <FormKit
+              v-model="city"
+              label="City"
+              type="text"
+              validation="length:4"
+              outer-class="mb-4"
+              label-class="form-label inline-block mb-2 text-gray-700"
+              input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              help-class="text-sm text-gray-500 mt-1"
+              message-class="mt-1 text-sm text-red-600"
+              :placeholder="info.address.city"
+            />
+
+            <FormKit
+              v-model="country"
+              label="Country"
+              type="select"
+              :options="names"
+              outer-class="mb-4"
+              label-class="form-label inline-block mb-2 text-gray-700"
+              input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              help-class="text-sm text-gray-500 mt-1"
+              message-class="mt-1 text-sm text-red-600"
+              :placeholder="info.address.country"
+            />
+
+            <FormKit
+              v-model="zipCode"
+              label="Zip Code"
+              type="text"
+              validation="matches:/^[0-9]{4}-[0-9]{3}$/"
+              outer-class="mb-4"
+              label-class="form-label inline-block mb-2 text-gray-700"
+              input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              help-class="text-sm text-gray-500 mt-1"
+              message-class="mt-1 text-sm text-red-600"
+              :placeholder="info.address.zipCode"
+            />
+
+            <hr />
+
+            <FormKit
+              v-model="phone"
+              label="Phone number"
+              type="text"
+              validation="length:9"
+              outer-class="mb-4"
+              label-class="form-label inline-block mb-2 text-gray-700"
+              input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              help-class="text-sm text-gray-500 mt-1"
+              message-class="mt-1 text-sm text-red-600"
+              :placeholder="info.phone"
+            />
+
+            <FormKit
+              v-model="nif"
+              label="NIF"
+              type="text"
+              validation="length:9"
+              outer-class="mb-4"
+              label-class="form-label inline-block mb-2 text-gray-700"
+              input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              help-class="text-sm text-gray-500 mt-1"
+              message-class="mt-1 text-sm text-red-600"
+              :placeholder="info.nif"
+            />
+
+            <template #submit>
+              <div class="flex space-x-2 justify-center">
+                <FormKit
+                  type="submit"
+                  label="Update account"
+                  input-class="inline-block my-4 w-40 px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+                />
+              </div>
+              <hr />
+              <p class="flex space-x-2 justify-center">
+                You have 60 days to recover your account, after that your
+                account will be permanently deleted.
+              </p>
+            </template>
+          </FormKit>
+          <div class="flex space-x-2 justify-center">
+            <input
+              type="submit"
+              class="inline-block my-4 w-40 px-6 py-2.5 bg-red-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-600 hover:shadow-lg focus:bg-red-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-700 active:shadow-lg transition duration-150 ease-in-out"
+              name=""
+              value="Delete account"
+              @click="deleteAcc"
+            />
+          </div>
         </section>
         <Footer />
       </div>
@@ -269,22 +315,52 @@
 
 <script setup>
 import { LocationMarkerIcon } from '@heroicons/vue/outline/index.js';
+import {
+  TransitionRoot,
+  TransitionChild,
+  Dialog,
+  DialogPanel,
+  DialogTitle
+} from '@headlessui/vue';
 
 const user = useUser();
 const router = useRouter();
 
-const info = ref([]);
-info.value = (
-  await $fetch(`/api/users?email=${user.data.email}`)
-).data.items[0];
+const names = ref([]);
+const result2 = await $fetch(`https://restcountries.com/v3.1/all`);
+for (let i = 0; i < result2.length; i++) {
+  names.value.push(result2[i].name.common);
+}
+names.value.sort((a, b) => a.localeCompare(b));
 
+const info = ref([]);
+info.value = (await $fetch(`/api/users/${user.data._id}`)).data.items[0];
+
+const storagesAddress = ref([]);
+const storages = ref([]);
+storages.value = info.value.supplierData.storages;
+
+if (storages.value.length !== 0) {
+  for (const storage of storages.value) {
+    storagesAddress.value.push(
+      (await $fetch(`/api/users/${user.data._id}/storages/${storage}`)).data
+        .items[0]
+    );
+  }
+}
+
+const name = ref('');
 const username = ref('');
 const email = ref('');
-const name = ref('');
-const address = ref('');
+const password = ref('');
+
+const street = ref('');
+const zipCode = ref('');
+const city = ref('');
+const country = ref('');
+
 const phone = ref('');
 const nif = ref('');
-const password = ref('');
 
 const modalContent = ref('');
 const isOpen = ref(false);
@@ -316,22 +392,30 @@ async function updateInfo() {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      username: user.data.username === '' ? user.data.username : username.value,
-      email: user.data.email === '' ? user.data.email : email.value,
-      name: user.data.name === '' ? user.data.name : name.value,
+      username: username.value === '' ? user.data.username : username.value,
+      email: email.value === '' ? user.data.email : email.value,
+      name: name.value === '' ? user.data.name : name.value,
       address: {
-        street: user.data.address === '' ? user.data.address : address.value
+        street: street.value === '' ? user.data.address.street : street.value,
+        country:
+          country.value === '' ? user.data.address.country : country.value,
+        city: city.value === '' ? user.data.address.city : city.value,
+        zipCode:
+          zipCode.value === '' ? user.data.address.zipCode : zipCode.value
       },
-      phone: user.data.phone === '' ? user.data.phone : phone.value,
-      nif: user.data.nif === '' ? user.data.nif : nif.value,
-      password: user.data.password === '' ? user.data.password : password.value
+      phone: phone.value === '' ? user.data.phone : phone.value,
+      nif: nif.value === '' ? user.data.nif : nif.value,
+      password: password.value === '' ? user.data.password : password.value
     })
   });
   const resjson = await res.json();
   console.log(resjson);
-  const res3 = (
-    await $fetch(`/api/users?email=${email.value}&password=${password.value}`)
-  ).data.items[0];
-  user.$patch({ data: res3 });
+
+  const userdb = (await $fetch(`/api/users/${user.data._id}`)).data.items[0];
+  user.$patch({
+    data: userdb
+  });
+
+  openModal('Your account was updated successfully');
 }
 </script>

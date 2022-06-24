@@ -23,7 +23,8 @@ export default defineEventHandler(async (event) => {
       maxLoad,
       status,
       resources,
-      plate
+      plate,
+      owner: userId
     });
     console.log(transport);
 

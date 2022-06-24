@@ -4,19 +4,7 @@
     <div class="flex">
       <SideNavigationBar />
       <div class="flex-grow order-2">
-        <section class="p-2 overflow-hidden">
-          <div class="text-xl py-2">
-            <span v-for="(category, i) in categoryPath" :key="i">
-              <span v-if="i != 0">></span>
-              <NuxtLink
-                to="/categories"
-                class="text-blue-600 hover:text-blue-700 transition duration-300 ease-in-out mb-4"
-              >
-                {{ category.name }}
-              </NuxtLink>
-            </span>
-          </div>
-
+        <section class="p-2 bg-blue-100 overflow-hidden">
           <div class="flex gap-2">
             <div class="w-60 flex flex-col gap-2">
               <div class="bg-light-100 rounded p-2 shadow">
@@ -32,9 +20,25 @@
                   </DisclosureButton>
                   <DisclosurePanel class="px-4 pt-4 pb-2 text-sm text-gray-500">
                     <ul>
-                      <li>cata1</li>
-                      <li>cata2</li>
-                      <li>cata3</li>
+                      <li
+                        v-for="categoriasPrincipal in categories.children"
+                        :key="categoriasPrincipal._id"
+                      >
+                        {{ categoriasPrincipal.name }}
+                      </li>
+                      <!--
+                      <li
+                        v-for="segundaCategoria in categoriasPrincipal.children"
+                        :key="segundaCategoria._id"
+                      >
+                        {{ segundaCategoria.name }}
+                      </li>
+                      <li
+                        v-for="terceiraCategoria in segundaCategoria.children"
+                        :key="terceiraCategoria._id"
+                      >
+                        {{ terceiraCategoria.name }}
+                      </li> -->
                     </ul>
                   </DisclosurePanel>
                 </Disclosure>
@@ -316,6 +320,17 @@
               </div>
             </div>
             <div class="bg-light-100 rounded p-2 shadow w-full">
+              <div class="text-sm py-2">
+                <span v-for="(category, i) in categoryPath" :key="i">
+                  <span v-if="i != 0">></span>
+                  <NuxtLink
+                    to="/categories"
+                    class="text-blue-600 hover:text-blue-700 transition duration-300 ease-in-out mb-4"
+                  >
+                    {{ category.name }}
+                  </NuxtLink>
+                </span>
+              </div>
               <div class="flex justify-between items-center">
                 <div class="flex items-center">
                   <div>
@@ -543,6 +558,7 @@ import { CheckIcon, SelectorIcon, ChevronUpIcon } from '@heroicons/vue/solid';
 
 const category = ref('');
 const categoryPath = ref([]);
+const categories = ref({});
 
 const items = ref([]);
 const staticFilters = ref([]);
@@ -620,7 +636,6 @@ onMounted(async () => {
   }
 
   // --- Categories --- //
-  const categories = ref({});
   const expandNode = async (node) => {
     if (node.children.length > 0) {
       for (let i = 0; i < node.children.length; i++) {

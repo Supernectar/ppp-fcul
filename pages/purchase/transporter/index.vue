@@ -115,6 +115,8 @@
             </svg>
           </div>
         </div>
+        <input type="range" min="0" max="100" step="1" v-model="value" />
+        {{ value }}
       </div>
       <!--
         <table class="m-auto w-10/12">
@@ -239,12 +241,8 @@
 </template>
 <script setup>
 let transports = ref([]);
-let transporters = ref([]);
-transporters = await $fetch(
-  `/api/users/userId?transporterData.vehicles.length!=0`
-);
+const value = ref();
+transports.value = (await $fetch(`/api/transports`)).data.items;
 
-transports = await $fetch(`/api/users/transports`);
 console.log(transports.value);
-console.log(transporters.value);
 </script>

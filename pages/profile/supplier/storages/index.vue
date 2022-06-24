@@ -61,6 +61,8 @@
                             {{
                               storage.address.street +
                               ', ' +
+                              storage.address.zipCode +
+                              ' ' +
                               storage.address.city +
                               ', ' +
                               storage.address.country
@@ -137,6 +139,20 @@
                   </div>
                   <div>
                     <FormKit
+                      v-model="zipCode"
+                      placeholder="zipCode"
+                      type="text"
+                      name="zipCode"
+                      validation="required"
+                      outer-class="mb-4"
+                      label-class="form-label inline-block mb-2 text-gray-700"
+                      input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                      help-class="text-sm text-gray-500 mt-1"
+                      message-class="mt-1 text-sm text-red-600"
+                    />
+                  </div>
+                  <div>
+                    <FormKit
                       v-model="city"
                       placeholder="city"
                       type="text"
@@ -193,13 +209,13 @@
 const user = useUser();
 
 const storages = ref([]);
-storages.value = (
-  await $fetch(`/api/users/${user.data._id}/storages`)
-).data.items;
+storages.value = await $fetch(`/api/users/${user.data._id}/storages`).data
+  .items;
 
 // Create new storage
 const name = ref('');
 const street = ref('');
+const zipCode = ref('');
 const city = ref('');
 const country = ref('');
 const visibility = ref('');
@@ -215,6 +231,7 @@ async function createStorage() {
       name: name.value,
       address: {
         street: street.value,
+        zipCode: zipCode.value,
         city: city.value,
         country: country.value
       },
@@ -240,6 +257,7 @@ async function deleteStorage(storageId) {
       name: name.value,
       address: {
         street: street.value,
+        zipCode: zipCode.value,
         city: city.value,
         country: country.value
       },

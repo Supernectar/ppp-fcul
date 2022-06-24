@@ -214,7 +214,10 @@
       <div id="location" class="mt-4">
         <h2 class="text-xl font-semibold">Location</h2>
         <div>
-          <gMap class="h-40 w-40" />
+          <GMap
+            class="h-80 w-full rounded-xl border-4 shadow"
+            :markers-positions="storagePositions"
+          />
         </div>
       </div>
       <div id="details" class="mt-4">
@@ -239,20 +242,23 @@ const store = useCart();
 const route = useRoute();
 
 const item = ref({});
+const product = ref({});
+const productStorages = ref([]);
+
+const category = ref('');
+const categoryPath = ref([]);
+const products = ref([]);
+
 item.value = (await $fetch('/api/items/' + route.params.itemId)).data.items[0];
 
-const product = ref({});
 product.value = (
   await $fetch('/api/products/' + route.params.productId)
 ).data.items[0];
 
-const products = ref([]);
 products.value = (
   await $fetch('/api/products?item=' + route.params.itemId)
 ).data.items;
 
-const category = ref('');
-const categoryPath = ref([]);
 category.value = (
   await $fetch(`/api/categories?_id=${item.value.category}`)
 ).data.items[0];
@@ -297,4 +303,20 @@ function addToCompare(pid) {
     storeCompare.$patch({ compare });
   }
 }
+
+// ---- Storage positions ---- //
+const storagePositions = ref([
+  {
+    lat: 38.730292,
+    lng: -9.16323
+  },
+  {
+    lat: 38.591152,
+    lng: -8.933824
+  },
+  {
+    lat: 38.744067,
+    lng: -9.365785
+  }
+]);
 </script>

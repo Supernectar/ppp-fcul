@@ -5,10 +5,9 @@ export default defineEventHandler(async (event) => {
   event.res.jsonResponse.context = event.context.params;
   try {
     const { userId } = event.context.params;
-    const user = await User.findOne({ _id: userId });
+    const user = await User.findById(userId);
     const storageIds = user.supplierData.storages;
     const storages = await Storage.find({ _id: storageIds });
-
     event.res.jsonResponse.data = {
       items: storages
     };

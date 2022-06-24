@@ -130,6 +130,25 @@
         </tbody>
       </table>-->
     </div>
+
+    <div>
+      <stripe-checkout
+        ref="checkoutRef"
+        mode="payment"
+        :pk="publishableKey"
+        :line-items="lineItems"
+        :success-url="successURL"
+        :cancel-url="cancelURL"
+        @loading="(v) => (loading = v)"
+      />
+      <button
+        class="text-white bg-gradient-to-br from-pink-500 to-red-pink hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+        @click="submit"
+      >
+        Pay now!
+      </button>
+    </div>
+
     <div class="w-11/12 bg-white lg:w-1/2 mx-auto">
       <button
         type="button"
@@ -144,7 +163,42 @@
         Next >
       </button>
     </div>
+    <button
+      type="button"
+      class="text-white bg-gradient-to-br from-indigo-500 to-indigo-900 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+      @click="createOrder()"
+    >
+      test criar encomenda
+    </button>
   </div>
 </template>
 
-<script setup></script>
+<script>
+import { StripeCheckout } from '@vue-stripe/vue-stripe';
+export default {
+  components: {
+    StripeCheckout
+  },
+  data() {
+    this.publishableKey =
+      'pk_test_51LEDJlAIdQC80EPdG8z8dlFoL50XlSoMNe1JhuF2Tdap8U25BCRlWB8IiQnqa0YYBJy7JurPEuaDMaZWNgOlM0w5000FSV9i0w';
+    return {
+      loading: false,
+      lineItems: [
+        {
+          price: 'price_1LEE10AIdQC80EPdTFO66MJv', // The id of the one-time price you created in your Stripe dashboard
+          quantity: 1
+        }
+      ],
+      successURL: 'http://localhost:3000/success',
+      cancelURL: 'http://localhost:3000/error'
+    };
+  },
+  methods: {
+    submit() {
+      // You will be redirected to Stripe's secure checkout page
+      this.$refs.checkoutRef.redirectToCheckout();
+    }
+  }
+};
+</script>
