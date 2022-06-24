@@ -1,17 +1,14 @@
 <template>
   <div>
     <Navbar />
-    <section>
-      <div class="flex">
-        <div>
-          <SideNav />
-        </div>
-
-        <div class="bg-light-100 p-2 w-full">
+    <div class="flex">
+      <SideNavigationBar />
+      <div class="flex-grow order-2">
+        <section class="p-2 overflow-hidden min-h-screen">
           <h1>Deliveries</h1>
-        </div>
+        </section>
+        <Footer />
       </div>
-    </section>
-    <Footer />
+    </div>
   </div>
 </template>

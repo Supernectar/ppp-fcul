@@ -1,13 +1,10 @@
 <template>
   <div>
     <Navbar />
-    <section class="">
-      <div class="flex">
-        <div>
-          <SideNav />
-        </div>
-
-        <div class="bg-light-100 p-2 w-full">
+    <div class="flex">
+      <SideNavigationBar />
+      <div class="flex-grow order-2">
+        <section class="p-2 overflow-hidden min-h-screen">
           <h1>Products</h1>
           <div class="flex flex-col">
             <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -108,15 +105,14 @@
               </div>
             </div>
           </div>
-        </div>
+        </section>
+        <Footer />
       </div>
-    </section>
-    <Footer />
+    </div>
   </div>
 </template>
 
 <script setup>
-const route = useRoute();
 const user = useUser();
 
 const storage = ref({});

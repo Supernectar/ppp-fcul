@@ -1,12 +1,10 @@
 <template>
   <div>
     <Navbar />
-    <section>
-      <div class="flex">
-        <div>
-          <SideNav />
-        </div>
-        <div class="p-2 grow">
+    <div class="flex">
+      <SideNavigationBar />
+      <div class="flex-grow order-2">
+        <section class="p-2 overflow-hidden min-h-screen">
           <h1 class="text-4xl font-bold">My information</h1>
           <div id="addresses" class="mt-4 border rounded-xl p-2">
             <h2 class="text-xl font-semibold">My addresses</h2>
@@ -206,9 +204,10 @@
               />
             </div>
           </form>
-        </div>
+        </section>
+        <Footer />
       </div>
-    </section>
+    </div>
     <!-- Dialog -->
     <TransitionRoot appear :show="isOpen" as="template">
       <Dialog class="relative z-10" as="div" @close="closeModal">
@@ -265,7 +264,6 @@
         </div>
       </Dialog>
     </TransitionRoot>
-    <Footer />
   </div>
 </template>
 

@@ -1,12 +1,10 @@
 <template>
   <div>
     <Navbar />
-    <section>
-      <div class="flex">
-        <div>
-          <SideNav />
-        </div>
-        <div class="p-2 grow overflow-hidden">
+    <div class="flex">
+      <SideNavigationBar />
+      <div class="flex-grow order-2">
+        <section class="p-2 overflow-hidden">
           <h1 class="text-4xl font-bold">Dashboard</h1>
           <div id="orders" class="mt-4">
             <h2 class="text-xl font-semibold">Orders</h2>
@@ -133,16 +131,21 @@
               </ul>
             </div>
           </div>
-
           <div>-referencia à ultima encomenda realizada</div>
           <div>
             -estatistica relativamente ao total de recursos gerados em
             encomendas (nos ultimos x dias, ou desda primeira encomenda)
           </div>
           <div>-recomendações de produtos?</div>
-        </div>
+        </section>
+        <Footer />
       </div>
-    </section>
+    </div>
+    <!-- <div class="flex">
+      <SideNavigationBar />
+      <div class="bg-blue-200">dsda</div> -->
+
+    <!-- </div> -->
     <TransitionRoot appear :show="isOpen" as="template">
       <Dialog class="relative z-10" as="div" @close="closeModal">
         <TransitionChild
@@ -200,7 +203,6 @@
         </div>
       </Dialog>
     </TransitionRoot>
-    <Footer />
   </div>
 </template>
 

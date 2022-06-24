@@ -1,12 +1,10 @@
 <template>
   <div>
     <Navbar />
-    <section>
-      <div class="flex">
-        <div>
-          <SideNav />
-        </div>
-        <div class="bg-light-100 rounded p-2 shadow w-full">
+    <div class="flex">
+      <SideNavigationBar />
+      <div class="flex-grow order-2">
+        <section class="p-2 overflow-hidden min-h-screen">
           <div>
             <div class="flex flex-col">
               <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -190,11 +188,10 @@
               </tr>
             </div>
           </table>
-        </div>
+        </section>
+        <Footer />
       </div>
-    </section>
-
-    <Footer />
+    </div>
   </div>
 </template>
 

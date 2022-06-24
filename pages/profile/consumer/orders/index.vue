@@ -1,12 +1,10 @@
 <template>
   <div>
     <Navbar />
-    <section>
-      <div class="flex">
-        <div>
-          <SideNav />
-        </div>
-        <div class="p-2 grow">
+    <div class="flex">
+      <SideNavigationBar />
+      <div class="flex-grow order-2">
+        <section class="p-2 overflow-hidden min-h-screen">
           <h1 class="text-4xl font-bold">Orders</h1>
           <div id="suggestions" class="mt-4">
             <!-- <h2 class="text-xl font-semibold">
@@ -104,10 +102,10 @@
               </tbody>
             </table>
           </div>
-        </div>
+        </section>
+        <Footer />
       </div>
-    </section>
-    <Footer />
+    </div>
   </div>
 </template>
 

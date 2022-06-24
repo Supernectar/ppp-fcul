@@ -1,12 +1,10 @@
 <template>
   <div>
     <Navbar />
-    <section>
-      <div class="flex">
-        <div>
-          <SideNav />
-        </div>
-        <div class="bg-light-100 rounded p-2 shadow w-full">
+    <div class="flex">
+      <SideNavigationBar />
+      <div class="flex-grow order-2">
+        <section class="p-2 overflow-hidden min-h-screen">
           <div>
             <div class="flex flex-col">
               <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -184,10 +182,10 @@
               </div>
             </div>
           </div>
-        </div>
+        </section>
+        <Footer />
       </div>
-    </section>
-    <Footer />
+    </div>
   </div>
 </template>
 
@@ -228,70 +226,6 @@ async function createStorage() {
 
   user.$patch({
     data: userdb
-
-    //     :D :D :DBabyyyy I like your style cha cha cha cha cha  cha wait oki
-    // JCFUFJHJFFHFFFJFJFJFJF MORRI
-    // tens de ser mais especifica >:((( senao tens 0 xD
-    //                               _   -  -
-    //                  _    -   "   -        -             _-" - _
-    //      -     "      .  -       '_"-        -        -_"- /|\\ \
-    //  -       -         -- "        ___        -      // / /|/ | \\\
-    //        -..-         __        -___.-       -    / / / / ||\ \ \
-    // -          ___    -..___-                    -  ///"||"!|"!"| |\
-    //         ____.-                                 || /|| >    o ;||
-    //  -                      __        _""".-"-.__   ||/||        ;||
-    //                       -   ".      - ."     . "-_|| |     ----------------"   /||
-    //           .-'"'-      "----"      .'         .  "|||   `==' / |/
-    //    -      -___ /                ."  /         ".  | ',. _,-' |/
-    //          _..,---,._       .   ."   /      /     "       /
-    //     - .-"          '"'-,.  _."    |      /             /"-_
-    //     ."                   ~'      .|      |          -_.-   -
-    //    .              .   '         . |      |     .            "
-    //    '              ; .'           .|   . _|____/|_....,,--,. /
-    //    `.              ;              |  ~        "            "'-,.
-    //   .'`              !.        `    \            ___..---__   .,\/-_
-    //  .  '              ';              \__.,---'"""          "'\\\\\\  - _
-    //     _-              |-----------=--"                        ' " '     \   codigo 120941
-    //       `             ;        _-"                       . _ - -'"-"'- -/
-    //        '.           ;   _- "                      _ -"
-    //          .          ' "                       . -
-    //       . ' .          ;                   .  '
-    //     .      .                    .  '  '
-    //   .         .         ;    . '
-    //              '        ;  '
-    //            _ '        '
-    //        _-"           '
-    //       -             '
-    //     .-          . '
-    //    "         .
-
-    // `Estudem pelo livro` codigo 120941
-    //       __...--~~~~~-._   _.-~~~~~--...__
-    //     //               `V'               \\
-    //    //                 |                 \\
-    //   //__...--~~~~~~-._  |  _.-~~~~~~--...__\\
-    //  //__.....----~~~~._\ | /_.~~~~----.....__\\
-    // ====================\\|//====================
-    //                 dwb `---`
-
-    // Da-me a tua chave privada e dou-te 20
-    //    +--------------+
-    //    |.------------.|
-    //    ||            ||
-    //    ||            ||
-    //    ||            ||
-    //    ||            ||
-    //    |+------------+|
-    //    +-..--------..-+
-    //    .--------------.
-    //   / /============\ \
-    //  / /==============\ \
-    // /____________________\
-    // \____________________/
-
-    // se disserem "cifrar com a chave publica" têm 0. sei la o que é que tao a cifrar - codigo 120941
-
-    // Dulce gabana 2022 ---------
   });
 }
 

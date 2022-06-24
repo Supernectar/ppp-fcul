@@ -5,17 +5,6 @@ export default defineNuxtConfig({
   ssr: false, // para o localstorage funcionar
   app: {
     head: {
-      link: [
-        {
-          link: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css'
-        },
-        {
-          link: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap'
-        },
-        {
-          link: 'https://cdn.jsdelivr.net/npm/tw-elements/dist/css/index.min.css'
-        }
-      ],
       script: [
         {
           src: 'https://cdn.tailwindcss.com'

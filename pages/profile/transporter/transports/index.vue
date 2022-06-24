@@ -1,13 +1,10 @@
 <template>
   <div>
     <Navbar />
-    <section>
-      <div class="flex">
-        <div>
-          <SideNav />
-        </div>
-
-        <div class="bg-light-100 p-2 w-full">
+    <div class="flex">
+      <SideNavigationBar />
+      <div class="flex-grow order-2">
+        <section class="p-2 overflow-hidden min-h-screen">
           <h1>Transports</h1>
           <div id="orders" class="mt-4">
             <h2 class="text-xl font-semibold">Registered vehicles</h2>
@@ -236,10 +233,10 @@
               </div>
             </div>
           </div>
-        </div>
+        </section>
+        <Footer />
       </div>
-    </section>
-    <Footer />
+    </div>
   </div>
 </template>
 

@@ -1,13 +1,10 @@
 <template>
   <div>
-    <Navbar />
+    <div class="h-14 bg-red-200 sticky top-0">ds</div>
     <div class="flex">
       <SideNavigationBar />
       <div class="flex-grow order-2">
-        <section class="p-2 overflow-hidden min-h-screen">
-          <div>Notifications</div>
-        </section>
-        <Footer />
+        <div class="bg-pink-400 h-screen-xl">hey</div>
       </div>
     </div>
   </div>
