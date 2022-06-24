@@ -330,7 +330,10 @@
                   class="marker:black pl-5 space-y-3 text-slate-600"
                 >
                   <h4 class="hover:underline">
-                    <NuxtLink to="/test">{{ terceiraCategoria.name }}</NuxtLink>
+                    <NuxtLink
+                      :to="`/test?category=${terceiraCategoria.nameId}`"
+                      >{{ terceiraCategoria.name }}</NuxtLink
+                    >
                   </h4>
                 </ul>
               </div>

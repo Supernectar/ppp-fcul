@@ -172,6 +172,12 @@ async function login() {
       user.$patch({
         data: users[0]
       });
+      // user.data.type = 'Consumer';
+      user.$patch({
+        data: {
+          type: 'Consumer'
+        }
+      });
 
       openModal('You were logged successfully');
       setTimeout(() => {

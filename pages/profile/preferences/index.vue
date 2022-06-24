@@ -48,6 +48,8 @@ const user = useUser();
 const profileIconBgColor = ref(user.data.preferences.profileIconBgColor);
 const profileIconTextColor = ref(user.data.preferences.profileIconTextColor);
 
+const sideNavOpen = ref(true);
+
 watch(profileIconBgColor, () => {
   user.$patch({
     data: {
