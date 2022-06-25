@@ -185,6 +185,22 @@
                   to="/profile/supplier/products"
                 >
                   <button class="p-2">
+                    <CurrencyEuroIcon
+                      class="h-6 w-6 text-violet-400"
+                      aria-hidden="true"
+                    />
+                  </button>
+
+                  <div v-if="isOpen">Sell products</div>
+                </NuxtLink>
+              </li>
+              <li class="mb-1">
+                <NuxtLink
+                  class="flex items-center rounded-lg text-gray-800 hover:(bg-black bg-opacity-5)"
+                  active-class="bg-black bg-opacity-5 before:(absolute w-1 h-6 rounded-r bg-violet-400)"
+                  to="/profile/supplier/items"
+                >
+                  <button class="p-2">
                     <TagIcon
                       class="h-6 w-6 text-violet-400"
                       aria-hidden="true"
@@ -274,6 +290,7 @@ import {
   BellIcon,
   CogIcon,
   ArrowRightIcon,
+  CurrencyEuroIcon,
   MenuIcon
 } from '@heroicons/vue/outline';
 const user = useUser();

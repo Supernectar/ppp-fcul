@@ -209,8 +209,9 @@
 const user = useUser();
 
 const storages = ref([]);
-storages.value = await $fetch(`/api/users/${user.data._id}/storages`).data
-  .items;
+storages.value = (
+  await $fetch(`/api/users/${user.data._id}/storages`)
+).data.items;
 
 // Create new storage
 const name = ref('');

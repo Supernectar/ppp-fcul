@@ -2,7 +2,7 @@
   <div>
     <Navbar />
     <div class="flex">
-      <SideNavigationBar />
+      <!-- <SideNavigationBar /> -->
       <div class="flex-grow order-2">
         <section class="p-2 bg-blue-100 overflow-hidden">
           <div class="flex gap-2">
@@ -19,21 +19,26 @@
                     />
                   </DisclosureButton>
                   <DisclosurePanel class="px-4 pt-4 pb-2 text-sm text-gray-500">
+                    <pre>
+                  {{ categories }}
+                  </pre
+                    >
+                    <!-- <RecursiveCategory category="{}" /> -->
                     <ul>
-                      <li
+                      <!-- <li
                         v-for="categoriasPrincipal in categories.children"
                         :key="categoriasPrincipal._id"
                       >
                         {{ categoriasPrincipal.name }}
-                      </li>
-                      <!--
+                      </li> -->
+                      <!--                       
                       <li
                         v-for="segundaCategoria in categoriasPrincipal.children"
                         :key="segundaCategoria._id"
                       >
                         {{ segundaCategoria.name }}
                       </li>
-                      <li
+                        <li
                         v-for="terceiraCategoria in segundaCategoria.children"
                         :key="terceiraCategoria._id"
                       >
@@ -554,7 +559,26 @@ import {
   DialogPanel,
   DialogTitle
 } from '@headlessui/vue';
+
 import { CheckIcon, SelectorIcon, ChevronUpIcon } from '@heroicons/vue/solid';
+
+const categories2 = ref({});
+
+const expandNode = async (node) => {
+  if (node.children.length > 0) {
+    for (let i = 0; i < node.children.length; i++) {
+      node.children[i] = (
+        await $fetch(`/api/categories?_id=${node.children[i]}`)
+      ).data.items[0];
+    }
+    for (const child of node.children) {
+      expandNode(child);
+    }
+  }
+};
+categories2.value = (await $fetch(`/api/categories?name=main`)).data.items[0];
+
+expandNode(categories2.value);
 
 const category = ref('');
 const categoryPath = ref([]);

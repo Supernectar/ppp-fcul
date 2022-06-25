@@ -5,105 +5,107 @@
       <SideNavigationBar />
       <div class="flex-grow order-2">
         <section class="p-2 overflow-hidden min-h-screen">
-          <h1>Products</h1>
-          <div class="flex flex-col">
-            <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-              <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-                <div class="overflow-hidden">
-                  <div>
-                    <div class="flex">
-                      <img
-                        src="https://s1.minipreco.pt/medias/h59/h8c/8942827405342.jpg"
-                        class="h-10"
-                      />
-                      ->
-                      <FormKit
-                        v-model="storage"
-                        type="select"
-                        placeholder="Choose your storage"
-                        :options="storages"
-                        validation="required"
-                        outer-class="mb-4"
-                        label-class="form-label inline-block mb-2 text-gray-700"
-                        input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                        help-class="text-sm text-gray-500 mt-1"
-                        message-class="mt-1 text-sm text-red-600"
-                      />
-                    </div>
-                  </div>
-
-                  <table class="min-w-full">
-                    <thead class="border-b">
-                      <tr>
-                        <th
-                          scope="col"
-                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          Icon
-                        </th>
-                        <th
-                          scope="col"
-                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          Name
-                        </th>
-                        <th
-                          scope="col"
-                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          Price
-                        </th>
-                        <th
-                          scope="col"
-                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          Quantity
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr
-                        v-for="(product, index) in products"
-                        :key="index"
-                        class="border-b"
-                      >
-                        <td
-                          class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
-                        >
-                          iconSuposto
-                        </td>
-                        <td
-                          class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
-                        >
-                          {{ product.name }}
-                        </td>
-                        <td
-                          class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                        >
-                          {{ product.price }}
-                        </td>
-                        <td
-                          class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                        >
-                          {{ product.quantity }}
-                        </td>
-                        <td
-                          class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
-                        >
-                          <button
-                            type="button"
-                            class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-                            @click="deleteProduct(product._id)"
-                          >
-                            Delete
-                          </button>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+          <h1 class="text-4xl font-bold">Products</h1>
+          <div id="orders" class="mt-4">
+            <h2 class="text-xl font-semibold">Orders</h2>
+            <p>See your orders history</p>
+            <div class="grid grid-cols-2 border rounded-xl">
+              <div>
+                specify the item you want to sell: <br />
+                <input class="border" type="text" name="" id="" />
+                cannot find the item you're looking for?
+                <NuxtLink
+                  class="text-blue-600 hover:text-blue-700 transition duration-300 ease-in-out mb-4"
+                  to="/profile/supplier/createItem"
+                  >register your item in our system</NuxtLink
+                >
+              </div>
+              <div>
+                <img src="/img/627.png" alt="" />
               </div>
             </div>
+            <div class="h-80 border rounded-xl">
+              Choose in which storages your want to add your product
+              <Listbox
+                class="z-20 inline-block w-60"
+                v-model="selectedStorages"
+                multiple
+              >
+                <div class="relative mt-1">
+                  <ListboxButton
+                    class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
+                  >
+                    <span class="block truncate">
+                      {{
+                        selectedStorages
+                          .map((storage) => storage.name)
+                          .join(', ')
+                      }}
+                    </span>
+                    <span
+                      class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
+                    >
+                      <SelectorIcon
+                        class="h-5 w-5 text-gray-400"
+                        aria-hidden="true"
+                      />
+                    </span>
+                  </ListboxButton>
+
+                  <transition
+                    leave-active-class="transition duration-100 ease-in"
+                    leave-from-class="opacity-100"
+                    leave-to-class="opacity-0"
+                  >
+                    <ListboxOptions
+                      class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+                    >
+                      <ListboxOption
+                        v-slot="{ active, selected }"
+                        v-for="storage in storages"
+                        :key="storage.name"
+                        :value="storage"
+                        as="template"
+                      >
+                        <li
+                          :class="[
+                            active
+                              ? 'bg-amber-100 text-amber-900'
+                              : 'text-gray-900',
+                            'relative cursor-default select-none py-2 pl-10 pr-4'
+                          ]"
+                        >
+                          <span
+                            :class="[
+                              selected ? 'font-medium' : 'font-normal',
+                              'block truncate'
+                            ]"
+                            >{{ storage.name }}</span
+                          >
+                          <span
+                            v-if="selected"
+                            class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"
+                          >
+                            <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                          </span>
+                        </li>
+                      </ListboxOption>
+                    </ListboxOptions>
+                  </transition>
+                </div>
+              </Listbox>
+              <button
+                class="bg-gray-200 border rounded"
+                @click="createProducts"
+              >
+                ADD ZA PRODUCT
+              </button>
+            </div>
+
+            name:
+            <input class="border" type="text" />
+            price:
+            <input class="border" type="text" />
           </div>
         </section>
         <Footer />
@@ -113,90 +115,43 @@
 </template>
 
 <script setup>
+import {
+  Listbox,
+  ListboxButton,
+  ListboxOptions,
+  ListboxOption
+} from '@headlessui/vue';
+
+import { CheckIcon, SelectorIcon } from '@heroicons/vue/outline';
+
 const user = useUser();
 
-const storage = ref({});
-
 const storages = ref([]);
+
 storages.value = (
   await $fetch(`/api/users/${user.data._id}/storages`)
 ).data.items;
-for (const storage of storages.value) {
-  storage.label = storage.name;
-  storage.value = storage._id;
-}
+const selectedStorages = ref([]);
 
-// let products = [];
-
-const products = ref([]);
-
-watch(storage, async () => {
-  console.log(storage.value);
-  products.value = (
-    await $fetch(
-      `/api/users/${user.data._id}/storages/${storage.value}/products`
-    )
-  ).data.items;
-  for (const product of products.value) {
-    product.name = (
-      await $fetch(`/api/items/${product.item}`)
-    ).data.items[0].name;
+async function createProducts() {
+  for (const storage of selectedStorages.value) {
+    console.log(storage._id);
+    await $fetch('/api/products', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: 'aaabababbababababbab',
+        item: '62b7297435430a463a5864de', // washing machine 1
+        price: Math.floor(Math.random() * 20),
+        currencyUnit: '€',
+        stripeId: 'price_1LEa8fAIdQC80EPdihds8cUG',
+        quantity: 2,
+        supplier: user.data._id,
+        storage: storage._id
+      })
+    });
   }
-
-  console.log(products.value);
-});
-
-// for (let i = 0; i < productIds.length; i++) {
-//   let product = (await $fetch(`/api/products/${productIds[i]}`)).data.items;
-//   let item = (await $fetch(`/api/items/${product.item}`)).data.items[0].name;
-//   products.push(product);
-//   items.push(item);
-// }
-
-// let names = [];
-// const allItems = (await $fetch(`/api/items`)).data.items;
-// for (let j = 0; j < allItems.length; j++) {
-//   names.push(allItems[j].name);
-// }
-
-// async function addProduct() {
-//   console.log(item.value);
-//   console.log(price.value);
-//   console.log(unit.value);
-//   console.log(toRaw(user.data));
-//   console.log(quantity.value);
-//   let product = await $fetch(`/api/products`, {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json'
-//     },
-
-//     body: JSON.stringify({
-//       item: item.value,
-//       price: price.value,
-//       unit: unit.value,
-//       supplier: user.data._id,
-//       quantity: quantity.value,
-//       storageId: route.params.storageId
-//     })
-//   });
-//   console.log(product);
-// }
-
-// async function deleteProduct(productId) {
-//   await $fetch(`/api/users/${user.data._id}/storages/${storage._id}`, {
-//     method: 'DELETE',
-//     headers: {
-//       'Content-Type': 'application/json'
-//     },
-
-//     body: JSON.stringify({
-//       item: item.value,
-//       price: price.value,
-//       unit: unit.value,
-//       supplier: supplier.value,
-//       quantity: quantity.value
-//     })
-//   });
-// }
+}
 </script>

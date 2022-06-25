@@ -319,9 +319,14 @@ const route = useRoute();
 
 const item = ref({});
 const products = ref([]);
+const productsLine = ref([]);
 item.value = (await $fetch('/api/items/' + route.params.itemId)).data.items[0];
 
 products.value = (
+  await $fetch('/api/products?item=' + route.params.itemId)
+).data.items;
+
+productsLine.value = (
   await $fetch('/api/products?item=' + route.params.itemId)
 ).data.items;
 

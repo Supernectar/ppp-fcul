@@ -146,22 +146,6 @@
 
                 <div>
                   <FormKit
-                    label="Maximum load"
-                    v-model="maxLoad"
-                    placeholder=""
-                    type="number"
-                    name="maxLoad"
-                    validation="required|min:0"
-                    outer-class="mb-4"
-                    label-class="form-label inline-block mb-2 text-gray-700"
-                    input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                    help-class="text-sm text-gray-500 mt-1"
-                    message-class="mt-1 text-sm text-red-600"
-                  />
-                </div>
-
-                <div>
-                  <FormKit
                     label="Status of vehicle"
                     v-model="status"
                     placeholder=""
@@ -175,7 +159,23 @@
                     message-class="mt-1 text-sm text-red-600"
                   />
                 </div>
-
+                <!--
+                
+                <div>
+                  <FormKit
+                    label="Maximum load"
+                    v-model="maxLoad"
+                    placeholder=""
+                    type="number"
+                    name="maxLoad"
+                    validation="required|min:0"
+                    outer-class="mb-4"
+                    label-class="form-label inline-block mb-2 text-gray-700"
+                    input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                    help-class="text-sm text-gray-500 mt-1"
+                    message-class="mt-1 text-sm text-red-600"
+                  />
+                </div>
                 <div>
                   <FormKit
                     label="Quantity consumed"
@@ -208,7 +208,22 @@
                     message-class="mt-1 text-sm text-red-600"
                   />
                 </div>
-
+   <div>
+                  <FormKit
+                    label="Type Of Fuel"
+                    v-model="fueltype"
+                    placeholder=""
+                    type="select"
+                    name="fuel"
+                    :options="['Diesel', 'Gasoline', 'Biodiesel', 'Electric']"
+                    validation="required"
+                    outer-class="mb-4"
+                    label-class="form-label inline-block mb-2 text-gray-700"
+                    input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                    help-class="text-sm text-gray-500 mt-1"
+                    message-class="mt-1 text-sm text-red-600"
+                  />
+                </div>-->
                 <div>
                   <FormKit
                     label="Plate of vehicle"
@@ -224,6 +239,7 @@
                     message-class="mt-1 text-sm text-red-600"
                   />
                 </div>
+
                 <button
                   class="form-control block px-3 py-1.5 text-base font-normal text-gray-700 bg-gray-100 bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                   @click="createVehicle"
@@ -248,28 +264,35 @@ transports.value = (
   await $fetch(`/api/users/${user.data._id}/transports`)
 ).data.items;
 
-const resourcesTransports = ref([]);
-for (const transport of transports.value) {
-  resourcesTransports.value.push(
-    (
-      await $fetch(
-        `/api/users/${user.data._id}/transports/${transport._id}/resources`
-      )
-    ).data.items[0]
-  );
-}
-console.log(resourcesTransports.value);
+// const resourcesTransports = ref([]);
+// for (const transport of transports.value) {
+//   resourcesTransports.value.push(
+//     (
+//       await $fetch(
+//         `/api/users/${user.data._id}/transports/${transport._id}/resources`
+//       )
+//     ).data.items[0]
+//   );
+// }
+// console.log(resourcesTransports.value);
 
 // Create new transport
-const maxLoad = ref('');
+// const maxLoad = ref('');
 const status = ref('');
 const brand = ref('');
 const model = ref('');
-const quantityPerKm = ref('');
-const unit = ref('');
+// const quantityPerKm = ref('');
+// const unit = ref('');
 const plate = ref('');
-
+// const fueltype = ref('');
+// const resource = ref('');
+// const resQuantity = ref(30);
+// const polQuantity = ref(300);
 async function createVehicle() {
+  // resource.value = (
+  //   await $fetch(`/api/resources?nameId?=${fueltype}`)
+  // ).data.items[0];
+
   await $fetch(`/api/users/${user.data._id}/transports`, {
     method: 'POST',
     headers: {
@@ -277,13 +300,15 @@ async function createVehicle() {
     },
 
     body: JSON.stringify({
-      maxLoad: maxLoad.value,
+      // maxLoad: maxLoad.value,
       brand: brand.value,
       model: model.value,
       status: status.value,
-      quantity: quantityPerKm.value,
-      unit: unit.value,
+      // quantity: quantityPerKm.value,
+      // unit: unit.value,
       plate: plate.value
+      // resources: [{ quantity: resQuantity.value, resource: resource.value._id }]
+      // polutions: [polQuantity.value]
     })
   });
 }
@@ -296,7 +321,7 @@ async function deleteVehicle(transportId) {
     },
 
     body: JSON.stringify({
-      maxLoad: maxLoad.value,
+      // maxLoad: maxLoad.value,
       brand: brand.value,
       model: model.value,
       status: status.value,

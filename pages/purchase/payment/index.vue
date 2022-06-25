@@ -173,32 +173,49 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { StripeCheckout } from '@vue-stripe/vue-stripe';
-export default {
-  components: {
-    StripeCheckout
-  },
-  data() {
-    this.publishableKey =
-      'pk_test_51LEDJlAIdQC80EPdG8z8dlFoL50XlSoMNe1JhuF2Tdap8U25BCRlWB8IiQnqa0YYBJy7JurPEuaDMaZWNgOlM0w5000FSV9i0w';
-    return {
-      loading: false,
-      lineItems: [
-        {
-          price: 'price_1LEE10AIdQC80EPdTFO66MJv', // The id of the one-time price you created in your Stripe dashboard
-          quantity: 1
-        }
-      ],
-      successURL: 'http://localhost:3000/success',
-      cancelURL: 'http://localhost:3000/error'
-    };
-  },
-  methods: {
-    submit() {
-      // You will be redirected to Stripe's secure checkout page
-      this.$refs.checkoutRef.redirectToCheckout();
-    }
-  }
-};
+import useCart from '~/stores/cart';
+
+const loading = false;
+// const user = useUser();
+
+const store = useCart();
+
+const cart = ref(store.getCart);
+
+const myProducts = ref([]);
+for (let i = 0; i < cart.value.length; i++) {
+  myProducts.value[i] = (
+    await $fetch(`/api/products?_id=${cart.value[i].product}`)
+  ).data.items[0];
+}
+
+// const lineItems = ref([
+//   {
+//     price: 'price_1LEa8fAIdQC80EPdihds8cUG', // The id of the one-time price you created in your Stripe dashboard
+//     quantity: 1
+//   },
+//   {
+//     price: 'price_1LEE10AIdQC80EPdTFO66MJv', // The id of the one-time price you created in your Stripe dashboard
+//     quantity: 1
+//   }
+// ]);
+
+for (const product of myProducts) {
+  lineItems.value.push({
+    price: product.stripeId,
+    quantity: product.quantity
+  });
+}
+
+const successURL = 'http://localhost:3000/success';
+const cancelURL = 'http://localhost:3000/error';
+const publishableKey =
+  'pk_test_51LEDJlAIdQC80EPdG8z8dlFoL50XlSoMNe1JhuF2Tdap8U25BCRlWB8IiQnqa0YYBJy7JurPEuaDMaZWNgOlM0w5000FSV9i0w';
+const checkoutRef = ref(null);
+function submit() {
+  // You will be redirected to Stripe's secure checkout page
+  checkoutRef.value.redirectToCheckout();
+}
 </script>

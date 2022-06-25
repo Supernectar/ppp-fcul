@@ -10,7 +10,7 @@
             <h2 class="text-xl font-semibold">My addresses</h2>
             <p>
               Here is a list of your saved addresses you can use to autocomplete
-              storage locations, delivery locations, ...
+              storage locations, delivery locations, etc
             </p>
             <div>
               <table>
@@ -28,59 +28,110 @@
                       <td></td>
                       <td>
                         {{
-                          info.address.street +
+                          displayAddress.street +
                           ', ' +
-                          info.address.zipCode +
+                          displayAddress.zipCode +
                           ' ' +
-                          info.address.city +
+                          displayAddress.city +
                           ', ' +
-                          info.address.country
+                          displayAddress.country
                         }}
                       </td>
                     </tr>
                   </div>
-                  <!--
-                  <div v-if="info.consumerData.shippingAddresses.length !== 0">
+                  <div v-if="info.addresses.length !== 0">
                     <tr
-                      v-for="(shipAddress, index) in info.consumerData
-                        .shippingAddresses"
+                      v-for="(otherAddress, index) in info.addresses"
                       :key="index"
                     >
                       <td><LocationMarkerIcon class="w-5 h-5" /></td>
                       <td>
                         {{
-                          shipAddress.street +
+                          otherAddress.street +
                           ', ' +
-                          shipAddress.city +
+                          otherAddress.zipCode +
+                          ' ' +
+                          otherAddress.city +
                           ', ' +
-                          shipAddress.country
+                          otherAddress.country
                         }}
                       </td>
                     </tr>
                   </div>
-                  <div v-if="info.supplierData.storages.length !== 0">
-                    <tr
-                      v-for="(storageAddress, index) in storagesAddress"
-                      :key="index"
-                    >
-                      <td><LocationMarkerIcon class="w-5 h-5" /></td>
-                      <td>
-                        {{
-                          storageAddress.address.street +
-                          ', ' +
-                          storageAddress.address.zipCode +
-                          ' ' +
-                          storageAddress.address.city +
-                          ', ' +
-                          storageAddress.address.country
-                        }}
-                      </td>
-                    </tr>
-                  </div>-->
                 </tbody>
               </table>
 
-              <button class="p-1 rounded border bg-blue-100">
+              <p class="mt-4">Add a new address</p>
+
+              <div class="flex gap-4 mt-2">
+                <div>
+                  <FormKit
+                    v-model="newStreet"
+                    label="Street"
+                    placeholder=""
+                    type="text"
+                    name="brand"
+                    validation="required"
+                    outer-class="mb-4"
+                    label-class="form-label inline-block mb-2 text-gray-700"
+                    input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                    help-class="text-sm text-gray-500 mt-1"
+                    message-class="mt-1 text-sm text-red-600"
+                  />
+                </div>
+
+                <div>
+                  <FormKit
+                    v-model="newZip"
+                    label="Zip code"
+                    placeholder=""
+                    type="text"
+                    name="model"
+                    validation="required"
+                    outer-class="mb-4"
+                    label-class="form-label inline-block mb-2 text-gray-700"
+                    input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                    help-class="text-sm text-gray-500 mt-1"
+                    message-class="mt-1 text-sm text-red-600"
+                  />
+                </div>
+
+                <div>
+                  <FormKit
+                    v-model="newCity"
+                    label="City"
+                    placeholder=""
+                    type="text"
+                    name="model"
+                    validation="required"
+                    outer-class="mb-4"
+                    label-class="form-label inline-block mb-2 text-gray-700"
+                    input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                    help-class="text-sm text-gray-500 mt-1"
+                    message-class="mt-1 text-sm text-red-600"
+                  />
+                </div>
+
+                <div>
+                  <FormKit
+                    v-model="newCountry"
+                    label="Country"
+                    placeholder=""
+                    type="text"
+                    name="model"
+                    validation="required"
+                    outer-class="mb-4"
+                    label-class="form-label inline-block mb-2 text-gray-700"
+                    input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                    help-class="text-sm text-gray-500 mt-1"
+                    message-class="mt-1 text-sm text-red-600"
+                  />
+                </div>
+              </div>
+              <button
+                class="p-1 rounded border bg-blue-100"
+                @click="addAddress"
+              >
                 Register new address
               </button>
             </div>
@@ -146,85 +197,89 @@
             <p>Main address</p>
             <hr />
 
-            <FormKit
-              v-model="street"
-              label="Street"
-              type="text"
-              validation="length:6"
-              outer-class="mb-4"
-              label-class="form-label inline-block mb-2 text-gray-700"
-              input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-              help-class="text-sm text-gray-500 mt-1"
-              message-class="mt-1 text-sm text-red-600"
-              :placeholder="info.address.street"
-            />
+            <div class="mt-2">
+              <FormKit
+                v-model="street"
+                label="Street"
+                type="text"
+                validation="length:6"
+                outer-class="mb-4"
+                label-class="form-label inline-block mb-2 text-gray-700"
+                input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                help-class="text-sm text-gray-500 mt-1"
+                message-class="mt-1 text-sm text-red-600"
+                :placeholder="displayAddress.street"
+              />
 
-            <FormKit
-              v-model="city"
-              label="City"
-              type="text"
-              validation="length:4"
-              outer-class="mb-4"
-              label-class="form-label inline-block mb-2 text-gray-700"
-              input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-              help-class="text-sm text-gray-500 mt-1"
-              message-class="mt-1 text-sm text-red-600"
-              :placeholder="info.address.city"
-            />
+              <FormKit
+                v-model="zipCode"
+                label="Zip Code"
+                type="text"
+                validation="matches:/^[0-9]{4}-[0-9]{3}$/"
+                outer-class="mb-4"
+                label-class="form-label inline-block mb-2 text-gray-700"
+                input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                help-class="text-sm text-gray-500 mt-1"
+                message-class="mt-1 text-sm text-red-600"
+                :placeholder="displayAddress.zipCode"
+              />
 
-            <FormKit
-              v-model="country"
-              label="Country"
-              type="select"
-              :options="names"
-              outer-class="mb-4"
-              label-class="form-label inline-block mb-2 text-gray-700"
-              input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-              help-class="text-sm text-gray-500 mt-1"
-              message-class="mt-1 text-sm text-red-600"
-              :placeholder="info.address.country"
-            />
+              <FormKit
+                v-model="city"
+                label="City"
+                type="text"
+                validation="length:4"
+                outer-class="mb-4"
+                label-class="form-label inline-block mb-2 text-gray-700"
+                input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                help-class="text-sm text-gray-500 mt-1"
+                message-class="mt-1 text-sm text-red-600"
+                :placeholder="displayAddress.city"
+              />
 
-            <FormKit
-              v-model="zipCode"
-              label="Zip Code"
-              type="text"
-              validation="matches:/^[0-9]{4}-[0-9]{3}$/"
-              outer-class="mb-4"
-              label-class="form-label inline-block mb-2 text-gray-700"
-              input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-              help-class="text-sm text-gray-500 mt-1"
-              message-class="mt-1 text-sm text-red-600"
-              :placeholder="info.address.zipCode"
-            />
+              <FormKit
+                v-model="country"
+                label="Country"
+                type="select"
+                :options="names"
+                outer-class="mb-4"
+                label-class="form-label inline-block mb-2 text-gray-700"
+                input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                help-class="text-sm text-gray-500 mt-1"
+                message-class="mt-1 text-sm text-red-600"
+                :placeholder="displayAddress.country"
+              />
+            </div>
 
             <hr />
 
-            <FormKit
-              v-model="phone"
-              label="Phone number"
-              type="text"
-              validation="length:9"
-              outer-class="mb-4"
-              label-class="form-label inline-block mb-2 text-gray-700"
-              input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-              help-class="text-sm text-gray-500 mt-1"
-              message-class="mt-1 text-sm text-red-600"
-              :placeholder="info.phone"
-            />
+            <div class="mt-2">
+              <FormKit
+                v-model="phone"
+                label="Phone number"
+                type="text"
+                validation="length:9"
+                outer-class="mb-4"
+                label-class="form-label inline-block mb-2 text-gray-700"
+                input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                help-class="text-sm text-gray-500 mt-1"
+                message-class="mt-1 text-sm text-red-600"
+                :placeholder="info.phone"
+              />
 
-            <FormKit
-              v-model="nif"
-              label="NIF"
-              type="text"
-              validation="length:9"
-              outer-class="mb-4"
-              label-class="form-label inline-block mb-2 text-gray-700"
-              input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-              help-class="text-sm text-gray-500 mt-1"
-              message-class="mt-1 text-sm text-red-600"
-              :placeholder="info.nif"
-            />
+              <FormKit
+                v-model="nif"
+                label="NIF"
+                type="text"
+                validation="length:9"
+                outer-class="mb-4"
+                label-class="form-label inline-block mb-2 text-gray-700"
+                input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                help-class="text-sm text-gray-500 mt-1"
+                message-class="mt-1 text-sm text-red-600"
+                :placeholder="info.nif"
+              />
+            </div>
 
             <template #submit>
               <div class="flex space-x-2 justify-center">
@@ -326,6 +381,7 @@ import {
 const user = useUser();
 const router = useRouter();
 
+// Countries
 const names = ref([]);
 const result2 = await $fetch(`https://restcountries.com/v3.1/all`);
 for (let i = 0; i < result2.length; i++) {
@@ -333,21 +389,24 @@ for (let i = 0; i < result2.length; i++) {
 }
 names.value.sort((a, b) => a.localeCompare(b));
 
+// User info
 const info = ref([]);
 info.value = (await $fetch(`/api/users/${user.data._id}`)).data.items[0];
 
-const storagesAddress = ref([]);
-const storages = ref([]);
-storages.value = info.value.supplierData.storages;
-
-if (storages.value.length !== 0) {
-  for (const storage of storages.value) {
-    storagesAddress.value.push(
-      (await $fetch(`/api/users/${user.data._id}/storages/${storage}`)).data
-        .items[0]
-    );
-  }
+// Address of user
+const displayAddress = ref([]);
+if (user.data.type === 'Consumer') {
+  displayAddress.value = info.value.consumerData.address[0];
+} else if (user.data.type === 'Supplier') {
+  displayAddress.value = info.value.supplierData.address[0];
+} else if (user.data.type === 'Transporter') {
+  displayAddress.value = info.value.transporterData.address[0];
 }
+
+const newStreet = ref('');
+const newZip = ref('');
+const newCity = ref('');
+const newCountry = ref('');
 
 const name = ref('');
 const username = ref('');
@@ -373,6 +432,31 @@ function openModal(msg) {
   isOpen.value = true;
 }
 
+async function addAddress() {
+  const res = await fetch(`/api/users/${user.data._id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      type: user.data.type,
+      newAddress: {
+        street: newStreet.value,
+        country: newCountry.value,
+        city: newCity.value,
+        zipCode: newZip.value
+      }
+    })
+  });
+  const resjson = await res.json();
+  console.log(resjson);
+
+  const userdb = (await $fetch(`/api/users/${user.data._id}`)).data.items[0];
+  user.$patch({
+    data: userdb
+  });
+}
+
 async function deleteAcc() {
   await $fetch(`/api/users/${user.data._id}`, {
     method: 'DELETE',
@@ -381,9 +465,7 @@ async function deleteAcc() {
   user.reset();
 
   openModal('Your account was deleted successfully');
-  setTimeout(() => {
-    router.push('/signup');
-  }, 3000);
+  router.push('/signup');
 }
 async function updateInfo() {
   const res = await fetch(`/api/users/${user.data._id}`, {
@@ -395,13 +477,15 @@ async function updateInfo() {
       username: username.value === '' ? user.data.username : username.value,
       email: email.value === '' ? user.data.email : email.value,
       name: name.value === '' ? user.data.name : name.value,
+      type: user.data.type,
       address: {
-        street: street.value === '' ? user.data.address.street : street.value,
+        street:
+          street.value === '' ? displayAddress.value.street : street.value,
         country:
-          country.value === '' ? user.data.address.country : country.value,
-        city: city.value === '' ? user.data.address.city : city.value,
+          country.value === '' ? displayAddress.value.country : country.value,
+        city: city.value === '' ? displayAddress.value.city : city.value,
         zipCode:
-          zipCode.value === '' ? user.data.address.zipCode : zipCode.value
+          zipCode.value === '' ? displayAddress.value.zipCode : zipCode.value
       },
       phone: phone.value === '' ? user.data.phone : phone.value,
       nif: nif.value === '' ? user.data.nif : nif.value,

@@ -223,12 +223,12 @@ products.value = (
     `/api/users/${user.data._id}/storages/${route.params.storageId}/products`
   )
 ).data.items;
-
-for (const product of products.value) {
-  product.name = (
-    await $fetch(`/api/items/${product.item}`)
-  ).data.items[0].name;
-}
+console.log('--1--');
+// for (const product of products.value) {
+//   product.name = (
+//     await $fetch(`/api/items/${product.item}`)
+//   ).data.items[0].name;
+// }
 
 const itemsOfProducts = ref([]);
 for (const product of products.value) {
@@ -238,23 +238,22 @@ for (const product of products.value) {
     }
   }
 }
-
+console.log('--1--');
 // Polutions
-
 const polutionsItems = ref([]);
 for (const itemOfProduct of itemsOfProducts.value) {
   polutionsItems.value = (
     await $fetch(`/api/items/${itemOfProduct._id}/polutions`)
   ).data.items;
 }
-
+console.log('--1--');
 const polutionsProducts = ref([]);
 for (const product of products.value) {
   polutionsProducts.value = (
     await $fetch(`/api/products/${product._id}/polutions`)
   ).data.items;
 }
-
+console.log('--1--');
 const totalPolution = ref(0);
 for (const polutionItem of polutionsItems.value) {
   totalPolution.value += polutionItem.quantity;
@@ -264,23 +263,23 @@ for (const polutionProduct of polutionsProducts.value) {
     totalPolution.value += polutionProduct.quantity;
   }
 }
+console.log('--1--');
 
 // Resources
-
 const resourcesItems = ref([]);
 for (const itemOfProduct of itemsOfProducts.value) {
   resourcesItems.value = (
     await $fetch(`/api/items/${itemOfProduct._id}/resources`)
   ).data.items;
 }
-
+console.log('--2--');
 const resourcesProducts = ref([]);
 for (const product of products.value) {
   resourcesProducts.value = (
     await $fetch(`/api/products/${product._id}/resources`)
   ).data.items;
 }
-
+console.log('--3--');
 const totalResources = ref(0);
 for (const resourceItem of resourcesItems.value) {
   totalResources.value += resourceItem.quantity;

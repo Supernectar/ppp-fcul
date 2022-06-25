@@ -19,10 +19,25 @@ export default mongoose.model(
     status: {
       type: String
     },
+    // quantity: {
+    //   type: Number
+    // },
     resources: [
       {
-        type: Schema.Types.ObjectId,
-        ref: 'Resource'
+        quantity: Number,
+        resource: {
+          type: Schema.Types.ObjectId,
+          ref: 'Resource'
+        }
+      }
+    ],
+    polutions: [
+      {
+        quantity: Number,
+        polution: {
+          type: Schema.Types.ObjectId,
+          ref: 'Polution'
+        }
       }
     ],
     plate: {

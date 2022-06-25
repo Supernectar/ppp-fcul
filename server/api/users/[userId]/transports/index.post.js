@@ -1,28 +1,41 @@
 import User from '~~/server/models/User';
 import Transport from '~~/server/models/Transport';
 import Resource from '~~/server/models/Resource';
+import Polution from '~~/server/models/Polution';
 
 export default defineEventHandler(async (event) => {
   event.res.jsonResponse.context = event.context.params;
-  const { brand, model, maxLoad, status, quantity, unit, plate } = JSON.parse(
-    await useBody(event)
-  );
+  const { brand, model, status, plate } = JSON.parse(await useBody(event));
   const { userId } = event.context.params;
 
   try {
-    const resource = await Resource.create({
-      quantity,
-      unit
+    const resources = await Resource.find({ type: 'fuel' });
+    const actualResources = [];
+    actualResources.push({
+      quantity: Math.floor(Math.random() * 20),
+      resource: resources[Math.floor(Math.random() * resources.length)]
     });
-    const resources = [];
-    resources.push(resource._id);
-    console.log(resources);
+
+    const polutions = await Polution.find();
+    const actualPolutions = [];
+    for (
+      let i = 0;
+      i < 2 + Math.floor(Math.random() * (polutions.length - 2));
+      i++
+    ) {
+      actualPolutions.push({
+        quantity: Math.floor(Math.random() * 40),
+        polution: polutions[i]
+      });
+    }
     const transport = await Transport.create({
       brand,
       model,
-      maxLoad,
+      maxLoad: 2 + Math.floor(Math.random() * 20),
       status,
-      resources,
+      // quantity: Math.floor(Math.random() * 20),
+      resources: actualResources,
+      polutions: actualPolutions,
       plate,
       owner: userId
     });

@@ -17,17 +17,26 @@ export default mongoose.model(
       type: Schema.Types.ObjectId,
       ref: 'Storage'
     },
-    polutions: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Polution'
-      }
-    ],
     resources: [
       {
-        type: Schema.Types.ObjectId,
-        ref: 'Resource'
+        quantity: Number,
+        resource: {
+          type: Schema.Types.ObjectId,
+          ref: 'Resource'
+        }
       }
-    ]
+    ],
+    polutions: [
+      {
+        quantity: Number,
+        polution: {
+          type: Schema.Types.ObjectId,
+          ref: 'Polution'
+        }
+      }
+    ],
+    consumable: Boolean,
+    stripeId: String,
+    expirationDate: Date
   })
 );

@@ -4,9 +4,11 @@ export default defineEventHandler(async (event) => {
   event.res.jsonResponse.context = event.context.params;
   const params = useQuery(event);
 
-  const transports = await Transport.find(params);
+  const transports = await Transport.find(params)
+    .populate('resources.resource')
+    .populate('polutions.polution');
   event.res.jsonResponse.data = {
-    transports
+    items: transports
   };
   return event.res.jsonResponse;
 });
