@@ -6,10 +6,16 @@ export default defineEventHandler(async (event) => {
   try {
     const { userId, storageId } = event.context.params;
 
-    const storage = await Storage.findById(storageId).populate('products');
+    const productIds = (await Storage.findById(storageId)).products;
+    const products = await Product.find({
+      _id: { $in: productIds }
+    })
+      .populate('productLine')
+      .populate('storage')
+      .populate({ path: 'productLine', populate: 'item' });
 
     event.res.jsonResponse.data = {
-      items: storage.products
+      items: products
     };
   } catch (err) {
     event.res.jsonResponse.error = err;

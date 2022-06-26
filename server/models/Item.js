@@ -12,7 +12,7 @@ export default mongoose.model(
     website: String,
     description: String,
     producer: String,
-    exp_date: Date,
+    isConsumable: Boolean,
     rating: {
       type: Number,
       default: 0
@@ -26,14 +26,20 @@ export default mongoose.model(
     },
     polutions: [
       {
-        type: Schema.Types.ObjectId,
-        ref: 'Polution'
+        quantity: Number,
+        polution: {
+          type: Schema.Types.ObjectId,
+          ref: 'Polution'
+        }
       }
     ],
     resources: [
       {
-        type: Schema.Types.ObjectId,
-        ref: 'Resource'
+        quantity: Number,
+        polution: {
+          type: Schema.Types.ObjectId,
+          ref: 'Resource'
+        }
       }
     ]
   })

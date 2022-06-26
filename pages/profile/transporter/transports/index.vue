@@ -5,7 +5,7 @@
       <SideNavigationBar />
       <div class="flex-grow order-2">
         <section class="p-2 overflow-hidden min-h-screen">
-          <h1>Transports</h1>
+          <h1 class="text-4xl font-bold">My transports</h1>
           <div id="orders" class="mt-4">
             <h2 class="text-xl font-semibold">Registered vehicles</h2>
             <p>See your registered vehicles here</p>
@@ -241,10 +241,10 @@
                 </div>
 
                 <button
-                  class="form-control block px-3 py-1.5 text-base font-normal text-gray-700 bg-gray-100 bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                  class="form-control block px-3 py-1 text-base font-normal text-gray-700 bg-gray-100 bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                   @click="createVehicle"
                 >
-                  ADD
+                  Add vehicle
                 </button>
               </div>
             </div>

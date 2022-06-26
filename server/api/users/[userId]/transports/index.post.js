@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
     const resources = await Resource.find({ type: 'fuel' });
     const actualResources = [];
     actualResources.push({
-      quantity: Math.floor(Math.random() * 20),
+      quantity: 5 + Math.floor(Math.random() * (20 - 5)),
       resource: resources[Math.floor(Math.random() * resources.length)]
     });
 

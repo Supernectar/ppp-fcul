@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
       res.json({ error: 'Item not found' });
     } else if (!storage) {
       res.json({ error: 'Storage not found' });
-    } else if (storage.owner != decoded.user._id) {
+    } else if (storage.owner !== decoded.user._id) {
       res.json({
         error: 'You must be the owner to change this storage'
       });

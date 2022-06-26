@@ -5,11 +5,15 @@
       <SideNavigationBar />
       <div class="flex-grow order-2">
         <section class="p-2 overflow-hidden min-h-screen">
+          <h1 class="text-4xl font-bold">My storages</h1>
           <div>
             <div class="flex flex-col">
               <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-                  <div class="overflow-hidden">
+                  <div
+                    v-if="storage.products.length > 0"
+                    class="overflow-hidden"
+                  >
                     <h3>Storage: {{ storage.name }}</h3>
                     <table class="min-w-full">
                       <thead class="border-b">
@@ -36,13 +40,7 @@
                             scope="col"
                             class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                           >
-                            Total of polution consumed
-                          </th>
-                          <th
-                            scope="col"
-                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                          >
-                            Total of resources consumed
+                            Expiracy date
                           </th>
                         </tr>
                       </thead>
@@ -55,12 +53,21 @@
                           <td
                             class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
                           >
-                            {{ product.name }}
+                            <b class="">
+                              {{ product.productLine.name || 'no name' }}
+                            </b>
+
+                            <i class="block text-sm text-gray-600">
+                              {{ product.productLine.item.name }}
+                            </i>
                           </td>
                           <td
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                           >
-                            {{ product.price + product.unit }}
+                            {{
+                              product.productLine.price +
+                              product.productLine.currencyUnit
+                            }}
                           </td>
                           <td
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
@@ -70,12 +77,12 @@
                           <td
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                           >
+                            <!-- {{
+                              product.productLine.item.isConsumable
+                                ? product.expirationDate
+                                : 'does not apply'
+                            }} -->
                             <!-- {{ totalPolution + ' ' + polutionsItems[0].unit }} -->
-                          </td>
-                          <td
-                            class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                          >
-                            <!-- {{ totalResources + ' ' + resourcesItems[0].unit }} -->
                           </td>
                           <td
                             class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
@@ -92,6 +99,13 @@
                       </tbody>
                     </table>
                   </div>
+                  <div v-else>
+                    You didn't add any products yet,
+                    <NuxtLink to="/profile/supplier/products"
+                      >create a new product</NuxtLink
+                    >
+                  </div>
+
                   <br />
                   <div>
                     <h3>Add a new product to the storage:</h3>
@@ -99,10 +113,25 @@
                     <div class="flex gap-4">
                       <div>
                         <FormKit
+                          v-model="name"
+                          type="text"
+                          label="Name"
+                          validation="required"
+                          outer-class="mb-4"
+                          label-class="form-label inline-block mb-2 text-gray-700"
+                          input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                          help-class="text-sm text-gray-500 mt-1"
+                          message-class="mt-1 text-sm text-red-600"
+                        />
+                      </div>
+                      <div>
+                        <FormKit
                           v-model="item"
                           type="select"
+                          label="Item"
                           placeholder="Choose your item"
                           :options="items"
+                          :value="items[0]"
                           validation="required"
                           outer-class="mb-4"
                           label-class="form-label inline-block mb-2 text-gray-700"
@@ -114,7 +143,7 @@
                       <div>
                         <FormKit
                           v-model="price"
-                          placeholder="Price"
+                          label="Price"
                           type="text"
                           name="price"
                           validation="required"
@@ -127,10 +156,10 @@
                       </div>
                       <div>
                         <FormKit
-                          v-model="unit"
-                          placeholder="Unit"
+                          v-model="currencyUnit"
+                          label="Currency unit"
                           type="select"
-                          name="unit"
+                          name="currencyUnit"
                           :options="['$', '€']"
                           validation="required"
                           outer-class="mb-4"
@@ -143,7 +172,7 @@
                       <div>
                         <FormKit
                           v-model="quantity"
-                          placeholder="Quantity of product"
+                          label="Quantity of product"
                           type="text"
                           name="quantity"
                           validation="required"
@@ -159,7 +188,7 @@
                         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                         @click="addProduct"
                       >
-                        ADD
+                        Add product
                       </button>
                     </div>
                   </div>
@@ -167,27 +196,33 @@
               </div>
             </div>
           </div>
-          <table>
-            <tr>
-              <th>Type</th>
-              <th>Quantity</th>
-              <th>Unit</th>
-            </tr>
-            <div v-for="(product, i) in products" :key="i">
-              <tr v-for="(polution, j) in product.polutions" :key="j">
-                <td>{{ polution.nameId }}</td>
-                <td>{{ polution.quantity }}</td>
-                <td>{{ polution.unit }}</td>
-              </tr>
-            </div>
-            <div v-for="(itemss, i) in items" :key="i">
-              <tr v-for="(polution, j) in itemss.polutions" :key="j">
-                <td>{{ polution.nameId }}</td>
-                <td>{{ polution.quantity }}</td>
-                <td>{{ polution.unit }}</td>
-              </tr>
-            </div>
-          </table>
+          <h2 class="font-semibold">Polution of this storage</h2>
+          <div class="w-80 relative overflow-x-auto shadow-md sm:rounded-lg">
+            <table
+              class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
+            >
+              <thead
+                class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+              >
+                <tr>
+                  <th scope="col" class="px-6 py-3">Type</th>
+                  <th scope="col" class="px-6 py-3">Quantity</th>
+                  <th scope="col" class="px-6 py-3">Unit</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="(polution, j) in polutions"
+                  :key="j"
+                  class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                >
+                  <td class="px-6 py-4">{{ polution.polutionType }}</td>
+                  <td class="px-6 py-4">{{ polution.quantity }}</td>
+                  <td class="px-6 py-4">{{ polution.polutionUnit }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </section>
         <Footer />
       </div>
@@ -199,12 +234,14 @@
 const route = useRoute();
 const user = useUser();
 
-const storage = ref([]);
-
+const storage = ref({});
+const polutions = ref([]);
+const products = ref([]);
 const item = ref({});
 const price = ref('');
-const unit = ref('');
+const currencyUnit = ref('');
 const quantity = ref('');
+const name = ref('');
 
 storage.value = (
   await $fetch(`/api/users/${user.data._id}/storages/${route.params.storageId}`)
@@ -217,82 +254,111 @@ for (const item of items.value) {
   item.value = item._id;
 }
 
-const products = ref([]);
 products.value = (
   await $fetch(
     `/api/users/${user.data._id}/storages/${route.params.storageId}/products`
   )
 ).data.items;
-console.log('--1--');
-// for (const product of products.value) {
-//   product.name = (
-//     await $fetch(`/api/items/${product.item}`)
-//   ).data.items[0].name;
+
+for (const product of products.value) {
+  for (const polution of product.polutions) {
+    const polutionObject = (await $fetch(`/api/polutions/${polution.polution}`))
+      .data.items[0];
+
+    const quantityPlusPolution = {
+      quantity: polution.quantity * product.quantity,
+      polutionType: polutionObject.nameId,
+      polutionUnit: polutionObject.unit
+    };
+
+    let exists = false;
+    for (let i = 0; i < polutions.value.length; i++) {
+      if (
+        polutions.value[i].polutionType === quantityPlusPolution.polutionType
+      ) {
+        polutions.value[i].quantity += quantityPlusPolution.quantity;
+        exists = true;
+      }
+    }
+    if (!exists) polutions.value.push(quantityPlusPolution);
+  }
+
+  console.log(product.productLine.item);
+  for (const polution of product.productLine.item.polutions) {
+    const polutionObject = (await $fetch(`/api/polutions/${polution.polution}`))
+      .data.items[0];
+
+    const quantityPlusPolution = {
+      quantity: polution.quantity * product.quantity,
+      polutionType: polutionObject.nameId,
+      polutionUnit: polutionObject.unit
+    };
+
+    let exists = false;
+    for (let i = 0; i < polutions.value.length; i++) {
+      if (
+        polutions.value[i].polutionType === quantityPlusPolution.polutionType
+      ) {
+        polutions.value[i].quantity += quantityPlusPolution.quantity;
+        exists = true;
+      }
+    }
+    if (!exists) polutions.value.push(quantityPlusPolution);
+  }
+}
+// const polutionsItems = ref([]);
+// for (const itemOfProduct of itemsOfProducts.value) {
+//   polutionsItems.value = (
+//     await $fetch(`/api/items/${itemOfProduct._id}/polutions`)
+//   ).data.items;
 // }
 
-const itemsOfProducts = ref([]);
-for (const product of products.value) {
-  for (const item of items.value) {
-    if (product.item === item.value) {
-      itemsOfProducts.value.push(item);
-    }
-  }
-}
-console.log('--1--');
-// Polutions
-const polutionsItems = ref([]);
-for (const itemOfProduct of itemsOfProducts.value) {
-  polutionsItems.value = (
-    await $fetch(`/api/items/${itemOfProduct._id}/polutions`)
-  ).data.items;
-}
-console.log('--1--');
-const polutionsProducts = ref([]);
-for (const product of products.value) {
-  polutionsProducts.value = (
-    await $fetch(`/api/products/${product._id}/polutions`)
-  ).data.items;
-}
-console.log('--1--');
-const totalPolution = ref(0);
-for (const polutionItem of polutionsItems.value) {
-  totalPolution.value += polutionItem.quantity;
-}
-for (const polutionProduct of polutionsProducts.value) {
-  if (polutionsProducts.length !== 0) {
-    totalPolution.value += polutionProduct.quantity;
-  }
-}
-console.log('--1--');
+// const polutionsProducts = ref([]);
+// for (const product of products.value) {
+//   polutionsProducts.value = (
+//     await $fetch(`/api/products/${product._id}/polutions`)
+//   ).data.items;
+// }
+
+// const totalPolution = ref(0);
+// for (const polutionItem of polutionsItems.value) {
+//   totalPolution.value += polutionItem.quantity;
+// }
+// for (const polutionProduct of polutionsProducts.value) {
+//   if (polutionsProducts.length !== 0) {
+//     totalPolution.value += polutionProduct.quantity;
+//   }
+// }
 
 // Resources
-const resourcesItems = ref([]);
-for (const itemOfProduct of itemsOfProducts.value) {
-  resourcesItems.value = (
-    await $fetch(`/api/items/${itemOfProduct._id}/resources`)
-  ).data.items;
-}
-console.log('--2--');
-const resourcesProducts = ref([]);
-for (const product of products.value) {
-  resourcesProducts.value = (
-    await $fetch(`/api/products/${product._id}/resources`)
-  ).data.items;
-}
-console.log('--3--');
-const totalResources = ref(0);
-for (const resourceItem of resourcesItems.value) {
-  totalResources.value += resourceItem.quantity;
-}
-for (const resourceProduct of resourcesProducts.value) {
-  if (resourcesProducts.length !== 0) {
-    totalResources.value += resourceProduct.quantity;
-  }
-}
-console.log('unit value:');
-console.log(unit.value);
+// const resourcesItems = ref([]);
+// for (const itemOfProduct of itemsOfProducts.value) {
+//   resourcesItems.value = (
+//     await $fetch(`/api/items/${itemOfProduct._id}/resources`)
+//   ).data.items;
+// }
+
+// const resourcesProducts = ref([]);
+// for (const product of products.value) {
+//   resourcesProducts.value = (
+//     await $fetch(`/api/products/${product._id}/resources`)
+//   ).data.items;
+// }
+
+// const totalResources = ref(0);
+// for (const resourceItem of resourcesItems.value) {
+//   totalResources.value += resourceItem.quantity;
+// }
+// for (const resourceProduct of resourcesProducts.value) {
+//   if (resourcesProducts.length !== 0) {
+//     totalResources.value += resourceProduct.quantity;
+//   }
+// }
+// console.log('unit value:');
+// console.log(currencyUnit.value);
 
 async function addProduct() {
+  console.log(price.value);
   await $fetch(`/api/products`, {
     method: 'POST',
     headers: {
@@ -300,33 +366,21 @@ async function addProduct() {
     },
 
     body: JSON.stringify({
+      name: name.value,
       item: item.value,
       price: price.value,
-      unit: unit.value,
-      supplier: user.data._id,
+      currencyUnit: currencyUnit.value,
+      stripeId: 'kaodkapsd',
       quantity: quantity.value,
-      storageId: route.params.storageId
+      supplier: user.data._id,
+      storage: route.params.storageId
     })
   });
 }
 
-async function deleteProduct() {
-  await $fetch(
-    `/api/users/${user.data._id}/storages/${route.params.storageId}`,
-    {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-
-      body: JSON.stringify({
-        item: item.value,
-        price: price.value,
-        unit: unit.value,
-        supplier: supplier.value,
-        quantity: quantity.value
-      })
-    }
-  );
+async function deleteProduct(productId) {
+  await $fetch(`/api/products/${productId}`, {
+    method: 'DELETE'
+  });
 }
 </script>

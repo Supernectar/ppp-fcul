@@ -35,7 +35,6 @@ export default mongoose.model(
         }
       }
     ],
-    consumable: Boolean,
     stripeId: String,
     expirationDate: Date
   })

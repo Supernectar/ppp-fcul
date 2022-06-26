@@ -5,16 +5,29 @@ import Polution from '~~/server/models/Polution';
 
 export default defineEventHandler(async (event) => {
   try {
-    const { item, price, stripeId, currencyUnit, supplier, quantity, storage } =
-      JSON.parse(await useBody(event));
-
-    const productLine = await ProductLine.create({
+    const {
+      name,
       item,
       price,
+      stripeId,
       currencyUnit,
-      supplier
-      // products: []
-    });
+      supplier,
+      quantity,
+      storage
+    } = JSON.parse(await useBody(event));
+    console.log('----------BEGIN------------');
+    // console.log(await ProductLine.findOne({ supplier, name }));
+    console.log(await ProductLine.findOne({ supplier, name }));
+    const productLine =
+      (await ProductLine.findOne({ supplier, name })) ||
+      (await ProductLine.create({
+        name,
+        item,
+        price,
+        currencyUnit,
+        supplier
+        // products: []
+      }));
 
     const polutions = await Polution.find();
     const actualPolutions = [];
@@ -53,8 +66,10 @@ export default defineEventHandler(async (event) => {
         }
       }
     );
+    console.log('----------END------------');
   } catch (err) {
     console.log(err);
+    console.log('----------END------------');
     event.res.jsonResponse.error = {
       message: err
     };

@@ -6,10 +6,27 @@
       <div class="flex-grow order-2">
         <section class="p-2 overflow-hidden min-h-screen">
           <h1 class="text-4xl font-bold">Products</h1>
-          <div id="orders" class="mt-4">
-            <h2 class="text-xl font-semibold">Orders</h2>
-            <p>See your orders history</p>
-            <div class="grid grid-cols-2 border rounded-xl">
+          <div id="products" class="mt-4 border rounded-xl">
+            <h2 class="text-xl font-semibold">
+              products your're currently selling
+            </h2>
+            <p>description here</p>
+            <div>
+              <ul>
+                <li v-for="productLine in productLines">
+                  <b>product: </b>
+                  <NuxtLink
+                    :to="`/profile/supplier/products/${productLine._id}`"
+                    >{{ productLine.name }}</NuxtLink
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div id="sellProduct" class="mt-4 border rounded-xl">
+            <h2 class="text-xl font-semibold">Create a new product here</h2>
+            <p>description here</p>
+            <div v-if="user.data.supplierData.storages.length > 0">
               <div>
                 specify the item you want to sell: <br />
                 <input class="border" type="text" name="" id="" />
@@ -24,7 +41,11 @@
                 <img src="/img/627.png" alt="" />
               </div>
             </div>
-            <div class="h-80 border rounded-xl">
+            <div v-else>
+              you must create a storage first
+              <img src="/img/a.jpg" class="h-60" alt="" />
+            </div>
+            <div class="h-80">
               Choose in which storages your want to add your product
               <Listbox
                 class="z-20 inline-block w-60"
@@ -127,6 +148,11 @@ import { CheckIcon, SelectorIcon } from '@heroicons/vue/outline';
 const user = useUser();
 
 const storages = ref([]);
+const productLines = ref([]);
+
+productLines.value = (
+  await $fetch(`/api/users/${user.data._id}/productLines`)
+).data.items;
 
 storages.value = (
   await $fetch(`/api/users/${user.data._id}/storages`)
@@ -142,7 +168,7 @@ async function createProducts() {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        name: 'aaabababbababababbab',
+        name: 'pipo',
         item: '62b7297435430a463a5864de', // washing machine 1
         price: Math.floor(Math.random() * 20),
         currencyUnit: '€',

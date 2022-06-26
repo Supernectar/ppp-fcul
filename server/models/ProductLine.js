@@ -23,6 +23,9 @@ export default mongoose.model(
       type: String,
       required: true
     },
+    name: {
+      type: String
+    },
     supplier: {
       type: Schema.Types.ObjectId,
       ref: 'User',

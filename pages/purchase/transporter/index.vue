@@ -56,7 +56,7 @@
         </div>
       </div>
       <div class="text-center">
-        <label
+        <!-- <label
           class="block text-center uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
           for="grid-state"
         >
@@ -84,131 +84,52 @@
               />
             </svg>
           </div>
+        </div> -->
+        <div>
+          <FormKit
+            label="Type Of Fuel"
+            v-model="fuel"
+            placeholder=""
+            type="select"
+            name="fuel"
+            :options="fuelResources"
+            validation="required"
+            outer-class="mb-4"
+            label-class="form-label inline-block mb-2 text-gray-700"
+            input-class="form-control block w-full px-3 py-1.5 text-base
+          font-normal text-gray-700 bg-white bg-clip-padding border border-solid
+          border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700
+          focus:bg-white focus:border-blue-600 focus:outline-none"
+            help-class="text-sm text-gray-500 mt-1"
+            message-class="mt-1 text-sm
+          text-red-600"
+          />
         </div>
-        <label
-          class="text-center block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-          for="grid-state"
-        >
-          Type Of Fuel
-        </label>
-        <div class="relative">
-          <select
-            class="text-center block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            id="grid-state"
-          >
-            <option>Diesel</option>
-            <option>Gasoline</option>
-            <option>Biodiesel</option>
-            <option>Electric</option>
-          </select>
+        {{ fuel }}
+        <div>
+          <FormKit
+            label="Consumption"
+            v-model="consumption"
+            placeholder=""
+            type="range"
+            name="consumption"
+            :min="consumptionMin"
+            :max="consumptionMax"
+            :step="1"
+            validation="required"
+            outer-class="mb-4"
+            label-class="form-label inline-block mb-2 text-gray-700"
+            input-class="form-control block w-full px-3 py-1.5 text-base
+          font-normal text-gray-700 bg-white bg-clip-padding border border-solid
+          border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700
+          focus:bg-white focus:border-blue-600 focus:outline-none"
+            help-class="text-sm text-gray-500 mt-1"
+            message-class="mt-1 text-sm
+          text-red-600"
+          />{{ consumption }}
         </div>
-        <input type="range" min="0" max="100" step="1" v-model="value" />
-        {{ value }}
       </div>
-      <!--
-        <table class="m-auto w-10/12">
-          <thead class="bg-gray-500 border-gray-500">
-            <tr>
-              
-              <th class="w-20 text-sm text-gray-200 whitespace-nowrap">
-                Transporter
-              </th>
 
-              <th class="w-20 text-sm text-gray-200 whitespace-nowrap">
-                Status
-              </th>
-              <th class="w-20 text-sm text-gray-200 whitespace-nowrap">
-                Location
-              </th>
-              <th class="w-20 text-sm text-gray-200 whitespace-nowrap">
-                type of fuel
-              </th>
-              <th class="w-20 text-sm text-gray-200 whitespace-nowrap">
-                consumption average
-              </th>
-              <th class="w-20 text-sm text-gray-200 whitespace-nowrap">
-                Polution
-              </th>
-              <th class="w-20 text-sm text-gray-200 whitespace-nowrap"></th>
-            
-              <th class="w-20 text-sm text-gray-200 whitespace-nowrap">
-                Type Of fuel
-              </th>
-              <th class="w-20 text-sm text-gray-200 whitespace-nowrap">
-                Consumption average
-              </th>
-            </tr>
-          </thead>
-
-          <tbody class="divide-y divide-gray-300 text-center">
-        
-            <tr
-              v-for="(transports, index) in cart"
-              :id="transports._id"
-              :key="index"
-              class="bg-white"
-            ></tr>
-
-
-            <tr>
-              <td
-                class="p-4 text-sm text-gray-700 whitespace-nowrap text-center"
-              >
-                
-
-                diesel
-              </td>
-              <td
-                class="p-4 text-sm text-gray-700 whitespace-nowrap text-center"
-              >
-                6 L/100km
-              </td>
-              
-              <td
-                class="p-4 text-sm text-gray-700 whitespace-nowrap text-center"
-              >
-                username
-              </td>
-              <td
-                class="p-4 text-sm text-gray-700 whitespace-nowrap text-center"
-              >
-                transport.status
-              </td>
-              <td
-                class="p-4 text-sm text-gray-700 whitespace-nowrap text-center"
-              >
-                coords
-              </td>
-              <td
-                class="p-4 text-sm text-gray-700 whitespace-nowrap text-center"
-              >
-                fuel
-              </td>
-              <td
-                class="p-4 text-sm text-gray-700 whitespace-nowrap text-center"
-              >
-                6 L/100km
-              </td>
-              <td
-                class="p-4 text-sm text-gray-700 whitespace-nowrap text-center"
-              >
-                10 g/CO2/km
-              </td>
-
-              <td
-                class="p-4 text-sm text-gray-700 whitespace-nowrap text-center"
-              >
-                <button
-                  type="button"
-                  class="text-white bg-gradient-to-br from-orange-200 to-orange-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
-                >
-                  Select
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        -->
       <button
         type="button"
         class="text-white bg-gradient-to-br from-red-500 to-red-900 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
@@ -228,16 +149,56 @@
   </div>
 </template>
 <script setup>
+const consumption = ref(0);
 const transports = ref([]);
+const transportsFilter = ref([]);
+const fuel = ref('');
 transports.value = (await $fetch(`/api/transports`)).data.items;
+const fuelResources = ref([]);
 const fuelConsumption = ref([]);
-console.log(transports.value);
+const consumptionMin = ref(0);
+const consumptionMax = ref(90);
+
 for (let i = 0; i < transports.value.length; i++) {
-  if (i === 0) {
-    fuelConsumption.push([
-      transports.value[i].resources.resource.nameId,
-      transports.value[i].resources.resource.nameId
-    ]);
+  if (transports.value[i].resources.some((el) => el.resource.type === 'fuel')) {
+    const fuelIndex = transports.value[i].resources.findIndex(
+      (el) => el.resource.type === 'fuel'
+    );
+    let quant = 0;
+    if (
+      i === 0 ||
+      !fuelResources.value.includes(
+        transports.value[i].resources[fuelIndex].resource.nameId
+      )
+    ) {
+      fuelResources.value.push(
+        transports.value[i].resources[fuelIndex].resource.nameId
+      );
+      quant = transports.value[i].resources[fuelIndex].quantity;
+      fuelConsumption.value.push([quant, quant]);
+    } else {
+      const a = fuelResources.value.findIndex(
+        (el) => el === transports.value[i].resources[fuelIndex].resource.nameId
+      );
+      quant = transports.value[i].resources[fuelIndex].quantity;
+      if (quant < fuelConsumption.value[a][0]) {
+        fuelConsumption.value[a][0] = quant;
+      } else if (quant > fuelConsumption.value[a][1]) {
+        fuelConsumption.value[a][1] = quant;
+      }
+    }
   }
 }
+consumptionMin.value = fuelConsumption.value[0][0];
+consumptionMax.value = fuelConsumption.value[0][1];
+
+watch(fuel, () => {
+  const fuelI = fuelResources.value.findIndex((el) => el === fuel.value);
+  consumptionMin.value = fuelConsumption.value[fuelI][0];
+  consumptionMax.value = fuelConsumption.value[fuelI][1];
+});
+watch(consumption, async () => {
+  console.log(consumption);
+  transportsFilter.value = (await $fetch(`/api/transports`)).data.items;
+});
 </script>

@@ -1,7 +1,6 @@
 export default [
   {
-    nameId: 'pol1',
-    quantity: 2,
-    unit: 'kg'
+    nameId: 'Co2',
+    unit: 'g'
   }
 ];

@@ -5,6 +5,7 @@
       <SideNavigationBar />
       <div class="flex-grow order-2">
         <section class="p-2 overflow-hidden min-h-screen">
+          <h1 class="text-4xl font-bold">My storages</h1>
           <div>
             <div class="flex flex-col">
               <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -108,14 +109,14 @@
               <div>
                 <h3>Add a new storage:</h3>
 
-                <div class="flex gap-4">
+                <div class="flex gap-4 mt-5">
                   <div>
                     <FormKit
                       v-model="name"
-                      placeholder="Storage name"
+                      label="Storage name"
                       type="text"
                       name="name"
-                      validation="required"
+                      validation="required|length:3"
                       outer-class="mb-4"
                       label-class="form-label inline-block mb-2 text-gray-700"
                       input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
@@ -126,9 +127,9 @@
                   <div>
                     <FormKit
                       v-model="street"
-                      placeholder="street"
+                      label="Street"
                       type="text"
-                      name="street"
+                      name="street|length:6"
                       validation="required"
                       outer-class="mb-4"
                       label-class="form-label inline-block mb-2 text-gray-700"
@@ -140,10 +141,10 @@
                   <div>
                     <FormKit
                       v-model="zipCode"
-                      placeholder="zipCode"
+                      label="Zip Code"
                       type="text"
                       name="zipCode"
-                      validation="required"
+                      validation="required|matches:/^[0-9]{4}-[0-9]{3}$/"
                       outer-class="mb-4"
                       label-class="form-label inline-block mb-2 text-gray-700"
                       input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
@@ -154,10 +155,10 @@
                   <div>
                     <FormKit
                       v-model="city"
-                      placeholder="city"
+                      label="City"
                       type="text"
                       name="city"
-                      validation="required"
+                      validation="required|length:4"
                       outer-class="mb-4"
                       label-class="form-label inline-block mb-2 text-gray-700"
                       input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
@@ -168,10 +169,9 @@
                   <div>
                     <FormKit
                       v-model="country"
-                      placeholder="country"
-                      type="text"
-                      name="country"
-                      validation="required"
+                      label="Country"
+                      type="select"
+                      :options="names"
                       outer-class="mb-4"
                       label-class="form-label inline-block mb-2 text-gray-700"
                       input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
@@ -179,26 +179,82 @@
                       message-class="mt-1 text-sm text-red-600"
                     />
                   </div>
-                  <div class="form-check">
-                    <label for="visibility">Private?</label>
-                    <input
-                      id="visibility"
+                  <div>
+                    <FormKit
                       v-model="visibility"
-                      class="form-check-input h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
                       type="checkbox"
+                      label="Visibility"
+                      name="visibility"
                     />
                   </div>
-                  <button
-                    class="form-control block px-3 py-1.5 text-base font-normal text-gray-700 bg-gray-100 bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                    @click="createStorage"
-                  >
-                    ADD
-                  </button>
                 </div>
+                <button
+                  class="form-control block px-3 py-1.5 text-base font-normal text-gray-700 bg-gray-100 bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                  @click="createStorage"
+                >
+                  Add storage
+                </button>
               </div>
             </div>
           </div>
         </section>
+
+        <!-- Dialog -->
+        <TransitionRoot appear :show="isOpen" as="template">
+          <Dialog class="relative z-10" as="div" @close="closeModal">
+            <TransitionChild
+              as="template"
+              enter="duration-300 ease-out"
+              enter-from="opacity-0"
+              enter-to="opacity-100"
+              leave="duration-200 ease-in"
+              leave-from="opacity-100"
+              leave-to="opacity-0"
+            >
+              <div class="fixed inset-0 bg-black bg-opacity-25" />
+            </TransitionChild>
+
+            <div class="fixed inset-0 overflow-y-auto">
+              <div
+                class="flex min-h-full items-center justify-center p-4 text-center"
+              >
+                <TransitionChild
+                  as="template"
+                  enter="duration-300 ease-out"
+                  enter-from="opacity-0 scale-95"
+                  enter-to="opacity-100 scale-100"
+                  leave="duration-200 ease-in"
+                  leave-from="opacity-100 scale-100"
+                  leave-to="opacity-0 scale-95"
+                >
+                  <DialogPanel
+                    class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
+                  >
+                    <DialogTitle
+                      as="h3"
+                      class="text-lg font-medium leading-6 text-gray-900"
+                    >
+                      {{ 'Delete storage' }}
+                    </DialogTitle>
+                    <div class="mt-2">
+                      <p class="text-sm text-gray-500">{{ modalContent }}</p>
+                    </div>
+
+                    <div class="mt-4">
+                      <button
+                        type="button"
+                        class="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                        @click="closeModal"
+                      >
+                        Got it, thanks!
+                      </button>
+                    </div>
+                  </DialogPanel>
+                </TransitionChild>
+              </div>
+            </div>
+          </Dialog>
+        </TransitionRoot>
         <Footer />
       </div>
     </div>
@@ -206,7 +262,34 @@
 </template>
 
 <script setup>
+import {
+  TransitionRoot,
+  TransitionChild,
+  Dialog,
+  DialogPanel,
+  DialogTitle
+} from '@headlessui/vue';
+
+const modalContent = ref('');
+const isOpen = ref(false);
+
+function closeModal() {
+  isOpen.value = false;
+}
+function openModal(msg) {
+  modalContent.value = msg;
+  isOpen.value = true;
+}
+
 const user = useUser();
+
+// Countries
+const names = ref([]);
+const result2 = await $fetch(`https://restcountries.com/v3.1/all`);
+for (let i = 0; i < result2.length; i++) {
+  names.value.push(result2[i].name.common);
+}
+names.value.sort((a, b) => a.localeCompare(b));
 
 const storages = ref([]);
 storages.value = (
@@ -248,23 +331,33 @@ async function createStorage() {
 }
 
 async function deleteStorage(storageId) {
-  await $fetch(`/api/users/${user.data._id}/storages/${storageId}`, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+  const storage = (
+    await $fetch(`/api/users/${user.data._id}/storages/${storageId}`)
+  ).data.items[0];
+  console.log(storage);
 
-    body: JSON.stringify({
-      name: name.value,
-      address: {
-        street: street.value,
-        zipCode: zipCode.value,
-        city: city.value,
-        country: country.value
+  if (storage.products.length === 0) {
+    await $fetch(`/api/users/${user.data._id}/storages/${storageId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
       },
-      visibility: visibility.value
-    })
-  });
+
+      body: JSON.stringify({
+        name: name.value,
+        address: {
+          street: street.value,
+          zipCode: zipCode.value,
+          city: city.value,
+          country: country.value
+        },
+        visibility: visibility.value
+      })
+    });
+    openModal(`This storage was deleted successfully.`);
+  } else {
+    openModal(`Can't delete this storage because it still has products.`);
+  }
 
   const userdb = (await $fetch(`/api/users/${user.data._id}`)).data.items[0];
 
