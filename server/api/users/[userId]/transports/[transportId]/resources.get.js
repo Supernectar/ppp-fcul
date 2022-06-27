@@ -2,7 +2,6 @@ import Transport from '~~/server/models/Transport';
 import Resource from '~~/server/models/Resource';
 
 export default defineEventHandler(async (event) => {
-  event.res.jsonResponse.context = event.context.params;
   try {
     const { transportId } = event.context.params;
     const transport = await Transport.findOne({ _id: transportId });
@@ -14,14 +13,10 @@ export default defineEventHandler(async (event) => {
       });
       resources.push(resource);
     }
-    event.res.jsonResponse.context = event.context.params;
-    event.res.jsonResponse.data = {
-      items: resources
-    };
+
+    return resources;
   } catch (err) {
     console.log(err);
-    event.res.jsonResponse.error = err;
+    return { error: 'Could not retrieve resources' };
   }
-
-  return event.res.jsonResponse;
 });

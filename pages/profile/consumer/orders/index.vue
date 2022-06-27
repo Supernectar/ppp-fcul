@@ -114,13 +114,11 @@ const router = useRouter();
 const user = useUser();
 
 let orders = [];
-console.log(`/api/users/${user.data._id}/orders`);
-orders = (await $fetch(`/api/users/${user.data._id}/orders`)).data.items;
+orders = await $fetch(`/api/users/${user.data._id}/orders`);
 
 async function goToOrder(order) {
   let checkOrder = [];
-  checkOrder = (await $fetch(`/api/users/${user.data._id}/orders/${order._id}`))
-    .data.items;
+  checkOrder = await $fetch(`/api/users/${user.data._id}/orders/${order._id}`);
   if (checkOrder.length !== 0) {
     router.push(`/profile/consumer/orders/${order._id}`);
   }

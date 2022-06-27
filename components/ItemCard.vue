@@ -80,12 +80,12 @@ import { HeartIcon as HeartIconSolid } from '@heroicons/vue/solid';
 
 const user = useUser();
 const { itemValue } = useAttrs();
-const products = (await $fetch(`/api/products?item=${itemValue._id}`)).data
-  .items;
+// const products = (await $fetch(`/api/products?item=${itemValue._id}`)).data
+//   .items;
 
-itemValue.minPrice = Math.min(...products.map((o) => o.price));
-itemValue.price = itemValue.minPrice;
-itemValue.maxPrice = Math.max(...products.map((o) => o.price));
+// itemValue.minPrice = Math.min(...products.map((o) => o.price));
+// itemValue.price = itemValue.minPrice;
+// itemValue.maxPrice = Math.max(...products.map((o) => o.price));
 
 const toggleFavourite = (itemId) => {
   if (user.data.consumerData.wishlist.includes(itemId)) {

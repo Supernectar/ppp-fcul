@@ -1,33 +1,23 @@
 import User from '~~/server/models/User';
 
 export default defineEventHandler(async (event) => {
+  const { name, password, email, phone, creditCard, nif, address } =
+    await useBody(event);
+
   try {
-    const { username, name, password, email, phone, creditCard, nif, address } =
-      await useBody(event);
-
-    try {
-      const user = await User.create({
-        username,
-        name,
-        password,
-        email,
-        phone,
-        creditCard,
-        nif,
-        address
-      });
-    } catch (err) {
-      event.res.jsonResponse.error = {
-        message: err._message,
-        errors: err.errors
-      };
-      console.log(err);
-    }
+    const user = await User.create({
+      username: email.split('@')[0] + ((await User.count()) + 200),
+      name,
+      password,
+      email,
+      phone,
+      creditCard,
+      nif,
+      address
+    });
+    return user;
   } catch (err) {
-    event.res.jsonResponse.error = {
-      message: err
-    };
+    console.log(err);
+    return { error: 'Could not create user' };
   }
-
-  return event.res.jsonResponse;
 });

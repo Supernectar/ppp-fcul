@@ -320,21 +320,15 @@ const route = useRoute();
 const item = ref({});
 const products = ref([]);
 const productsLine = ref([]);
-item.value = (await $fetch('/api/items/' + route.params.itemId)).data.items[0];
+item.value = await $fetch('/api/items/' + route.params.itemId);
 
-products.value = (
-  await $fetch('/api/products?item=' + route.params.itemId)
-).data.items;
+products.value = await $fetch('/api/products?item=' + route.params.itemId);
 
-productsLine.value = (
-  await $fetch('/api/products?item=' + route.params.itemId)
-).data.items;
+productsLine.value = await $fetch('/api/products?item=' + route.params.itemId);
 
 const category = ref('');
 const categoryPath = ref([]);
-category.value = (
-  await $fetch(`/api/categories?_id=${item.value.category}`)
-).data.items[0];
+category.value = await $fetch(`/api/categories?_id=${item.value.category}`);
 
 // ---- Category Path ---- //
 let current = category.value;

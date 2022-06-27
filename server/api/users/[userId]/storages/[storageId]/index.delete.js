@@ -16,14 +16,9 @@ export default defineEventHandler(async (event) => {
     await Storage.deleteMany({
       _id: storageId
     });
-    event.res.jsonResponse.context = event.context.params;
-    event.res.jsonResponse.data = {
-      items: storageUser
-    };
+    return 'good';
   } catch (err) {
     console.log(err);
-    event.res.jsonResponse.error = err;
+    return { error: 'Could not delete storage' };
   }
-
-  return event.res.jsonResponse;
 });

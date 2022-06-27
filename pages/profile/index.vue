@@ -222,9 +222,9 @@ let orders = [];
 
 onBeforeMount(async () => {
   // ---- Loading Items ---- //
-  suggestedItems.value = (await $fetch(`/api/items`)).data.items;
+  suggestedItems.value = await $fetch(`/api/items`);
   // ---- Loading Orders ---- //
-  orders = (await $fetch(`/api/users/${user.data._id}/orders`)).data.items;
+  orders = await $fetch(`/api/users/${user.data._id}/orders`);
 });
 
 // ---- Dialog ---- //
@@ -241,8 +241,7 @@ function openModal(info) {
 
 async function goToOrder(order) {
   let checkOrder = [];
-  checkOrder = (await $fetch(`/api/users/${user.data._id}/orders/${order._id}`))
-    .data.items;
+  checkOrder = await $fetch(`/api/users/${user.data._id}/orders/${order._id}`);
   if (checkOrder.length !== 0) {
     router.push(`/profile/consumer/orders/${order._id}`);
   }

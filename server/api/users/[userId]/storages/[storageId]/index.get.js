@@ -2,19 +2,14 @@ import User from '~~/server/models/User';
 import Storage from '~~/server/models/Storage';
 
 export default defineEventHandler(async (event) => {
-  event.res.jsonResponse.context = event.context.params;
+  const { userId, storageId } = event.context.params;
+
   try {
-    const { userId, storageId } = event.context.params;
-    const user = await User.findOne({ _id: userId });
-    // const storageIds = user.supplierData.storages;
-    const storages = await Storage.find({ _id: storageId });
+    const storage = await Storage.findById(storageId);
 
-    event.res.jsonResponse.data = {
-      items: storages
-    };
+    return storage;
   } catch (err) {
-    event.res.jsonResponse.error = err;
+    console.log(err);
+    return { error: 'Could not retrieve storages' };
   }
-
-  return event.res.jsonResponse;
 });

@@ -389,7 +389,7 @@ names.value.sort((a, b) => a.localeCompare(b));
 
 // User info
 const info = ref([]);
-info.value = (await $fetch(`/api/users/${user.data._id}`)).data.items[0];
+info.value = await $fetch(`/api/users/${user.data._id}`);
 
 // Address of user
 const displayAddress = ref([]);
@@ -449,7 +449,7 @@ async function addAddress() {
   const resjson = await res.json();
   console.log(resjson);
 
-  const userdb = (await $fetch(`/api/users/${user.data._id}`)).data.items[0];
+  const userdb = await $fetch(`/api/users/${user.data._id}`);
   user.$patch({
     data: userdb
   });
@@ -493,7 +493,7 @@ async function updateInfo() {
   const resjson = await res.json();
   console.log(resjson);
 
-  const userdb = (await $fetch(`/api/users/${user.data._id}`)).data.items[0];
+  const userdb = await $fetch(`/api/users/${user.data._id}`);
   user.$patch({
     data: userdb
   });

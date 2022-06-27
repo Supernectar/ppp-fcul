@@ -118,9 +118,9 @@ const route = useRoute();
 const user = useUser();
 
 const order = ref({});
-order.value = (
-  await $fetch(`/api/users/${user.data._id}/orders/${route.params.orderId}`)
-).data.items;
+order.value = await $fetch(
+  `/api/users/${user.data._id}/orders/${route.params.orderId}`
+);
 
 // const items = [];
 // const categories = [];
@@ -128,10 +128,10 @@ order.value = (
 // for (let i = 0; i < order.products.length; i++) {
 // const product = await $fetch(`/api/products/${order.products[i]}`);
 // const category = await $fetch(
-//   `/api/categories/${product.data.items[0].category}`
+//   `/api/categories/${product.category}`
 // );
-// items.push(item.data.items[0]);
-// categories.push(category.data.items[0].name);
+// items.push(item);
+// categories.push(category.name);
 // }
 </script>
 <style></style>

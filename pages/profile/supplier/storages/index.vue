@@ -292,9 +292,7 @@ for (let i = 0; i < result2.length; i++) {
 names.value.sort((a, b) => a.localeCompare(b));
 
 const storages = ref([]);
-storages.value = (
-  await $fetch(`/api/users/${user.data._id}/storages`)
-).data.items;
+storages.value = await $fetch(`/api/users/${user.data._id}/storages`);
 
 // Create new storage
 const name = ref('');
@@ -307,11 +305,7 @@ const visibility = ref('');
 async function createStorage() {
   await $fetch(`/api/users/${user.data._id}/storages`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-
-    body: JSON.stringify({
+    body: {
       name: name.value,
       address: {
         street: street.value,
@@ -319,11 +313,12 @@ async function createStorage() {
         city: city.value,
         country: country.value
       },
-      visibility: visibility.value
-    })
+      isPublic: visibility.value,
+      owner: user.data._id
+    }
   });
 
-  const userdb = (await $fetch(`/api/users/${user.data._id}`)).data.items[0];
+  const userdb = await $fetch(`/api/users/${user.data._id}`);
 
   user.$patch({
     data: userdb
@@ -331,19 +326,16 @@ async function createStorage() {
 }
 
 async function deleteStorage(storageId) {
-  const storage = (
-    await $fetch(`/api/users/${user.data._id}/storages/${storageId}`)
-  ).data.items[0];
+  const storage = await $fetch(
+    `/api/users/${user.data._id}/storages/${storageId}`
+  );
   console.log(storage);
+  console.log(storage.products);
 
   if (storage.products.length === 0) {
     await $fetch(`/api/users/${user.data._id}/storages/${storageId}`, {
       method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-
-      body: JSON.stringify({
+      body: {
         name: name.value,
         address: {
           street: street.value,
@@ -352,14 +344,14 @@ async function deleteStorage(storageId) {
           country: country.value
         },
         visibility: visibility.value
-      })
+      }
     });
     openModal(`This storage was deleted successfully.`);
   } else {
     openModal(`Can't delete this storage because it still has products.`);
   }
 
-  const userdb = (await $fetch(`/api/users/${user.data._id}`)).data.items[0];
+  const userdb = await $fetch(`/api/users/${user.data._id}`);
 
   user.$patch({
     data: userdb

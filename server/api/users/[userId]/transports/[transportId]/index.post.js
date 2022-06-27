@@ -2,7 +2,6 @@ import User from '~~/server/models/User';
 import Transport from '~~/server/models/Transport';
 
 export default defineEventHandler(async (event) => {
-  event.res.jsonResponse.context = event.context.params;
   const { brand, model, maxLoad, status, plate } = JSON.parse(
     await useBody(event)
   );
@@ -17,8 +16,6 @@ export default defineEventHandler(async (event) => {
       plate
     });
 
-    // let b = await User.updateOne({ _id: userId });
-
     const user = await User.updateOne(
       { _id: userId },
       {
@@ -27,8 +24,10 @@ export default defineEventHandler(async (event) => {
         }
       }
     );
+
     return transport;
   } catch (err) {
-    return err;
+    console.log(err);
+    return { error: 'Could not insert transport' };
   }
 });

@@ -1,17 +1,14 @@
 import User from '~~/server/models/User';
 
 export default defineEventHandler(async (event) => {
-  event.res.jsonResponse.context = event.context.params;
-  try {
-    const { userId } = event.context.params;
-    const user = await User.deleteMany({ _id: userId });
-    event.res.jsonResponse.context = event.context.params;
-    event.res.jsonResponse.data = {
-      items: user
-    };
-  } catch (err) {
-    event.res.jsonResponse.error = err;
-  }
+  const { userId } = event.context.params;
 
-  return event.res.jsonResponse;
+  try {
+    const user = await User.deleteMany({ _id: userId });
+
+    return 'Good';
+  } catch (err) {
+    console.log(err);
+    return { error: 'Could not delete user' };
+  }
 });

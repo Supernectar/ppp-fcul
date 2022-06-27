@@ -6,24 +6,25 @@ export default mongoose.model(
   new Schema({
     name: {
       type: String,
-      required: true,
-      unique: true
+      required: true
     },
     popularity: {
       type: Number,
       default: 0
     },
     address: {
-      type: Schema.Types.Object,
-      ref: 'Address'
+      type: Schema.Types.ObjectId,
+      ref: 'Address',
+      required: true
     },
     owner: {
       type: Schema.Types.ObjectId,
-      ref: 'User'
+      ref: 'User',
+      required: true
     },
-    visibility: {
-      type: String,
-      default: 'private'
+    isPublic: {
+      type: Boolean,
+      required: true
     },
     products: [
       {

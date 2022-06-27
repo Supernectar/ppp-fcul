@@ -14,10 +14,7 @@ export default defineEventHandler(async (event) => {
       supplier,
       quantity,
       storage
-    } = JSON.parse(await useBody(event));
-    console.log('----------BEGIN------------');
-    // console.log(await ProductLine.findOne({ supplier, name }));
-    console.log(await ProductLine.findOne({ supplier, name }));
+    } = await useBody(event);
     const productLine =
       (await ProductLine.findOne({ supplier, name })) ||
       (await ProductLine.create({
@@ -66,14 +63,10 @@ export default defineEventHandler(async (event) => {
         }
       }
     );
-    console.log('----------END------------');
+
+    return product;
   } catch (err) {
     console.log(err);
-    console.log('----------END------------');
-    event.res.jsonResponse.error = {
-      message: err
-    };
+    return { error: 'Could not retrieve products' };
   }
-
-  return event.res.jsonResponse;
 });

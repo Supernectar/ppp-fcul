@@ -47,7 +47,7 @@ const wishlistIds = user.data.consumerData.wishlist;
 
 const whishlistItems = ref([]);
 for (let i = 0; i < wishlistIds.length; i++) {
-  const item = (await $fetch(`/api/items/${wishlistIds[i]}`)).data.items[0];
+  const item = await $fetch(`/api/items/${wishlistIds[i]}`);
   whishlistItems.value.push(item);
 }
 </script>

@@ -2,10 +2,9 @@ import Product from '~~/server/models/Product';
 import Storage from '~~/server/models/Storage';
 
 export default defineEventHandler(async (event) => {
-  event.res.jsonResponse.context = event.context.params;
-  try {
-    const { userId, storageId } = event.context.params;
+  const { userId, storageId } = event.context.params;
 
+  try {
     const productIds = (await Storage.findById(storageId)).products;
     const products = await Product.find({
       _id: { $in: productIds }
@@ -14,12 +13,9 @@ export default defineEventHandler(async (event) => {
       .populate('storage')
       .populate({ path: 'productLine', populate: 'item' });
 
-    event.res.jsonResponse.data = {
-      items: products
-    };
+    return products;
   } catch (err) {
-    event.res.jsonResponse.error = err;
+    console.log(err);
+    return { error: 'Could not retrieve products' };
   }
-
-  return event.res.jsonResponse;
 });

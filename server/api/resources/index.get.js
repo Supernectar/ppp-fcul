@@ -5,8 +5,6 @@ export default defineEventHandler(async (event) => {
   const params = useQuery(event);
 
   const resources = await Resource.find(params);
-  event.res.jsonResponse.data = {
-    items: resources
-  };
-  return event.res.jsonResponse;
+
+  return resources;
 });

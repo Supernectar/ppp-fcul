@@ -186,9 +186,9 @@ const cart = ref(store.getCart);
 
 const myProducts = ref([]);
 for (let i = 0; i < cart.value.length; i++) {
-  myProducts.value[i] = (
-    await $fetch(`/api/products?_id=${cart.value[i].product}`)
-  ).data.items[0];
+  myProducts.value[i] = await $fetch(
+    `/api/products?_id=${cart.value[i].product}`
+  );
 }
 
 // const lineItems = ref([

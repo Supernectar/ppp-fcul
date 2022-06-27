@@ -260,9 +260,7 @@
 const user = useUser();
 
 const transports = ref([]);
-transports.value = (
-  await $fetch(`/api/users/${user.data._id}/transports`)
-).data.items;
+transports.value = await $fetch(`/api/users/${user.data._id}/transports`);
 
 // const resourcesTransports = ref([]);
 // for (const transport of transports.value) {
@@ -271,7 +269,7 @@ transports.value = (
 //       await $fetch(
 //         `/api/users/${user.data._id}/transports/${transport._id}/resources`
 //       )
-//     ).data.items[0]
+//     )
 //   );
 // }
 // console.log(resourcesTransports.value);
@@ -291,7 +289,7 @@ const plate = ref('');
 async function createVehicle() {
   // resource.value = (
   //   await $fetch(`/api/resources?nameId?=${fueltype}`)
-  // ).data.items[0];
+  // );
 
   await $fetch(`/api/users/${user.data._id}/transports`, {
     method: 'POST',

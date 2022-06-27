@@ -206,7 +206,7 @@ export default {
       method: 'GET'
     });
     const res2 = await res1.json();
-    const attr_supercate = res2.data.items[0].attributes;
+    const attr_supercate = res2.attributes;
     if (attr_supercate.length != 0) {
       this.attributes.push.apply(this.attributes, attr_supercate);
     }
@@ -215,7 +215,7 @@ export default {
     });
 
     const res4 = await res3.json();
-    const attr_cate = res4.data.items[0].attributes;
+    const attr_cate = res4.attributes;
     if (attr_cate.length != 0) {
       this.attributes.push.apply(this.attributes, attr_cate);
     }
@@ -224,7 +224,7 @@ export default {
       method: 'GET'
     });
     const res6 = await res5.json();
-    const attr_subcate = res6.data.items[0].attributes;
+    const attr_subcate = res6.attributes;
     if (attr_subcate.length != 0) {
       this.attributes.push.apply(this.attributes, attr_subcate);
     }
@@ -235,8 +235,8 @@ export default {
       method: 'GET'
     });
     const res8 = await res7.json();
-    this.allItems = res8.data.items;
-    const items = res8.data.items;
+    this.allItems = res8;
+    const items = res8;
 
     for (let a = 0; a < this.attributes.length; a++) {
       for (let i = 0; i < this.items.length; i++) {
@@ -253,8 +253,8 @@ export default {
       // this.filters2.push(items[i].producer);
       // }
     }
-    // this.items = res2.data.items;
-    this.items = res8.data.items;
+    // this.items = res2;
+    this.items = res8;
     let result = this.allItems;
 
     if (this.filters.length != 0) {

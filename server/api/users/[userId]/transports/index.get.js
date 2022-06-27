@@ -3,10 +3,12 @@ import Transport from '~~/server/models/Transport';
 export default defineEventHandler(async (event) => {
   event.res.jsonResponse.context = event.context.params;
 
-  const transports = await Transport.find();
+  try {
+    const transports = await Transport.find();
 
-  event.res.jsonResponse.data = {
-    items: transports
-  };
-  return event.res.jsonResponse;
+    return transports;
+  } catch (err) {
+    console.log(err);
+    return { error: 'Could not retrieve transports' };
+  }
 });

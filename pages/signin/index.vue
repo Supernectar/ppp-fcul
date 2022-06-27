@@ -150,7 +150,7 @@ function openModal(msg) {
 }
 
 async function login() {
-  const users = (await $fetch(`/api/users?email=${email.value}`)).data.items;
+  const users = await $fetch(`/api/users?email=${email.value}`);
 
   if (users.length === 1) {
     const res = await fetch(`/api/authenticate`, {

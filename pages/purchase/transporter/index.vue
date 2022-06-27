@@ -153,7 +153,7 @@ const consumption = ref(0);
 const transports = ref([]);
 const transportsFilter = ref([]);
 const fuel = ref('');
-transports.value = (await $fetch(`/api/transports`)).data.items;
+transports.value = await $fetch(`/api/transports`);
 const fuelResources = ref([]);
 const fuelConsumption = ref([]);
 const consumptionMin = ref(0);
@@ -199,6 +199,6 @@ watch(fuel, () => {
 });
 watch(consumption, async () => {
   console.log(consumption);
-  transportsFilter.value = (await $fetch(`/api/transports`)).data.items;
+  transportsFilter.value = await $fetch(`/api/transports`);
 });
 </script>

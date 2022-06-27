@@ -47,16 +47,16 @@ const categories = ref({});
 const expandNode = async (node) => {
   if (node.children.length > 0) {
     for (let i = 0; i < node.children.length; i++) {
-      node.children[i] = (
-        await $fetch(`/api/categories?_id=${node.children[i]}`)
-      ).data.items[0];
+      node.children[i] = await $fetch(
+        `/api/categories?_id=${node.children[i]}`
+      );
     }
     for (const child of node.children) {
       expandNode(child);
     }
   }
 };
-categories.value = (await $fetch(`/api/categories?name=main`)).data.items[0];
+categories.value = await $fetch(`/api/categories?name=main`);
 
 expandNode(categories.value);
 </script>

@@ -1,8 +1,6 @@
 import User from '~~/server/models/User';
 
 export default defineEventHandler(async (event) => {
-  event.res.jsonResponse.context = event.context.params;
-
   const { userId } = event.context.params;
   const {
     name,
@@ -17,11 +15,6 @@ export default defineEventHandler(async (event) => {
     preferences
   } = await useBody(event);
 
-  // if (userId !== event.req.userId) {
-  // 	event.res.jsonResponse.error = {
-  // 		message: 'You must be the owner to change this profile'
-  // 	};
-  // } else {
   try {
     let res = [];
     const user = await User.find({ _id: userId });
@@ -106,15 +99,9 @@ export default defineEventHandler(async (event) => {
       }
     }
 
-    event.res.jsonResponse.data = {
-      items: [res]
-    };
+    return res;
   } catch (err) {
     console.log(err);
-    event.res.jsonResponse.error = {
-      message: err
-    };
+    return { error: 'Could not update user' };
   }
-  // }
-  return event.res.jsonResponse;
 });

@@ -2,7 +2,6 @@ import Resource from '~~/server/models/Resource';
 import Transport from '~~/server/models/Transport';
 
 export default defineEventHandler(async (event) => {
-  event.res.jsonResponse.context = event.context.params;
   const { quantity, unit } = JSON.parse(await useBody(event));
 
   try {
@@ -10,8 +9,6 @@ export default defineEventHandler(async (event) => {
       quantity,
       unit
     });
-
-    // let b = await User.updateOne({ _id: userId });
 
     const user = await Transport.updateOne(
       { _id: userId },
@@ -21,8 +18,9 @@ export default defineEventHandler(async (event) => {
         }
       }
     );
-    return transport;
+    return resource;
   } catch (err) {
-    return err;
+    console.log(err);
+    return { error: 'Could not insert resource' };
   }
 });

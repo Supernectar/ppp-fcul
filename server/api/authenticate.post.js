@@ -2,8 +2,6 @@ import jwt from 'jsonwebtoken';
 import User from '~~/server/models/User';
 
 export default defineEventHandler(async (event) => {
-  event.res.jsonResponse.context = event.context.params;
-
   const { email, password } = await useBody(event);
   try {
     const user = await User.findOne({

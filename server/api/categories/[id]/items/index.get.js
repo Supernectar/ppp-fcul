@@ -1,14 +1,14 @@
-import Polution from '~~/server/models/Polution';
+import Item from '~~/server/models/Item';
 
 export default defineEventHandler(async (event) => {
   const params = useQuery(event);
   const { id } = event.context.params;
   try {
-    const polution = await Polution.findById(id);
+    const items = await Item.find({ category: id });
 
-    return polution;
+    return items;
   } catch (err) {
     console.log(err);
-    return { error: 'Could not retrieve polution' };
+    return { error: 'Could not retrieve items' };
   }
 });

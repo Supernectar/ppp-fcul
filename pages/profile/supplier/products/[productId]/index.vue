@@ -71,15 +71,13 @@ import { CheckIcon, SelectorIcon } from '@heroicons/vue/outline';
 const route = useRoute();
 const user = useUser();
 
-const products = (
-  await $fetch(`/api/products?productLine=${route.params.productId}`)
-).data.items;
+const products = await $fetch(
+  `/api/products?productLine=${route.params.productId}`
+);
 console.log(products);
 const storages = ref([]);
 
-storages.value = (
-  await $fetch(`/api/users/${user.data._id}/storages`)
-).data.items;
+storages.value = await $fetch(`/api/users/${user.data._id}/storages`);
 const selectedStorages = ref([]);
 
 async function createProducts() {

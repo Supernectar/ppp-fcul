@@ -2,10 +2,9 @@ import User from '~~/server/models/User';
 import Order from '~~/server/models/Order';
 
 export default defineEventHandler(async (event) => {
-  event.res.jsonResponse.context = event.context.params;
   try {
     const { userId } = event.context.params;
-    // let order = await Order.find({ consumer: userId });
+
     const user = await User.findOne({ _id: userId });
     const orderIds = user.consumerData.orders;
     const orders = [];
@@ -15,14 +14,9 @@ export default defineEventHandler(async (event) => {
       });
       orders.push(order);
     }
-    event.res.jsonResponse.context = event.context.params;
-    event.res.jsonResponse.data = {
-      items: orders
-    };
+    return orders;
   } catch (err) {
     console.log(err);
-    event.res.jsonResponse.error = err;
+    return { error: 'Could not retrieve orders' };
   }
-
-  return event.res.jsonResponse;
 });

@@ -5,8 +5,6 @@ export default defineEventHandler(async (event) => {
   const params = useQuery(event);
 
   const polutions = await Polution.find(params);
-  event.res.jsonResponse.data = {
-    items: [polutions]
-  };
-  return event.res.jsonResponse;
+
+  return polutions;
 });

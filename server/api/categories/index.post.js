@@ -1,11 +1,22 @@
 import Category from '~~/server/models/Category';
 export default defineEventHandler(async (event) => {
-  event.res.jsonResponse.context = event.context.params;
-
-  const { name } = await useBody(event);
+  const { name, parent } = await useBody(event);
 
   try {
-    /*
+    const category = await Category.create({ name, parent });
+    await Category.findByIdAndUpdate(parent, {
+      $push: {
+        children: category
+      }
+    });
+
+    return category;
+  } catch (err) {
+    console.log(err);
+    return { error: 'Could not create category' };
+  }
+
+  /*
 		await Category.create({
 			name: 'SUPER',
 			description: 'categoria suprema',
@@ -106,10 +117,4 @@ export default defineEventHandler(async (event) => {
 				})
 			]
 		}); */
-  } catch (err) {
-    event.res.jsonResponse.error = {
-      message: err
-    };
-  }
-  return event.res.jsonResponse;
 });
