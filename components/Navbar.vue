@@ -32,21 +32,23 @@
               <SearchIcon class="w-5 h-5 text-gray-500 dark:text-gray-400" />
             </div>
             <input
+              v-model="search"
               id="default-search1"
               type="search"
               class="p-4 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-              placeholder="Search Products (name, category, ...)"
+              placeholder="Search Products (category, ...)"
               required
               @focusin="openModal"
             />
-            <NuxtLink to="/test">
-              <button
-                type="submit"
-                class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
-              >
-                Search
-              </button>
-            </NuxtLink>
+            <!--<NuxtLink :to="`/test?category=${categorySelected}`">-->
+            <button
+              type="submit"
+              class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
+              @click="test"
+            >
+              Search
+            </button>
+            <!--</NuxtLink>-->
           </div>
         </form>
       </div>
@@ -418,6 +420,25 @@ function closeModal() {
 
 function openModal() {
   isOpen.value = true;
+}
+
+const search = ref('');
+const categorySelected = ref('');
+
+function test() {
+  const catMatched = [];
+  const regex = new RegExp(search.value, 'gi');
+  for (const category of categories.value.children) {
+    console.log(category.name);
+    if (category.name.match(regex)) {
+      catMatched.push(category.name);
+      categorySelected.value = category.name;
+      router.push(`/test?category=${categorySelected.value}`);
+    }
+    if (catMatched.length === categories.value.children.length) {
+      router.push('/test');
+    }
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

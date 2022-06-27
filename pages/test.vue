@@ -562,6 +562,7 @@ import {
 
 import { CheckIcon, SelectorIcon, ChevronUpIcon } from '@heroicons/vue/solid';
 
+const route = useRoute();
 const categories2 = ref({});
 
 const expandNode = async (node) => {
@@ -581,6 +582,7 @@ categories2.value = (await $fetch(`/api/categories?name=main`)).data.items[0];
 expandNode(categories2.value);
 
 const category = ref('');
+const categoryA = ref('');
 const categoryPath = ref([]);
 const categories = ref({});
 
@@ -621,18 +623,79 @@ watch(
 );
 
 onMounted(async () => {
-  category.value = (await $fetch(`/api/categories?name=wash`)).data.items[0];
+  console.log(route.query.category);
+  if (route.query.category) {
+    category.value = (
+      await $fetch(`/api/categories?name=${route.query.category}`)
+    ).data.items[0];
 
-  // ---- Category Path ---- //
-  let current = category.value;
-  categoryPath.value.push(current);
-  while (current.parent) {
-    current = (await $fetch(`/api/categories?_id=${current.parent}`)).data
-      .items[0];
+    // ---- Category Path ---- //
+    let current = category.value;
     categoryPath.value.push(current);
+    while (current.parent) {
+      current = (await $fetch(`/api/categories?_id=${current.parent}`)).data
+        .items[0];
+      categoryPath.value.push(current);
+    }
+    categoryPath.value.reverse();
+    categoryPath.value.shift();
+    console.log(categoryPath);
+
+    // ---- Loading Items ---- //
+    items.value = (
+      await $fetch(`/api/items?category=${category.value._id}`)
+    ).data.items;
+
+    for (const item of items.value) {
+      const products = (await $fetch(`/api/products?item=${item._id}`)).data
+        .items;
+
+      item.minPrice = Math.min(...products.map((o) => o.price));
+      item.price = item.minPrice;
+      item.maxPrice = Math.max(...products.map((o) => o.price));
+    }
+  } else {
+    categories.value = (
+      await $fetch(`/api/categories?name=main`)
+    ).data.items[0];
+
+    // ---- Category Path ---- //
+    for (const category of categories.value.children) {
+      let current = (await $fetch(`/api/categories?_id=${category}`)).data
+        .items[0];
+      categoryPath.value.push(current);
+      /*
+      categoryA.value = (
+        await $fetch(`/api/categories?_id=${category}`)
+      ).data.items[0];
+      console.log(categoryA);
+      let current = categoryA.value;
+      categoryPath.value.push(current);
+      while (current.parent) {
+        console.log(current.parent);
+        current = (await $fetch(`/api/categories?_id=${current.parent}`)).data
+          .items[0];
+        categoryPath.value.push(current);
+        console.log(categoryPath);
+      }
+      console.log(categoryPath);
+      categoryPath.value.reverse();
+      categoryPath.value.shift();
+      */
+    }
+
+    // ---- Loading Items ---- //
+    items.value = (await $fetch(`/api/items`)).data.items;
+
+    for (const item of items.value) {
+      const products = (await $fetch(`/api/products?item=${item._id}`)).data
+        .items;
+
+      item.minPrice = Math.min(...products.map((o) => o.price));
+      item.price = item.minPrice;
+      item.maxPrice = Math.max(...products.map((o) => o.price));
+    }
   }
-  categoryPath.value.reverse();
-  categoryPath.value.shift();
 
   // ---- Static Filters ---- //
   for (const category of categoryPath.value) {
@@ -643,20 +706,6 @@ onMounted(async () => {
         value: 1
       });
     }
-  }
-
-  // ---- Loading Items ---- //
-  items.value = (
-    await $fetch(`/api/items?category=${category.value._id}`)
-  ).data.items;
-
-  for (const item of items.value) {
-    const products = (await $fetch(`/api/products?item=${item._id}`)).data
-      .items;
-
-    item.minPrice = Math.min(...products.map((o) => o.price));
-    item.price = item.minPrice;
-    item.maxPrice = Math.max(...products.map((o) => o.price));
   }
 
   // --- Categories --- //

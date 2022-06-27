@@ -7,6 +7,10 @@ export default mongoose.model(
     street: String,
     country: String,
     city: String,
-    postal: String
+    postal: String,
+    coordinates: {
+      lat: Number,
+      lng: Number
+    }
   })
 );

@@ -239,6 +239,21 @@
                     message-class="mt-1 text-sm text-red-600"
                   />
                 </div>
+                <div>
+                  <FormKit
+                    label="Address"
+                    v-model="address"
+                    placeholder=""
+                    type="text"
+                    name="plate"
+                    validation="required"
+                    outer-class="mb-4"
+                    label-class="form-label inline-block mb-2 text-gray-700"
+                    input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                    help-class="text-sm text-gray-500 mt-1"
+                    message-class="mt-1 text-sm text-red-600"
+                  />
+                </div>
 
                 <button
                   class="form-control block px-3 py-1 text-base font-normal text-gray-700 bg-gray-100 bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"

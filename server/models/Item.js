@@ -6,8 +6,8 @@ export default mongoose.model(
   new Schema({
     name: String,
     weight: Number,
-    type: String,
-    subtype: String,
+    // type: String,
+    // subtype: String,
     brand: String,
     website: String,
     description: String,
@@ -40,6 +40,12 @@ export default mongoose.model(
           type: Schema.Types.ObjectId,
           ref: 'Resource'
         }
+      }
+    ],
+    items: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Item'
       }
     ]
   })

@@ -55,6 +55,7 @@
           </div>
         </div>
       </div>
+
       <div class="text-center">
         <!-- <label
           class="block text-center uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -85,6 +86,7 @@
             </svg>
           </div>
         </div> -->
+
         <div>
           <FormKit
             label="Type Of Fuel"
@@ -105,7 +107,7 @@
           text-red-600"
           />
         </div>
-        {{ fuel }}
+        <!-- {{ fuel }} -->
         <div>
           <FormKit
             label="Consumption"
@@ -128,6 +130,34 @@
           text-red-600"
           />{{ consumption }}
         </div>
+
+        <div>
+          <GMap
+            class="h-80 w-80"
+            :markers-positions="availableTransportsCoords"
+          />
+        </div>
+
+        <div>
+          <FormKit
+            label="Address"
+            v-model="address"
+            placeholder=""
+            type="select"
+            name="address"
+            :options="addresses"
+            validation="required"
+            outer-class="mb-4"
+            label-class="form-label inline-block mb-2 text-gray-700"
+            input-class="form-control block w-full px-3 py-1.5 text-base
+          font-normal text-gray-700 bg-white bg-clip-padding border border-solid
+          border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700
+          focus:bg-white focus:border-blue-600 focus:outline-none"
+            help-class="text-sm text-gray-500 mt-1"
+            message-class="mt-1 text-sm
+          text-red-600"
+          />
+        </div>
       </div>
 
       <button
@@ -145,19 +175,37 @@
         Next >
       </button>
     </div>
-    {{ transports }}
+    <!-- {{ transports }} -->
   </div>
 </template>
 <script setup>
+const userStore = useUser();
 const consumption = ref(0);
 const transports = ref([]);
 const transportsFilter = ref([]);
 const fuel = ref('');
-transports.value = (await $fetch(`/api/transports`)).data.items;
 const fuelResources = ref([]);
 const fuelConsumption = ref([]);
 const consumptionMin = ref(0);
 const consumptionMax = ref(90);
+const addresses = ref([]);
+const user = userStore.data;
+transports.value = (await $fetch(`/api/transports`)).data.items;
+
+addresses.value.push(
+  user.consumerData.address[0].street +
+    ', ' +
+    user.consumerData.address[0].country +
+    ', ' +
+    user.consumerData.address[0].city +
+    ', ' +
+    user.consumerData.address[0].zipCode
+);
+for (addr of user.addresses) {
+  addresses.value.push(
+    addr.street + ', ' + addr.country + ', ' + addr.city + ', ' + addr.zipCode
+  );
+}
 
 for (let i = 0; i < transports.value.length; i++) {
   if (transports.value[i].resources.some((el) => el.resource.type === 'fuel')) {
@@ -168,19 +216,20 @@ for (let i = 0; i < transports.value.length; i++) {
     if (
       i === 0 ||
       !fuelResources.value.includes(
-        transports.value[i].resources[fuelIndex].resource.nameId
+        transports.value[i].resources[fuelIndex].resource.name
       )
     ) {
       fuelResources.value.push(
-        transports.value[i].resources[fuelIndex].resource.nameId
+        transports.value[i].resources[fuelIndex].resource.name
       );
       quant = transports.value[i].resources[fuelIndex].quantity;
       fuelConsumption.value.push([quant, quant]);
     } else {
       const a = fuelResources.value.findIndex(
-        (el) => el === transports.value[i].resources[fuelIndex].resource.nameId
+        (el) => el === transports.value[i].resources[fuelIndex].resource.name
       );
       quant = transports.value[i].resources[fuelIndex].quantity;
+
       if (quant < fuelConsumption.value[a][0]) {
         fuelConsumption.value[a][0] = quant;
       } else if (quant > fuelConsumption.value[a][1]) {
@@ -189,16 +238,32 @@ for (let i = 0; i < transports.value.length; i++) {
     }
   }
 }
+const equalvalues = fuelConsumption.value.findIndex((el) => el[0] === el[1]);
+if (equalvalues != -1) {
+  fuelConsumption.value[equalvalues][1]++;
+}
 consumptionMin.value = fuelConsumption.value[0][0];
 consumptionMax.value = fuelConsumption.value[0][1];
-
+consumption.value = consumptionMin.value;
 watch(fuel, () => {
   const fuelI = fuelResources.value.findIndex((el) => el === fuel.value);
   consumptionMin.value = fuelConsumption.value[fuelI][0];
   consumptionMax.value = fuelConsumption.value[fuelI][1];
+  consumption.value = consumptionMin.value;
 });
 watch(consumption, async () => {
   console.log(consumption);
   transportsFilter.value = (await $fetch(`/api/transports`)).data.items;
 });
+
+const availableTransports = ref((await $fetch(`/api/transports`)).data.items);
+const availableTransportsCoords = ref([]);
+
+for (const transport of availableTransports.value) {
+  availableTransportsCoords.value.push(transport.address.coordinates);
+}
+
+console.log(availableTransportsCoords);
+
+const selectedTransport = ref({});
 </script>
