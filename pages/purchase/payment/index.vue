@@ -191,23 +191,24 @@ for (let i = 0; i < cart.value.length; i++) {
   ).data.items[0];
 }
 
-// const lineItems = ref([
-//   {
-//     price: 'price_1LEa8fAIdQC80EPdihds8cUG', // The id of the one-time price you created in your Stripe dashboard
-//     quantity: 1
-//   },
-//   {
-//     price: 'price_1LEE10AIdQC80EPdTFO66MJv', // The id of the one-time price you created in your Stripe dashboard
-//     quantity: 1
-//   }
-// ]);
+// const lineItems = ref([]);
+const lineItems = ref([
+  {
+    price: 'price_1LEE10AIdQC80EPdTFO66MJv', // The id of the one-time price you created in your Stripe dashboard
+    quantity: 1
+  },
+  {
+    price: 'price_1LEa8fAIdQC80EPdihds8cUG', // The id of the one-time price you created in your Stripe dashboard
+    quantity: 1
+  }
+]);
 
-for (const product of myProducts) {
-  lineItems.value.push({
-    price: product.stripeId,
-    quantity: product.quantity
-  });
-}
+// for (const product of myProducts.value) {
+//   lineItems.value.push({
+//     price: product.stripeId,
+//     quantity: product.quantity
+//   });
+// }
 
 const successURL = 'http://localhost:3000/success';
 const cancelURL = 'http://localhost:3000/error';

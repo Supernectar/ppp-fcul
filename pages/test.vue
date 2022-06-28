@@ -582,7 +582,6 @@ categories2.value = (await $fetch(`/api/categories?name=main`)).data.items[0];
 expandNode(categories2.value);
 
 const category = ref('');
-const categoryA = ref('');
 const categoryPath = ref([]);
 const categories = ref({});
 
@@ -625,9 +624,12 @@ watch(
 onMounted(async () => {
   console.log(route.query.category);
   if (route.query.category) {
+    const values = route.query.category.split(',');
+    console.log(values);
     category.value = (
       await $fetch(`/api/categories?name=${route.query.category}`)
     ).data.items[0];
+    console.log(category.value);
 
     // ---- Category Path ---- //
     let current = category.value;
@@ -639,7 +641,6 @@ onMounted(async () => {
     }
     categoryPath.value.reverse();
     categoryPath.value.shift();
-    console.log(categoryPath);
 
     // ---- Loading Items ---- //
     items.value = (
@@ -661,27 +662,9 @@ onMounted(async () => {
 
     // ---- Category Path ---- //
     for (const category of categories.value.children) {
-      let current = (await $fetch(`/api/categories?_id=${category}`)).data
+      const current = (await $fetch(`/api/categories?_id=${category}`)).data
         .items[0];
       categoryPath.value.push(current);
-      /*
-      categoryA.value = (
-        await $fetch(`/api/categories?_id=${category}`)
-      ).data.items[0];
-      console.log(categoryA);
-      let current = categoryA.value;
-      categoryPath.value.push(current);
-      while (current.parent) {
-        console.log(current.parent);
-        current = (await $fetch(`/api/categories?_id=${current.parent}`)).data
-          .items[0];
-        categoryPath.value.push(current);
-        console.log(categoryPath);
-      }
-      console.log(categoryPath);
-      categoryPath.value.reverse();
-      categoryPath.value.shift();
-      */
     }
 
     // ---- Loading Items ---- //

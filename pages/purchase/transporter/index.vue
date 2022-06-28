@@ -175,7 +175,7 @@
         Next >
       </button>
     </div>
-    <!-- {{ transports }} -->
+    {{ transportsFilter }}
   </div>
 </template>
 <script setup>
@@ -201,7 +201,7 @@ addresses.value.push(
     ', ' +
     user.consumerData.address[0].zipCode
 );
-for (addr of user.addresses) {
+for (const addr of user.addresses) {
   addresses.value.push(
     addr.street + ', ' + addr.country + ', ' + addr.city + ', ' + addr.zipCode
   );
@@ -238,32 +238,53 @@ for (let i = 0; i < transports.value.length; i++) {
     }
   }
 }
-const equalvalues = fuelConsumption.value.findIndex((el) => el[0] === el[1]);
-if (equalvalues != -1) {
-  fuelConsumption.value[equalvalues][1]++;
+for (const fuel of fuelConsumption.value) {
+  if (fuel[0] === fuel[1]) {
+    fuel[1]++;
+  }
 }
+fuel.value = fuelResources.value[0];
 consumptionMin.value = fuelConsumption.value[0][0];
 consumptionMax.value = fuelConsumption.value[0][1];
 consumption.value = consumptionMin.value;
+
+filterTranports();
+
 watch(fuel, () => {
   const fuelI = fuelResources.value.findIndex((el) => el === fuel.value);
   consumptionMin.value = fuelConsumption.value[fuelI][0];
   consumptionMax.value = fuelConsumption.value[fuelI][1];
   consumption.value = consumptionMin.value;
 });
-watch(consumption, async () => {
-  console.log(consumption);
-  transportsFilter.value = (await $fetch(`/api/transports`)).data.items;
+watch(consumption, () => {
+  filterTranports();
 });
-
-const availableTransports = ref((await $fetch(`/api/transports`)).data.items);
-const availableTransportsCoords = ref([]);
-
-for (const transport of availableTransports.value) {
-  availableTransportsCoords.value.push(transport.address.coordinates);
+function filterTranports() {
+  transportsFilter.value = [];
+  for (const transport of transports.value) {
+    const resFuel = transport.resources.findIndex(
+      (el) => el.resource.type === 'fuel'
+    );
+    if (
+      (resFuel !== -1) &
+      (transport.resources[resFuel].resource.name === fuel.value) &
+      (transport.resources[resFuel].quantity <= consumption.value)
+    ) {
+      transportsFilter.value.push(transport);
+    }
+  }
+  console.log('---');
+  console.log(transportsFilter.value);
 }
 
-console.log(availableTransportsCoords);
+// const availableTransports = ref((await $fetch(`/api/transports`)).data.items);
+const availableTransportsCoords = ref([]);
 
-const selectedTransport = ref({});
+// for (const transport of transportsFilter.value) {
+//   availableTransportsCoords.value.push(transport.address.coordinates);
+// }
+
+// console.log(availableTransportsCoords);
+
+// const selectedTransport = ref({});
 </script>

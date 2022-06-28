@@ -74,16 +74,16 @@
                     class="p-8 text-sm text-gray-700 whitespace-nowrap text-center"
                   >
                     <p>
-                      {{ product.supplier.username }}
+                      <!-- {{ product.supplier.username }} -->
                     </p>
                     <p>
-                      {{ product.supplier.email }}
+                      <!-- {{ product.supplier.email }} -->
                     </p>
                   </td>
                   <td
                     class="p-8 text-sm text-gray-700 whitespace-nowrap text-center"
                   >
-                    {{ product.price }}
+                    <!-- {{ productLine.price }} -->
                     €
                   </td>
                   <td

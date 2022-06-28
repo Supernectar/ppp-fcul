@@ -423,20 +423,28 @@ function openModal() {
 }
 
 const search = ref('');
-const categorySelected = ref('');
 
 function test() {
   const catMatched = [];
+  let url;
   const regex = new RegExp(search.value, 'gi');
   for (const category of categories.value.children) {
     console.log(category.name);
     if (category.name.match(regex)) {
       catMatched.push(category.name);
-      categorySelected.value = category.name;
-      router.push(`/test?category=${categorySelected.value}`);
+    } else {
+      console.log('no match');
     }
-    if (catMatched.length === categories.value.children.length) {
+    if (catMatched.length === 1) {
+      router.push(`/test?category=${catMatched[0]}`);
+    } else if (catMatched.length === categories.value.children.length) {
       router.push('/test');
+    } else if (catMatched.length < categories.value.children.length) {
+      url = `/test?category=${catMatched[0]}`;
+      for (let i = 1; i < catMatched.length; i++) {
+        url += `,${catMatched[i]}`;
+      }
+      router.push(url);
     }
   }
 }
