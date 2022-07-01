@@ -18,7 +18,7 @@
                       class="h-5 w-5 text-purple-500"
                     />
                   </DisclosureButton>
-                  <DisclosurePanel class="px-4 pt-4 pb-2 text-sm text-gray-500"></DisclosurePanel>
+                  <DisclosurePanel class="px-4 pt-4 pb-2 text-sm text-gray-500">
                     <RecursiveCategory category="category" />
                     <ul>
                       <!-- <li
