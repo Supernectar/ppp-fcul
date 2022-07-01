@@ -138,7 +138,7 @@
           />
         </div> -->
 
-        <div>
+        <!-- <div>
           <FormKit
             label="Address"
             v-model="address"
@@ -157,7 +157,7 @@
             message-class="mt-1 text-sm
           text-red-600"
           />
-        </div>
+        </div> -->
       </div>
 
       <button
@@ -185,6 +185,7 @@
             Resources
           </th>
           <th class="w-20 text-sm text-gray-200 whitespace-nowrap">Polution</th>
+          <th class="w-20 text-sm text-gray-200 whitespace-nowrap"></th>
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-300 text-center">
@@ -216,6 +217,15 @@
           >
             {{ pol.quantity }} {{ pol.polution.unit }}/{{ pol.polution.name }}
           </td>
+          <td>
+            <button
+              type="button"
+              class="text-white bg-gradient-to-br from-blue-500 to-blue-900 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+              @click="chooseTransport(transport)"
+            >
+              Choose
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -235,6 +245,9 @@
   </div>
 </template>
 <script setup>
+import useOrder from '~/stores/orderTransport';
+const store = useOrder();
+// const transp = ref(store.getTransport);
 const userStore = useUser();
 const consumption = ref(0);
 const transports = ref([]);
@@ -244,24 +257,25 @@ const fuelResources = ref([]);
 const fuelConsumption = ref([]);
 const consumptionMin = ref(0);
 const consumptionMax = ref(90);
-const addresses = ref([]);
+// const  addresses = ref([]);
 const user = userStore.data;
+
 transports.value = (await $fetch(`/api/transports`)).data.items;
 
-addresses.value.push(
-  user.consumerData.address[0].street +
-    ', ' +
-    user.consumerData.address[0].country +
-    ', ' +
-    user.consumerData.address[0].city +
-    ', ' +
-    user.consumerData.address[0].zipCode
-);
-for (const addr of user.addresses) {
-  addresses.value.push(
-    addr.street + ', ' + addr.country + ', ' + addr.city + ', ' + addr.zipCode
-  );
-}
+// addresses.value.push(
+//   user.consumerData.address[0].street +
+//     ', ' +
+//     user.consumerData.address[0].country +
+//     ', ' +
+//     user.consumerData.address[0].city +
+//     ', ' +
+//     user.consumerData.address[0].zipCode
+// );
+// for (const addr of user.addresses) {
+//   addresses.value.push(
+//     addr.street + ', ' + addr.country + ', ' + addr.city + ', ' + addr.zipCode
+//   );
+// }
 
 for (let i = 0; i < transports.value.length; i++) {
   if (transports.value[i].resources.some((el) => el.resource.type === 'fuel')) {
@@ -329,8 +343,30 @@ function filterTranports() {
       transportsFilter.value.push(transport);
     }
   }
-  console.log('---');
-  console.log(transportsFilter.value);
+  // console.log('---');
+  // console.log(transportsFilter.value);
+}
+// const myCart = ref([]);
+// function addToCart(pid) {
+//   myCart.value = store.getCart;
+//   if (myCart.value.some((el) => el.product === pid)) {
+//     myCart.value[myCart.value.findIndex((el) => el.product === pid)].quantity++;
+//   } else {
+//     myCart.value.push({ product: pid, quantity: 1 });
+//   }
+
+//   store.$patch({ myCart });
+// }
+const myTransport = ref([]);
+function chooseTransport(transp) {
+  myTransport.value.push(transp._id);
+  // console.log(11);
+  // console.log(transp.value);
+
+  console.log(transp._id);
+  console.log(myTransport.value);
+  // store.$patch(transp._id);
+  store.$patch(myTransport.value);
 }
 
 // const availableTransports = ref((await $fetch(`/api/transports`)).data.items);
