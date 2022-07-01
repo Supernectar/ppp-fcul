@@ -19,7 +19,10 @@
               <div class="whitespace-nowrap">Change role</div>
               <ArrowRightIcon class="h-4 w-4" />
             </NuxtLink>
-            <button class="p-2" @click="isOpen = !isOpen">
+            <button
+              class="p-2"
+              @click="!isMobile ? (isOpen = !isOpen) : (isOpen = false)"
+            >
               <MenuIcon class="h-6 w-6">toggle</MenuIcon>
             </button>
           </div>
@@ -296,4 +299,20 @@ import {
 const user = useUser();
 
 const isOpen = ref(true);
+const isMobile = ref(false);
+
+onMounted(() => {
+  window.addEventListener('resize', checkSize);
+});
+
+// check device size
+function checkSize() {
+  if (window.innerWidth <= 640) {
+    isOpen.value = false;
+    isMobile.value = true;
+  } else {
+    isOpen.value = true;
+    isMobile.value = false;
+  }
+}
 </script>

@@ -5,11 +5,12 @@
       <SideNavigationBar />
       <div class="flex-grow order-2">
         <section class="p-2 overflow-hidden">
-          <h1 class="text-4xl font-bold">Dashboard</h1>
+          <h1 class="text-2xl font-bold sm:text-2x1">Dashboard</h1>
           <div id="orders" class="mt-4">
             <h2 class="text-xl font-semibold">Orders</h2>
             <p>See your orders history</p>
-            <table class="min-w-full">
+            <!--
+            <table class="max-w-2">
               <thead class="bg-white border-b">
                 <tr>
                   <th
@@ -96,11 +97,12 @@
                 </tr>
               </tbody>
             </table>
+            -->
           </div>
           <div id="statistics" class="mt-4">
             <h2 class="text-xl font-semibold">Statistics</h2>
             <p>Find your statistics here</p>
-            <div class="grid auto-rows-auto grid-cols-1 md:grid-cols-2 gap-2">
+            <!--<div class="grid auto-rows-auto grid-cols-1 md:grid-cols-2 gap-2">
               <div class="bg-light-600 rounded-xl p-2">
                 <img src="/img/chart.png" alt="" class="w-full" />
                 <div>polution generated over last month</div>
@@ -113,23 +115,28 @@
                 <img src="/img/chart.png" alt="" class="w-full h-20" />
                 <div>Number of items bought per day</div>
               </div>
-            </div>
+            </div>-->
           </div>
           <div id="suggestions" class="mt-4">
             <h2 class="text-xl font-semibold">Products you might like</h2>
-            <p>
-              This suggestion list is generated based on your last purshases
+            <p class="max-w-80">
+              This suggestion list is generated based on your last purchases
             </p>
+            <!--
             <div class="bg-light-600 rounded-xl p-2">
-              <ul class="flex gap-2 overflow-auto pb-2">
-                <li v-for="(item, index) in suggestedItems" :key="index">
-                  <ItemCard
-                    :itemValue="item"
-                    @open-modal="(info) => openModal(info)"
-                  />
-                </li>
+              <ul>
+                <div
+                  class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2"
+                >
+                  <li v-for="(item, index) in suggestedItems" :key="index">
+                    <ItemCard
+                      :itemValue="item"
+                      @open-modal="(info) => openModal(info)"
+                    />
+                  </li>
+                </div>
               </ul>
-            </div>
+            </div>-->
           </div>
           <div>-referencia à ultima encomenda realizada</div>
           <div>
