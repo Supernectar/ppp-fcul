@@ -207,7 +207,7 @@
                   </div>
                 </Listbox>
                 <br />
-                <button class="bg-gray-200 border rounded">ADD ZA ITEM</button>
+                <button class="bg-gray-200 border rounded">ADD ITEM</button>
               </div>
             </FormKit>
           </div>

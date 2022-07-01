@@ -74,16 +74,16 @@
                     class="p-8 text-sm text-gray-700 whitespace-nowrap text-center"
                   >
                     <p>
-                      <!-- {{ product.supplier.username }} -->
+                      {{ product.productLine.supplier.username }}
                     </p>
                     <p>
-                      <!-- {{ product.supplier.email }} -->
+                      {{ product.productLine.supplier.email }}
                     </p>
                   </td>
                   <td
                     class="p-8 text-sm text-gray-700 whitespace-nowrap text-center"
                   >
-                    <!-- {{ productLine.price }} -->
+                    {{ product.productLine.price }}
                     €
                   </td>
                   <td
@@ -180,7 +180,7 @@
       <div id="location" class="mt-4">
         <h2 class="text-xl font-semibold">Location</h2>
         <div>
-          <gMap class="h-40 w-40" />
+          <!-- <gMap class="h-40 w-40" /> -->
         </div>
       </div>
       <div id="details" class="mt-4">

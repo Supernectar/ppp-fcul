@@ -131,12 +131,12 @@
           />{{ consumption }}
         </div>
 
-        <div>
+        <!-- <div>
           <GMap
             class="h-80 w-80"
             :markers-positions="availableTransportsCoords"
           />
-        </div>
+        </div> -->
 
         <div>
           <FormKit
@@ -175,7 +175,63 @@
         Next >
       </button>
     </div>
-    {{ transportsFilter }}
+    <table class="m-auto w-10/12">
+      <thead class="bg-gray-500 border-gray-500">
+        <tr>
+          <th class="w-20 text-sm text-gray-200 whitespace-nowrap">Brand</th>
+          <th class="w-20 text-sm text-gray-200 whitespace-nowrap">Model</th>
+          <th class="w-20 text-sm text-gray-200 whitespace-nowrap">Status</th>
+          <th class="w-20 text-sm text-gray-200 whitespace-nowrap">
+            Resources
+          </th>
+          <th class="w-20 text-sm text-gray-200 whitespace-nowrap">Polution</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-300 text-center">
+        <tr
+          v-for="(transport, index) in transportsFilter"
+          :id="transport"
+          :key="index"
+          class="bg-white"
+        >
+          <td>{{ transport.brand }}</td>
+          <td>{{ transport.model }}</td>
+          <td>{{ transport.status }}</td>
+          <td
+            v-for="(res, index1) in transport.resources"
+            :id="res"
+            :key="index1"
+            class="bg-white"
+          >
+            {{ res.quantity }} L/100km
+            <br />
+            {{ res.resource.name }}
+            <br />
+          </td>
+          <td
+            v-for="(pol, index2) in transport.polutions"
+            :id="pol"
+            :key="index2"
+            class="bg-white flex"
+          >
+            {{ pol.quantity }} {{ pol.polution.unit }}/{{ pol.polution.name }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- <table>
+      <p
+        v-for="(transport, index) in transportsFilter"
+        :id="transport"
+        :key="index"
+        class="bg-white"
+      >
+        {{ transport }}
+      </p>
+    </table> -->
+    <br />
+    <br />
+    <!-- {{ transportsFilter.value }} -->
   </div>
 </template>
 <script setup>
@@ -278,7 +334,7 @@ function filterTranports() {
 }
 
 // const availableTransports = ref((await $fetch(`/api/transports`)).data.items);
-const availableTransportsCoords = ref([]);
+// const availableTransportsCoords = ref([]);
 
 // for (const transport of transportsFilter.value) {
 //   availableTransportsCoords.value.push(transport.address.coordinates);

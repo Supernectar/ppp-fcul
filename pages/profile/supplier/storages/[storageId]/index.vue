@@ -283,10 +283,9 @@ for (const product of products.value) {
     if (!exists) polutions.value.push(quantityPlusPolution);
   }
 
-  console.log(product.productLine.item);
   for (const polution of product.productLine.item.polutions) {
-    const polutionObject = (await $fetch(`/api/polutions/${polution.polution}`))
-      .data.items[0];
+    const polutionObject = (await $fetch(`/api/polutions/${polution._id}`)).data
+      .items[0];
 
     const quantityPlusPolution = {
       quantity: polution.quantity * product.quantity,

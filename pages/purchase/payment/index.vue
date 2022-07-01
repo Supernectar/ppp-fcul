@@ -189,28 +189,32 @@ for (let i = 0; i < cart.value.length; i++) {
   myProducts.value[i] = (
     await $fetch(`/api/products?_id=${cart.value[i].product}`)
   ).data.items[0];
+  myProducts.value[i].cartQuantity = cart.value[i].quantity;
 }
 
-// const lineItems = ref([]);
-const lineItems = ref([
-  {
-    price: 'price_1LEE10AIdQC80EPdTFO66MJv', // The id of the one-time price you created in your Stripe dashboard
-    quantity: 1
-  },
-  {
-    price: 'price_1LEa8fAIdQC80EPdihds8cUG', // The id of the one-time price you created in your Stripe dashboard
-    quantity: 1
-  }
-]);
+const lineItems = ref([]);
+// const lineItems = ref([
+//   {
+//     price: 'price_1LEE10AIdQC80EPdTFO66MJv', // The id of the one-time price you created in your Stripe dashboard
+//     quantity: 1
+//   },
+//   {
+//     price: 'price_1LEa8fAIdQC80EPdihds8cUG', // The id of the one-time price you created in your Stripe dashboard
+//     quantity: 1
+//   }
+// ]);
 
-// for (const product of myProducts.value) {
-//   lineItems.value.push({
-//     price: product.stripeId,
-//     quantity: product.quantity
-//   });
-// }
+console.log(myProducts.value);
+for (const product of myProducts.value) {
+  lineItems.value.push({
+    price: product.stripeId,
+    quantity: product.cartQuantity
+  });
+}
 
-const successURL = 'http://localhost:3000/success';
+console.log(lineItems);
+
+const successURL = 'http://localhost:3000/profile/consumer/orders';
 const cancelURL = 'http://localhost:3000/error';
 const publishableKey =
   'pk_test_51LEDJlAIdQC80EPdG8z8dlFoL50XlSoMNe1JhuF2Tdap8U25BCRlWB8IiQnqa0YYBJy7JurPEuaDMaZWNgOlM0w5000FSV9i0w';

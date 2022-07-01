@@ -1,13 +1,13 @@
 <template>
   <div class="group hover:shadow rounded overflow-hidden">
-    <NuxtLink :to="`/items/${itemValue._id}`">
+    <div class="cursor-pointer" @click="goToProductPage($attrs.itemValue._id)">
       <div class="p-2 overflow-hidden">
         <img
-          src="/img/627.png"
+          :src="$attrs.itemValue.imgPath"
           class="object-contain scale-75 group-hover:scale-100 transition-all m-auto"
         />
       </div>
-    </NuxtLink>
+    </div>
 
     <div class="p-2 bg-white">
       <h5 class="font-semibold text-left">
@@ -95,4 +95,10 @@ const toggleFavourite = (itemId) => {
     );
   } else user.data.consumerData.wishlist.push(itemId);
 };
+
+async function goToProductPage(id) {
+  const router = useRouter();
+  const product = (await $fetch(`/api/products?item=${id}`)).data.items[0];
+  router.push(`/items/${id}/products/${product._id}`);
+}
 </script>

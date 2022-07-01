@@ -1,5 +1,6 @@
 <template>
   <div>
-    <recursive-category v-if="$attrs.children"></recursive-category>
+    <p>{{ $attrs.name }}</p>
+    <RecursiveCategory v-if="$attrs.children"></RecursiveCategory>
   </div>
 </template>

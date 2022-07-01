@@ -39,7 +39,7 @@
             <td class="p-8 text-sm text-gray-700 whitespace-nowrap text-center">
               {{ myItems[index].name }}
               <br />
-              {{ myProducts[index].supplier.username }}
+              {{ myProducts[index].productLine.supplier.username }}
             </td>
 
             <td class="p-8 text-sm text-gray-700 whitespace-nowrap text-center">
@@ -55,7 +55,7 @@
               />
             </td>
             <td class="p-8 text-sm text-gray-700 whitespace-nowrap text-center">
-              {{ myProducts[index].price * cartItem.quantity }}€
+              {{ myProducts[index].productLine.price * cartItem.quantity }}€
             </td>
             <td class="p-8 text-sm text-gray-700 whitespace-nowrap text-center">
               <button @click="removeFromCart(cartItem.product)">
@@ -113,13 +113,14 @@ for (let i = 0; i < cart.value.length; i++) {
   ).data.items[0];
   console.log(myProducts.value);
   myItems.value[i] = (
-    await $fetch(`/api/items?_id=${myProducts.value[i].item}`)
+    await $fetch(`/api/items?_id=${myProducts.value[i].productLine.item._id}`)
   ).data.items[0];
 }
 
 for (let i = 0; i < myProducts.value.length; i++) {
   total.value =
-    total.value + myProducts.value[i].price * cart.value[i].quantity;
+    total.value +
+    myProducts.value[i].productLine.price * cart.value[i].quantity;
 }
 
 watch(
@@ -128,7 +129,8 @@ watch(
     total.value = 0;
     for (let i = 0; i < myProducts.value.length; i++) {
       total.value =
-        total.value + myProducts.value[i].price * cart.value[i].quantity;
+        total.value +
+        myProducts.productLine.value[i].price * cart.value[i].quantity;
     }
   },
   { deep: true }

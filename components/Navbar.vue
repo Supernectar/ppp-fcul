@@ -40,7 +40,7 @@
               required
               @focusin="openModal"
             />
-            <!--<NuxtLink :to="`/test?category=${categorySelected}`">-->
+            <!--<NuxtLink :to="`/?category=${categorySelected}`">-->
             <button
               type="submit"
               class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
@@ -107,7 +107,9 @@
                       >
                         {{ myItems[index].name }}
                       </th>
-                      <td class="px-2 py-4">{{ myProducts[index].price }}</td>
+                      <td class="px-2 py-4">
+                        {{ myProducts[index].productLine.price }}
+                      </td>
                       <td class="px-2 py-4">
                         <input
                           id=""
@@ -145,7 +147,7 @@
                   </NuxtLink>
                 </div>
                 <!-- <div v-else>
-                  <NuxtLink to="/test" class="text-blue-500">
+                  <NuxtLink to="/" class="text-blue-500">
                     <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     start browsing items
                     </button>
@@ -332,16 +334,15 @@
                   class="marker:black pl-5 space-y-3 text-slate-600"
                 >
                   <h4 class="hover:underline">
-                    <NuxtLink
-                      :to="`/test?category=${terceiraCategoria.nameId}`"
-                      >{{ terceiraCategoria.name }}</NuxtLink
-                    >
+                    <NuxtLink :to="`/?category=${terceiraCategoria.nameId}`">{{
+                      terceiraCategoria.name
+                    }}</NuxtLink>
                   </h4>
                 </ul>
               </div>
             </div>
           </div>
-          <!-- <NuxtLink to="/test">lavar</NuxtLink> -->
+          <!-- <NuxtLink to="/">lavar</NuxtLink> -->
         </div>
       </div>
     </div>
@@ -386,7 +387,7 @@ for (let i = 0; i < cart.value.length; i++) {
     ).data.items[0];
 
     myItems.value[i] = (
-      await $fetch(`/api/items?_id=${myProducts.value[i].item}`)
+      await $fetch(`/api/items?_id=${myProducts.value[i].productLine.item._id}`)
     ).data.items[0];
   }
 }
@@ -436,11 +437,11 @@ function test() {
       console.log('no match');
     }
     if (catMatched.length === 1) {
-      router.push(`/test?category=${catMatched[0]}`);
+      router.push(`/?category=${catMatched[0]}`);
     } else if (catMatched.length === categories.value.children.length) {
-      router.push('/test');
+      router.push('/');
     } else if (catMatched.length < categories.value.children.length) {
-      url = `/test?category=${catMatched[0]}`;
+      url = `/?category=${catMatched[0]}`;
       for (let i = 1; i < catMatched.length; i++) {
         url += `,${catMatched[i]}`;
       }

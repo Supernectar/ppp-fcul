@@ -46,7 +46,7 @@
           </div>
         </div>
         <div class="bg-green-100 flex-grow">
-          <table class="bg-light-100">
+          <table class="bg-light-100 h-full">
             <thead class="bg-gray-500 border-b-2 border-gray-500">
               <tr>
                 <th class="w-92 p-2 text-sm text-gray-200 whitespace-nowrap">
@@ -61,56 +61,59 @@
                 <th
                   class="w-92 p-2 text-sm text-gray-200 whitespace-nowrap"
                 ></th>
+                <th
+                  class="w-92 p-2 text-sm text-gray-200 whitespace-nowrap"
+                ></th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-300">
-              <NuxtLink
+              <tr
                 v-for="(product, index) in products"
                 :key="index"
-                :to="`/items/${route.params.itemId}/products/${product._id}`"
+                @click="redirectToProduct(product._id)"
+                :id="product"
+                class="bg-white"
               >
-                <tr :id="product" class="bg-white">
-                  <td
-                    class="p-8 text-sm text-gray-700 whitespace-nowrap text-center"
+                <td
+                  class="p-8 text-sm text-gray-700 whitespace-nowrap text-center"
+                >
+                  <p>
+                    {{ product.productLine.supplier.username }}
+                  </p>
+                  <p>
+                    {{ product.productLine.supplier.email }}
+                  </p>
+                </td>
+                <td
+                  class="p-8 text-sm text-gray-700 whitespace-nowrap text-center"
+                >
+                  {{ product.productLine.price }}
+                  €
+                </td>
+                <td
+                  class="p-8 text-sm text-gray-700 whitespace-nowrap text-center"
+                >
+                  {{ product.quantity }}
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    class="text-white bg-gradient-to-br from-blue-700 to-blue-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                    @click="addToCompare(product._id)"
                   >
-                    <p>
-                      {{ product.supplier.username }}
-                    </p>
-                    <p>
-                      {{ product.supplier.email }}
-                    </p>
-                  </td>
-                  <td
-                    class="p-8 text-sm text-gray-700 whitespace-nowrap text-center"
+                    Compare
+                  </button>
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    class="text-white bg-gradient-to-br from-red-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                    @click="addToCart(product._id)"
                   >
-                    {{ product.price }}
-                    €
-                  </td>
-                  <td
-                    class="p-8 text-sm text-gray-700 whitespace-nowrap text-center"
-                  >
-                    {{ product.quantity }}
-                  </td>
-                  <td>
-                    <button
-                      type="button"
-                      class="text-white bg-gradient-to-br from-blue-700 to-blue-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-                      @click="addToCompare(product._id)"
-                    >
-                      Compare
-                    </button>
-                  </td>
-                  <td>
-                    <button
-                      type="button"
-                      class="text-white bg-gradient-to-br from-red-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium r ounded -lg text-sm px-5 py- 2.5 text-center mr-2 mb-2"
-                      @click="addToCart(product._id)"
-                    >
-                      Add to cart
-                    </button>
-                  </td>
-                </tr>
-              </NuxtLink>
+                    Add to cart
+                  </button>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -163,7 +166,7 @@
                   >
                     <td class="px-6 py-4">{{ polution.nameId }}</td>
                     <td class="px-6 py-4">{{ polution.quantity }}</td>
-                    <td class="px-6 py-4">{{ polution.unit }}</td>
+                    <td class="px-6 py-4">{{ polution }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -319,4 +322,9 @@ const storagePositions = ref([
     lng: -9.365785
   }
 ]);
+
+function redirectToProduct(id) {
+  const router = useRouter();
+  router.push(`/items/${route.params.itemId}/products/${id}`);
+}
 </script>

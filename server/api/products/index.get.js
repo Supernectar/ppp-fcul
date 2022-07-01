@@ -7,7 +7,10 @@ export default defineEventHandler(async (event) => {
   const products = await Product.find(params)
     .populate('productLine')
     .populate('storage')
-    .populate({ path: 'productLine', populate: 'item' });
+    .populate({ path: 'productLine', populate: ['item', 'supplier'] })
+    .populate('polutions')
+    .populate('resources')
+    .populate('polutions.polution');
   event.res.jsonResponse.data = {
     items: products
   };

@@ -28,7 +28,7 @@
             </div>
             <div v-else>
               You have no items added to your favourites,
-              <NuxtLink to="/test" class="text-blue-500"
+              <NuxtLink to="/" class="text-blue-500"
                 >start browsing items</NuxtLink
               >
             </div>
