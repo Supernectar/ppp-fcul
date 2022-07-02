@@ -300,6 +300,7 @@ const user = useUser();
 
 const isOpen = ref(true);
 const isMobile = ref(false);
+checkSize();
 
 onMounted(() => {
   window.addEventListener('resize', checkSize);

@@ -14,36 +14,36 @@
               This suggestion list is generated based on your last purshases
             </p> -->
 
-            <table class="min-w-full">
+            <table class="w-2 md:w-100 lg:w-250">
               <thead class="bg-white border-b">
                 <tr>
                   <th
                     scope="col"
-                    class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                    class="text-sm font-medium text-gray-900 px-2 py-2 md:px-6 md:py-4 text-left"
                   >
                     #
                   </th>
                   <th
                     scope="col"
-                    class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                    class="text-sm font-medium text-gray-900 px-2 py-2 md:px-6 md:py-4 text-left"
                   >
                     Number of items
                   </th>
                   <th
                     scope="col"
-                    class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                    class="text-sm font-medium text-gray-900 px-2 py-2 md:px-6 md:py-4 text-left"
                   >
                     Price
                   </th>
                   <th
                     scope="col"
-                    class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                    class="text-sm font-medium text-gray-900 px-2 py-2 md:px-6 md:py-4 text-left"
                   >
                     Status
                   </th>
                   <th
                     scope="col"
-                    class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                    class="text-sm font-medium text-gray-900 px-2 py-2 md:px-6 md:py-4text-left"
                   ></th>
                 </tr>
               </thead>

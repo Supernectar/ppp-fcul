@@ -5,7 +5,7 @@
       <SideNavigationBar />
       <div class="flex-grow order-2">
         <section class="p-2 overflow-hidden min-h-screen">
-          <h1 class="text-4xl font-bold">My information</h1>
+          <h1 class="text-2xl font-bold">My information</h1>
           <div id="addresses" class="mt-4 border rounded-xl p-2">
             <h2 class="text-xl font-semibold">My addresses</h2>
             <p>
@@ -16,7 +16,6 @@
               <table>
                 <thead>
                   <tr>
-                    <th></th>
                     <th>Address</th>
                   </tr>
                 </thead>
@@ -83,7 +82,7 @@
                 <div>
                   <FormKit
                     v-model="newZip"
-                    label="Zip code"
+                    label="Zipcode"
                     placeholder=""
                     type="text"
                     name="model"

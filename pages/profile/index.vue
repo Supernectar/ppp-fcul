@@ -5,41 +5,41 @@
       <SideNavigationBar />
       <div class="flex-grow order-2">
         <section class="p-2 overflow-hidden">
-          <h1 class="text-2xl font-bold sm:text-2x1">Dashboard</h1>
+          <h1 class="text-2xl font-bold">Dashboard</h1>
           <div id="orders" class="mt-4">
             <h2 class="text-xl font-semibold">Orders</h2>
             <p>See your orders history</p>
-            <!--
-            <table class="max-w-2">
+
+            <table class="w-2 md:w-100 lg:w-250">
               <thead class="bg-white border-b">
                 <tr>
                   <th
                     scope="col"
-                    class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                    class="text-sm font-medium text-gray-900 px-4 py-2 md:px-6 md:py-4 text-left"
                   >
                     #
                   </th>
                   <th
                     scope="col"
-                    class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                    class="text-sm font-medium text-gray-900 px-4 py-2 md:px-6 md:py-4 text-left"
                   >
                     Number of items
                   </th>
                   <th
                     scope="col"
-                    class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                    class="text-sm font-medium text-gray-900 px-4 py-2 md:px-6 md:py-4 text-left"
                   >
                     Price
                   </th>
                   <th
                     scope="col"
-                    class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                    class="text-sm font-medium text-gray-900 px-4 py-2 md:px-6 md:py-4 text-left"
                   >
                     Status
                   </th>
                   <th
                     scope="col"
-                    class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                    class="text-sm font-medium text-gray-900 px-4 py-2 md:px-6 md:py-4 text-left"
                   ></th>
                 </tr>
               </thead>
@@ -97,7 +97,6 @@
                 </tr>
               </tbody>
             </table>
-            -->
           </div>
           <div id="statistics" class="mt-4">
             <h2 class="text-xl font-semibold">Statistics</h2>
@@ -122,11 +121,10 @@
             <p class="max-w-80">
               This suggestion list is generated based on your last purchases
             </p>
-            <!--
             <div class="bg-light-600 rounded-xl p-2">
               <ul>
                 <div
-                  class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2"
+                  class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2"
                 >
                   <li v-for="(item, index) in suggestedItems" :key="index">
                     <ItemCard
@@ -136,7 +134,7 @@
                   </li>
                 </div>
               </ul>
-            </div>-->
+            </div>
           </div>
           <div>-referencia à ultima encomenda realizada</div>
           <div>
@@ -231,9 +229,11 @@ onBeforeMount(async () => {
   // ---- Loading Items ---- //
   suggestedItems.value = (await $fetch(`/api/items`)).data.items;
   // ---- Loading Orders ---- //
-  orders = (await $fetch(`/api/users/${user.data._id}/orders`)).data.items;
+  // orders = (await $fetch(`/api/users/${user.data._id}/orders`)).data.items;
+  console.log(orders);
 });
 
+orders = (await $fetch(`/api/users/${user.data._id}/orders`)).data.items;
 // ---- Dialog ---- //
 const modalContent = ref({});
 const isOpen = ref(false);

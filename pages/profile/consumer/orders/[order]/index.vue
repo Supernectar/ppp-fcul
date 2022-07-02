@@ -5,7 +5,7 @@
       <SideNavigationBar />
       <div class="flex-grow order-2">
         <section class="p-2 overflow-hidden min-h-screen">
-          <h1 class="text-4xl font-bold">Orders</h1>
+          <h1 class="text-2xl font-bold">Orders</h1>
           <div class="mt-4">
             <h2 class="text-xl font-semibold">
               {{ route.params.order }}
@@ -133,7 +133,5 @@ order.value = (
 // items.push(item.data.items[0]);
 // categories.push(category.data.items[0].name);
 // }
-
-
 </script>
 <style></style>
