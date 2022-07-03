@@ -4,18 +4,14 @@ const { Schema } = mongoose;
 export default mongoose.model(
   'Category',
   new Schema({
-    nameId: {
+    name: {
       type: String,
       unique: true
-    },
-    name: {
-      type: String
     },
     description: String,
     parent: {
       type: Schema.Types.ObjectId,
-      ref: 'Category',
-      default: null
+      ref: 'Category'
     },
     children: [
       {

@@ -261,7 +261,6 @@ products.value = await $fetch(
 for (const product of products.value) {
   for (const polution of product.polutions) {
     const polutionObject = await $fetch(`/api/polutions/${polution.polution}`);
-
     const quantityPlusPolution = {
       quantity: polution.quantity * product.quantity,
       polutionType: polutionObject.nameId,
@@ -318,7 +317,6 @@ async function addProduct() {
   console.log(price.value);
   await $fetch(`/api/products`, {
     method: 'POST',
-
     body: {
       name: name.value,
       item: item.value,

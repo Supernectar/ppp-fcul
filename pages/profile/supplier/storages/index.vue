@@ -309,7 +309,6 @@ const visibility = ref('');
 async function createStorage() {
   await $fetch(`/api/users/${user.data._id}/storages`, {
     method: 'POST',
-
     body: {
       name: name.value,
       address: {
@@ -334,11 +333,11 @@ async function deleteStorage(storageId) {
     `/api/users/${user.data._id}/storages/${storageId}`
   );
   console.log(storage);
+  console.log(storage.products);
 
   if (storage.products.length === 0) {
     await $fetch(`/api/users/${user.data._id}/storages/${storageId}`, {
       method: 'DELETE',
-
       body: {
         name: name.value,
         address: {
