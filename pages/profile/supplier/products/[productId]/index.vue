@@ -77,9 +77,7 @@ const products = await $fetch(
 console.log(products);
 const storages = ref([]);
 
-storages.value = (
-  await $fetch(`/api/users/${user.data._id}/storages`)
-).data.items;
+storages.value = await $fetch(`/api/users/${user.data._id}/storages`);
 const selectedStorages = ref([]);
 
 async function createProducts() {

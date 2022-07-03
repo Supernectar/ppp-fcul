@@ -15,31 +15,31 @@
                 <tr>
                   <th
                     scope="col"
-                    class="text-sm font-medium text-gray-900 px-3 py-2 md:px-6 md:py-4 text-left"
+                    class="text-sm font-medium text-gray-900 px-3 py-2 md:px-6 md:py-4"
                   >
                     #
                   </th>
                   <th
                     scope="col"
-                    class="text-sm font-medium text-gray-900 px-3 py-2 md:px-6 md:py-4 text-left"
+                    class="text-sm font-medium text-gray-900 px-3 py-2 md:px-6 md:py-4"
                   >
                     Number of items
                   </th>
                   <th
                     scope="col"
-                    class="text-sm font-medium text-gray-900 px-3 py-2 md:px-6 md:py-4 text-left"
+                    class="text-sm font-medium text-gray-900 px-3 py-2 md:px-6 md:py-4"
                   >
                     Price
                   </th>
                   <th
                     scope="col"
-                    class="text-sm font-medium text-gray-900 px-3 py-2 md:px-6 md:py-4 text-left"
+                    class="text-sm font-medium text-gray-900 px-3 py-2 md:px-6 md:py-4"
                   >
                     Status
                   </th>
                   <th
                     scope="col"
-                    class="text-sm font-medium text-gray-900 px-3 py-2 md:px-6 md:py-4 text-left"
+                    class="text-sm font-medium text-gray-900 px-3 py-2 md:px-6 md:py-4"
                   ></th>
                 </tr>
               </thead>
@@ -51,22 +51,22 @@
                   @click="goToOrder(order)"
                 >
                   <td
-                    class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                    class="w-20 px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
                   >
                     {{ index + 1 }}
                   </td>
                   <td
-                    class="text-sm text-gray-900 font-light px-2 py-3 whitespace-nowrap"
+                    class="w-20 text-sm text-gray-900 font-light px-2 py-3 whitespace-nowrap"
                   >
-                    {{ order.numberItems }}
+                    {{ order.products }}
                   </td>
                   <td
-                    class="text-sm text-gray-900 font-light px-2 py-3 whitespace-nowrap"
+                    class="w-20 text-sm text-gray-900 font-light px-2 py-3 whitespace-nowrap"
                   >
-                    {{ order.price }}
+                    {{ order.products }}
                   </td>
                   <td
-                    class="text-sm text-gray-900 font-light px-2 py-3 whitespace-nowrap"
+                    class="w-30 text-sm text-gray-900 font-light px-2 py-3 whitespace-nowrap"
                   >
                     {{ order.status }}
                   </td>
@@ -241,21 +241,19 @@ onMounted(async () => {
   const polutions = [];
 
   for (let i = 0; i < orders.length; i++) {
-    products = (
-      await $fetch(
-        `/api/users/${user.data._id}/orders/${orders[i]._id}/products`
-      )
-    ).data.items;
+    products = await $fetch(
+      `/api/users/${user.data._id}/orders/${orders[i]._id}/products`
+    );
     for (let i = 0; i < products.length; i++) {
       for (let j = 0; j < products[i].polutions.length; j++) {
         totalPolutionP.value += products[i].polutions[j].quantity;
       }
       totalPolutionO.push(totalPolutionP.value);
     }
-    console.log(totalPolutionO);
+
     if (orders[i].arrivalDate !== undefined) {
       const month = orders[i].arrivalDate.split(' ');
-      console.log(month);
+
       switch (month[1]) {
         case 'Jan':
           polutions[0] = totalPolutionO[i];
@@ -277,7 +275,6 @@ onMounted(async () => {
           break;
       }
     }
-    console.log(polutions);
   }
   if (user.data.consumerData.orders.length !== 0) {
     const labels = ['January', 'February', 'March', 'April', 'May', 'June'];
@@ -310,10 +307,10 @@ onBeforeMount(async () => {
   // ---- Loading Items ---- //
   suggestedItems.value = await $fetch(`/api/items`);
   // ---- Loading Orders ---- //
-  // orders = (await $fetch(`/api/users/${user.data._id}/orders`)).data.items;
 });
 
-orders = (await $fetch(`/api/users/${user.data._id}/orders`)).data.items;
+orders = await $fetch(`/api/users/${user.data._id}/orders`);
+console.log(orders);
 // ---- Dialog ---- //
 const modalContent = ref({});
 const isOpen = ref(false);
@@ -328,11 +325,10 @@ function openModal(info) {
 
 async function goToOrder(order) {
   let checkOrder = [];
-  checkOrder = (await $fetch(`/api/users/${user.data._id}/orders/${order._id}`))
-    .data.items;
-  if (checkOrder.length !== 0) {
-    router.push(`/profile/consumer/orders/${order._id}`);
-  }
+  checkOrder = await $fetch(`/api/users/${user.data._id}/orders/${order._id}`);
+  router.push(`/profile/consumer/orders/${order._id}`);
+  // if (checkOrder.length !== 0) {
+  // }
 }
 
 async function cancelOrder(order) {

@@ -174,7 +174,7 @@ function openModal() {
 
 async function emailIsRegistered(node) {
   const res = await $fetch(`/api/users?email=${node.value}`);
-  return res.data.items.length <= 0;
+  return res.length <= 0;
 }
 
 async function RegisterUser() {
@@ -185,24 +185,23 @@ async function RegisterUser() {
       'Content-Type': 'application/json'
     },
 
-    body: JSON.stringify({
+    body: {
       username,
       email: email.value,
       password: password.value
-    })
+    }
   });
   await $fetch('api/authenticate', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
+    body: {
       email: email.value,
       password: password.value
-    })
+    }
   });
 
   const res3 = (
     await $fetch(`/api/users?email=${email.value}&password=${password.value}`)
-  ).data.items[0];
+  )[0];
 
   const user = useUser();
   user.$patch({ data: res3 });
@@ -217,7 +216,7 @@ async function RegisterUser() {
 async function generateUsername() {
   const username = 'random-user-' + Math.floor(Math.random() * 500);
   const users = await $fetch('/api/users?username=' + username);
-  if (users.data.items.length <= 0) return username;
+  if (users.length <= 0) return username;
   return generateUsername();
 }
 </script>

@@ -275,21 +275,7 @@
 const user = useUser();
 
 const transports = ref([]);
-transports.value = (
-  await $fetch(`/api/users/${user.data._id}/transports`)
-).data.items;
-
-// const resourcesTransports = ref([]);
-// for (const transport of transports.value) {
-//   resourcesTransports.value.push(
-//     (
-//       await $fetch(
-//         `/api/users/${user.data._id}/transports/${transport._id}/resources`
-//       )
-//     ).data.items[0]
-//   );
-// }
-// console.log(resourcesTransports.value);
+transports.value = await $fetch(`/api/users/${user.data._id}/transports`);
 
 // Create new transport
 // const maxLoad = ref('');
@@ -304,17 +290,10 @@ const plate = ref('');
 // const resQuantity = ref(30);
 // const polQuantity = ref(300);
 async function createVehicle() {
-  // resource.value = (
-  //   await $fetch(`/api/resources?nameId?=${fueltype}`)
-  // ).data.items[0];
-
   await $fetch(`/api/users/${user.data._id}/transports`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
 
-    body: JSON.stringify({
+    body: {
       // maxLoad: maxLoad.value,
       brand: brand.value,
       model: model.value,
@@ -324,10 +303,10 @@ async function createVehicle() {
       plate: plate.value
       // resources: [{ quantity: resQuantity.value, resource: resource.value._id }]
       // polutions: [polQuantity.value]
-    })
+    }
   });
 
-  const userdb = (await $fetch(`/api/users/${user.data._id}`)).data.items[0];
+  const userdb = await $fetch(`/api/users/${user.data._id}`);
 
   user.$patch({
     data: userdb
@@ -337,20 +316,17 @@ async function createVehicle() {
 async function deleteVehicle(transportId) {
   await $fetch(`/api/users/${user.data._id}/transports/${transportId}`, {
     method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json'
-    },
 
-    body: JSON.stringify({
+    body: {
       // maxLoad: maxLoad.value,
       brand: brand.value,
       model: model.value,
       status: status.value,
       plate: plate.value
-    })
+    }
   });
 
-  const userdb = (await $fetch(`/api/users/${user.data._id}`)).data.items[0];
+  const userdb = await $fetch(`/api/users/${user.data._id}`);
 
   user.$patch({
     data: userdb

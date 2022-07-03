@@ -62,17 +62,17 @@
                   <td
                     class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                   >
-                    {{ orders.length }}
+                    {{ order.products.length }}
                   </td>
                   <td
                     class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                   >
-                    {{ order.price }}
+                    <!-- {{ order.price }} -->
                   </td>
                   <td
                     class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                   >
-                    {{ order.status }}
+                    <!-- {{ order.status }} -->
                   </td>
                   <div class="flex my-1.5">
                     <div>
@@ -114,23 +114,23 @@ const router = useRouter();
 const user = useUser();
 let orders = [];
 // console.log(`/api/users/${user.data._id}/orders`);
-orders = (await $fetch(`/api/users/${user.data._id}/orders`)).data.items;
+orders = await $fetch(`/api/users/${user.data._id}/orders`);
 for (const order of orders) {
-  const products = (
-    await $fetch(`/api/users/${user.data._id}/orders/${order._id}/products`)
-  ).data.items;
-  for (const product of products) {
-    order.price = product.productLine.price;
+  console.log(order);
+  console.log(order.products);
+  for (const product of order.products) {
+    console.log(product);
+    order.price += product.productLine.price;
   }
 }
 
 async function goToOrder(order) {
   let checkOrder = [];
-  checkOrder = (await $fetch(`/api/users/${user.data._id}/orders/${order._id}`))
-    .data.items;
-  if (checkOrder.length !== 0) {
-    router.push(`/profile/consumer/orders/${order._id}`);
-  }
+  checkOrder = await $fetch(`/api/users/${user.data._id}/orders/${order._id}`);
+
+  router.push(`/profile/consumer/orders/${order._id}`);
+  // if (checkOrder.length !== 0) {
+  // }
 }
 
 async function cancelOrder(order) {

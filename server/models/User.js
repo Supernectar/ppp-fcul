@@ -67,7 +67,9 @@ export default mongoose.model(
         {
           date: { type: Date },
           consumer: { type: Schema.Types.ObjectId, ref: 'User' },
-          product: { type: Schema.Types.ObjectId, ref: 'Product' }
+          quantity: { type: Number },
+          product: { type: Schema.Types.ObjectId, ref: 'Product' },
+          status: { type: String }
         }
       ]
     },

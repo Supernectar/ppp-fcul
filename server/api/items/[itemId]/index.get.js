@@ -4,7 +4,7 @@ export default defineEventHandler(async (event) => {
   const { itemId } = event.context.params;
 
   try {
-    const item = await Item.find({ _id: itemId })
+    const item = await Item.findById(itemId)
       .populate('polutions')
       .populate('resources');
 

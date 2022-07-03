@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
     supplier,
     quantity,
     storage
-  } = JSON.parse(await useBody(event));
+  } = await useBody(event);
   try {
     const productLine =
       (await ProductLine.findOne({ supplier, name })) ||

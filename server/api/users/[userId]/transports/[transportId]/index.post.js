@@ -2,10 +2,7 @@ import User from '~~/server/models/User';
 import Transport from '~~/server/models/Transport';
 
 export default defineEventHandler(async (event) => {
-  event.res.jsonResponse.context = event.context.params;
-  const { brand, model, maxLoad, status, plate } = JSON.parse(
-    await useBody(event)
-  );
+  const { brand, model, maxLoad, status, plate } = await useBody(event);
   const { userId } = event.context.params;
 
   try {
@@ -29,6 +26,7 @@ export default defineEventHandler(async (event) => {
     );
     return transport;
   } catch (err) {
-    return err;
+    console.log(err);
+    return { error: 'Could not create transport' };
   }
 });

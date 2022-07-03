@@ -320,7 +320,7 @@ const route = useRoute();
 const item = ref({});
 const products = ref([]);
 const productsLine = ref([]);
-item.value = (await $fetch('/api/items/' + route.params.itemId)).data.items[0];
+item.value = await $fetch('/api/items/' + route.params.itemId);
 
 products.value = await $fetch('/api/products?item=' + route.params.itemId);
 

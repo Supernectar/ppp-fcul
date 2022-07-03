@@ -119,7 +119,7 @@
                 class="bg-gray-200 border rounded"
                 @click="createProducts"
               >
-                ADD ZA PRODUCT
+                Add product
               </button>
             </div>
 
@@ -150,13 +150,9 @@ const user = useUser();
 const storages = ref([]);
 const productLines = ref([]);
 
-productLines.value = (
-  await $fetch(`/api/users/${user.data._id}/productLines`)
-).data.items;
+productLines.value = await $fetch(`/api/users/${user.data._id}/productLines`);
 
-storages.value = (
-  await $fetch(`/api/users/${user.data._id}/storages`)
-).data.items;
+storages.value = await $fetch(`/api/users/${user.data._id}/storages`);
 const selectedStorages = ref([]);
 
 async function createProducts() {

@@ -24,7 +24,7 @@
                             scope="col"
                             class="text-sm text-gray-900 px-3 py-2 md:px-6 md:py-4 text-left"
                           >
-                            Nº of products
+                            Products
                           </th>
                           <th
                             scope="col"
@@ -47,17 +47,17 @@
                           class="border-b"
                         >
                           <td
-                            class="px-3 py-4 whitespace-nowrap text-sm text-gray-900"
+                            class="px-2 py-4 whitespace-nowrap text-sm text-gray-900"
                           >
                             {{ storage.name }}
                           </td>
                           <td
-                            class="text-sm text-gray-900 font-light px-3 py-4 whitespace-nowrap"
+                            class="text-sm text-gray-900 font-light px-2 py-4 whitespace-nowrap"
                           >
                             {{ storage.products.length }}
                           </td>
                           <td
-                            class="text-sm text-gray-900 font-light px-3 py-4 whitespace-nowrap"
+                            class="text-sm text-gray-900 font-light px-2 py-4 whitespace-nowrap"
                           >
                             {{
                               storage.address.street
@@ -73,7 +73,7 @@
                             }}
                           </td>
                           <td
-                            class="text-sm text-gray-900 font-light px-3 py-4 whitespace-nowrap"
+                            class="text-sm text-gray-900 font-light px-2 py-4 whitespace-nowrap"
                           >
                             {{ storage.popularity }}
                           </td>
@@ -296,9 +296,7 @@ for (let i = 0; i < result2.length; i++) {
 names.value.sort((a, b) => a.localeCompare(b));
 
 const storages = ref([]);
-storages.value = (
-  await $fetch(`/api/users/${user.data._id}/storages`)
-).data.items;
+storages.value = await $fetch(`/api/users/${user.data._id}/storages`);
 
 // Create new storage
 const name = ref('');
@@ -311,11 +309,8 @@ const visibility = ref('');
 async function createStorage() {
   await $fetch(`/api/users/${user.data._id}/storages`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
 
-    body: JSON.stringify({
+    body: {
       name: name.value,
       address: {
         street: street.value,
@@ -324,10 +319,10 @@ async function createStorage() {
         country: country.value
       },
       visibility: visibility.value
-    })
+    }
   });
 
-  const userdb = (await $fetch(`/api/users/${user.data._id}`)).data.items[0];
+  const userdb = await $fetch(`/api/users/${user.data._id}`);
 
   user.$patch({
     data: userdb
@@ -335,19 +330,16 @@ async function createStorage() {
 }
 
 async function deleteStorage(storageId) {
-  const storage = (
-    await $fetch(`/api/users/${user.data._id}/storages/${storageId}`)
-  ).data.items[0];
+  const storage = await $fetch(
+    `/api/users/${user.data._id}/storages/${storageId}`
+  );
   console.log(storage);
 
   if (storage.products.length === 0) {
     await $fetch(`/api/users/${user.data._id}/storages/${storageId}`, {
       method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json'
-      },
 
-      body: JSON.stringify({
+      body: {
         name: name.value,
         address: {
           street: street.value,
@@ -356,14 +348,14 @@ async function deleteStorage(storageId) {
           country: country.value
         },
         visibility: visibility.value
-      })
+      }
     });
     openModal(`This storage was deleted successfully.`);
   } else {
     openModal(`Can't delete this storage because it still has products.`);
   }
 
-  const userdb = (await $fetch(`/api/users/${user.data._id}`)).data.items[0];
+  const userdb = await $fetch(`/api/users/${user.data._id}`);
 
   user.$patch({
     data: userdb

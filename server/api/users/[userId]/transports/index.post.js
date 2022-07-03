@@ -4,7 +4,6 @@ import Resource from '~~/server/models/Resource';
 import Polution from '~~/server/models/Polution';
 
 export default defineEventHandler(async (event) => {
-  event.res.jsonResponse.context = event.context.params;
   const { brand, model, status, plate } = await useBody(event);
   const { userId } = event.context.params;
 
@@ -51,9 +50,10 @@ export default defineEventHandler(async (event) => {
         }
       }
     );
-    console.log(user);
+
     return transport;
   } catch (err) {
-    return err;
+    console.log(err);
+    return { error: 'Could not create transport' };
   }
 });

@@ -3,27 +3,36 @@ import User from '~~/server/models/User';
 import Transport from '~~/server/models/Transport';
 
 export default defineEventHandler(async (event) => {
-  event.res.jsonResponse.context = event.context.params;
-  try {
-    // console.log(111111);
-    const { status, products, transport } = await useBody(event);
-    const { userId } = event.context.params;
+  const { status, products, transport } = await useBody(event);
+  // const baba = await useBody(event);
+  // console.log(baba);
 
+  // console.log('---END---');
+  // return 'OKOK';
+  // const { status, products, transport } = JSON.parse(await useBody(event));
+  // const { status, products, transport  } = JSON.stringify(await useBody(event));
+  const { userId } = event.context.params;
+
+  const products2 = [];
+  for (const product of products) {
+    products2.push({
+      quantity: product.cartQuantity,
+      product
+    });
+  }
+
+  try {
     const orderC = await Order.create({
       status,
-      products,
-      transport
+      products: products2,
+      transporter: transport
     });
-    // console.log(2222);
-    // console.log(orderC);
 
     const orderT = await Order.create({
       status,
-      products,
+      products: products2,
       consumer: userId
     });
-    // console.log(333333);
-    // console.log(orderT);
     const orderUser = await User.updateOne(
       { _id: userId },
       {
@@ -32,43 +41,33 @@ export default defineEventHandler(async (event) => {
         }
       }
     );
-    // console.log(orderUser);
-    // console.log(4444);
-    // console.log(transport);
-    // console.log(transport.owner);
-    // console.log(orderT);
-    const transporter = await Transport.findOne({ _id: transport });
-    // console.log(transporter);
-    // console.log('---');
-    // console.log(transporter.owner);
+    const transporter = await Transport.findById(transport);
     const orderTransport = await User.findByIdAndUpdate(transporter.owner, {
       $push: {
         'transporterData.orders': orderT._id
       }
     });
-    // console.log(orderTransport);
-    console.log(new Date());
-    for (const prod of products) {
-      // const sup = prod.productLine.supplier
-      const orderSup = await User.findByIdAndUpdate(prod.productLine.supplier, {
-        $push: {
-          'supplierData.orders': {
-            date: new Date(),
-            consumer: userId,
-            product: prod._id
+    for (const prod of products2) {
+      console.log(products);
+      // console.log(prod.product);
+      const orderSup = await User.findByIdAndUpdate(
+        prod.product.productLine.supplier,
+        {
+          $push: {
+            'supplierData.orders': {
+              date: new Date(),
+              consumer: userId,
+              product: prod.product,
+              quantity: prod.quantity,
+              status: 'created'
+            }
           }
         }
-      });
-      // if()
+      );
     }
-    event.res.jsonResponse.context = event.context.params;
-    event.res.jsonResponse.data = {
-      items: orderUser
-    };
+    return orderUser;
   } catch (err) {
     console.log(err);
-    event.res.jsonResponse.error = err;
+    return { error: 'Could not create order' };
   }
-
-  return event.res.jsonResponse;
 });

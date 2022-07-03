@@ -1,7 +1,6 @@
 import User from '~~/server/models/User';
 
 export default defineEventHandler(async (event) => {
-  event.res.jsonResponse.context = event.context.params;
   const { userId } = event.context.params;
 
   try {
@@ -26,14 +25,10 @@ export default defineEventHandler(async (event) => {
           ]
         }
       });
-    console.log(user);
-    event.res.jsonResponse.data = {
-      items: user
-    };
+
+    return user;
   } catch (err) {
     console.log(err);
-    event.res.jsonResponse.error = err;
+    return { error: 'Could not find user' };
   }
-
-  return event.res.jsonResponse;
 });

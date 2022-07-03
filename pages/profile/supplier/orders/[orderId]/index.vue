@@ -118,8 +118,8 @@ const route = useRoute();
 const user = useUser();
 
 const order = ref({});
-order.value = (
-  await $fetch(`/api/users/${user.data._id}/orders/${route.params.orderId}`)
-).data.items;
+order.value = await $fetch(
+  `/api/users/${user.data._id}/orders/${route.params.orderId}`
+);
 </script>
 <style></style>

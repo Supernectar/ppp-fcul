@@ -388,7 +388,7 @@ names.value.sort((a, b) => a.localeCompare(b));
 
 // User info
 const info = ref([]);
-info.value = (await $fetch(`/api/users/${user.data._id}`)).data.items[0];
+info.value = await $fetch(`/api/users/${user.data._id}`);
 
 // Address of user
 const displayAddress = ref([]);
@@ -432,10 +432,7 @@ function openModal(msg) {
 async function addAddress() {
   const res = await fetch(`/api/users/${user.data._id}`, {
     method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
+    body: {
       type: user.data.type,
       newAddress: {
         street: newStreet.value,
@@ -443,12 +440,12 @@ async function addAddress() {
         city: newCity.value,
         zipCode: newZip.value
       }
-    })
+    }
   });
   const resjson = await res.json();
   console.log(resjson);
 
-  const userdb = (await $fetch(`/api/users/${user.data._id}`)).data.items[0];
+  const userdb = await $fetch(`/api/users/${user.data._id}`);
   user.$patch({
     data: userdb
   });
@@ -467,10 +464,7 @@ async function deleteAcc() {
 async function updateInfo() {
   const res = await fetch(`/api/users/${user.data._id}`, {
     method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
+    body: {
       username: username.value === '' ? user.data.username : username.value,
       email: email.value === '' ? user.data.email : email.value,
       name: name.value === '' ? user.data.name : name.value,
@@ -487,12 +481,12 @@ async function updateInfo() {
       phone: phone.value === '' ? user.data.phone : phone.value,
       nif: nif.value === '' ? user.data.nif : nif.value,
       password: password.value === '' ? user.data.password : password.value
-    })
+    }
   });
   const resjson = await res.json();
   console.log(resjson);
 
-  const userdb = (await $fetch(`/api/users/${user.data._id}`)).data.items[0];
+  const userdb = await $fetch(`/api/users/${user.data._id}`);
   user.$patch({
     data: userdb
   });

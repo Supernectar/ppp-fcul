@@ -2,8 +2,7 @@ import Storage from '~~/server/models/Storage';
 import User from '~~/server/models/User';
 
 export default defineEventHandler(async (event) => {
-  event.res.jsonResponse.context = event.context.params;
-  const { name, address } = JSON.parse(await useBody(event));
+  const { name, address } = await useBody(event);
   const { userId } = event.context.params;
 
   try {
@@ -24,6 +23,7 @@ export default defineEventHandler(async (event) => {
     );
     return storage;
   } catch (err) {
-    return err;
+    console.log(err);
+    return { error: 'Could not create storage' };
   }
 });

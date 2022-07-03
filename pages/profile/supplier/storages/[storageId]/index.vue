@@ -243,9 +243,9 @@ const currencyUnit = ref('');
 const quantity = ref('');
 const name = ref('');
 
-storage.value = (
-  await $fetch(`/api/users/${user.data._id}/storages/${route.params.storageId}`)
-).data.items[0];
+storage.value = await $fetch(
+  `/api/users/${user.data._id}/storages/${route.params.storageId}`
+);
 
 const items = ref([]);
 items.value = await $fetch(`/api/items`);
@@ -254,11 +254,9 @@ for (const item of items.value) {
   item.value = item._id;
 }
 
-products.value = (
-  await $fetch(
-    `/api/users/${user.data._id}/storages/${route.params.storageId}/products`
-  )
-).data.items;
+products.value = await $fetch(
+  `/api/users/${user.data._id}/storages/${route.params.storageId}/products`
+);
 
 for (const product of products.value) {
   for (const polution of product.polutions) {
@@ -303,44 +301,6 @@ for (const product of products.value) {
     if (!exists) polutions.value.push(quantityPlusPolution);
   }
 }
-// const polutionsItems = ref([]);
-// for (const itemOfProduct of itemsOfProducts.value) {
-//   polutionsItems.value = (
-//     await $fetch(`/api/items/${itemOfProduct._id}/polutions`)
-//   ).data.items;
-// }
-
-// const polutionsProducts = ref([]);
-// for (const product of products.value) {
-//   polutionsProducts.value = (
-//     await $fetch(`/api/products/${product._id}/polutions`)
-//   ).data.items;
-// }
-
-// const totalPolution = ref(0);
-// for (const polutionItem of polutionsItems.value) {
-//   totalPolution.value += polutionItem.quantity;
-// }
-// for (const polutionProduct of polutionsProducts.value) {
-//   if (polutionsProducts.length !== 0) {
-//     totalPolution.value += polutionProduct.quantity;
-//   }
-// }
-
-// Resources
-// const resourcesItems = ref([]);
-// for (const itemOfProduct of itemsOfProducts.value) {
-//   resourcesItems.value = (
-//     await $fetch(`/api/items/${itemOfProduct._id}/resources`)
-//   ).data.items;
-// }
-
-// const resourcesProducts = ref([]);
-// for (const product of products.value) {
-//   resourcesProducts.value = (
-//     await $fetch(`/api/products/${product._id}/resources`)
-//   ).data.items;
-// }
 
 // const totalResources = ref(0);
 // for (const resourceItem of resourcesItems.value) {
@@ -358,11 +318,8 @@ async function addProduct() {
   console.log(price.value);
   await $fetch(`/api/products`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
 
-    body: JSON.stringify({
+    body: {
       name: name.value,
       item: item.value,
       price: price.value,
@@ -371,7 +328,7 @@ async function addProduct() {
       quantity: quantity.value,
       supplier: user.data._id,
       storage: route.params.storageId
-    })
+    }
   });
 }
 

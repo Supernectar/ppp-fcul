@@ -280,13 +280,11 @@ const user = useUser();
 
 const order = ref({});
 const products = ref({});
-order.value = (
-  await $fetch(`/api/users/${user.data._id}/orders/${route.params.order}`)
-).data.items;
-products.value = (
-  await $fetch(
-    `/api/users/${user.data._id}/orders/${route.params.order}/products`
-  )
-).data.items;
+order.value = await $fetch(
+  `/api/users/${user.data._id}/orders/${route.params.order}`
+);
+products.value = await $fetch(
+  `/api/users/${user.data._id}/orders/${route.params.order}/products`
+);
 </script>
 <style></style>

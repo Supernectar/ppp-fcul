@@ -1,8 +1,6 @@
 import Order from '~~/server/models/Order';
 
 export default defineEventHandler(async (event) => {
-  event.res.jsonResponse.context = event.context.params;
-
   const { orderId } = event.context.params;
   const { numberItems, price, status, departureDate, arrivalDate } =
     await useBody(event);
@@ -18,14 +16,10 @@ export default defineEventHandler(async (event) => {
         arrivalDate
       }
     );
-    event.res.jsonResponse.data = {
-      items: [order]
-    };
+
+    return order;
   } catch (err) {
     console.log(err);
-    event.res.jsonResponse.error = {
-      message: err
-    };
+    return { error: 'Could not update order' };
   }
-  return event.res.jsonResponse;
 });

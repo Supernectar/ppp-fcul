@@ -95,7 +95,7 @@
               <div>
                 <FormKit
                   v-model="description"
-                  label="description"
+                  label="Description"
                   type="text"
                   name="description"
                   validation="required|length:4"
@@ -121,7 +121,7 @@
               <div>
                 <FormKit
                   v-model="categories2"
-                  label="Category of ITem"
+                  label="Category of item"
                   type="select"
                   :value="categories[0]"
                   :options="categories"
@@ -136,7 +136,7 @@
                 <FormKit
                   v-model="isConsumable"
                   type="checkbox"
-                  label="isConsumable"
+                  label="Is this item a consumable?"
                   name="isConsumable"
                 />
               </div>
@@ -207,7 +207,7 @@
                   </div>
                 </Listbox>
                 <br />
-                <button class="bg-gray-200 border rounded">ADD ITEM</button>
+                <button class="bg-gray-200 border rounded">Add item</button>
               </div>
             </FormKit>
           </div>

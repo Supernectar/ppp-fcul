@@ -352,15 +352,4 @@ function chooseTransport(transp) {
   store.$patch({ orderTransport: orderTransport.value });
   router.push(`payment`);
 }
-
-// const availableTransports = ref((await $fetch(`/api/transports`)).data.items);
-// const availableTransportsCoords = ref([]);
-
-// for (const transport of transportsFilter.value) {
-//   availableTransportsCoords.value.push(transport.address.coordinates);
-// }
-
-// console.log(availableTransportsCoords);
-
-// const selectedTransport = ref({});
 </script>

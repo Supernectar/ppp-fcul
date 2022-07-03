@@ -397,16 +397,13 @@ async function signOut() {
   if (user.isLoggedIn) {
     await $fetch(`/api/users/${user.data._id}`, {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
+      body: {
         a: 'okok',
         preferences: {
           profileIconBgColor: user.data.preferences.profileIconBgColor,
           profileIconTextColor: user.data.preferences.profileIconTextColor
         }
-      })
+      }
     });
 
     user.reset();
@@ -427,6 +424,7 @@ function openModal() {
 const search = ref('');
 
 function test() {
+  console.log('entered');
   const catMatched = [];
   let url;
   const regex = new RegExp(search.value, 'gi');

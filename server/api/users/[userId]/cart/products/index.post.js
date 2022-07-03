@@ -1,26 +1,14 @@
 import User from '~~/server/models/Cart';
 
 export default defineEventHandler(async (event) => {
+  const { product, quantity } = await useBody(event);
   try {
-    const { product, quantity } = await useBody(event);
-
-    try {
-      const cart = await Cart.create({
-        product,
-        quantity
-      });
-    } catch (err) {
-      event.res.jsonResponse.error = {
-        message: err._message,
-        errors: err.errors
-      };
-      console.log(err);
-    }
+    const cart = await Cart.create({
+      product,
+      quantity
+    });
   } catch (err) {
-    event.res.jsonResponse.error = {
-      message: err
-    };
+    console.log(err);
+    return { error: 'Could not create cart' };
   }
-
-  return event.res.jsonResponse;
 });

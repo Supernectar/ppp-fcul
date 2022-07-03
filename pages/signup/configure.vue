@@ -189,7 +189,7 @@ export default {
     const user = useUser();
     const names = [];
     const result = await $fetch(`/api/users?email=${user.data.email}`);
-    this.user = result.data.items[0];
+    this.user = result[0];
     const result2 = await $fetch(`https://restcountries.com/v3.1/all`);
     for (let i = 0; i < result2.length; i++) {
       names.push(result2[i].name.common);
@@ -206,7 +206,7 @@ export default {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
+        body: {
           name: this.firstName + ' ' + this.lastName,
           address: {
             street: this.street,
@@ -216,14 +216,13 @@ export default {
           },
           phone: this.phone,
           nif: this.nif
-        })
+        }
       });
       const res2 = await res.json();
 
       console.log(res2);
 
-      const userdb = (await $fetch(`/api/users/${user.data._id}`)).data
-        .items[0];
+      const userdb = await $fetch(`/api/users/${user.data._id}`);
 
       user.$patch({
         data: userdb

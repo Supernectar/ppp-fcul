@@ -2,9 +2,9 @@ import User from '~~/server/models/User';
 import Order from '~~/server/models/Order';
 
 export default defineEventHandler(async (event) => {
-  event.res.jsonResponse.context = event.context.params;
+  const { userId } = event.context.params;
+
   try {
-    const { userId } = event.context.params;
     // let order = await Order.find({ consumer: userId });
     const user = await User.findById(userId);
     // .populate({
@@ -18,14 +18,10 @@ export default defineEventHandler(async (event) => {
       const order = await Order.findById(orderIds[i]);
       orders.push(order);
     }
-    event.res.jsonResponse.context = event.context.params;
-    event.res.jsonResponse.data = {
-      items: orders
-    };
+
+    return orders;
   } catch (err) {
     console.log(err);
-    event.res.jsonResponse.error = err;
+    return { error: 'Could not find orders' };
   }
-
-  return event.res.jsonResponse;
 });

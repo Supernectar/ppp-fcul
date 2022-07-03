@@ -24,7 +24,7 @@
                             scope="col"
                             class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                           >
-                            Date
+                            Created At
                           </th>
                           <th
                             scope="col"
@@ -37,6 +37,12 @@
                             class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                           >
                             Storage
+                          </th>
+                          <th
+                            scope="col"
+                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          >
+                            Status
                           </th>
                         </tr>
                       </thead>
@@ -59,23 +65,33 @@
                             {{ order.consumer.email }}
                           </td>
 
-                          <td>{{ order.date }}</td>
+                          <td
+                            class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                          >
+                            {{ order.date }}
+                          </td>
                           <td
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                           >
                             {{ order.product.productLine.item.name }}
+                            <br />
+                            {{ order.product.productLine.item.brand }}
                             <!-- {{ order.product.productLine }} -->
                           </td>
-                          <td>{{ order.product.storage.name }}</td>
-                          <!-- <td
+                          <td
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                           >
-                            {{ order.status }}
-                          </td> -->
+                            {{ order.product.storage.name }}
+                          </td>
                           <td
+                            class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                          >
+                            {{ order }}
+                          </td>
+                          <!-- <td
                             class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
                           >
-                            <!-- <NuxtLink
+                            <NuxtLink
                               :to="`/profile/supplier/orders/${order._id}`"
                             > 
                               <button
@@ -84,8 +100,8 @@
                               >
                                 More details
                               </button>
-                            </NuxtLink> -->
-                          </td>
+                            </NuxtLink>
+                          </td> -->
                         </tr>
                       </tbody>
                     </table>
@@ -111,17 +127,17 @@ const userStore = useUser();
 
 // let user = [];
 // console.log(`/api/users/${user.data._id}`);
-const user = ref((await $fetch(`/api/users/${userStore.data._id}`)).data.items);
+const user = ref(await $fetch(`/api/users/${userStore.data._id}`));
 console.log(user.value);
 console.log(user);
 // console.log(user[0].supplierData);
 async function goToOrder(order) {
   let checkOrder = [];
-  checkOrder = (await $fetch(`/api/users/${user.data._id}/orders/${order._id}`))
-    .data.items;
-  if (checkOrder.length !== 0) {
-    router.push(`/profile/consumer/orders/${order._id}`);
-  }
+  checkOrder = await $fetch(`/api/users/${user.data._id}/orders/${order._id}`);
+
+  router.push(`/profile/consumer/orders/${order._id}`);
+  // if (checkOrder.length !== 0) {
+  // }
 }
 
 async function cancelOrder(order) {

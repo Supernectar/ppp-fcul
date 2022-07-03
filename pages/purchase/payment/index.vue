@@ -194,7 +194,6 @@ for (let i = 0; i < cart.value.length; i++) {
   myProducts.value[i] = await $fetch(`/api/products/${cart.value[i].product}`);
   myProducts.value[i].cartQuantity = cart.value[i].quantity;
 }
-
 const lineItems = ref([]);
 // const lineItems = ref([
 //   {
@@ -233,25 +232,29 @@ function submit() {
 // 4242 4242 4242 4242
 
 async function createOrder() {
-  console.log('---');
-  console.log(transport.value[0]);
-  console.log('---');
-  console.log(userStore.data._id);
-  await fetch(`/api/users/${userStore.data._id}/orders`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+  // console.log(transport.value[0]);
+  // console.log('---');
+  // console.log(userStore.data._id);
 
-    body: JSON.stringify({
+  // await $fetch(`/api/test`, {
+  //   method: 'POST',
+  //   body: {
+  //     status: 'created',
+  //     products: myProducts.value,
+  //     transport: transport.value[0]
+  //   }
+  // });
+  console.log(myProducts.value);
+  await $fetch(`/api/users/${userStore.data._id}/orders`, {
+    method: 'POST',
+    body: {
       status: 'created',
       products: myProducts.value,
       transport: transport.value[0]
-    })
+    }
   });
 
-  const userdb = (await $fetch(`/api/users/${userStore.data._id}`)).data
-    .items[0];
+  const userdb = await $fetch(`/api/users/${userStore.data._id}`);
 
   userStore.$patch({
     data: userdb

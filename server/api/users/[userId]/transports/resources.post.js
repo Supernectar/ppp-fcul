@@ -2,8 +2,7 @@ import Resource from '~~/server/models/Resource';
 import Transport from '~~/server/models/Transport';
 
 export default defineEventHandler(async (event) => {
-  event.res.jsonResponse.context = event.context.params;
-  const { quantity, unit } = JSON.parse(await useBody(event));
+  const { quantity, unit } = await useBody(event);
 
   try {
     const resource = await Resource.create({
@@ -21,8 +20,9 @@ export default defineEventHandler(async (event) => {
         }
       }
     );
-    return transport;
+    return resource;
   } catch (err) {
-    return err;
+    console.log(err);
+    return { error: 'Could not create resource' };
   }
 });
