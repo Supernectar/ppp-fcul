@@ -1,7 +1,25 @@
 <template>
   <div>
     <Navbar />
-    <section class="m-4 p-4 rounded-xl overflow-hidden">
+    <section class="bg-white">
+      <div id="decorations" class="-z-1 relative">
+        <div class="absolute w-80">
+          <svg
+            version="1.2"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 909 892"
+          >
+            <path
+              id="Layer 1"
+              class="fill-red-200"
+              d="m173 890c-199.6-24.1-197.8-347-134-537 63.8-190 396.7-358.5 527-352 130.3 6.5 343 178.9 343 372 0 193.1-497.6 545.7-736 517z"
+            />
+          </svg>
+        </div>
+      </div>
+      <div class="p-4 bg-green-100">oioi</div>
+    </section>
+    <!-- <section class="m-4 p-4 rounded-xl overflow-hidden">
       <div class="grid grid-cols-1 md:grid-cols-2">
         <div class="flex flex-col">
           <img
@@ -233,7 +251,7 @@
         </div>
       </div>
     </section>
-    <Footer />
+    <Footer /> -->
   </div>
 </template>
 

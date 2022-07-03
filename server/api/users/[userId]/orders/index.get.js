@@ -15,7 +15,19 @@ export default defineEventHandler(async (event) => {
     const orderIds = user.consumerData.orders;
     const orders = [];
     for (let i = 0; i < orderIds.length; i++) {
-      const order = await Order.findById(orderIds[i]);
+      const order = await Order.findById(orderIds[i]).populate({
+        path: 'products',
+        populate: {
+          path: 'product',
+          populate: [
+            {
+              path: 'productLine',
+              populate: 'item'
+            }
+          ]
+        }
+      });
+
       orders.push(order);
     }
 

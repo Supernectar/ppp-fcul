@@ -67,12 +67,12 @@
                   <td
                     class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                   >
-                    <!-- {{ order.price }} -->
+                    {{ order.price }}
                   </td>
                   <td
                     class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                   >
-                    <!-- {{ order.status }} -->
+                    {{ order.status }}
                   </td>
                   <div class="flex my-1.5">
                     <div>
@@ -115,12 +115,11 @@ const user = useUser();
 let orders = [];
 // console.log(`/api/users/${user.data._id}/orders`);
 orders = await $fetch(`/api/users/${user.data._id}/orders`);
+console.log(orders);
 for (const order of orders) {
-  console.log(order);
-  console.log(order.products);
+  order.price = ref(0);
   for (const product of order.products) {
-    console.log(product);
-    order.price += product.productLine.price;
+    order.price.value += product.product.productLine.price * product.quantity;
   }
 }
 

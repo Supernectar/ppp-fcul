@@ -4,14 +4,18 @@ import User from '~~/server/models/User';
 export default defineEventHandler(async (event) => {
   const { userId, orderId } = event.context.params;
   try {
-    const user = await User.findById(userId);
-    const orderIds = user.consumerData.orders;
-    let order = [];
-    for (let i = 0; i < orderIds.length; i++) {
-      order = await Order.findOne({
-        _id: orderId
-      });
-    }
+    const order = await Order.findById(orderId).populate({
+      path: 'products.product',
+      populate: [
+        {
+          path: 'productLine',
+          populate: ['item', 'supplier']
+        },
+        { path: 'polutions', populate: ['polution'] },
+        { path: 'resources', populate: ['resource'] }
+      ]
+    });
+
     return order;
   } catch (err) {
     console.log(err);

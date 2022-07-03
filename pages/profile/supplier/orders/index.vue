@@ -86,7 +86,7 @@
                           <td
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                           >
-                            {{ order }}
+                            {{ order.status }}
                           </td>
                           <!-- <td
                             class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"

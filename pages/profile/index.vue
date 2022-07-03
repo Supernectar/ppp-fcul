@@ -58,12 +58,12 @@
                   <td
                     class="w-20 text-sm text-gray-900 font-light px-2 py-3 whitespace-nowrap"
                   >
-                    {{ order.products }}
+                    {{ order.products.length }}
                   </td>
                   <td
                     class="w-20 text-sm text-gray-900 font-light px-2 py-3 whitespace-nowrap"
                   >
-                    {{ order.products }}
+                    {{ order.price }}
                   </td>
                   <td
                     class="w-30 text-sm text-gray-900 font-light px-2 py-3 whitespace-nowrap"
@@ -129,6 +129,7 @@
             <p class="max-w-80">
               This suggestion list is generated based on your last purchases
             </p>
+            <!--
             <div class="bg-light-600 rounded-xl p-2">
               <ul>
                 <div
@@ -143,6 +144,7 @@
                 </div>
               </ul>
             </div>
+            -->
           </div>
           <div>-referencia à ultima encomenda realizada</div>
           <div>
@@ -233,23 +235,27 @@ const router = useRouter();
 const user = useUser();
 const suggestedItems = ref([]);
 let orders = [];
-let products = [];
+
 const totalPolutionP = ref(0);
 
-onMounted(async () => {
+onMounted(() => {
+  let products = [];
   const totalPolutionO = [];
   const polutions = [];
+  for (let a = 0; a < 7; a++) {
+    polutions[a] = 0;
+  }
 
   for (let i = 0; i < orders.length; i++) {
-    products = await $fetch(
-      `/api/users/${user.data._id}/orders/${orders[i]._id}/products`
-    );
-    for (let i = 0; i < products.length; i++) {
-      for (let j = 0; j < products[i].polutions.length; j++) {
-        totalPolutionP.value += products[i].polutions[j].quantity;
+    products = orders[i].products;
+    for (let j = 0; j < products.length; j++) {
+      for (let k = 0; k < products[j].product.polutions.length; k++) {
+        totalPolutionP.value +=
+          products[j].product.polutions[k].quantity *
+          products[j].product.quantity;
       }
-      totalPolutionO.push(totalPolutionP.value);
     }
+    totalPolutionO.push(totalPolutionP.value);
 
     if (orders[i].arrivalDate !== undefined) {
       const month = orders[i].arrivalDate.split(' ');
@@ -265,7 +271,7 @@ onMounted(async () => {
           polutions[2] = totalPolutionO[i];
           break;
         case 'Apr':
-          polutions[3] = totalPolutionO[i];
+          polutions[3] += totalPolutionO[i];
           break;
         case 'May':
           polutions[4] = totalPolutionO[i];
@@ -276,6 +282,7 @@ onMounted(async () => {
       }
     }
   }
+
   if (user.data.consumerData.orders.length !== 0) {
     const labels = ['January', 'February', 'March', 'April', 'May', 'June'];
     const data = {
@@ -310,7 +317,12 @@ onBeforeMount(async () => {
 });
 
 orders = await $fetch(`/api/users/${user.data._id}/orders`);
-console.log(orders);
+for (const order of orders) {
+  order.price = ref(0);
+  for (const product of order.products) {
+    order.price.value += product.product.productLine.price * product.quantity;
+  }
+}
 // ---- Dialog ---- //
 const modalContent = ref({});
 const isOpen = ref(false);
