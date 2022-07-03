@@ -4,20 +4,17 @@ import Storage from '~~/server/models/Storage';
 import Polution from '~~/server/models/Polution';
 
 export default defineEventHandler(async (event) => {
+  const {
+    name,
+    item,
+    price,
+    stripeId,
+    currencyUnit,
+    supplier,
+    quantity,
+    storage
+  } = JSON.parse(await useBody(event));
   try {
-    const {
-      name,
-      item,
-      price,
-      stripeId,
-      currencyUnit,
-      supplier,
-      quantity,
-      storage
-    } = JSON.parse(await useBody(event));
-    console.log('----------BEGIN------------');
-    // console.log(await ProductLine.findOne({ supplier, name }));
-    console.log(await ProductLine.findOne({ supplier, name }));
     const productLine =
       (await ProductLine.findOne({ supplier, name })) ||
       (await ProductLine.create({
@@ -41,6 +38,7 @@ export default defineEventHandler(async (event) => {
         polution: polutions[i]
       });
     }
+
     const product = await Product.create({
       productLine,
       quantity,
@@ -66,14 +64,10 @@ export default defineEventHandler(async (event) => {
         }
       }
     );
-    console.log('----------END------------');
+
+    return product;
   } catch (err) {
     console.log(err);
-    console.log('----------END------------');
-    event.res.jsonResponse.error = {
-      message: err
-    };
+    return { error: 'Could not create product' };
   }
-
-  return event.res.jsonResponse;
 });

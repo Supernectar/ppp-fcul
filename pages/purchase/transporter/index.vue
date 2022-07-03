@@ -167,13 +167,13 @@
       >
         Cancel
       </button>
-      <button
+      <!-- <button
         type="button"
         class="text-white bg-gradient-to-br from-indigo-500 to-indigo-900 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
         @click="$router.push('payment')"
       >
         Next >
-      </button>
+      </button> -->
     </div>
     <table class="m-auto w-10/12">
       <thead class="bg-gray-500 border-gray-500">
@@ -246,9 +246,10 @@
 </template>
 <script setup>
 import useOrder from '~/stores/orderTransport';
+const router = useRouter();
 const store = useOrder();
 // const transp = ref(store.getTransport);
-const userStore = useUser();
+// const userStore = useUser();
 const consumption = ref(0);
 const transports = ref([]);
 const transportsFilter = ref([]);
@@ -258,9 +259,9 @@ const fuelConsumption = ref([]);
 const consumptionMin = ref(0);
 const consumptionMax = ref(90);
 // const  addresses = ref([]);
-const user = userStore.data;
+// const user = userStore.data;
 
-transports.value = (await $fetch(`/api/transports`)).data.items;
+transports.value = await $fetch(`/api/transports`);
 
 // addresses.value.push(
 //   user.consumerData.address[0].street +
@@ -343,30 +344,13 @@ function filterTranports() {
       transportsFilter.value.push(transport);
     }
   }
-  // console.log('---');
-  // console.log(transportsFilter.value);
 }
-// const myCart = ref([]);
-// function addToCart(pid) {
-//   myCart.value = store.getCart;
-//   if (myCart.value.some((el) => el.product === pid)) {
-//     myCart.value[myCart.value.findIndex((el) => el.product === pid)].quantity++;
-//   } else {
-//     myCart.value.push({ product: pid, quantity: 1 });
-//   }
 
-//   store.$patch({ myCart });
-// }
-const myTransport = ref([]);
 function chooseTransport(transp) {
-  myTransport.value.push(transp._id);
-  // console.log(11);
-  // console.log(transp.value);
-
-  console.log(transp._id);
-  console.log(myTransport.value);
-  // store.$patch(transp._id);
-  store.$patch(myTransport.value);
+  const orderTransport = ref([]);
+  orderTransport.value.push(transp._id);
+  store.$patch({ orderTransport: orderTransport.value });
+  router.push(`payment`);
 }
 
 // const availableTransports = ref((await $fetch(`/api/transports`)).data.items);

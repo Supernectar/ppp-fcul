@@ -66,12 +66,10 @@ const myItems = ref([]);
 const attrs = ref([]);
 console.log(attrs.value);
 for (let i = 0; i < compare.value.length; i++) {
-  myProducts.value[i] = (
-    await $fetch(`/api/products?_id=${compare.value[i]}`)
-  ).data.items[0];
-  myItems.value[i] = (
-    await $fetch(`/api/items?_id=${myProducts.value[i].productLine.item._id}`)
-  ).data.items[0];
+  myProducts.value[i] = await $fetch(`/api/products/${compare.value[i]}`);
+  myItems.value[i] = await $fetch(
+    `/api/items/${myProducts.value[i].productLine.item._id}`
+  );
 }
 // console.log(myProducts.value);
 // console.log(myItems.value[0].attributes !== undefined);

@@ -6,13 +6,16 @@ export default defineEventHandler(async (event) => {
   try {
     const { userId } = event.context.params;
     // let order = await Order.find({ consumer: userId });
-    const user = await User.findOne({ _id: userId });
+    const user = await User.findById(userId);
+    // .populate({
+    //   path: 'supplierData.orders',
+    //   populate: ['consumer', 'product']
+    // });
+
     const orderIds = user.consumerData.orders;
     const orders = [];
     for (let i = 0; i < orderIds.length; i++) {
-      const order = await Order.findOne({
-        _id: orderIds[i]
-      });
+      const order = await Order.findById(orderIds[i]);
       orders.push(order);
     }
     event.res.jsonResponse.context = event.context.params;

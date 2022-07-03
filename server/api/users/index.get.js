@@ -4,10 +4,15 @@ export default defineEventHandler(async (event) => {
   event.res.jsonResponse.context = event.context.params;
 
   const params = useQuery(event);
-  const users = await User.find(params);
+  try {
+    const users = await User.find(params);
+    event.res.jsonResponse.data = {
+      items: users
+    };
+  } catch {
+    console.log(err);
+    return { error: 'Error' };
+  }
 
-  event.res.jsonResponse.data = {
-    items: users
-  };
   return event.res.jsonResponse;
 });

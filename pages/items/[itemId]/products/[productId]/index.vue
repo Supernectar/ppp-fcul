@@ -252,26 +252,19 @@ const category = ref('');
 const categoryPath = ref([]);
 const products = ref([]);
 
-item.value = (await $fetch('/api/items/' + route.params.itemId)).data.items[0];
+item.value = await $fetch('/api/items/' + route.params.itemId);
 
-product.value = (
-  await $fetch('/api/products/' + route.params.productId)
-).data.items[0];
+product.value = await $fetch('/api/products/' + route.params.productId);
 
-products.value = (
-  await $fetch('/api/products?item=' + route.params.itemId)
-).data.items;
+products.value = await $fetch('/api/products?item=' + route.params.itemId);
 
-category.value = (
-  await $fetch(`/api/categories?_id=${item.value.category}`)
-).data.items[0];
+category.value = await $fetch(`/api/categories/${item.value.category}`);
 
 // ---- Category Path ---- //
 let current = category.value;
 categoryPath.value.push(current);
 while (current.parent) {
-  current = (await $fetch(`/api/categories?_id=${current.parent}`)).data
-    .items[0];
+  current = await $fetch(`/api/categories/${current.parent}`);
   categoryPath.value.push(current);
 }
 categoryPath.value.reverse();

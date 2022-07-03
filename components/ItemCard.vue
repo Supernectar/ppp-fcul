@@ -80,8 +80,7 @@ import { HeartIcon as HeartIconSolid } from '@heroicons/vue/solid';
 
 const user = useUser();
 const { itemValue } = useAttrs();
-const products = (await $fetch(`/api/products?item=${itemValue._id}`)).data
-  .items;
+const products = await $fetch(`/api/products?item=${itemValue._id}`);
 
 itemValue.minPrice = Math.min(...products.map((o) => o.price));
 itemValue.price = itemValue.minPrice;
@@ -98,7 +97,8 @@ const toggleFavourite = (itemId) => {
 
 async function goToProductPage(id) {
   const router = useRouter();
-  const product = (await $fetch(`/api/products?item=${id}`)).data.items[0];
+  const product = (await $fetch(`/api/products?item=${id}`))[0];
+  // console.log();
   router.push(`/items/${id}/products/${product._id}`);
 }
 </script>

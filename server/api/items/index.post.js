@@ -1,8 +1,6 @@
 import Item from '~~/server/models/Item';
 import Polution from '~~/server/models/Polution';
 export default defineEventHandler(async (event) => {
-  event.res.jsonResponse.context = event.context.params;
-
   const {
     id,
     name,
@@ -27,7 +25,7 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    Item.create({
+    const item = Item.create({
       id,
       name,
       brand,
@@ -38,10 +36,10 @@ export default defineEventHandler(async (event) => {
       category,
       polutions: tempPolutions
     });
+
+    return item;
   } catch (err) {
-    event.res.jsonResponse.error = {
-      message: err
-    };
+    console.log(err);
+    return { error: 'Could not create item' };
   }
-  return event.res.jsonResponse;
 });

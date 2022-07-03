@@ -326,6 +326,12 @@ async function createVehicle() {
       // polutions: [polQuantity.value]
     })
   });
+
+  const userdb = (await $fetch(`/api/users/${user.data._id}`)).data.items[0];
+
+  user.$patch({
+    data: userdb
+  });
 }
 
 async function deleteVehicle(transportId) {
@@ -342,6 +348,12 @@ async function deleteVehicle(transportId) {
       status: status.value,
       plate: plate.value
     })
+  });
+
+  const userdb = (await $fetch(`/api/users/${user.data._id}`)).data.items[0];
+
+  user.$patch({
+    data: userdb
   });
 }
 </script>

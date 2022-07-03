@@ -1,8 +1,8 @@
 <template>
   <div>
     <Navbar />
-    <div class="rounded-lg shadow hidden md:block mx-60 mt-4">
-      <p class="font-800 px-2 py-2.5">My cart</p>
+    <div class="flex rounded-lg shadow mx-30 mt-4">
+      <p class="text-xl font-800 px-2 py-2.5">My cart</p>
       <table v-if="cart.length != 0" class="">
         <thead class="bg-gray-500 border-b-2 border-gray-500">
           <tr>
@@ -108,13 +108,11 @@ const total = ref(0);
 for (let i = 0; i < cart.value.length; i++) {
   // console.log(cart.value);
   // console.log(cart.value[i].product);
-  myProducts.value[i] = (
-    await $fetch(`/api/products?_id=${cart.value[i].product}`)
-  ).data.items[0];
+  myProducts.value[i] = await $fetch(`/api/products/${cart.value[i].product}`);
   console.log(myProducts.value);
-  myItems.value[i] = (
-    await $fetch(`/api/items?_id=${myProducts.value[i].productLine.item._id}`)
-  ).data.items[0];
+  myItems.value[i] = await $fetch(
+    `/api/items/${myProducts.value[i].productLine.item._id}`
+  );
 }
 
 for (let i = 0; i < myProducts.value.length; i++) {

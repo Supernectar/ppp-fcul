@@ -139,6 +139,7 @@
         :line-items="lineItems"
         :success-url="successURL"
         :cancel-url="cancelURL"
+        :payment-intent="paymentIntent"
         @loading="(v) => (loading = v)"
       />
       <button
@@ -176,19 +177,21 @@
 <script setup>
 import { StripeCheckout } from '@vue-stripe/vue-stripe';
 import useCart from '~/stores/cart';
+import useOrder from '~/stores/orderTransport';
 
 const loading = false;
 // const user = useUser();
-
+const transportStore = useOrder();
+const transport = ref(transportStore.getTransport);
+const userStore = useUser();
+console.log(transport.value[0]);
+console.log('----');
 const store = useCart();
-
 const cart = ref(store.getCart);
 
 const myProducts = ref([]);
 for (let i = 0; i < cart.value.length; i++) {
-  myProducts.value[i] = (
-    await $fetch(`/api/products?_id=${cart.value[i].product}`)
-  ).data.items[0];
+  myProducts.value[i] = await $fetch(`/api/products/${cart.value[i].product}`);
   myProducts.value[i].cartQuantity = cart.value[i].quantity;
 }
 
@@ -221,6 +224,47 @@ const publishableKey =
 const checkoutRef = ref(null);
 function submit() {
   // You will be redirected to Stripe's secure checkout page
+  // console.log('checkoutRef.value');
+  // console.log(checkoutRef.value);
+  // console.log('checkoutRef.value.redirectToCheckout()');
+  // console.log(checkoutRef.value.redirectToCheckout());
   checkoutRef.value.redirectToCheckout();
 }
+// 4242 4242 4242 4242
+
+async function createOrder() {
+  console.log('---');
+  console.log(transport.value[0]);
+  console.log('---');
+  console.log(userStore.data._id);
+  await fetch(`/api/users/${userStore.data._id}/orders`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+
+    body: JSON.stringify({
+      status: 'created',
+      products: myProducts.value,
+      transport: transport.value[0]
+    })
+  });
+
+  const userdb = (await $fetch(`/api/users/${userStore.data._id}`)).data
+    .items[0];
+
+  userStore.$patch({
+    data: userdb
+  });
+}
+
+// const { paymentIntent } = await publishableKey.retrievePaymentIntent(
+//   checkoutRef
+// ); // (clientSecret);
+// if (paymentIntent && paymentIntent.status === 'succeeded') {
+//   console.log('deu');
+// } else {
+//   // Handle unsuccessful, processing, or canceled payments and API errors here
+//   console.log('nao deu');
+// }
 </script>

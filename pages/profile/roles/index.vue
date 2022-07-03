@@ -13,7 +13,11 @@
               class="bg-red-100 hover:bg-red-200 rounded-xl p-4 flex"
               @click="changeRole('Consumer')"
             >
-              <img class="h-40" src="/decorations/consumerRole.png" alt="" />
+              <img
+                class="h-30 sm:h-40"
+                src="/decorations/consumerRole.png"
+                alt=""
+              />
               As a consumer, you get to choose what product, from who you will
               buy it and who brings it to you. Find products near you, sort and
               filter by many attributes such as price, rating, and polution,
@@ -27,7 +31,11 @@
               class="bg-blue-100 hover:bg-blue-200 rounded-xl p-4 flex flex-row-reverse"
               @click="changeRole('Supplier')"
             >
-              <img class="h-40" src="/decorations/supplierRole.png" alt="" />
+              <img
+                class="h-30 sm:h-40"
+                src="/decorations/supplierRole.png"
+                alt=""
+              />
               sell your products here... /!\ desenvolver mais um bocado
             </button>
           </div>
@@ -41,7 +49,11 @@
               class="bg-green-100 hover:bg-green-200 rounded-xl p-4 flex"
               @click="changeRole('Transporter')"
             >
-              <img class="h-40" src="/decorations/transporterRole.jpg" alt="" />
+              <img
+                class="h-30 sm:h-40"
+                src="/decorations/transporterRole.jpg"
+                alt=""
+              />
               You can transport products etc.... /!\ desenvolver mais um bocado
             </button>
           </div>
@@ -52,7 +64,11 @@
               class="bg-yellow-100 hover:bg-yellow-200 rounded-xl p-4 flex flex-row-reverse"
               @click="changeRole('Admin')"
             >
-              <img class="h-40" src="/decorations/adminRole.png" alt="" />
+              <img
+                class="h-30 sm:h-40"
+                src="/decorations/adminRole.png"
+                alt=""
+              />
               you can manage the website... /!\ desenvolver mais um bocado
             </button>
           </div>

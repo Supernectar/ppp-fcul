@@ -62,7 +62,7 @@
                   <td
                     class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                   >
-                    {{ order.numberItems }}
+                    {{ orders.length }}
                   </td>
                   <td
                     class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
@@ -112,10 +112,17 @@
 <script setup>
 const router = useRouter();
 const user = useUser();
-
 let orders = [];
-console.log(`/api/users/${user.data._id}/orders`);
+// console.log(`/api/users/${user.data._id}/orders`);
 orders = (await $fetch(`/api/users/${user.data._id}/orders`)).data.items;
+for (const order of orders) {
+  const products = (
+    await $fetch(`/api/users/${user.data._id}/orders/${order._id}/products`)
+  ).data.items;
+  for (const product of products) {
+    order.price = product.productLine.price;
+  }
+}
 
 async function goToOrder(order) {
   let checkOrder = [];

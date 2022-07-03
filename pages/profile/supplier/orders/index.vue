@@ -18,67 +18,73 @@
                             scope="col"
                             class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                           >
+                            Client
+                          </th>
+                          <th
+                            scope="col"
+                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          >
                             Date
                           </th>
                           <th
                             scope="col"
                             class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                           >
-                            Number of items
+                            Product
                           </th>
                           <th
                             scope="col"
                             class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                           >
-                            Price
-                          </th>
-                          <th
-                            scope="col"
-                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                          >
-                            Status
+                            Storage
                           </th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr
-                          v-for="order in orders"
+                          v-for="order in user.supplierData.orders"
                           :key="order._id"
                           class="border-b"
                         >
-                          <td
+                          <!-- <td
                             class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
                           >
                             {{ order.createdAt }}
-                          </td>
+                          </td> -->
                           <td
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                           >
-                            {{ order.numberItems }}
+                            {{ order.consumer.name }}
+                            <br />
+                            {{ order.consumer.email }}
                           </td>
+
+                          <td>{{ order.date }}</td>
                           <td
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                           >
-                            {{ order.price }}
+                            {{ order.product.productLine.item.name }}
+                            <!-- {{ order.product.productLine }} -->
                           </td>
-                          <td
+                          <td>{{ order.product.storage.name }}</td>
+                          <!-- <td
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                           >
                             {{ order.status }}
-                          </td>
+                          </td> -->
                           <td
                             class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
                           >
-                            <NuxtLink
+                            <!-- <NuxtLink
                               :to="`/profile/supplier/orders/${order._id}`"
-                            >
+                            > 
                               <button
                                 type="button"
                                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                               >
                                 More details
                               </button>
-                            </NuxtLink>
+                            </NuxtLink> -->
                           </td>
                         </tr>
                       </tbody>
@@ -87,6 +93,10 @@
                 </div>
               </div>
             </div>
+            <pre>{{ user }}</pre>
+            <br />
+            <br />
+            <!-- {{ user.supplierData }} -->
           </div>
         </section>
         <Footer />
@@ -97,15 +107,14 @@
 
 <script setup>
 const router = useRouter();
-const user = useUser();
+const userStore = useUser();
 
-let orders = [];
-console.log(`/api/users/${user.data._id}/orders`);
-orders = (await $fetch(`/api/users/${user.data._id}/orders/supplier`)).data
-  .items;
-
+// let user = [];
+// console.log(`/api/users/${user.data._id}`);
+const user = ref((await $fetch(`/api/users/${userStore.data._id}`)).data.items);
+console.log(user.value);
 console.log(user);
-console.log(orders);
+// console.log(user[0].supplierData);
 async function goToOrder(order) {
   let checkOrder = [];
   checkOrder = (await $fetch(`/api/users/${user.data._id}/orders/${order._id}`))

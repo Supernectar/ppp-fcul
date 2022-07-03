@@ -29,7 +29,8 @@ export default mongoose.model(
       ],
       orders: [
         {
-          type: Schema.Types.ObjectId
+          type: Schema.Types.ObjectId,
+          ref: 'Order'
         }
       ],
       cart: [
@@ -64,7 +65,9 @@ export default mongoose.model(
       ],
       orders: [
         {
-          type: Schema.Types.ObjectId
+          date: { type: Date },
+          consumer: { type: Schema.Types.ObjectId, ref: 'User' },
+          product: { type: Schema.Types.ObjectId, ref: 'Product' }
         }
       ]
     },
@@ -79,6 +82,12 @@ export default mongoose.model(
         {
           type: Schema.Types.ObjectId,
           ref: 'Transport'
+        }
+      ],
+      orders: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: 'Order'
         }
       ]
     },

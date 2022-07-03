@@ -248,7 +248,7 @@ storage.value = (
 ).data.items[0];
 
 const items = ref([]);
-items.value = (await $fetch(`/api/items`)).data.items;
+items.value = await $fetch(`/api/items`);
 for (const item of items.value) {
   item.label = item.name;
   item.value = item._id;
@@ -262,8 +262,7 @@ products.value = (
 
 for (const product of products.value) {
   for (const polution of product.polutions) {
-    const polutionObject = (await $fetch(`/api/polutions/${polution.polution}`))
-      .data.items[0];
+    const polutionObject = await $fetch(`/api/polutions/${polution.polution}`);
 
     const quantityPlusPolution = {
       quantity: polution.quantity * product.quantity,
@@ -284,8 +283,7 @@ for (const product of products.value) {
   }
 
   for (const polution of product.productLine.item.polutions) {
-    const polutionObject = (await $fetch(`/api/polutions/${polution._id}`)).data
-      .items[0];
+    const polutionObject = await $fetch(`/api/polutions/${polution._id}`);
 
     const quantityPlusPolution = {
       quantity: polution.quantity * product.quantity,

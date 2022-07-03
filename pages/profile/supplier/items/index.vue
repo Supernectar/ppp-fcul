@@ -232,11 +232,11 @@ import { CheckIcon, SelectorIcon } from '@heroicons/vue/outline';
 const user = useUser();
 
 const items = ref([]);
-items.value = (await $fetch(`/api/items`)).data.items;
+items.value = await $fetch(`/api/items`);
 const selectedItems = ref([]);
 
 const categories = ref([]);
-categories.value = (await $fetch(`/api/categories`)).data.items;
+categories.value = await $fetch(`/api/categories`);
 console.log(categories.value);
 for (const category of categories.value) {
   category.label = category.name;

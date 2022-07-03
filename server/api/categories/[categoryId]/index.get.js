@@ -1,20 +1,13 @@
 import Category from '~~/server/models/Category';
 
 export default defineEventHandler(async (event) => {
-  event.res.jsonResponse.context = event.context.params;
   const { categoryId } = event.context.params;
 
   try {
-    const category = await Category.find({ _id: categoryId });
-    event.res.jsonResponse.context = event.context.params;
-    event.res.jsonResponse.data = {
-      items: category
-    };
+    const category = await Category.findById(categoryId);
+    return category;
   } catch (err) {
     console.log(err);
-
-    event.res.jsonResponse.error = err;
+    return { error: 'Could not retrieve category' };
   }
-
-  return event.res.jsonResponse;
 });

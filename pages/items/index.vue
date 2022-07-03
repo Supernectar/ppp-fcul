@@ -202,38 +202,32 @@ export default {
   },
   async mounted() {
     // get super/cate/sub categories
-    const res1 = await fetch(`/api/categories/${this.$route.query.superId}`, {
-      method: 'GET'
-    });
+    const res1 = await fetch(`/api/categories/${this.$route.query.superId}`);
     const res2 = await res1.json();
-    const attr_supercate = res2.data.items[0].attributes;
-    if (attr_supercate.length != 0) {
-      this.attributes.push.apply(this.attributes, attr_supercate);
+    const attrSupercate = res2.data.items[0].attributes;
+    if (attrSupercate.length !== 0) {
+      this.attributes.push.apply(this.attributes, attrSupercate);
     }
     const res3 = await fetch(`/api/categories/${this.$route.query.cateId}`, {
       method: 'GET'
     });
 
     const res4 = await res3.json();
-    const attr_cate = res4.data.items[0].attributes;
-    if (attr_cate.length != 0) {
-      this.attributes.push.apply(this.attributes, attr_cate);
+    const attrCate = res4.data.items[0].attributes;
+    if (attrCate.length !== 0) {
+      this.attributes.push.apply(this.attributes, attrCate);
     }
 
-    const res5 = await fetch(`/api/categories/${this.$route.query.subId}`, {
-      method: 'GET'
-    });
+    const res5 = await fetch(`/api/categories/${this.$route.query.subId}`);
     const res6 = await res5.json();
-    const attr_subcate = res6.data.items[0].attributes;
-    if (attr_subcate.length != 0) {
-      this.attributes.push.apply(this.attributes, attr_subcate);
+    const attrSubcate = res6.data.items[0].attributes;
+    if (attrSubcate.length !== 0) {
+      this.attributes.push.apply(this.attributes, attrSubcate);
     }
     // -------------------------------------------------
 
     // get items from subcate
-    const res7 = await fetch(`/api/items?category=${this.$route.query.subId}`, {
-      method: 'GET'
-    });
+    const res7 = await fetch(`/api/items?category=${this.$route.query.subId}`);
     const res8 = await res7.json();
     this.allItems = res8.data.items;
     const items = res8.data.items;
@@ -257,7 +251,7 @@ export default {
     this.items = res8.data.items;
     let result = this.allItems;
 
-    if (this.filters.length != 0) {
+    if (this.filters.length !== 0) {
       result = this.items.filter((el) =>
         this.filters.includes(el.attributes.brand)
       );

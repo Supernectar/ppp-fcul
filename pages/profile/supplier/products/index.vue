@@ -167,7 +167,7 @@ async function createProducts() {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
+      body: {
         name: 'pipo',
         item: '62b7297435430a463a5864de', // washing machine 1
         price: Math.floor(Math.random() * 20),
@@ -176,7 +176,7 @@ async function createProducts() {
         quantity: 2,
         supplier: user.data._id,
         storage: storage._id
-      })
+      }
     });
   }
 }

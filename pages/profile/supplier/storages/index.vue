@@ -9,32 +9,32 @@
           <div>
             <div class="flex flex-col">
               <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-                <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                <div class="py-2 py-2 inline-block min-w-full sm:px-6 lg:px-8">
                   <div class="overflow-hidden">
                     <table class="w-2">
                       <thead class="border-b">
                         <tr>
                           <th
                             scope="col"
-                            class="text-sm font-medium text-gray-900 px-4 py-2 md:px-6 md:py-4 text-left"
+                            class="text-sm text-gray-900 px-3 py-2 md:px-6 md:py-4 text-left"
                           >
                             Name
                           </th>
                           <th
                             scope="col"
-                            class="text-sm font-medium text-gray-900 px-4 py-2 md:px-6 md:py-4 text-left"
+                            class="text-sm text-gray-900 px-3 py-2 md:px-6 md:py-4 text-left"
                           >
-                            Number of products
+                            Nº of products
                           </th>
                           <th
                             scope="col"
-                            class="text-sm font-medium text-gray-900 px-4 py-2 md:px-6 md:py-4 text-left"
+                            class="text-sm text-gray-900 px-3 py-2 md:px-6 md:py-4 text-left"
                           >
                             Location
                           </th>
                           <th
                             scope="col"
-                            class="text-sm font-medium text-gray-900 px-4 py-2 md:px-6 md:py-4 text-left"
+                            class="text-sm text-gray-900 px-3 py-2 md:px-6 md:py-4 text-left"
                           >
                             Popularity
                           </th>
@@ -47,33 +47,37 @@
                           class="border-b"
                         >
                           <td
-                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                            class="px-3 py-4 whitespace-nowrap text-sm text-gray-900"
                           >
                             {{ storage.name }}
                           </td>
                           <td
-                            class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                            class="text-sm text-gray-900 font-light px-3 py-4 whitespace-nowrap"
                           >
                             {{ storage.products.length }}
                           </td>
                           <td
-                            class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                            class="text-sm text-gray-900 font-light px-3 py-4 whitespace-nowrap"
                           >
                             {{
-                              storage.address.street +
+                              storage.address.street
+                              /*
+                              +
                               ', ' +
                               storage.address.zipCode +
                               ' ' +
                               storage.address.city +
                               ', ' +
                               storage.address.country
+                              */
                             }}
                           </td>
                           <td
-                            class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                            class="text-sm text-gray-900 font-light px-3 py-4 whitespace-nowrap"
                           >
                             {{ storage.popularity }}
                           </td>
+
                           <td
                             class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
                           >
@@ -82,9 +86,9 @@
                             >
                               <button
                                 type="button"
-                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 rounded-lg text-xs md:text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                               >
-                                Manage Storage
+                                Manage
                               </button>
                             </NuxtLink>
                           </td>
@@ -94,7 +98,7 @@
                           >
                             <button
                               type="button"
-                              class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                              class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 rounded-lg text-xs md:text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
                               @click="deleteStorage(storage._id)"
                             >
                               Delete
@@ -113,7 +117,7 @@
                   <div>
                     <FormKit
                       v-model="name"
-                      label="Storage name"
+                      label="Name"
                       type="text"
                       name="name"
                       validation="required|length:3"

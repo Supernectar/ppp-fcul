@@ -71,9 +71,9 @@ import { CheckIcon, SelectorIcon } from '@heroicons/vue/outline';
 const route = useRoute();
 const user = useUser();
 
-const products = (
-  await $fetch(`/api/products?productLine=${route.params.productId}`)
-).data.items;
+const products = await $fetch(
+  `/api/products?productLine=${route.params.productId}`
+);
 console.log(products);
 const storages = ref([]);
 
@@ -90,7 +90,7 @@ async function createProducts() {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
+      body: {
         name: 'pipo',
         item: '62b7297435430a463a5864de', // washing machine 1
         price: Math.floor(Math.random() * 20),
@@ -99,7 +99,7 @@ async function createProducts() {
         quantity: 2,
         supplier: user.data._id,
         storage: storage._id
-      })
+      }
     });
   }
 }

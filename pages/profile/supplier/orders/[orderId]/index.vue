@@ -121,17 +121,5 @@ const order = ref({});
 order.value = (
   await $fetch(`/api/users/${user.data._id}/orders/${route.params.orderId}`)
 ).data.items;
-
-// const items = [];
-// const categories = [];
-
-// for (let i = 0; i < order.products.length; i++) {
-// const product = await $fetch(`/api/products/${order.products[i]}`);
-// const category = await $fetch(
-//   `/api/categories/${product.data.items[0].category}`
-// );
-// items.push(item.data.items[0]);
-// categories.push(category.data.items[0].name);
-// }
 </script>
 <style></style>

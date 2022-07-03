@@ -382,13 +382,14 @@ const myItems = ref([]);
 
 for (let i = 0; i < cart.value.length; i++) {
   if (cart.value.length <= 4) {
-    myProducts.value[i] = (
-      await $fetch(`/api/products?_id=${cart.value[i].product}`)
-    ).data.items[0];
+    myProducts.value[i] = await $fetch(
+      `/api/products/${cart.value[i].product}`
+    );
+    // console.log(await $fetch(`/api/products/${cart.value[i].product}`));
 
-    myItems.value[i] = (
-      await $fetch(`/api/items?_id=${myProducts.value[i].productLine.item._id}`)
-    ).data.items[0];
+    myItems.value[i] = await $fetch(
+      `/api/items/${myProducts.value[i].productLine.item._id}`
+    );
   }
 }
 
@@ -459,16 +460,14 @@ const categories = ref({});
 const expandNode = async (node) => {
   if (node.children.length > 0) {
     for (let i = 0; i < node.children.length; i++) {
-      node.children[i] = (
-        await $fetch(`/api/categories?_id=${node.children[i]}`)
-      ).data.items[0];
+      node.children[i] = await $fetch(`/api/categories/${node.children[i]}`);
     }
     for (const child of node.children) {
       expandNode(child);
     }
   }
 };
-categories.value = (await $fetch(`/api/categories?name=main`)).data.items[0];
+categories.value = (await $fetch(`/api/categories?name=main`))[0];
 expandNode(categories.value);
 </script>
 <style></style>

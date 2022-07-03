@@ -118,6 +118,20 @@
                 <div v-if="isOpen">Preferences</div>
               </NuxtLink>
             </li>
+            <li v-if="!isOpen" class="mb-1">
+              <NuxtLink
+                class="flex items-center rounded-lg text-gray-800 hover:(bg-black bg-opacity-5)"
+                active-class="bg-black bg-opacity-5 before:(absolute w-1 h-6 rounded-r bg-violet-400)"
+                to="/profile/roles"
+              >
+                <button class="p-2">
+                  <UserGroupIcon
+                    class="h-6 w-6 text-violet-400"
+                    aria-hidden="true"
+                  />
+                </button>
+              </NuxtLink>
+            </li>
           </ul>
           <template v-if="user.data.type === 'Consumer'">
             <hr class="mb-1" />
@@ -294,7 +308,8 @@ import {
   CogIcon,
   ArrowRightIcon,
   CurrencyEuroIcon,
-  MenuIcon
+  MenuIcon,
+  UserGroupIcon
 } from '@heroicons/vue/outline';
 const user = useUser();
 

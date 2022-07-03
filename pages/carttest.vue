@@ -108,13 +108,10 @@ const total = ref(0);
 for (let i = 0; i < cart.value.length; i++) {
   // console.log(cart.value);
   // console.log(cart.value[i].product);
-  myProducts.value[i] = (
-    await $fetch(`/api/products?_id=${cart.value[i].product}`)
-  ).data.items[0];
-  console.log(myProducts.value);
-  myItems.value[i] = (
-    await $fetch(`/api/items?_id=${myProducts.value[i].productLine.item._id}`)
-  ).data.items[0];
+  myProducts.value[i] = await $fetch(`/api/products/${cart.value[i].product}`);
+  myItems.value[i] = await $fetch(
+    `/api/items/${myProducts.value[i].productLine.item._id}`
+  );
 }
 
 for (let i = 0; i < myProducts.value.length; i++) {

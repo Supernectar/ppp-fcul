@@ -2,10 +2,10 @@ import Product from '~~/server/models/Product';
 import Resource from '~~/server/models/Resource';
 
 export default defineEventHandler(async (event) => {
-  event.res.jsonResponse.context = event.context.params;
+  const { productId } = event.context.params;
+
   try {
-    const { productId } = event.context.params;
-    const product = await Product.findOne({ _id: productId });
+    const product = await Product.findById(productId);
     const resourcesIds = product.resources;
     const resources = [];
     for (let i = 0; i < resourcesIds.length; i++) {
@@ -14,14 +14,10 @@ export default defineEventHandler(async (event) => {
       });
       resources.push(resource);
     }
-    event.res.jsonResponse.context = event.context.params;
-    event.res.jsonResponse.data = {
-      items: resources
-    };
+
+    return product;
   } catch (err) {
     console.log(err);
-    event.res.jsonResponse.error = err;
+    return { error: 'Could not find product' };
   }
-
-  return event.res.jsonResponse;
 });

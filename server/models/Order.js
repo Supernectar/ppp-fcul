@@ -5,17 +5,25 @@ export default mongoose.model(
   'Order',
   new Schema(
     {
-      numberItems: String,
-      price: String,
+      // numberItems: String,
+      // price: String,
+      consumer: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+      },
+      transporter: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+      },
       status: String,
       departureDate: String,
       arrivalDate: String,
-      itineraries: [
-        {
-          type: Schema.Types.ObjectId,
-          ref: 'Itinerary'
-        }
-      ],
+      // itineraries: [
+      //   {
+      //     type: Schema.Types.ObjectId,
+      //     ref: 'Itinerary'
+      //   }
+      // ],
       products: [
         {
           type: Schema.Types.ObjectId,

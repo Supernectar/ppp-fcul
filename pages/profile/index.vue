@@ -10,36 +10,36 @@
             <h2 class="text-xl font-semibold">Orders</h2>
             <p>See your orders history</p>
 
-            <table class="w-2 md:w-100 lg:w-250">
+            <table class="w-2 sm:w-90 md:w-120 lg:w-250">
               <thead class="bg-white border-b">
                 <tr>
                   <th
                     scope="col"
-                    class="text-sm font-medium text-gray-900 px-4 py-2 md:px-6 md:py-4 text-left"
+                    class="text-sm font-medium text-gray-900 px-3 py-2 md:px-6 md:py-4 text-left"
                   >
                     #
                   </th>
                   <th
                     scope="col"
-                    class="text-sm font-medium text-gray-900 px-4 py-2 md:px-6 md:py-4 text-left"
+                    class="text-sm font-medium text-gray-900 px-3 py-2 md:px-6 md:py-4 text-left"
                   >
                     Number of items
                   </th>
                   <th
                     scope="col"
-                    class="text-sm font-medium text-gray-900 px-4 py-2 md:px-6 md:py-4 text-left"
+                    class="text-sm font-medium text-gray-900 px-3 py-2 md:px-6 md:py-4 text-left"
                   >
                     Price
                   </th>
                   <th
                     scope="col"
-                    class="text-sm font-medium text-gray-900 px-4 py-2 md:px-6 md:py-4 text-left"
+                    class="text-sm font-medium text-gray-900 px-3 py-2 md:px-6 md:py-4 text-left"
                   >
                     Status
                   </th>
                   <th
                     scope="col"
-                    class="text-sm font-medium text-gray-900 px-4 py-2 md:px-6 md:py-4 text-left"
+                    class="text-sm font-medium text-gray-900 px-3 py-2 md:px-6 md:py-4 text-left"
                   ></th>
                 </tr>
               </thead>
@@ -56,17 +56,17 @@
                     {{ index + 1 }}
                   </td>
                   <td
-                    class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                    class="text-sm text-gray-900 font-light px-2 py-3 whitespace-nowrap"
                   >
                     {{ order.numberItems }}
                   </td>
                   <td
-                    class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                    class="text-sm text-gray-900 font-light px-2 py-3 whitespace-nowrap"
                   >
                     {{ order.price }}
                   </td>
                   <td
-                    class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                    class="text-sm text-gray-900 font-light px-2 py-3 whitespace-nowrap"
                   >
                     {{ order.status }}
                   </td>
@@ -115,6 +115,14 @@
                 <div>Number of items bought per day</div>
               </div>
             </div>-->
+            <div v-if="user.data.consumerData.orders.length !== 0">
+              <div class="shadow-lg rounded-lg w-75 sm:w-95 md:w-125">
+                <div class="py-3 px-1 bg-gray-50">
+                  Polution generated in the first half of the year
+                </div>
+                <canvas id="chartLine" class="p-1 w-2"></canvas>
+              </div>
+            </div>
           </div>
           <div id="suggestions" class="mt-4">
             <h2 class="text-xl font-semibold">Products you might like</h2>
@@ -219,18 +227,90 @@ import {
   DialogPanel,
   DialogTitle
 } from '@headlessui/vue';
+import 'https://cdn.jsdelivr.net/npm/chart.js';
 
 const router = useRouter();
 const user = useUser();
 const suggestedItems = ref([]);
 let orders = [];
+let products = [];
+const totalPolutionP = ref(0);
+
+onMounted(async () => {
+  const totalPolutionO = [];
+  const polutions = [];
+
+  for (let i = 0; i < orders.length; i++) {
+    products = (
+      await $fetch(
+        `/api/users/${user.data._id}/orders/${orders[i]._id}/products`
+      )
+    ).data.items;
+    for (let i = 0; i < products.length; i++) {
+      for (let j = 0; j < products[i].polutions.length; j++) {
+        totalPolutionP.value += products[i].polutions[j].quantity;
+      }
+      totalPolutionO.push(totalPolutionP.value);
+    }
+    console.log(totalPolutionO);
+    if (orders[i].arrivalDate !== undefined) {
+      const month = orders[i].arrivalDate.split(' ');
+      console.log(month);
+      switch (month[1]) {
+        case 'Jan':
+          polutions[0] = totalPolutionO[i];
+          break;
+        case 'Feb':
+          polutions[1] = totalPolutionO[i];
+          break;
+        case 'Mar':
+          polutions[2] = totalPolutionO[i];
+          break;
+        case 'Apr':
+          polutions[3] = totalPolutionO[i];
+          break;
+        case 'May':
+          polutions[4] = totalPolutionO[i];
+          break;
+        case 'Jun':
+          polutions[5] = totalPolutionO[i];
+          break;
+      }
+    }
+    console.log(polutions);
+  }
+  if (user.data.consumerData.orders.length !== 0) {
+    const labels = ['January', 'February', 'March', 'April', 'May', 'June'];
+    const data = {
+      labels,
+      datasets: [
+        {
+          label: 'Polution generated in kg',
+          backgroundColor: 'hsl(252, 82.9%, 67.8%)',
+          borderColor: 'hsl(252, 82.9%, 67.8%)',
+          data: polutions
+        }
+      ]
+    };
+
+    const configLineChart = {
+      type: 'line',
+      data,
+      options: {}
+    };
+
+    const chartLine = new Chart(
+      document.getElementById('chartLine'),
+      configLineChart
+    );
+  }
+});
 
 onBeforeMount(async () => {
   // ---- Loading Items ---- //
-  suggestedItems.value = (await $fetch(`/api/items`)).data.items;
+  suggestedItems.value = await $fetch(`/api/items`);
   // ---- Loading Orders ---- //
   // orders = (await $fetch(`/api/users/${user.data._id}/orders`)).data.items;
-  console.log(orders);
 });
 
 orders = (await $fetch(`/api/users/${user.data._id}/orders`)).data.items;
