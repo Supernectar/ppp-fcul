@@ -70,7 +70,7 @@
                     placeholder=""
                     type="text"
                     name="brand"
-                    validation="required"
+                    validation="required|length:6"
                     outer-class="mb-4"
                     label-class="form-label inline-block mb-2 text-gray-700"
                     input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
@@ -86,7 +86,7 @@
                     placeholder=""
                     type="text"
                     name="model"
-                    validation="required"
+                    validation="required|matches:/^[0-9]{4}-[0-9]{3}$/"
                     outer-class="mb-4"
                     label-class="form-label inline-block mb-2 text-gray-700"
                     input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
@@ -102,7 +102,7 @@
                     placeholder=""
                     type="text"
                     name="model"
-                    validation="required"
+                    validation="required|length:4"
                     outer-class="mb-4"
                     label-class="form-label inline-block mb-2 text-gray-700"
                     input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
@@ -430,7 +430,7 @@ function openModal(msg) {
 }
 
 async function addAddress() {
-  const res = await fetch(`/api/users/${user.data._id}`, {
+  const res = await $fetch(`/api/users/${user.data._id}`, {
     method: 'PUT',
     body: {
       type: user.data.type,
@@ -442,8 +442,7 @@ async function addAddress() {
       }
     }
   });
-  const resjson = await res.json();
-  console.log(resjson);
+  console.log(res);
 
   const userdb = await $fetch(`/api/users/${user.data._id}`);
   user.$patch({
@@ -462,7 +461,7 @@ async function deleteAcc() {
   router.push('/signup');
 }
 async function updateInfo() {
-  const res = await fetch(`/api/users/${user.data._id}`, {
+  const res = await $fetch(`/api/users/${user.data._id}`, {
     method: 'PUT',
     body: {
       username: username.value === '' ? user.data.username : username.value,
@@ -483,8 +482,7 @@ async function updateInfo() {
       password: password.value === '' ? user.data.password : password.value
     }
   });
-  const resjson = await res.json();
-  console.log(resjson);
+  console.log(res);
 
   const userdb = await $fetch(`/api/users/${user.data._id}`);
   user.$patch({

@@ -36,6 +36,12 @@
                             scope="col"
                             class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                           >
+                            Quantity
+                          </th>
+                          <th
+                            scope="col"
+                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          >
                             Storage
                           </th>
                           <th
@@ -44,6 +50,10 @@
                           >
                             Status
                           </th>
+                          <th
+                            scope="col"
+                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          ></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -81,12 +91,28 @@
                           <td
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                           >
+                            {{ order.quantity }}
+                          </td>
+                          <td
+                            class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                          >
                             {{ order.product.storage.name }}
                           </td>
                           <td
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                           >
-                            {{ order.status }}
+                            {{ order.status.name }}
+                          </td>
+                          <td
+                            v-if="order.status.name === 'created'"
+                            class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                          >
+                            <button @click="sentOrder(order)">
+                              <CheckCircleIcon
+                                class="h-6 w-6 text-violet-400"
+                                aria-hidden="true"
+                              />
+                            </button>
                           </td>
                           <!-- <td
                             class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
@@ -109,7 +135,7 @@
                 </div>
               </div>
             </div>
-            <pre>{{ user }}</pre>
+            <!-- <pre>{{ user }}</pre> -->
             <br />
             <br />
             <!-- {{ user.supplierData }} -->
@@ -122,28 +148,50 @@
 </template>
 
 <script setup>
+import { CheckCircleIcon } from '@heroicons/vue/outline';
 const router = useRouter();
 const userStore = useUser();
 
 // let user = [];
 // console.log(`/api/users/${user.data._id}`);
+console.log(userStore.data);
+console.log(userStore.data._id);
 const user = ref(await $fetch(`/api/users/${userStore.data._id}`));
 console.log(user.value);
 console.log(user);
-// console.log(user[0].supplierData);
-async function goToOrder(order) {
-  let checkOrder = [];
-  checkOrder = await $fetch(`/api/users/${user.data._id}/orders/${order._id}`);
-
-  router.push(`/profile/consumer/orders/${order._id}`);
-  // if (checkOrder.length !== 0) {
-  // }
-}
-
-async function cancelOrder(order) {
-  await $fetch(`/api/users/${user.data._id}/orders/${order._id}`, {
-    method: 'DELETE',
-    headers: { 'Content-Type': 'application/json' }
+console.log('----');
+// console.log(user.supplierData.orders[0].order.status);
+async function sentOrder(order) {
+  console.log(order.status._id);
+  await $fetch(`/api/users/${userStore.data._id}/orders/${order._id}`, {
+    method: 'PUT',
+    body: {
+      statusId: order.status._id,
+      status: 'waiting for transport'
+    }
   });
+  // console.log(order.status);
+  // await $fetch(`/api/users/${userStore.data._id}`, {
+  //   method: 'PUT',
+  //   body: {
+  //     supplierData: 'waiting for transport'
+  //   }
+  // });
 }
+
+// console.log(user[0].supplierData);
+// async function goToOrder(order) {
+//   let checkOrder = [];
+//   checkOrder = await $fetch(`/api/users/${user.data._id}/orders/${order._id}`);
+
+//   router.push(`/profile/consumer/orders/${order._id}`);
+
+// }
+
+// async function cancelOrder(order) {
+//   await $fetch(`/api/users/${user.data._id}/orders/${order._id}`, {
+//     method: 'DELETE',
+//     headers: { 'Content-Type': 'application/json' }
+//   });
+// }
 </script>

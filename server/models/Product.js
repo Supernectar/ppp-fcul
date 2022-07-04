@@ -11,7 +11,7 @@ export default mongoose.model(
     },
     quantity: {
       type: Number,
-      required: true
+      required: [true, 'street required']
     },
     storage: {
       type: Schema.Types.ObjectId,
@@ -35,7 +35,9 @@ export default mongoose.model(
         }
       }
     ],
-    stripeId: String,
+    stripeId: {
+      type: String
+    },
     expirationDate: Date
   })
 );

@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
       street: 'Rua das Marias',
       country: 'Portugal',
       city: 'Lisboa',
-      postal: '8943-111'
+      zipCode: '8943-111'
     }
   });
   const address2 = await $fetch('/api/addresses', {
@@ -32,7 +32,7 @@ export default defineEventHandler(async (event) => {
       street: 'Rua feia',
       country: 'Portugal',
       city: 'Lisboa',
-      postal: '1234-111'
+      zipCode: '1234-111'
     }
   });
 
@@ -158,28 +158,18 @@ export default defineEventHandler(async (event) => {
   let item1 = await $fetch('/api/items', {
     method: 'POST',
     body: {
-      name: 'Banana',
-      brand: 'Dove',
-      description: 'Put it on your face, at your own pace',
-      producer: "Dove's food company",
-      expirationDate: new Date(),
-      category: category2
+      name: 'Máquina Fotográfica',
+      description: 'Máquina Fotográfica HD',
+      producer: 'Canon Enterprise',
+      category: category2,
+      imgPath: '/items/1505-1.jpg'
     }
   });
-
-  // Set item1 attributes
   item1 = await $fetch(`/api/items/${item1._id}/attributes`, {
     method: 'POST',
     body: {
       name: 'brand',
-      value: 'lg'
-    }
-  });
-  item1 = await $fetch(`/api/items/${item1._id}/attributes`, {
-    method: 'POST',
-    body: {
-      name: 'capacity',
-      value: '10 Kg'
+      value: 'Canon'
     }
   });
   item1 = await $fetch(`/api/items/${item1._id}/attributes`, {
@@ -192,110 +182,217 @@ export default defineEventHandler(async (event) => {
   item1 = await $fetch(`/api/items/${item1._id}/attributes`, {
     method: 'POST',
     body: {
-      name: 'energyClass',
-      value: 'B'
-    }
-  });
-  item1 = await $fetch(`/api/items/${item1._id}/attributes`, {
-    method: 'POST',
-    body: {
-      name: 'height',
-      value: '200 cm'
-    }
-  });
-  item1 = await $fetch(`/api/items/${item1._id}/attributes`, {
-    method: 'POST',
-    body: {
-      name: 'length',
-      value: '100 cm'
-    }
-  });
-  item1 = await $fetch(`/api/items/${item1._id}/attributes`, {
-    method: 'POST',
-    body: {
-      name: 'width',
-      value: '150 cm'
-    }
-  });
-  item1 = await $fetch(`/api/items/${item1._id}/attributes`, {
-    method: 'POST',
-    body: {
-      name: 'producer',
-      value: 'ritapep'
+      name: 'capacity',
+      value: '1Gb'
     }
   });
 
-  // Create item2
   let item2 = await $fetch('/api/items', {
     method: 'POST',
     body: {
-      name: 'Wooden basket',
-      brand: 'Homemade',
-      description: 'Pela estrada fora eu vou bem sozinha...',
-      producer: 'Grandma',
-      category: category1
+      name: 'Mesa de madeira',
+      description: 'mesa detalhada',
+      producer: 'Comforama',
+      expirationDate: new Date(),
+      category: category1,
+      imgPath: '/items/627.png'
     }
   });
-
-  // Set item2 attributes
   item2 = await $fetch(`/api/items/${item2._id}/attributes`, {
     method: 'POST',
     body: {
       name: 'brand',
-      value: 'other'
+      value: 'Conforama'
     }
   });
-  item2 = await $fetch(`/api/items/${item2._id}/attributes`, {
+
+  let item3 = await $fetch('/api/items', {
     method: 'POST',
     body: {
-      name: 'capacity',
-      value: '20 Kg'
+      name: 'Iphone',
+      brand: 'Apple',
+      description: 'Iphone 12 plus',
+      producer: 'Apple',
+      expirationDate: new Date(),
+      category: category4,
+      imgPath: '/items/iphone-12-64-go-bleu.jpg'
     }
   });
-  item2 = await $fetch(`/api/items/${item2._id}/attributes`, {
+  item3 = await $fetch(`/api/items/${item3._id}/attributes`, {
+    method: 'POST',
+    body: {
+      name: 'brand',
+      value: 'Apple'
+    }
+  });
+  item3 = await $fetch(`/api/items/${item3._id}/attributes`, {
+    method: 'POST',
+    body: {
+      name: 'color',
+      value: 'black'
+    }
+  });
+
+  // Create item2
+  let item4 = await $fetch('/api/items', {
+    method: 'POST',
+    body: {
+      name: 'Caneta Esferográfica BIC',
+      description: 'Esferográfica Azul',
+      producer: 'BIC Enterprise',
+      category: category3,
+      imgPath: 'items/caneta-bic.png'
+    }
+  });
+  item4 = await $fetch(`/api/items/${item4._id}/attributes`, {
+    method: 'POST',
+    body: {
+      name: 'brand',
+      value: 'BIC'
+    }
+  });
+  item4 = await $fetch(`/api/items/${item4._id}/attributes`, {
     method: 'POST',
     body: {
       name: 'color',
       value: 'white'
     }
   });
-  item2 = await $fetch(`/api/items/${item2._id}/attributes`, {
+  item4 = await $fetch(`/api/items/${item4._id}/attributes`, {
     method: 'POST',
     body: {
-      name: 'energyClass',
-      value: 'A'
-    }
-  });
-  item2 = await $fetch(`/api/items/${item2._id}/attributes`, {
-    method: 'POST',
-    body: {
-      name: 'height',
-      value: '200 cm'
-    }
-  });
-  item2 = await $fetch(`/api/items/${item2._id}/attributes`, {
-    method: 'POST',
-    body: {
-      name: 'length',
-      value: '100 cm'
-    }
-  });
-  item2 = await $fetch(`/api/items/${item2._id}/attributes`, {
-    method: 'POST',
-    body: {
-      name: 'width',
-      value: '150 cm'
+      name: 'ink',
+      value: 'blue'
     }
   });
 
-  const item3 = await $fetch('/api/items', {
+  // Create item2
+  let item5 = await $fetch('/api/items', {
     method: 'POST',
     body: {
-      name: "BO'HO'O'WA'ER",
-      brand: 'evian',
-      description: 'The most natural water, like, ever :p',
-      producer: 'Grandma',
-      category: category2
+      name: 'Carrinho de Brincar',
+      description: 'Carrinho para crianças com mais 5 anos',
+      producer: 'Lego Enterprise.',
+      category: category3,
+      imgPath:
+        '/items/Screenshot-2022-01-03-at-15-23-53-Carro-Desportivo-60285-City-Compra-online-na-Loja-LEGO-Oficial-PT.png'
+    }
+  });
+  item5 = await $fetch(`/api/items/${item5._id}/attributes`, {
+    method: 'POST',
+    body: {
+      name: 'brand',
+      value: 'Lego'
+    }
+  });
+  item5 = await $fetch(`/api/items/${item5._id}/attributes`, {
+    method: 'POST',
+    body: {
+      name: 'color',
+      value: 'blue'
+    }
+  });
+  item5 = await $fetch(`/api/items/${item5._id}/attributes`, {
+    method: 'POST',
+    body: {
+      name: 'height',
+      value: '20cm'
+    }
+  });
+  item5 = await $fetch(`/api/items/${item5._id}/attributes`, {
+    method: 'POST',
+    body: {
+      name: 'length',
+      value: '25cm'
+    }
+  });
+  item5 = await $fetch(`/api/items/${item5._id}/attributes`, {
+    method: 'POST',
+    body: {
+      name: 'width',
+      value: '10cm'
+    }
+  });
+
+  let item6 = await $fetch('/api/items', {
+    method: 'POST',
+    body: {
+      name: 'Melância',
+      description: 'Fruto',
+      producer: 'Fruta das quintas',
+      category: category3,
+      imgPath: '/items/Melancia.png'
+    }
+  });
+  item6 = await $fetch(`/api/items/${item6._id}/attributes`, {
+    method: 'POST',
+    body: {
+      name: 'brand',
+      value: 'FrutaFresca'
+    }
+  });
+  item6 = await $fetch(`/api/items/${item6._id}/attributes`, {
+    method: 'POST',
+    body: {
+      name: 'weight',
+      value: '6Kg'
+    }
+  });
+
+  let item7 = await $fetch('/api/items', {
+    method: 'POST',
+    body: {
+      name: 'Ténis Nike',
+      description: 'Ténis leves, ideais para a corrida',
+      producer: 'Nike Enterprise.',
+      category: category1,
+      imgPath: '/items/627.png'
+    }
+  });
+  item7 = await $fetch(`/api/items/${item7._id}/attributes`, {
+    method: 'POST',
+    body: {
+      name: 'color',
+      value: 'blue'
+    }
+  });
+  item7 = await $fetch(`/api/items/${item7._id}/attributes`, {
+    method: 'POST',
+    body: {
+      name: 'size',
+      value: '39'
+    }
+  });
+
+  let item8 = await $fetch('/api/items', {
+    method: 'POST',
+    body: {
+      name: 'Garrafa de água',
+      description: 'Água natural dos Alpes',
+      producer: 'Evian Enterprise',
+      category: category3,
+      imgPath: '/items/58001011_1.jpg'
+    }
+  });
+  item8 = await $fetch(`/api/items/${item8._id}/attributes`, {
+    method: 'POST',
+    body: {
+      name: 'brand',
+      value: 'Evian'
+    }
+  });
+  item8 = await $fetch(`/api/items/${item8._id}/attributes`, {
+    method: 'POST',
+    body: {
+      name: 'liters',
+      value: '1.5L'
+    }
+  });
+  item8 = await $fetch(`/api/items/${item8._id}/attributes`, {
+    method: 'POST',
+    body: {
+      name: 'color',
+      value: 'pink'
     }
   });
 
@@ -328,7 +425,8 @@ export default defineEventHandler(async (event) => {
       currencyUnit: '€',
       supplier: user1,
       quantity: 3,
-      storage: storage1
+      storage: storage1,
+      stripeId: 'price_1LGYscAIdQC80EPdjxdetCta'
     }
   });
   const product2 = await $fetch('/api/products', {
@@ -340,7 +438,8 @@ export default defineEventHandler(async (event) => {
       currencyUnit: '€',
       supplier: user2,
       quantity: 8,
-      storage: storage2
+      storage: storage2,
+      stripeId: 'price_1LGYscAIdQC80EPdjxdetCta'
     }
   });
   const product3 = await $fetch('/api/products', {
@@ -352,9 +451,11 @@ export default defineEventHandler(async (event) => {
       currencyUnit: '€',
       supplier: user2,
       quantity: 8,
-      storage: storage2
+      storage: storage2,
+      stripeId: 'price_1LHtfaAIdQC80EPdohvIdLYZ'
     }
   });
 
+  console.log('Api reset was successful');
   return 'Api reset was successfull!';
 });

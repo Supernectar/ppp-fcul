@@ -49,6 +49,12 @@
                     >
                       Plate
                     </th>
+                    <th
+                      scope="col"
+                      class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                    >
+                      Location
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -58,27 +64,27 @@
                     class="border-b"
                   >
                     <td
-                      class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
+                      class="bg-white w-10 border-b transition duration-300 ease-in-out hover:bg-gray-100"
                     >
                       {{ transport.brand }}
                     </td>
                     <td
-                      class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
+                      class="bg-white w-10 border-b transition duration-300 ease-in-out hover:bg-gray-100"
                     >
                       {{ transport.model }}
                     </td>
                     <td
-                      class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
+                      class="bg-white w-10 border-b transition duration-300 ease-in-out hover:bg-gray-100"
                     >
                       {{ transport.maxLoad }}
                     </td>
                     <td
-                      class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
+                      class="bg-white w-10 border-b transition duration-300 ease-in-out hover:bg-gray-100"
                     >
                       {{ transport.status }}
                     </td>
                     <td
-                      class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
+                      class="bg-white w-10 border-b transition duration-300 ease-in-out hover:bg-gray-100"
                     >
                       <!-- {{
                         resourcesTransports[index].quantity +
@@ -88,9 +94,22 @@
                       }} -->
                     </td>
                     <td
-                      class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
+                      class="bg-white w-10 border-b transition duration-300 ease-in-out hover:bg-gray-100"
                     >
                       {{ transport.plate }}
+                    </td>
+                    <td
+                      class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
+                    >
+                      {{
+                        transport.location.street +
+                        ', ' +
+                        transport.location.zipCode +
+                        ', ' +
+                        transport.location.city +
+                        ', ' +
+                        transport.location.country
+                      }}
                     </td>
                     <td
                       class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
@@ -114,8 +133,8 @@
               <div class="flex gap-4">
                 <div>
                   <FormKit
-                    label="Brand of vehicle"
                     v-model="brand"
+                    label="Brand"
                     placeholder=""
                     type="text"
                     name="brand"
@@ -130,8 +149,8 @@
 
                 <div>
                   <FormKit
-                    label="Model of vehicle"
                     v-model="model"
+                    label="Model"
                     placeholder=""
                     type="text"
                     name="model"
@@ -146,8 +165,8 @@
 
                 <div>
                   <FormKit
-                    label="Status of vehicle"
                     v-model="status"
+                    label="Status"
                     placeholder=""
                     type="text"
                     name="status"
@@ -159,16 +178,14 @@
                     message-class="mt-1 text-sm text-red-600"
                   />
                 </div>
-                <!--
-                
                 <div>
                   <FormKit
-                    label="Maximum load"
-                    v-model="maxLoad"
+                    v-model="plate"
+                    label="Plate"
                     placeholder=""
-                    type="number"
-                    name="maxLoad"
-                    validation="required|min:0"
+                    type="text"
+                    name="plate"
+                    validation="required"
                     outer-class="mb-4"
                     label-class="form-label inline-block mb-2 text-gray-700"
                     input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
@@ -178,12 +195,10 @@
                 </div>
                 <div>
                   <FormKit
-                    label="Quantity consumed"
-                    v-model="quantityPerKm"
-                    placeholder="per km"
+                    v-model="street"
+                    label="Street"
                     type="text"
-                    name="quantityPerKm"
-                    validation="required"
+                    validation="required|length:6"
                     outer-class="mb-4"
                     label-class="form-label inline-block mb-2 text-gray-700"
                     input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
@@ -194,44 +209,10 @@
 
                 <div>
                   <FormKit
-                    label="Unit"
-                    v-model="unit"
-                    placeholder=""
-                    type="select"
-                    name="unit"
-                    :options="['L', 'kWh']"
-                    validation="required"
-                    outer-class="mb-4"
-                    label-class="form-label inline-block mb-2 text-gray-700"
-                    input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                    help-class="text-sm text-gray-500 mt-1"
-                    message-class="mt-1 text-sm text-red-600"
-                  />
-                </div>
-   <div>
-                  <FormKit
-                    label="Type Of Fuel"
-                    v-model="fueltype"
-                    placeholder=""
-                    type="select"
-                    name="fuel"
-                    :options="['Diesel', 'Gasoline', 'Biodiesel', 'Electric']"
-                    validation="required"
-                    outer-class="mb-4"
-                    label-class="form-label inline-block mb-2 text-gray-700"
-                    input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                    help-class="text-sm text-gray-500 mt-1"
-                    message-class="mt-1 text-sm text-red-600"
-                  />
-                </div>-->
-                <div>
-                  <FormKit
-                    label="Plate of vehicle"
-                    v-model="plate"
-                    placeholder=""
+                    v-model="zipCode"
+                    label="Zip Code"
                     type="text"
-                    name="plate"
-                    validation="required"
+                    validation="required|matches:/^[0-9]{4}-[0-9]{3}$/"
                     outer-class="mb-4"
                     label-class="form-label inline-block mb-2 text-gray-700"
                     input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
@@ -241,11 +222,25 @@
                 </div>
                 <div>
                   <FormKit
-                    label="Address"
-                    v-model="address"
-                    placeholder=""
+                    v-model="city"
+                    label="City"
                     type="text"
-                    name="plate"
+                    validation="required|length:4"
+                    outer-class="mb-4"
+                    label-class="form-label inline-block mb-2 text-gray-700"
+                    input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                    help-class="text-sm text-gray-500 mt-1"
+                    message-class="mt-1 text-sm text-red-600"
+                  />
+                </div>
+
+                <div>
+                  <FormKit
+                    v-model="country"
+                    label="Country"
+                    type="select"
+                    placeholder="Choose a country"
+                    :options="names"
                     validation="required"
                     outer-class="mb-4"
                     label-class="form-label inline-block mb-2 text-gray-700"
@@ -274,35 +269,47 @@
 <script setup>
 const user = useUser();
 
+// Countries
+const names = ref([]);
+const result2 = await $fetch(`https://restcountries.com/v3.1/all`);
+for (let i = 0; i < result2.length; i++) {
+  names.value.push(result2[i].name.common);
+}
+names.value.sort((a, b) => a.localeCompare(b));
+
 const transports = ref([]);
 transports.value = await $fetch(`/api/users/${user.data._id}/transports`);
+console.log(transports.value);
+
+for (let i = 0; i < transports.value; i++) {
+  console.log(transport);
+}
 
 // Create new transport
-// const maxLoad = ref('');
 const status = ref('');
 const brand = ref('');
 const model = ref('');
-// const quantityPerKm = ref('');
-// const unit = ref('');
 const plate = ref('');
-// const fueltype = ref('');
-// const resource = ref('');
-// const resQuantity = ref(30);
-// const polQuantity = ref(300);
+const street = ref('');
+const zipCode = ref('');
+const city = ref('');
+const country = ref('');
+
 async function createVehicle() {
   await $fetch(`/api/users/${user.data._id}/transports`, {
     method: 'POST',
 
     body: {
-      // maxLoad: maxLoad.value,
       brand: brand.value,
       model: model.value,
       status: status.value,
-      // quantity: quantityPerKm.value,
-      // unit: unit.value,
-      plate: plate.value
-      // resources: [{ quantity: resQuantity.value, resource: resource.value._id }]
-      // polutions: [polQuantity.value]
+      plate: plate.value,
+      location: {
+        street: street.value,
+        country: country.value,
+        city: city.value,
+        zipCode: zipCode.value
+      }
     }
   });
 

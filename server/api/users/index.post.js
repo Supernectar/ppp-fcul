@@ -1,12 +1,16 @@
 import User from '~~/server/models/User';
 
 export default defineEventHandler(async (event) => {
-  const { username, name, password, email, phone, creditCard, nif, address } =
+  const { name, password, email, phone, creditCard, nif, address } =
     await useBody(event);
 
+  if ((await $fetch(`/api/users?email=${email}`)).length > 0) {
+    return { error: 'User already exists' };
+  }
+
   try {
-    const user = await User.create({
-      username,
+    await User.create({
+      username: email.split('@')[0] + ((await User.count()) + 200),
       name,
       password,
       email,
@@ -16,6 +20,7 @@ export default defineEventHandler(async (event) => {
       address
     });
 
+    const user = await User.findOne({ email });
     return user;
   } catch (err) {
     console.log(err);

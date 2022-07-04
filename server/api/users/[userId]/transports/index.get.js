@@ -7,7 +7,9 @@ export default defineEventHandler(async (event) => {
     const user = await User.findById(userId);
 
     const transportIds = user.transporterData.vehicles;
-    const transports = await Transport.find({ _id: transportIds });
+    const transports = await Transport.find({ _id: transportIds }).populate(
+      'resources.resource'
+    );
 
     return transports;
   } catch (err) {

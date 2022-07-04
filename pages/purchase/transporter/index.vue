@@ -315,6 +315,7 @@ for (const fuel of fuelConsumption.value) {
   }
 }
 fuel.value = fuelResources.value[0];
+console.log(fuelResources.value);
 consumptionMin.value = fuelConsumption.value[0][0];
 consumptionMax.value = fuelConsumption.value[0][1];
 consumption.value = consumptionMin.value;

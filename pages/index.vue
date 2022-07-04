@@ -561,6 +561,7 @@ import { CheckIcon, SelectorIcon, ChevronUpIcon } from '@heroicons/vue/solid';
 const route = useRoute();
 const categories2 = ref({});
 
+// onMounted()
 const expandNode = async (node) => {
   if (node.children.length > 0) {
     for (let i = 0; i < node.children.length; i++) {

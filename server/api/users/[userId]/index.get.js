@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
         path: 'supplierData',
         populate: {
           path: 'orders',
-          populate: ['product', 'consumer']
+          populate: ['product', 'consumer', 'status']
         }
       })
       .populate({
@@ -25,7 +25,6 @@ export default defineEventHandler(async (event) => {
           ]
         }
       });
-
     return user;
   } catch (err) {
     console.log(err);

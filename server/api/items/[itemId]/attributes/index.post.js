@@ -3,10 +3,15 @@ import Item from '~~/server/models/Item';
 export default defineEventHandler(async (event) => {
   const { itemId } = event.context.params;
 
+  const { name, value } = await useBody(event);
+
   try {
-    const item = await Item.findById(itemId)
-      .populate('polutions.polution')
-      .populate('resources.resource');
+    await Item.findByIdAndUpdate(itemId, {
+      $push: {
+        attributes: { name, value }
+      }
+    });
+    const item = await Item.findById(itemId);
 
     return item;
   } catch (err) {

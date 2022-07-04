@@ -4,7 +4,7 @@ import Resource from '~~/server/models/Resource';
 import Polution from '~~/server/models/Polution';
 
 export default defineEventHandler(async (event) => {
-  const { brand, model, status, plate } = await useBody(event);
+  const { brand, model, status, plate, location } = await useBody(event);
   const { userId } = event.context.params;
 
   try {
@@ -36,6 +36,7 @@ export default defineEventHandler(async (event) => {
       resources: actualResources,
       polutions: actualPolutions,
       plate,
+      location,
       owner: userId
     });
     // console.log(transport);

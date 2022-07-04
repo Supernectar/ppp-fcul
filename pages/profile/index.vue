@@ -15,31 +15,44 @@
                 <tr>
                   <th
                     scope="col"
-                    class="text-sm font-medium text-gray-900 px-3 py-2 md:px-6 md:py-4"
+                    class="text-sm font-medium text-gray-900 px-2 py-2 md:px-6 md:py-4 text-left"
                   >
                     #
                   </th>
                   <th
                     scope="col"
-                    class="text-sm font-medium text-gray-900 px-3 py-2 md:px-6 md:py-4"
+                    class="text-sm font-medium text-gray-900 px-2 py-2 md:px-6 md:py-4 text-left"
                   >
-                    Number of items
+                    Created at
+                  </th>
+
+                  <th
+                    scope="col"
+                    class="text-sm font-medium text-gray-900 px-2 py-2 md:px-6 md:py-4 text-left"
+                  >
+                    Nº of items
                   </th>
                   <th
                     scope="col"
-                    class="text-sm font-medium text-gray-900 px-3 py-2 md:px-6 md:py-4"
+                    class="text-sm font-medium text-gray-900 px-2 py-2 md:px-6 md:py-4 text-left"
                   >
                     Price
                   </th>
                   <th
                     scope="col"
-                    class="text-sm font-medium text-gray-900 px-3 py-2 md:px-6 md:py-4"
+                    class="text-sm font-medium text-gray-900 px-2 py-2 md:px-6 md:py-4 text-left"
                   >
                     Status
                   </th>
                   <th
                     scope="col"
-                    class="text-sm font-medium text-gray-900 px-3 py-2 md:px-6 md:py-4"
+                    class="text-sm font-medium text-gray-900 px-2 py-2 md:px-6 md:py-4 text-left"
+                  >
+                    Arrival Date
+                  </th>
+                  <th
+                    scope="col"
+                    class="text-sm font-medium text-gray-900 px-2 py-2 md:px-6 md:py-4text-left"
                   ></th>
                 </tr>
               </thead>
@@ -56,6 +69,11 @@
                     {{ index + 1 }}
                   </td>
                   <td
+                    class="px-6 py-4 whitespace-nowrap text-sm font-light text-gray-900"
+                  >
+                    {{ order.createdAt }}
+                  </td>
+                  <td
                     class="w-20 text-sm text-gray-900 font-light px-2 py-3 whitespace-nowrap"
                   >
                     {{ order.products.length }}
@@ -69,6 +87,11 @@
                     class="w-30 text-sm text-gray-900 font-light px-2 py-3 whitespace-nowrap"
                   >
                     {{ order.status }}
+                  </td>
+                  <td
+                    class="px-6 py-4 whitespace-nowrap text-sm font-light text-gray-900"
+                  >
+                    {{ order.arrivalDate || 'no arrival date' }}
                   </td>
                   <div class="flex my-1.5">
                     <div>
@@ -115,7 +138,12 @@
                 <div>Number of items bought per day</div>
               </div>
             </div>-->
-            <div v-if="user.data.consumerData.orders.length !== 0">
+            <div
+              v-if="
+                user.data.consumerData.orders.length !== 0 &&
+                user.data.type === 'Consumer'
+              "
+            >
               <div class="shadow-lg rounded-lg w-75 sm:w-95 md:w-125">
                 <div class="py-3 px-1 bg-gray-50">
                   Polution generated in the first half of the year
@@ -237,8 +265,10 @@ const suggestedItems = ref([]);
 let orders = [];
 
 const totalPolutionP = ref(0);
+const totalPolutionPg = ref(0);
+const totalPolutionPKg = ref(0);
 
-onMounted(() => {
+onMounted(async () => {
   let products = [];
   const totalPolutionO = [];
   const polutions = [];
@@ -250,11 +280,22 @@ onMounted(() => {
     products = orders[i].products;
     for (let j = 0; j < products.length; j++) {
       for (let k = 0; k < products[j].product.polutions.length; k++) {
-        totalPolutionP.value +=
-          products[j].product.polutions[k].quantity *
-          products[j].product.quantity;
+        const unit = await $fetch(
+          `/api/polutions/${products[j].product.polutions[k].polution}`
+        );
+        if (unit.unit === 'g') {
+          totalPolutionPg.value +=
+            products[j].product.polutions[k].quantity *
+            products[j].product.quantity;
+        } else if (unit.unit === 'kg') {
+          totalPolutionPKg.value +=
+            products[j].product.polutions[k].quantity *
+            products[j].product.quantity;
+        }
       }
     }
+    totalPolutionP.value =
+      totalPolutionPg.value / 1000 + totalPolutionPKg.value;
     totalPolutionO.push(totalPolutionP.value);
 
     if (orders[i].arrivalDate !== undefined) {

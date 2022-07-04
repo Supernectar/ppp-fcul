@@ -15,7 +15,10 @@ export default mongoose.model(
         type: Schema.Types.ObjectId,
         ref: 'User'
       },
-      status: String,
+      status: {
+        type: Schema.Types.ObjectId,
+        ref: 'Status'
+      },
       departureDate: String,
       arrivalDate: String,
       // itineraries: [

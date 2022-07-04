@@ -98,8 +98,8 @@ export default defineEventHandler(async (event) => {
         );
       }
     }
-
-    return res;
+    const userRes = await User.findById(userId);
+    return userRes;
   } catch (err) {
     console.log(err);
     return { error: 'Could not update user' };

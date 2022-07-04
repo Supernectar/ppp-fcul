@@ -176,6 +176,7 @@
 
 <script setup>
 import { StripeCheckout } from '@vue-stripe/vue-stripe';
+// import stripe from 'stripe';
 import useCart from '~/stores/cart';
 import useOrder from '~/stores/orderTransport';
 
@@ -261,7 +262,7 @@ async function createOrder() {
   });
 }
 
-// const { paymentIntent } = await publishableKey.retrievePaymentIntent(
+// const { paymentIntent } = await stripe.retrievePaymentIntent(
 //   checkoutRef
 // ); // (clientSecret);
 // if (paymentIntent && paymentIntent.status === 'succeeded') {

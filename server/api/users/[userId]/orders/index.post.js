@@ -1,6 +1,7 @@
 import Order from '~~/server/models/Order';
 import User from '~~/server/models/User';
 import Transport from '~~/server/models/Transport';
+import Status from '~~/server/models/Status';
 
 export default defineEventHandler(async (event) => {
   const { status, products, transport } = await useBody(event);
@@ -22,14 +23,17 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
+    const statusModel = await Status.create({
+      name: status
+    });
     const orderC = await Order.create({
-      status,
+      status: statusModel,
       products: products2,
       transporter: transport
     });
 
     const orderT = await Order.create({
-      status,
+      status: statusModel,
       products: products2,
       consumer: userId
     });
@@ -48,8 +52,6 @@ export default defineEventHandler(async (event) => {
       }
     });
     for (const prod of products2) {
-      console.log(products);
-      // console.log(prod.product);
       const orderSup = await User.findByIdAndUpdate(
         prod.product.productLine.supplier,
         {
@@ -59,7 +61,7 @@ export default defineEventHandler(async (event) => {
               consumer: userId,
               product: prod.product,
               quantity: prod.quantity,
-              status: 'created'
+              status: statusModel
             }
           }
         }
