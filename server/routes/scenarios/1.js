@@ -87,7 +87,7 @@ export default defineEventHandler(async (event) => {
   await $fetch('/api/polutions', {
     method: 'POST',
     body: {
-      name: 'Ozone',
+      name: 'Others',
       unit: 'g'
     }
   });

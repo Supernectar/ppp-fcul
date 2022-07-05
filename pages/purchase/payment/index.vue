@@ -95,7 +95,7 @@
             <td
               class="py-2 text-sm text-gray-700 whitespace-nowrap text-center"
             >
-              <img src="/img/627.png" class="h-16 rounded-lg border" />
+              <img :src="myProducts[index].imgPath" class="h-16 rounded-lg border" />
             </td>
 
             <td class="p-4 text-sm text-gray-700 whitespace-nowrap text-center">

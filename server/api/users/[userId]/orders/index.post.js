@@ -52,20 +52,17 @@ export default defineEventHandler(async (event) => {
       }
     });
     for (const prod of products2) {
-      const orderSup = await User.findByIdAndUpdate(
-        prod.product.productLine.supplier,
-        {
-          $push: {
-            'supplierData.orders': {
-              date: new Date(),
-              consumer: userId,
-              product: prod.product,
-              quantity: prod.quantity,
-              status: statusModel
-            }
+      const orderSup = await User.findByIdAndUpdate(prod.product.supplier, {
+        $push: {
+          'supplierData.orders': {
+            date: new Date(),
+            consumer: userId,
+            product: prod.product,
+            quantity: prod.quantity,
+            status: statusModel
           }
         }
-      );
+      });
     }
     return orderUser;
   } catch (err) {

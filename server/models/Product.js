@@ -4,37 +4,37 @@ const { Schema } = mongoose;
 export default mongoose.model(
   'Product',
   new Schema({
-    productLine: {
+    item: {
       type: Schema.Types.ObjectId,
-      ref: 'ProductLine',
+      ref: 'Item',
       required: true
+    },
+    price: {
+      type: Number,
+      required: true
+    },
+    currencyUnit: {
+      type: String,
+      required: true
+    },
+    name: {
+      type: String
     },
     quantity: {
       type: Number,
       required: [true, 'street required']
     },
-    storage: {
+    storages: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Storage'
+      }
+    ],
+    supplier: {
       type: Schema.Types.ObjectId,
-      ref: 'Storage'
+      ref: 'User',
+      required: true
     },
-    resources: [
-      {
-        quantity: Number,
-        resource: {
-          type: Schema.Types.ObjectId,
-          ref: 'Resource'
-        }
-      }
-    ],
-    polutions: [
-      {
-        quantity: Number,
-        polution: {
-          type: Schema.Types.ObjectId,
-          ref: 'Polution'
-        }
-      }
-    ],
     stripeId: {
       type: String
     },

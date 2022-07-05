@@ -20,12 +20,7 @@ export default defineEventHandler(async (event) => {
           path: 'products',
           populate: {
             path: 'product',
-            populate: [
-              {
-                path: 'productLine',
-                populate: 'item'
-              }
-            ]
+            populate: 'item'
           }
         })
         .populate('status');

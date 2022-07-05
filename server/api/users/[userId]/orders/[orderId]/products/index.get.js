@@ -13,9 +13,9 @@ export default defineEventHandler(async (event) => {
     const products = await Product.find({
       _id: { $in: productIds }
     })
-      .populate('productLine')
-      .populate('polutions.polution')
-      .populate({ path: 'productLine', populate: ['item', 'supplier'] });
+      .populate('item')
+      .populate('supplier')
+      .populate('polutions.polution');
 
     return products;
   } catch (err) {

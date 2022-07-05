@@ -1,5 +1,4 @@
 import Product from '~~/server/models/Product';
-import ProductLine from '~~/server/models/ProductLine';
 import Storage from '~~/server/models/Storage';
 
 export default defineEventHandler(async (event) => {
@@ -7,12 +6,6 @@ export default defineEventHandler(async (event) => {
 
   try {
     const product = await Product.findById(productId);
-
-    await ProductLine.findByIdAndUpdate(product.productLine, {
-      $pull: {
-        products: productId
-      }
-    });
 
     await Storage.findByIdAndUpdate(product.storage, {
       $pull: {

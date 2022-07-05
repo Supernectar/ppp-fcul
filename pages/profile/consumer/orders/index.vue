@@ -145,7 +145,7 @@ console.log(orders);
 for (const order of orders) {
   order.price = ref(0);
   for (const product of order.products) {
-    order.price.value += product.product.productLine.price * product.quantity;
+    order.price.value += product.product.price * product.quantity;
   }
 }
 

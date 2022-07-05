@@ -13,12 +13,11 @@
             <p>description here</p>
             <div>
               <ul>
-                <li v-for="productLine in productLines">
+                <li v-for="product in products">
                   <b>product: </b>
-                  <NuxtLink
-                    :to="`/profile/supplier/products/${productLine._id}`"
-                    >{{ productLine.name }}</NuxtLink
-                  >
+                  <NuxtLink :to="`/profile/supplier/products/${product._id}`">{{
+                    product.name
+                  }}</NuxtLink>
                 </li>
               </ul>
             </div>
@@ -148,9 +147,9 @@ import { CheckIcon, SelectorIcon } from '@heroicons/vue/outline';
 const user = useUser();
 
 const storages = ref([]);
-const productLines = ref([]);
+const products = ref([]);
 
-productLines.value = await $fetch(`/api/users/${user.data._id}/productLines`);
+products.value = await $fetch(`/api/users/${user.data._id}/products`);
 
 storages.value = await $fetch(`/api/users/${user.data._id}/storages`);
 const selectedStorages = ref([]);

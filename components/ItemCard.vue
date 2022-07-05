@@ -1,13 +1,13 @@
 <template>
   <div class="group hover:shadow rounded overflow-hidden">
-    <div class="cursor-pointer" @click="goToProductPage($attrs.itemValue._id)">
+    <NuxtLink :to="`/items/${$attrs.itemValue._id}`">
       <div class="p-2 overflow-hidden">
         <img
           :src="$attrs.itemValue.imgPath"
           class="object-contain scale-75 group-hover:scale-100 transition-all m-auto"
         />
       </div>
-    </div>
+    </NuxtLink>
 
     <div class="p-2 bg-white">
       <h5 class="font-semibold text-left">
@@ -82,10 +82,6 @@ const user = useUser();
 const { itemValue } = useAttrs();
 const products = await $fetch(`/api/products?item=${itemValue._id}`);
 
-// itemValue.minPrice = Math.min(...products.map((o) => o.price));
-// itemValue.price = itemValue.minPrice;
-// itemValue.maxPrice = Math.max(...products.map((o) => o.price));
-
 const toggleFavourite = (itemId) => {
   if (user.data.consumerData.wishlist.includes(itemId)) {
     user.data.consumerData.wishlist.splice(
@@ -94,11 +90,4 @@ const toggleFavourite = (itemId) => {
     );
   } else user.data.consumerData.wishlist.push(itemId);
 };
-
-async function goToProductPage(id) {
-  const router = useRouter();
-  const product = (await $fetch(`/api/products?item=${id}`))[0];
-  // console.log();
-  router.push(`/items/${id}/products/${product._id}`);
-}
 </script>

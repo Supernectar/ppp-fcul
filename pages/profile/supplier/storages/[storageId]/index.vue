@@ -54,20 +54,17 @@
                             class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
                           >
                             <b class="">
-                              {{ product.productLine.name || 'no name' }}
+                              {{ product.name || 'Unnamed product' }}
                             </b>
 
                             <i class="block text-sm text-gray-600">
-                              {{ product.productLine.item.name }}
+                              {{ product.item.name }}
                             </i>
                           </td>
                           <td
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                           >
-                            {{
-                              product.productLine.price +
-                              product.productLine.currencyUnit
-                            }}
+                            {{ product.price + product.currencyUnit }}
                           </td>
                           <td
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
@@ -78,7 +75,7 @@
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                           >
                             <!-- {{
-                              product.productLine.item.isConsumable
+                              product.item.isConsumable
                                 ? product.expirationDate
                                 : 'does not apply'
                             }} -->
@@ -279,7 +276,7 @@ for (const product of products.value) {
     if (!exists) polutions.value.push(quantityPlusPolution);
   }
 
-  for (const polution of product.productLine.item.polutions) {
+  for (const polution of product.item.polutions) {
     const polutionObject = await $fetch(`/api/polutions/${polution._id}`);
 
     const quantityPlusPolution = {

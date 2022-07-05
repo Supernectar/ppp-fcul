@@ -83,10 +83,9 @@
                           <td
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                           >
-                            {{ order.product.productLine.item.name }}
+                            {{ order.product.item.name }}
                             <br />
-                            {{ order.product.productLine.item.brand }}
-                            <!-- {{ order.product.productLine }} -->
+                            {{ order.product.item.brand }}
                           </td>
                           <td
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"

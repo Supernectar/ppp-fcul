@@ -60,21 +60,23 @@
           </thead>
           <tbody class="divide-y divide-gray-300 text-center">
             <tr
-              v-for="(cartItem, index) in cart"
-              :id="cartItem.product"
+              v-for="(product, index) in products"
               :key="index"
               class="bg-white"
             >
               <td class="text-sm text-gray-700 whitespace-nowrap text-center">
-                <img src="/img/627.png" class="h-16 rounded-lg border ml-1/2" />
+                <img
+                  :src="product.item.imgPath"
+                  class="h-16 rounded-lg border ml-1/2"
+                />
               </td>
 
               <td
                 class="p-4 text-sm text-gray-700 whitespace-nowrap text-center"
               >
-                {{ myItems[index].name }}
+                {{ product.item.name }}
                 <br />
-                {{ myProducts[index].productLine.supplier.username }}
+                {{ product.supplier.username }}
               </td>
               <td
                 class="p-4 text-sm text-gray-700 whitespace-nowrap text-center"
@@ -84,12 +86,12 @@
               <td
                 class="p-4 text-sm text-gray-700 whitespace-nowrap text-center"
               >
-                {{ cartItem.quantity }}
+                {{ cart[index].quantity }}
               </td>
               <td
                 class="p-4 text-sm text-gray-700 whitespace-nowrap text-center"
               >
-                {{ myProducts[index].productLine.price * cartItem.quantity }}€
+                {{ product.price * cart[index].quantity }}€
               </td>
             </tr>
             <tr>
@@ -137,21 +139,17 @@
 import useCart from '~/stores/cart';
 const store = useCart();
 const cart = ref(store.getCart);
-const myProducts = ref([]);
-const myItems = ref([]);
+const products = ref([]);
 const total = ref(0);
 
-for (let i = 0; i < cart.value.length; i++) {
-  myProducts.value[i] = await $fetch(`/api/products/${cart.value[i].product}`);
-
-  myItems.value[i] = await $fetch(
-    `/api/items/${myProducts.value[i].productLine.item._id}`
-  );
+for (const cartProduct of cart.value) {
+  products.value.push(await $fetch(`/api/products/${cartProduct.product}`));
 }
 
-for (let i = 0; i < myProducts.value.length; i++) {
-  total.value =
-    total.value +
-    myProducts.value[i].productLine.price * cart.value[i].quantity;
+console.log(products.value[0]);
+
+for (let i = 0; i < products.value.length; i++) {
+  console.log(products.value[0]);
+  total.value += products.value[i].price * cart.value[i].quantity;
 }
 </script>

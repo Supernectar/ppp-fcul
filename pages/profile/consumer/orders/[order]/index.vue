@@ -40,20 +40,20 @@
                   <div
                     class="font-medium text-gray-900 px-6 py-4 font-medium bg-white"
                   >
-                    {{ prod.product.productLine.item.name }}
+                    {{ prod.product.item.name }}
                     <br />
-                    {{ prod.product.productLine.item.brand }}
+                    {{ prod.product.item.brand }}
                   </div>
                   <div
                     class="font-medium text-gray-900 px-6 py-4 font-medium bg-white"
                   >
-                    {{ prod.product.productLine.supplier.name }}
+                    {{ prod.product.supplier.name }}
                   </div>
                   <div
                     class="font-medium text-gray-900 px-6 py-4 font-medium bg-white"
                   >
-                    {{ prod.product.productLine.price * prod.quantity }}
-                    {{ prod.product.productLine.currencyUnit }}
+                    {{ prod.product.price * prod.quantity }}
+                    {{ prod.product.currencyUnit }}
                   </div>
                 </div>
                 <div class="mb-4 mt-1">
@@ -72,12 +72,12 @@
                         <li class="mb-2 mr-8">
                           <u>Description:</u>
                           <br />
-                          {{ prod.product.productLine.item.description }}
+                          {{ prod.product.item.description }}
                         </li>
                         <u>attributes:</u>
                         <li
-                          v-for="(attribute, index2) in prod.product.productLine
-                            .item.attributes"
+                          v-for="(attribute, index2) in prod.product.item
+                            .attributes"
                           :key="index2"
                           class="text-sm"
                         >

@@ -9,9 +9,8 @@ export default defineEventHandler(async (event) => {
     const products = await Product.find({
       _id: { $in: productIds }
     })
-      .populate('productLine')
-      .populate('storage')
-      .populate({ path: 'productLine', populate: 'item' });
+      .populate('item')
+      .populate('storages');
 
     return products;
   } catch (err) {

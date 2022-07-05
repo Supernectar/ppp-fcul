@@ -13,23 +13,23 @@
         </thead>
         <tbody>
           <tr
-            v-for="(polutions, index) in item.polutions"
+            v-for="(resources, index) in item.resources"
             :key="index"
             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
           >
             <td class="px-6 py-4">
               {{
-                polutions.polution
-                  ? polutions.polution.name
-                  : 'polutions not updated'
+                resources.resource
+                  ? resources.resource.name
+                  : 'resources not updated'
               }}
             </td>
-            <td class="px-6 py-4">{{ polutions.quantity }}</td>
+            <td class="px-6 py-4">{{ resources.quantity }}</td>
             <td class="px-6 py-4">
               {{
-                polutions.polution
-                  ? polutions.polution.unit
-                  : 'polutions not updated'
+                resources.resource
+                  ? resources.resource.unit
+                  : 'resources not updated'
               }}
             </td>
           </tr>
@@ -41,4 +41,5 @@
 
 <script setup>
 const { item } = useAttrs();
+console.log(item);
 </script>

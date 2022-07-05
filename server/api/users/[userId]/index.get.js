@@ -16,13 +16,7 @@ export default defineEventHandler(async (event) => {
         path: 'supplierData.orders',
         populate: {
           path: 'product',
-          populate: [
-            {
-              path: 'productLine',
-              populate: 'item'
-            },
-            'storage'
-          ]
+          populate: ['item', 'storage']
         }
       });
     return user;

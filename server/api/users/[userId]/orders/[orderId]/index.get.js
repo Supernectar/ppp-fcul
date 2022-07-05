@@ -7,10 +7,8 @@ export default defineEventHandler(async (event) => {
     const order = await Order.findById(orderId).populate({
       path: 'products.product',
       populate: [
-        {
-          path: 'productLine',
-          populate: ['item', 'supplier']
-        },
+        'item',
+        'supplier',
         { path: 'polutions', populate: ['polution'] },
         { path: 'resources', populate: ['resource'] }
       ]

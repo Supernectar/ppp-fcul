@@ -8,12 +8,18 @@
           <tr>
             <th class="w-20 text-sm text-gray-200">attributes</th>
             <th class="w-20 text-sm text-gray-200 whitespace-nowrap">
-              <img src="/img/627.png" class="h-16 rounded-lg border" />
-              {{ myItems[0].name }}
+              <img
+                :src="products[0].item.imgPath"
+                class="h-16 rounded-lg border m-auto"
+              />
+              {{ products[0].item.name }}
             </th>
             <th class="w-20 text-sm text-gray-200 whitespace-nowrap">
-              <img src="/img/627.png" class="h-16 rounded-lg border" />
-              {{ myItems[1].name }}
+              <img
+                :src="products[1].item.imgPath"
+                class="h-16 rounded-lg border m-auto"
+              />
+              {{ products[1].item.name }}
             </th>
           </tr>
         </thead>
@@ -22,19 +28,15 @@
             class="bg-white text-sm text-gray-700 whitespace-nowrap text-center"
           >
             <td>price</td>
-            <td>
-              {{ myProducts[0].productLine.price }}{{ myProducts[0].unit }}
-            </td>
-            <td>
-              {{ myProducts[1].productLine.price }}{{ myProducts[1].unit }}
-            </td>
+            <td>{{ products[0].price }}{{ products[0].unit }}</td>
+            <td>{{ products[1].price }}{{ products[1].unit }}</td>
           </tr>
           <tr
             class="bg-white text-sm text-gray-700 whitespace-nowrap text-center"
           >
             <td>supplier</td>
-            <td>{{ myProducts[0].productLine.supplier.username }}</td>
-            <td>{{ myProducts[1].productLine.supplier.username }}</td>
+            <td>{{ products[0].supplier.username }}</td>
+            <td>{{ products[1].supplier.username }}</td>
           </tr>
           <tr
             v-for="(attr, index) in attrs"
@@ -43,13 +45,13 @@
             class="bg-white text-sm text-gray-700 whitespace-nowrap text-center"
           >
             <td>
-              {{ attr[0] }}
+              {{ attr[1].name || attr[2].name }}
             </td>
             <td>
-              {{ attr[1] }}
+              {{ attr[1].value || '-' }}
             </td>
             <td>
-              {{ attr[2] }}
+              {{ attr[2].value || '-' }}
             </td>
           </tr>
         </tbody>
@@ -61,55 +63,49 @@
 import useCompare from '~/stores/compare';
 const storeCompare = useCompare();
 const compare = ref(storeCompare.getCompare);
-const myProducts = ref([]);
-const myItems = ref([]);
+const products = ref([]);
 const attrs = ref([]);
 console.log(attrs.value);
-for (let i = 0; i < compare.value.length; i++) {
-  myProducts.value[i] = await $fetch(`/api/products/${compare.value[i]}`);
-  myItems.value[i] = await $fetch(
-    `/api/items/${myProducts.value[i].productLine.item._id}`
-  );
+
+for (const productId of compare.value) {
+  products.value.push(await $fetch(`/api/products/${productId}`));
 }
-// console.log(myProducts.value);
-// console.log(myItems.value[0].attributes !== undefined);
-console.log('aaa');
+
+console.log(products.value);
 console.log(attrs.value);
-if (myItems.value[0].attributes !== undefined) {
-  for (const attr of Object.keys(myItems.value[0].attributes)) {
+if (products.value[0].item.attributes !== undefined) {
+  for (const attr of Object.keys(products.value[0].item.attributes)) {
     // console.log(myItems.value[1].attributes !== undefined);
     // console.log('errro');
-    if (myItems.value[1].attributes !== undefined) {
+    if (products.value[1].item.attributes !== undefined) {
       // console.log(myItems.value[1].attributes);
-      if (Object.keys(myItems.value[1].attributes).includes(attr)) {
+      if (Object.keys(products.value[1].item.attributes).includes(attr)) {
         // if (attr in myItems.value[1].attributes) {
         console.log('if');
         console.log(attr);
         attrs.value.push([
           attr,
-          myItems.value[0].attributes[attr],
-          myItems.value[1].attributes[attr]
+          products.value[0].item.attributes[attr],
+          products.value[1].item.attributes[attr]
         ]);
       } else {
         console.log('else');
         console.log(attr);
-        attrs.value.push([attr, myItems.value[0].attributes[attr], '-']);
+        attrs.value.push([attr, products.value[0].item.attributes[attr], '-']);
       }
     }
   }
 }
 console.log(11);
 console.log(attrs.value);
-if (myItems.value[1].attributes !== undefined) {
-  for (const attr of Object.keys(myItems.value[1].attributes)) {
+if (products.value[1].item.attributes !== undefined) {
+  for (const attr of Object.keys(products.value[1].item.attributes)) {
     // console.log(!attrs.value.includes(attr));
     // console.log(attrs.value);
     if (!attrs.value.includes(attr)) {
       // console.log(attr);
-      attrs.value.push([attr, '-', myItems.value[1].attributes[attr]]);
+      attrs.value.push([attr, '-', products.value[1].item.attributes[attr]]);
     }
   }
 }
-// console.log('---');
-// console.log(attrs);
 </script>

@@ -108,7 +108,7 @@
                         {{ myItems[index].name }}
                       </th>
                       <td class="px-2 py-4">
-                        {{ myProducts[index].productLine.price }}
+                        {{ myProducts[index].price }}
                       </td>
                       <td class="px-2 py-4">
                         <input
@@ -388,7 +388,7 @@ for (let i = 0; i < cart.value.length; i++) {
     // console.log(await $fetch(`/api/products/${cart.value[i].product}`));
 
     myItems.value[i] = await $fetch(
-      `/api/items/${myProducts.value[i].productLine.item._id}`
+      `/api/items/${myProducts.value[i].item._id}`
     );
   }
 }

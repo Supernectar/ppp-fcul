@@ -8,6 +8,8 @@ export default defineEventHandler(async (event) => {
       .populate('polutions.polution')
       .populate('resources.resource');
 
+      console.log(itemId)
+      console.log(item)
     return item;
   } catch (err) {
     console.log(err);

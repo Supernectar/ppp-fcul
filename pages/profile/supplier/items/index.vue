@@ -6,23 +6,6 @@
       <div class="flex-grow order-2">
         <section class="p-2 overflow-hidden min-h-screen">
           <h1 class="text-4xl font-bold">Items</h1>
-          <!-- <div id="products" class="mt-4 border rounded-xl">
-            <h2 class="text-xl font-semibold">
-              Items your're currently selling
-            </h2>
-            <p>description here</p>
-            <div>
-              <ul>
-                <li v-for="productLine in productLines">
-                  <b>product: </b>
-                  <NuxtLink
-                    :to="`/profile/supplier/products/${productLine._id}`"
-                    >{{ productLine.name }}</NuxtLink
-                  >
-                </li>
-              </ul>
-            </div>
-          </div> -->
           <div id="sellProduct" class="mt-4 border rounded-xl">
             <h2 class="text-xl font-semibold">Create a new item here</h2>
             <!-- <p>description here</p> -->

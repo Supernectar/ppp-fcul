@@ -599,13 +599,6 @@ watch(
   async () => {
     let tempItems = await $fetch(`/api/items?category=${category.value._id}`);
 
-    for (const item of tempItems) {
-      const products = await $fetch(`/api/products?item=${item._id}`);
-
-      item.minPrice = Math.min(...products.map((o) => o.price));
-      item.price = item.minPrice;
-      item.maxPrice = Math.max(...products.map((o) => o.price));
-    }
     tempItems = tempItems.filter(
       (item) => item.rating === selectedFilters.value.rating
     );
@@ -633,14 +626,6 @@ onMounted(async () => {
 
     // ---- Loading Items ---- //
     items.value = await $fetch(`/api/items?category=${category.value._id}`);
-
-    for (const item of items.value) {
-      const products = await $fetch(`/api/products?item=${item._id}`);
-
-      item.minPrice = Math.min(...products.map((o) => o.price));
-      item.price = item.minPrice;
-      item.maxPrice = Math.max(...products.map((o) => o.price));
-    }
   } else {
     categories.value = (await $fetch(`/api/categories?name=main`))[0];
 
@@ -652,14 +637,6 @@ onMounted(async () => {
 
     // ---- Loading Items ---- //
     items.value = await $fetch(`/api/items`);
-
-    for (const item of items.value) {
-      const products = await $fetch(`/api/products?item=${item._id}`);
-
-      item.minPrice = Math.min(...products.map((o) => o.price));
-      item.price = item.minPrice;
-      item.maxPrice = Math.max(...products.map((o) => o.price));
-    }
   }
 
   // ---- Static Filters ---- //

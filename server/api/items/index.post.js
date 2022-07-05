@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
     brand,
     description,
     producer,
-    exp_date,
+    expirationDate,
     resource,
     category,
     imgPath
@@ -20,16 +20,34 @@ export default defineEventHandler(async (event) => {
     }
     return a;
   }
-  const polutions = await $fetch('/api/polutions');
-  const shuffledArr = shuffle(polutions);
 
-  const numPolutions = 2 + Math.floor(Math.random() * polutions.length - 2);
-  const tempPolutions = shuffledArr.slice(0, numPolutions);
+  // ---- Generate random polutions ---- //
+  const polutions = await $fetch('/api/polutions');
+  const shuffledPolutions = shuffle(polutions);
+
+  const numPolutions =
+    Math.floor(Math.random() * (polutions.length - 2 + 1)) + 2;
+  const tempPolutions = shuffledPolutions.slice(0, numPolutions);
   const actualPolutions = [];
   for (const polution of tempPolutions) {
     actualPolutions.push({
       quantity: Math.floor(Math.random() * 400),
       polution
+    });
+  }
+
+  // ---- Generate random resources ---- //
+  const resources = await $fetch('/api/resources');
+  const shuffledResources = shuffle(resources);
+
+  const numResources =
+    Math.floor(Math.random() * (resources.length - 2 + 1)) + 2;
+  const tempResources = shuffledResources.slice(0, numResources);
+  const actualResources = [];
+  for (const resource of tempResources) {
+    actualResources.push({
+      quantity: Math.floor(Math.random() * 400),
+      resource
     });
   }
 
@@ -40,10 +58,11 @@ export default defineEventHandler(async (event) => {
       brand,
       description,
       producer,
-      exp_date,
+      expirationDate,
       resource,
       category,
       polutions: actualPolutions,
+      resources: actualResources,
       imgPath
     });
 

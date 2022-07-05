@@ -5,12 +5,9 @@ export default defineEventHandler(async (event) => {
 
   try {
     const products = await Product.find(params)
-      .populate('productLine')
-      .populate('storage')
-      .populate({ path: 'productLine', populate: ['item', 'supplier'] })
-      .populate('polutions')
-      .populate('resources')
-      .populate('polutions.polution');
+      .populate('item')
+      .populate('supplier')
+      .populate('storages');
     return products;
   } catch (err) {
     console.log(err);
