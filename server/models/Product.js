@@ -35,6 +35,24 @@ export default mongoose.model(
       ref: 'User',
       required: true
     },
+    polutions: [
+      {
+        quantity: Number,
+        polution: {
+          type: Schema.Types.ObjectId,
+          ref: 'Polution'
+        }
+      }
+    ],
+    resources: [
+      {
+        quantity: Number,
+        resource: {
+          type: Schema.Types.ObjectId,
+          ref: 'Resource'
+        }
+      }
+    ],
     stripeId: {
       type: String
     },

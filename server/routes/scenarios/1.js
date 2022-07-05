@@ -419,26 +419,26 @@ export default defineEventHandler(async (event) => {
   const product1 = await $fetch('/api/products', {
     method: 'POST',
     body: {
-      name: 'product1',
+      name: 'product!',
       item: item1,
       price: 0.99,
       currencyUnit: '€',
       supplier: user1,
       quantity: 3,
-      storage: storage1,
+      storages: [storage1],
       stripeId: 'price_1LGYscAIdQC80EPdjxdetCta'
     }
   });
   const product2 = await $fetch('/api/products', {
     method: 'POST',
     body: {
-      name: 'product1',
+      name: 'producté',
       item: item1,
       price: 3,
       currencyUnit: '€',
       supplier: user2,
       quantity: 8,
-      storage: storage2,
+      storages: [storage2],
       stripeId: 'price_1LGYscAIdQC80EPdjxdetCta'
     }
   });
@@ -451,7 +451,7 @@ export default defineEventHandler(async (event) => {
       currencyUnit: '€',
       supplier: user2,
       quantity: 8,
-      storage: storage2,
+      storages: [storage2],
       stripeId: 'price_1LHtfaAIdQC80EPdohvIdLYZ'
     }
   });

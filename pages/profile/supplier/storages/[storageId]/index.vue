@@ -258,30 +258,11 @@ products.value = await $fetch(
 for (const product of products.value) {
   for (const polution of product.polutions) {
     const polutionObject = await $fetch(`/api/polutions/${polution.polution}`);
-    const quantityPlusPolution = {
-      quantity: polution.quantity * product.quantity,
-      polutionType: polutionObject.nameId,
-      polutionUnit: polutionObject.unit
-    };
-
-    let exists = false;
-    for (let i = 0; i < polutions.value.length; i++) {
-      if (
-        polutions.value[i].polutionType === quantityPlusPolution.polutionType
-      ) {
-        polutions.value[i].quantity += quantityPlusPolution.quantity;
-        exists = true;
-      }
-    }
-    if (!exists) polutions.value.push(quantityPlusPolution);
-  }
-
-  for (const polution of product.item.polutions) {
-    const polutionObject = await $fetch(`/api/polutions/${polution._id}`);
+    console.log(polutionObject);
 
     const quantityPlusPolution = {
       quantity: polution.quantity * product.quantity,
-      polutionType: polutionObject.nameId,
+      polutionType: polutionObject.name,
       polutionUnit: polutionObject.unit
     };
 

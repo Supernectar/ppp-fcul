@@ -4,9 +4,7 @@ export default defineEventHandler(async (event) => {
   const params = useQuery(event);
 
   try {
-    const items = await Item.find(params)
-      .populate('polutions')
-      .populate('resources');
+    const items = await Item.find(params);
 
     return items;
   } catch (err) {

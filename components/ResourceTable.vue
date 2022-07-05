@@ -13,7 +13,7 @@
         </thead>
         <tbody>
           <tr
-            v-for="(resources, index) in item.resources"
+            v-for="(resources, index) in $attrs.product.resources"
             :key="index"
             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
           >
@@ -40,6 +40,5 @@
 </template>
 
 <script setup>
-const { item } = useAttrs();
-console.log(item);
+const { product } = useAttrs();
 </script>

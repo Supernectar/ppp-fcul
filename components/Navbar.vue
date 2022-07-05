@@ -117,7 +117,7 @@
                           type="number"
                           min="0"
                           name=""
-                          value="5"
+                          :value="cartItem.quantity"
                         />
                       </td>
                       <td class="px-2 py-4 text-right">

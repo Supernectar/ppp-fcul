@@ -4,12 +4,8 @@ export default defineEventHandler(async (event) => {
   const { itemId } = event.context.params;
 
   try {
-    const item = await Item.findById(itemId)
-      .populate('polutions.polution')
-      .populate('resources.resource');
+    const item = await Item.findById(itemId);
 
-      console.log(itemId)
-      console.log(item)
     return item;
   } catch (err) {
     console.log(err);

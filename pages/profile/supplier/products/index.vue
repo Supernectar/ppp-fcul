@@ -149,9 +149,19 @@ const user = useUser();
 const storages = ref([]);
 const products = ref([]);
 
-products.value = await $fetch(`/api/users/${user.data._id}/products`);
+// products.value = await $fetch(`/api/users/${user.data._id}/products`);
+// // console.log(products.value)
 
 storages.value = await $fetch(`/api/users/${user.data._id}/storages`);
+console.log(storages.value);
+for (let i = 0; i < storages.value.length; i++) {
+  products.value.push(
+    await $fetch(
+      `/api/users/${user.data._id}/storages/${storages.value[i]._id}/products`
+    )
+  );
+}
+console.log(products.value);
 const selectedStorages = ref([]);
 
 async function createProducts() {

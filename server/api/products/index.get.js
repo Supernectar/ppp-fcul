@@ -7,7 +7,9 @@ export default defineEventHandler(async (event) => {
     const products = await Product.find(params)
       .populate('item')
       .populate('supplier')
-      .populate('storages');
+      .populate('storages')
+      .populate('polutions.polution')
+      .populate('resources.resource');
     return products;
   } catch (err) {
     console.log(err);

@@ -1,5 +1,3 @@
 <template>
-  <div>
-    <PolutionTable />
-  </div>
+  <div></div>
 </template>

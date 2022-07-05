@@ -6,7 +6,9 @@ export default defineEventHandler(async (event) => {
     const product = await Product.findById(productId)
       .populate('item')
       .populate('supplier')
-      .populate('storages');
+      .populate('storages')
+      .populate('polutions.polution')
+      .populate('resources.resource');
     return product;
   } catch (err) {
     console.log(err);

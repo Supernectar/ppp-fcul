@@ -13,7 +13,7 @@
         </thead>
         <tbody>
           <tr
-            v-for="(polutions, index) in item.polutions"
+            v-for="(polutions, index) in $attrs.product.polutions"
             :key="index"
             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
           >
@@ -40,5 +40,5 @@
 </template>
 
 <script setup>
-const { item } = useAttrs();
+const { product } = useAttrs();
 </script>

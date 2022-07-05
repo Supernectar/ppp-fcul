@@ -35,24 +35,7 @@ export default mongoose.model(
     attributes: {
       type: Object
     },
-    polutions: [
-      {
-        quantity: Number,
-        polution: {
-          type: Schema.Types.ObjectId,
-          ref: 'Polution'
-        }
-      }
-    ],
-    resources: [
-      {
-        quantity: Number,
-        resource: {
-          type: Schema.Types.ObjectId,
-          ref: 'Resource'
-        }
-      }
-    ],
+
     items: [
       {
         type: Schema.Types.ObjectId,

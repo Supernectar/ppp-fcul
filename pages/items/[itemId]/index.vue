@@ -118,6 +118,7 @@
                     v-for="(product, index) in products"
                     :key="index"
                     class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                    @click="selectedProduct = product"
                   >
                     <td class="px-6 py-4">
                       <p>{{ product.supplier.username }}</p>
@@ -161,11 +162,11 @@
         <div class="grid grid-cols-2 mt-6">
           <div class="p-2">
             <h2 class="text-lg font-semibold text-center">Polutions</h2>
-            <PolutionTable :item="item" />
+            <PolutionTable :product="selectedProduct" />
           </div>
           <div class="p-2">
             <h2 class="text-lg font-semibold text-center">Resources</h2>
-            <ResourceTable :item="item" />
+            <ResourceTable :product="selectedProduct" />
           </div>
         </div>
       </div>
@@ -179,7 +180,6 @@
         </div>
       </section>
     </section>
-
     <Footer />
   </div>
 </template>
@@ -194,8 +194,32 @@ const store = useCart();
 const route = useRoute();
 
 const item = ref({});
-const selectedSupplier = ref({});
-const productStorages = ref([]);
+const selectedProduct = ref({});
+// ---- Storage positions ---- //
+const storagePositions = ref([
+  {
+    lat: 38.730292,
+    lng: -9.16323
+  },
+  {
+    lat: 38.591152,
+    lng: -8.933824
+  },
+  {
+    lat: 38.744067,
+    lng: -9.365785
+  }
+]);
+
+watch(selectedProduct, async () => {
+  storagePositions.value = [];
+  for (const storageId of selectedProduct.value.storages) {
+    console.log();
+    const storage = await $fetch(`/storages/${storageId}`);
+    storagePositions.value.push(storage.address.coordinates);
+  }
+  console.log(storagePositions.value);
+});
 
 const products = ref([]);
 
@@ -205,7 +229,7 @@ const myCart = ref([]);
 products.value = await $fetch(`/api/products?item=${route.params.itemId}`);
 
 item.value = await $fetch(`/api/items/${route.params.itemId}`);
-console.log(products.value);
+
 // product.value = await $fetch('/api/products/' + route.params.productId);
 
 // ---- Local Storage Compare 2 Products ---- //
@@ -226,22 +250,6 @@ function addToCompare(pid) {
   }
 }
 
-// ---- Storage positions ---- //
-const storagePositions = ref([
-  {
-    lat: 38.730292,
-    lng: -9.16323
-  },
-  {
-    lat: 38.591152,
-    lng: -8.933824
-  },
-  {
-    lat: 38.744067,
-    lng: -9.365785
-  }
-]);
-
 function addToCart(pid) {
   myCart.value = store.getCart;
   if (myCart.value.some((el) => el.product === pid)) {
@@ -251,10 +259,5 @@ function addToCart(pid) {
   }
 
   store.$patch({ myCart });
-}
-
-function redirectToProduct(id) {
-  const router = useRouter();
-  router.push(`/items/${route.params.itemId}/products/${id}`);
 }
 </script>
