@@ -303,7 +303,7 @@ async function addProduct() {
       stripeId: 'kaodkapsd',
       quantity: quantity.value,
       supplier: user.data._id,
-      storage: route.params.storageId
+      storages: [route.params.storageId]
     }
   });
 }

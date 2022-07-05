@@ -14,7 +14,7 @@
               This suggestion list is generated based on your last purshases
             </p> -->
 
-            <table class="w-2 md:w-100 lg:w-250">
+            <table class="w-2 min-w-full md:w-100 lg:w-250">
               <thead class="bg-white border-b">
                 <tr>
                   <th
@@ -57,7 +57,15 @@
                   <th
                     scope="col"
                     class="text-sm font-medium text-gray-900 px-2 py-2 md:px-6 md:py-4text-left"
-                  ></th>
+                  >
+                    Export Data
+                  </th>
+                  <th
+                    scope="col"
+                    class="text-sm font-medium text-gray-900 px-2 py-2 md:px-6 md:py-4text-left"
+                  >
+                    Cancel Order
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -65,41 +73,54 @@
                   v-for="(order, index) in orders"
                   :key="index"
                   class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
-                  @click="goToOrder(order)"
                 >
                   <td
                     class="px-6 py-4 whitespace-nowrap text-sm font-light text-gray-900"
+                    @click="goToOrder(order)"
                   >
                     {{ index + 1 }}
                   </td>
                   <td
                     class="px-6 py-4 whitespace-nowrap text-sm font-light text-gray-900"
+                    @click="goToOrder(order)"
                   >
                     {{ order.createdAt }}
                   </td>
 
                   <td
                     class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                    @click="goToOrder(order)"
                   >
-                    {{ order.products.length }}
+                    {{ order.productQuantity }}
                   </td>
                   <td
                     class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                    @click="goToOrder(order)"
                   >
                     {{ order.price }}
                   </td>
                   <td
                     class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                    @click="goToOrder(order)"
                   >
                     {{ order.status.name }}
                   </td>
                   <td
                     class="px-6 py-4 whitespace-nowrap text-sm font-light text-gray-900"
+                    @click="goToOrder(order)"
                   >
                     {{ order.arrivalDate || 'no arrival date' }}
                   </td>
-                  <td>
-                    <div class="flex my-1.5">
+                  <td class="text-center">
+                    <button @click="getJsonOrder(order)">
+                      <DocumentDownloadIcon
+                        class="h-6 w-6 text-violet-400"
+                        aria-hidden="true"
+                      />
+                    </button>
+                  </td>
+                  <td class="text-center">
+                    <div class="text-center my-1.5">
                       <div>
                         <button
                           type="button"
@@ -128,6 +149,7 @@
               </tbody>
             </table>
           </div>
+          <pre>{{ orders }}</pre>
         </section>
         <Footer />
       </div>
@@ -136,6 +158,7 @@
 </template>
 
 <script setup>
+import { DocumentDownloadIcon } from '@heroicons/vue/outline';
 const router = useRouter();
 const user = useUser();
 let orders = [];
@@ -144,10 +167,13 @@ orders = await $fetch(`/api/users/${user.data._id}/orders`);
 console.log(orders);
 for (const order of orders) {
   order.price = ref(0);
+  order.productQuantity = ref(0);
   for (const product of order.products) {
     order.price.value += product.product.price * product.quantity;
+    order.productQuantity.value += product.quantity;
   }
 }
+console.log(orders);
 
 async function goToOrder(order) {
   let checkOrder = [];
@@ -159,9 +185,37 @@ async function goToOrder(order) {
 }
 
 async function cancelOrder(order) {
-  await $fetch(`/api/users/${user.data._id}/orders/${order._id}`, {
-    method: 'DELETE',
-    headers: { 'Content-Type': 'application/json' }
-  });
+  const newDate = Date().getTime();
+  const oldDate = new Date(order.createdAt).getTime();
+  console.log(newDate);
+  console.log(oldDate);
+  // if (order.createdAt) {
+  // }
+  // await $fetch(`/api/users/${user.data._id}/orders/${order._id}`, {
+  //   method: 'DELETE',
+  //   headers: { 'Content-Type': 'application/json' }
+  // });
+}
+function getJsonOrder(order) {
+  // const prettyOrder = [];
+  // prettyOrder.push(order[0].status.name);
+  exportToJsonFile(order);
+  // const dataStr = JSON.stringify(order);
+  // console.log('DATA JSON DERULOOOOOOOOOO');
+  // console.log(dataStr);
+}
+
+function exportToJsonFile(jsonData) {
+  const dataStr = JSON.stringify(jsonData);
+  // const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
+  const dataUri =
+    'data:text/plain/json;charset=utf-8,' + encodeURIComponent(dataStr);
+
+  const exportFileDefaultName = 'data.json';
+
+  const linkElement = document.createElement('a');
+  linkElement.setAttribute('href', dataUri);
+  linkElement.setAttribute('download', exportFileDefaultName);
+  linkElement.click();
 }
 </script>

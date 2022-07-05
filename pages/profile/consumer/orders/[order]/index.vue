@@ -13,7 +13,7 @@
             </h2>
             <p>order details</p>
             <div class="w-60 bg-purple-50 min-w-full">
-              <div class="grid grid-cols-3">
+              <div class="grid grid-cols-4">
                 <div
                   class="m-1 font-medium font-medium text-gray-900 px-6 py-4 bg-white"
                 >
@@ -27,6 +27,11 @@
                 <div
                   class="m-1 font-medium font-medium text-gray-900 px-6 py-4 bg-white"
                 >
+                  Quantity
+                </div>
+                <div
+                  class="m-1 font-medium font-medium text-gray-900 px-6 py-4 bg-white"
+                >
                   Price
                 </div>
               </div>
@@ -36,7 +41,7 @@
                 :key="index"
                 class="bg-purple-50 m-1 border-b transition duration-300 ease-in-out hover:bg-gray-100"
               >
-                <div class="grid grid-cols-3">
+                <div class="grid grid-cols-4">
                   <div
                     class="font-medium text-gray-900 px-6 py-4 font-medium bg-white"
                   >
@@ -47,7 +52,16 @@
                   <div
                     class="font-medium text-gray-900 px-6 py-4 font-medium bg-white"
                   >
-                    {{ prod.product.supplier.name }}
+                    {{
+                      prod.product.supplier.name ||
+                      prod.product.supplier.username
+                    }}<br />
+                    {{ prod.product.supplier.email }}
+                  </div>
+                  <div
+                    class="font-medium text-gray-900 px-6 py-4 font-medium bg-white"
+                  >
+                    {{ prod.quantity }}
                   </div>
                   <div
                     class="font-medium text-gray-900 px-6 py-4 font-medium bg-white"
@@ -81,7 +95,7 @@
                           :key="index2"
                           class="text-sm"
                         >
-                          <b> {{ index2 }}:</b> {{ attribute }}
+                          <b> {{ attribute.name }}:</b> {{ attribute.value }}
                         </li>
                       </ul>
                       <ul class="mx-8">
@@ -102,7 +116,7 @@
                           :key="index3"
                           class="text-sm"
                         >
-                          <b> {{ res.recource.name }}: </b>{{ res.quantity }}
+                          <b> {{ res.resource.name }}: </b>{{ res.quantity }}
                           {{ res.resource.unit }}
                         </li>
                       </ul>

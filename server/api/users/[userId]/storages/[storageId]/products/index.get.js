@@ -5,15 +5,14 @@ export default defineEventHandler(async (event) => {
   const { userId, storageId } = event.context.params;
 
   try {
-    console.log(userId);
     const productIds = (await Storage.findById(storageId)).products;
-    console.log(productIds);
     const products = await Product.find({
       _id: { $in: productIds }
     })
       .populate('item')
       .populate('storages');
 
+    console.log(products);
     return products;
   } catch (err) {
     console.log(err);

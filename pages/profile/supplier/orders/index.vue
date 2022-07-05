@@ -16,117 +16,104 @@
                         <tr>
                           <th
                             scope="col"
-                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                            class="text-sm font-medium text-gray-900 px-6 py-4 text- left"
+                          >
+                            #
+                          </th>
+                          <th
+                            scope="col"
+                            class="text-sm font-medium text-gray-900 px-6 py-4 text- left"
                           >
                             Client
                           </th>
                           <th
-                            scope="col"
+                            scope="
+                              col"
                             class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                           >
                             Created At
                           </th>
-                          <th
-                            scope="col"
-                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          <!-- <th
+                            scope="
+                              col"
+                            class="
+                              text-sm
+                              font-medium
+                              text-gray-900
+                              px-6
+                              py-4
+                              text-left
+                            "
                           >
-                            Product
-                          </th>
-                          <th
-                            scope="col"
-                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                          >
-                            Quantity
-                          </th>
-                          <th
-                            scope="col"
-                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                          >
-                            Storage
-                          </th>
+                            Number of products
+                          </th> -->
                           <th
                             scope="col"
                             class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                           >
                             Status
                           </th>
-                          <th
-                            scope="col"
-                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                          ></th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr
-                          v-for="order in user.supplierData.orders"
-                          :key="order._id"
-                          class="border-b"
+                          v-for="(order, index) in orders"
+                          :key="order"
+                          class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
+                          @click="
+                            router.push(
+                              `/profile/supplier/orders/${order[0].status._id}`
+                            )
+                          "
                         >
-                          <!-- <td
-                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                          <td
+                            class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                           >
-                            {{ order.createdAt }}
+                            {{ index + 1 }}
+                          </td>
+                          <td
+                            class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                          >
+                            {{
+                              order[0].consumer.name ||
+                              order[0].consumer.username
+                            }}
+                            <br />
+                            {{ order[0].consumer.email }}
+                          </td>
+                          <td
+                            class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                          >
+                            {{ order[0].date }}
+                          </td>
+                          <!-- <td
+                            class="
+                              text-sm text-gray-900
+                              font-light
+                              px-6
+                              py-4
+                              whitespace-nowrap
+                            "
+                          >
+                            num
                           </td> -->
                           <td
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                           >
-                            {{ order.consumer.name }}
-                            <br />
-                            {{ order.consumer.email }}
+                            {{ order[0].status.name }}
                           </td>
-
+                          <!-- <td></td> -->
                           <td
+                            v-if="order[0].status.name === 'created'"
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                           >
-                            {{ order.date }}
-                          </td>
-                          <td
-                            class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                          >
-                            {{ order.product.item.name }}
-                            <br />
-                            {{ order.product.item.brand }}
-                          </td>
-                          <td
-                            class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                          >
-                            {{ order.quantity }}
-                          </td>
-                          <td
-                            class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                          >
-                            {{ order.product.storage.name }}
-                          </td>
-                          <td
-                            class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                          >
-                            {{ order.status.name }}
-                          </td>
-                          <td
-                            v-if="order.status.name === 'created'"
-                            class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                          >
-                            <button @click="sentOrder(order)">
+                            <button @click="sentOrder(order[0])">
                               <CheckCircleIcon
                                 class="h-6 w-6 text-violet-400"
                                 aria-hidden="true"
                               />
                             </button>
                           </td>
-                          <!-- <td
-                            class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
-                          >
-                            <NuxtLink
-                              :to="`/profile/supplier/orders/${order._id}`"
-                            > 
-                              <button
-                                type="button"
-                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                              >
-                                More details
-                              </button>
-                            </NuxtLink>
-                          </td> -->
                         </tr>
                       </tbody>
                     </table>
@@ -134,10 +121,6 @@
                 </div>
               </div>
             </div>
-            <!-- <pre>{{ user }}</pre> -->
-            <br />
-            <br />
-            <!-- {{ user.supplierData }} -->
           </div>
         </section>
         <Footer />
@@ -151,17 +134,25 @@ import { CheckCircleIcon } from '@heroicons/vue/outline';
 const router = useRouter();
 const userStore = useUser();
 
-// let user = [];
-// console.log(`/api/users/${user.data._id}`);
-console.log(userStore.data);
-console.log(userStore.data._id);
 const user = ref(await $fetch(`/api/users/${userStore.data._id}`));
-console.log(user.value);
-console.log(user);
-console.log('----');
-// console.log(user.supplierData.orders[0].order.status);
+
+const allStatus = [];
+const orders = [];
+
+for (const order of user.value.supplierData.orders) {
+  if (!allStatus.includes(order.status._id)) {
+    allStatus.push(order.status._id);
+    const inn = allStatus.indexOf(order.status._id);
+    orders[inn] = [order];
+  } else {
+    const inn = allStatus.indexOf(order.status._id);
+    orders[inn].push(order);
+  }
+}
+console.log(orders);
+
 async function sentOrder(order) {
-  console.log(order.status._id);
+  console.log(order);
   await $fetch(`/api/users/${userStore.data._id}/orders/${order._id}`, {
     method: 'PUT',
     body: {
@@ -184,7 +175,6 @@ async function sentOrder(order) {
 //   checkOrder = await $fetch(`/api/users/${user.data._id}/orders/${order._id}`);
 
 //   router.push(`/profile/consumer/orders/${order._id}`);
-
 // }
 
 // async function cancelOrder(order) {

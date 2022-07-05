@@ -11,7 +11,7 @@ export default defineEventHandler(async (event) => {
     currencyUnit,
     supplier,
     quantity,
-    storage
+    storages
   } = await useBody(event);
 
   function shuffle(a) {
@@ -60,19 +60,20 @@ export default defineEventHandler(async (event) => {
       currencyUnit,
       supplier,
       quantity,
-      $push: {
-        storages: storage
-      },
+      storages,
       polutions: actualPolutions,
       resources: actualResources,
       stripeId
     });
 
-    await Storage.findByIdAndUpdate(storage, {
-      $push: {
-        products: product
-      }
-    });
+    console.log(storages);
+    for (const storageId of storages) {
+      await Storage.findByIdAndUpdate(storageId, {
+        $push: {
+          products: product
+        }
+      });
+    }
 
     return product;
   } catch (err) {

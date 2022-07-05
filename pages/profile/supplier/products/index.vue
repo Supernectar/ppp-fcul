@@ -154,35 +154,29 @@ const products = ref([]);
 
 storages.value = await $fetch(`/api/users/${user.data._id}/storages`);
 console.log(storages.value);
-for (let i = 0; i < storages.value.length; i++) {
-  products.value.push(
-    await $fetch(
-      `/api/users/${user.data._id}/storages/${storages.value[i]._id}/products`
-    )
+for (const storage of storages.value) {
+  const productsStorage = await $fetch(
+    `/api/users/${user.data._id}/storages/${storage._id}/products`
   );
+  products.value.push(productsStorage[0]);
 }
-console.log(products.value);
+
+console.log(products);
 const selectedStorages = ref([]);
 
 async function createProducts() {
-  for (const storage of selectedStorages.value) {
-    console.log(storage._id);
-    await $fetch('/api/products', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: {
-        name: 'pipo',
-        item: '62b7297435430a463a5864de', // washing machine 1
-        price: Math.floor(Math.random() * 20),
-        currencyUnit: '€',
-        stripeId: 'price_1LEa8fAIdQC80EPdihds8cUG',
-        quantity: 2,
-        supplier: user.data._id,
-        storage: storage._id
-      }
-    });
-  }
+  await $fetch('/api/products', {
+    method: 'POST',
+    body: {
+      name: 'pipo',
+      item: '62b7297435430a463a5864de', // washing machine 1
+      price: Math.floor(Math.random() * 20),
+      currencyUnit: '€',
+      stripeId: 'price_1LEa8fAIdQC80EPdihds8cUG',
+      quantity: 2,
+      supplier: user.data._id,
+      storages: [selectedStorage]
+    }
+  });
 }
 </script>

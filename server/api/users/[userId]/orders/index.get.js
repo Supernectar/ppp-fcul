@@ -16,14 +16,15 @@ export default defineEventHandler(async (event) => {
     const orders = [];
     for (let i = 0; i < orderIds.length; i++) {
       const order = await Order.findById(orderIds[i])
+
+        .populate('status')
         .populate({
           path: 'products',
           populate: {
             path: 'product',
-            populate: 'item'
+            populate: ['item', 'supplier']
           }
-        })
-        .populate('status');
+        });
 
       orders.push(order);
     }
