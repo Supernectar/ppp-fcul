@@ -124,7 +124,7 @@
                   name="isConsumable"
                 />
               </div>
-              <div class="h-80">
+              <div>
                 Choose which items are part of your new item
                 <Listbox
                   class="z-20 inline-block w-60"
@@ -190,9 +190,16 @@
                     </transition>
                   </div>
                 </Listbox>
-                <br />
-                <button class="bg-gray-200 border rounded">Add item</button>
               </div>
+              <template #submit>
+                <div class="flex space-x-2 justify-center m-5">
+                  <FormKit
+                    type="submit"
+                    label="Add item"
+                    input-class="inline-block my-4 w-40 px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+                  />
+                </div>
+              </template>
             </FormKit>
           </div>
           <!-- </div> -->

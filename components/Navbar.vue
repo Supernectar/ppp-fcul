@@ -138,7 +138,7 @@
                       See more
                     </button>
                   </NuxtLink>
-                  <NuxtLink to="#">
+                  <NuxtLink to="/purchase/cart">
                     <button
                       class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                     >
@@ -196,8 +196,13 @@
               class="absolute right-0 mt-2 z-50 origin-top-right rounded-md bg-white shadow-lg focus:outline-none"
             >
               <div
-                class="overflow-hidden rounded-lg shadow-lg ring-1 bg-white"
-              ></div>
+                v-for="(notification, index) in userF.notification"
+                :key="index"
+                class="bg-white border-b hover:bg-gray-50 px-4 py-4 font-medium text-gray-900 whitespace-nowrap"
+                @click="pushNotification(notification)"
+              >
+                {{ notification.type }} has {{ notification.name }}
+              </div>
               Hello
             </PopoverPanel>
           </transition>
@@ -368,17 +373,14 @@ import {
   SearchIcon
 } from '@heroicons/vue/outline/index.js';
 import useCart from '~/stores/cart';
-
 const router = useRouter();
-
 const user = useUser();
-
 const store = useCart();
-
 const cart = ref(store.getCart);
-
 const myProducts = ref([]);
 const myItems = ref([]);
+const userF = ref(await $fetch(`/api/users/${user.data._id}`));
+// console.log(userF.value.notification);
 
 for (let i = 0; i < cart.value.length; i++) {
   if (cart.value.length <= 4) {
@@ -420,7 +422,15 @@ function closeModal() {
 function openModal() {
   isOpen.value = true;
 }
-
+function pushNotification(notification) {
+  if (notification.type === 'supplier') {
+    router.push(`/profile/supplier/orders/${notification.reference_id}`);
+  } else if (notification.type === 'consumer') {
+    router.push(`/profile/consumer/orders/${notification.reference_id}`);
+  } else if (notification.type === 'transporter') {
+    router.push(`/profile/transporter/deliveries/${notification.reference_id}`);
+  }
+}
 const search = ref('');
 
 function test() {

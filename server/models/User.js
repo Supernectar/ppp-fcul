@@ -89,6 +89,7 @@ export default mongoose.model(
         {
           date: { type: Date },
           consumer: { type: Schema.Types.ObjectId, ref: 'User' },
+          transport: { type: Schema.Types.ObjectId, ref: 'Transport' },
           quantity: { type: Number },
           product: { type: Schema.Types.ObjectId, ref: 'Product' },
           status: { type: Schema.Types.ObjectId, ref: 'Status' }
@@ -124,6 +125,13 @@ export default mongoose.model(
         type: String,
         default: '#ffffff'
       }
-    }
+    },
+    notification: [
+      {
+        name: { type: String },
+        reference_id: { type: Schema.Types.ObjectId },
+        type: { type: String }
+      }
+    ]
   })
 );

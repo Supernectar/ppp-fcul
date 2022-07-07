@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
         path: 'supplierData',
         populate: {
           path: 'orders',
-          populate: ['product', 'consumer', 'status']
+          populate: ['product', 'consumer', 'status', 'transport']
         }
       })
       .populate({

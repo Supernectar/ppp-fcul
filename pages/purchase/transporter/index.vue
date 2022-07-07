@@ -138,11 +138,12 @@
           />
         </div> -->
 
-        <!-- <div>
+        <div>
+          <!-- wait -->
           <FormKit
             label="Address"
             v-model="address"
-            placeholder=""
+            placeholder="address"
             type="select"
             name="address"
             :options="addresses"
@@ -156,8 +157,8 @@
             help-class="text-sm text-gray-500 mt-1"
             message-class="mt-1 text-sm
           text-red-600"
-          />
-        </div> -->
+          />{{ address }}
+        </div>
       </div>
 
       <button
@@ -245,9 +246,13 @@
   </div>
 </template>
 <script setup>
-import useOrder from '~/stores/orderTransport';
+import useOrderT from '~/stores/orderTransport';
+import useOrderA from '~/stores/orderAddress';
 const router = useRouter();
-const store = useOrder();
+const store = useUser();
+const storeOrderT = useOrderT();
+const storeOrderA = useOrderA();
+
 // const transp = ref(store.getTransport);
 // const userStore = useUser();
 const consumption = ref(0);
@@ -258,25 +263,24 @@ const fuelResources = ref([]);
 const fuelConsumption = ref([]);
 const consumptionMin = ref(0);
 const consumptionMax = ref(90);
-// const  addresses = ref([]);
-// const user = userStore.data;
+const addresses = ref([]);
+const address = ref('');
+// const userstore = store.data;
 
 transports.value = await $fetch(`/api/transports`);
+const user = ref(await $fetch(`/api/users/${store.data._id}`));
 
-// addresses.value.push(
-//   user.consumerData.address[0].street +
-//     ', ' +
-//     user.consumerData.address[0].country +
-//     ', ' +
-//     user.consumerData.address[0].city +
-//     ', ' +
-//     user.consumerData.address[0].zipCode
-// );
-// for (const addr of user.addresses) {
-//   addresses.value.push(
-//     addr.street + ', ' + addr.country + ', ' + addr.city + ', ' + addr.zipCode
-//   );
-// }
+addresses.value.push(user.value.consumerData.address[0]);
+
+for (const addr of user.value.addresses) {
+  addresses.value.push(addr);
+}
+for (const addr of addresses.value) {
+  console.log(addr);
+  addr.label =
+    addr.street + ', ' + addr.zipCode + ' ' + addr.city + ', ' + addr.country;
+  addr.value = addr._id;
+}
 
 for (let i = 0; i < transports.value.length; i++) {
   if (transports.value[i].resources.some((el) => el.resource.type === 'fuel')) {
@@ -315,7 +319,7 @@ for (const fuel of fuelConsumption.value) {
   }
 }
 fuel.value = fuelResources.value[0];
-console.log(fuelResources.value);
+// console.log(fuelResources.value);
 consumptionMin.value = fuelConsumption.value[0][0];
 consumptionMax.value = fuelConsumption.value[0][1];
 consumption.value = consumptionMin.value;
@@ -348,9 +352,14 @@ function filterTranports() {
 }
 
 function chooseTransport(transp) {
-  const orderTransport = ref([]);
-  orderTransport.value.push(transp._id);
-  store.$patch({ orderTransport: orderTransport.value });
-  router.push(`payment`);
+  if (address.value !== '') {
+    const orderTransport = ref([]);
+    orderTransport.value.push(transp._id);
+    storeOrderT.$patch({ orderTransport: orderTransport.value });
+    const orderAddress = ref([]);
+    orderAddress.value.push(address.value);
+    storeOrderA.$patch({ orderAddress: orderAddress.value });
+    router.push(`payment`);
+  }
 }
 </script>

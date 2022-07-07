@@ -11,7 +11,11 @@ export default mongoose.model(
         type: Schema.Types.ObjectId,
         ref: 'User'
       },
-      transporter: {
+      transport: {
+        type: Schema.Types.ObjectId,
+        ref: 'Transport'
+      },
+      supplier: {
         type: Schema.Types.ObjectId,
         ref: 'User'
       },
@@ -27,6 +31,14 @@ export default mongoose.model(
       //     ref: 'Itinerary'
       //   }
       // ],
+      from: {
+        type: Schema.Types.ObjectId,
+        ref: 'Address'
+      },
+      to: {
+        type: Schema.Types.ObjectId,
+        ref: 'Address'
+      },
       products: [
         {
           quantity: { type: Number },

@@ -12,7 +12,6 @@ export default defineEventHandler(async (event) => {
       .populate('item')
       .populate('storages');
 
-    console.log(products);
     return products;
   } catch (err) {
     console.log(err);

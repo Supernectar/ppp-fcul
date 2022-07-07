@@ -161,7 +161,7 @@ for (const storage of storages.value) {
   products.value.push(productsStorage[0]);
 }
 
-console.log(products);
+console.log(products.value);
 const selectedStorages = ref([]);
 
 async function createProducts() {

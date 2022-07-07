@@ -100,7 +100,91 @@
           <div>
             <h3>Add a new storage:</h3>
 
-            <div class="flex gap-4 mt-5">
+            <FormKit type="form" @submit="createStorage">
+              <FormKit
+                v-model="name"
+                label="Name"
+                type="text"
+                name="name"
+                validation="required|length:3"
+                outer-class="mb-4"
+                label-class="form-label inline-block mb-2 text-gray-700"
+                input-class="form-control block w-full sm:w-80 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                help-class="text-sm text-gray-500 mt-1"
+                message-class="mt-1 text-sm text-red-600"
+              />
+
+              <FormKit
+                v-model="street"
+                label="Street"
+                type="text"
+                name="street|length:6"
+                validation="required"
+                outer-class="mb-4"
+                label-class="form-label inline-block mb-2 text-gray-700"
+                input-class="form-control block w-full sm:w-80 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                help-class="text-sm text-gray-500 mt-1"
+                message-class="mt-1 text-sm text-red-600"
+              />
+
+              <div class="flex gap-4">
+                <FormKit
+                  v-model="zipCode"
+                  label="Zip Code"
+                  type="text"
+                  name="zipCode"
+                  validation="required|matches:/^[0-9]{4}-[0-9]{3}$/"
+                  outer-class="mb-4"
+                  label-class="form-label inline-block mb-2 text-gray-700"
+                  input-class="form-control block w-full sm:w-24 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                  help-class="text-sm text-gray-500 mt-1"
+                  message-class="mt-1 text-sm text-red-600"
+                />
+
+                <FormKit
+                  v-model="city"
+                  label="City"
+                  type="text"
+                  name="city"
+                  validation="required|length:4"
+                  outer-class="mb-4"
+                  label-class="form-label inline-block mb-2 text-gray-700"
+                  input-class="form-control block w-full sm:w-52 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                  help-class="text-sm text-gray-500 mt-1"
+                  message-class="mt-1 text-sm text-red-600"
+                />
+              </div>
+
+              <FormKit
+                v-model="country"
+                label="Country"
+                type="select"
+                :options="names"
+                outer-class="mb-4"
+                label-class="form-label inline-block mb-2 text-gray-700"
+                input-class="form-control block w-full sm:w-80 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                help-class="text-sm text-gray-500 mt-1"
+                message-class="mt-1 text-sm text-red-600"
+              />
+
+              <FormKit
+                v-model="visibility"
+                type="checkbox"
+                label="Visibility"
+                name="visibility"
+              />
+
+              <template #submit>
+                <div class="flex space-x-2 justify-center">
+                  <FormKit
+                    type="submit"
+                    label="Add storage"
+                    input-class="inline-block my-4 w-40 px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+                  />
+                </div>
+              </template>
+            </FormKit>
+            <!-- <div class="flex gap-4 mt-5">
               <div>
                 <FormKit
                   v-model="name"
@@ -184,7 +268,7 @@
               @click="createStorage"
             >
               Add storage
-            </button>
+            </button>-->
           </div>
         </section>
 
@@ -303,7 +387,7 @@ async function createStorage() {
         city: city.value,
         country: country.value
       },
-      visibility: visibility.value
+      isPublic: visibility.value
     }
   });
 

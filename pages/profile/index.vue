@@ -53,7 +53,9 @@
                     <th
                       scope="col"
                       class="text-sm font-medium text-gray-900 px-2 py-2 md:px-6 md:py-4text-left"
-                    ></th>
+                    >
+                      Cancel order
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -93,30 +95,32 @@
                     >
                       {{ order.arrivalDate || 'no arrival date' }}
                     </td>
-                    <div class="flex my-1.5">
-                      <div>
-                        <button
-                          type="button"
-                          class="inline-block rounded-full bg-blue-600 text-white leading-normal uppercase shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-9 h-9"
-                          @click="cancelOrder(order)"
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="w-6 mx-auto"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            stroke-width="2"
+                    <td>
+                      <div class="text-center my-1.5">
+                        <div>
+                          <button
+                            type="button"
+                            class="inline-block rounded-full bg-blue-600 text-white leading-normal uppercase shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-9 h-9"
+                            @click="cancelOrder(order)"
                           >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                            />
-                          </svg>
-                        </button>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              class="w-6 mx-auto"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              stroke-width="2"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                              />
+                            </svg>
+                          </button>
+                        </div>
                       </div>
-                    </div>
+                    </td>
                   </tr>
                 </tbody>
               </table>

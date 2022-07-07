@@ -7,9 +7,7 @@ export default defineEventHandler(async (event) => {
     const user = await User.findById(userId);
 
     const storageIds = user.supplierData.storages;
-    const storages = await Storage.find({ _id: storageIds }).populate(
-      'address'
-    );
+    const storages = await Storage.find({ _id: storageIds });
 
     return storages;
   } catch (err) {

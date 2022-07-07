@@ -89,7 +89,7 @@
                     validation="required|matches:/^[0-9]{4}-[0-9]{3}$/"
                     outer-class="mb-4"
                     label-class="form-label inline-block mb-2 text-gray-700"
-                    input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                    input-class="form-control block w-full sm:w-24 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                     help-class="text-sm text-gray-500 mt-1"
                     message-class="mt-1 text-sm text-red-600"
                   />
@@ -105,7 +105,7 @@
                     validation="required|length:4"
                     outer-class="mb-4"
                     label-class="form-label inline-block mb-2 text-gray-700"
-                    input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                    input-class="form-control block w-full sm:w-52 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                     help-class="text-sm text-gray-500 mt-1"
                     message-class="mt-1 text-sm text-red-600"
                   />
@@ -126,7 +126,7 @@
                 </div>
               </div>
               <button
-                class="p-1 rounded border bg-blue-100"
+                class="p-1 rounded border bg-violet-100"
                 @click="addAddress"
               >
                 Register new address
@@ -142,7 +142,7 @@
               validation="length:3"
               outer-class="mb-4"
               label-class="form-label inline-block mb-2 text-gray-700"
-              input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              input-class="form-control block w-full sm:w-80 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
               help-class="text-sm text-gray-500 mt-1"
               message-class="mt-1 text-sm text-red-600"
               :placeholder="info.name"
@@ -155,7 +155,7 @@
               validation="length:3"
               outer-class="mb-4"
               label-class="form-label inline-block mb-2 text-gray-700"
-              input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              input-class="form-control block w-full sm:w-80 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
               help-class="text-sm text-gray-500 mt-1"
               message-class="mt-1 text-sm text-red-600"
               :placeholder="info.username"
@@ -168,7 +168,7 @@
               validation="email"
               outer-class="mb-4"
               label-class="form-label inline-block mb-2 text-gray-700"
-              input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              input-class="form-control block w-full sm:w-80 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
               help-class="text-sm text-gray-500 mt-1"
               message-class="mt-1 text-sm text-red-600"
               :placeholder="info.email"
@@ -185,7 +185,7 @@
               }"
               outer-class="mb-4"
               label-class="form-label inline-block mb-2 text-gray-700"
-              input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              input-class="form-control block w-full sm:w-80 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
               help-class="text-sm text-gray-500 mt-1"
               message-class="mt-1 text-sm text-red-600"
               placeholder="********"
@@ -202,37 +202,38 @@
                 validation="length:6"
                 outer-class="mb-4"
                 label-class="form-label inline-block mb-2 text-gray-700"
-                input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                input-class="form-control block w-full sm:w-80 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                 help-class="text-sm text-gray-500 mt-1"
                 message-class="mt-1 text-sm text-red-600"
                 :placeholder="displayAddress.street"
               />
+              <div class="flex gap-4">
+                <FormKit
+                  v-model="zipCode"
+                  label="Zip Code"
+                  type="text"
+                  validation="matches:/^[0-9]{4}-[0-9]{3}$/"
+                  outer-class="mb-4"
+                  label-class="form-label inline-block mb-2 text-gray-700"
+                  input-class="form-control block w-full sm:w-24 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                  help-class="text-sm text-gray-500 mt-1"
+                  message-class="mt-1 text-sm text-red-600"
+                  :placeholder="displayAddress.zipCode"
+                />
 
-              <FormKit
-                v-model="zipCode"
-                label="Zip Code"
-                type="text"
-                validation="matches:/^[0-9]{4}-[0-9]{3}$/"
-                outer-class="mb-4"
-                label-class="form-label inline-block mb-2 text-gray-700"
-                input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                help-class="text-sm text-gray-500 mt-1"
-                message-class="mt-1 text-sm text-red-600"
-                :placeholder="displayAddress.zipCode"
-              />
-
-              <FormKit
-                v-model="city"
-                label="City"
-                type="text"
-                validation="length:4"
-                outer-class="mb-4"
-                label-class="form-label inline-block mb-2 text-gray-700"
-                input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                help-class="text-sm text-gray-500 mt-1"
-                message-class="mt-1 text-sm text-red-600"
-                :placeholder="displayAddress.city"
-              />
+                <FormKit
+                  v-model="city"
+                  label="City"
+                  type="text"
+                  validation="length:4"
+                  outer-class="mb-4"
+                  label-class="form-label inline-block mb-2 text-gray-700"
+                  input-class="form-control block w-full sm:w-52 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                  help-class="text-sm text-gray-500 mt-1"
+                  message-class="mt-1 text-sm text-red-600"
+                  :placeholder="displayAddress.city"
+                />
+              </div>
 
               <FormKit
                 v-model="country"
@@ -241,7 +242,7 @@
                 :options="names"
                 outer-class="mb-4"
                 label-class="form-label inline-block mb-2 text-gray-700"
-                input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                input-class="form-control block w-full sm:w-80 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                 help-class="text-sm text-gray-500 mt-1"
                 message-class="mt-1 text-sm text-red-600"
                 :placeholder="displayAddress.country"
@@ -258,7 +259,7 @@
                 validation="length:9"
                 outer-class="mb-4"
                 label-class="form-label inline-block mb-2 text-gray-700"
-                input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                input-class="form-control block w-full sm:w-80 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                 help-class="text-sm text-gray-500 mt-1"
                 message-class="mt-1 text-sm text-red-600"
                 :placeholder="info.phone"
@@ -271,7 +272,7 @@
                 validation="length:9"
                 outer-class="mb-4"
                 label-class="form-label inline-block mb-2 text-gray-700"
-                input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                input-class="form-control block w-full sm:w-80 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                 help-class="text-sm text-gray-500 mt-1"
                 message-class="mt-1 text-sm text-red-600"
                 :placeholder="info.nif"
@@ -283,7 +284,7 @@
                 <FormKit
                   type="submit"
                   label="Update account"
-                  input-class="inline-block my-4 w-40 px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+                  input-class="inline-block my-4 w-40 px-6 py-2.5 bg-violet-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-violet-500 hover:shadow-lg focus:bg-violet-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-violet-600 active:shadow-lg transition duration-150 ease-in-out"
                 />
               </div>
               <hr />

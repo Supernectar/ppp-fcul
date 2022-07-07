@@ -12,7 +12,8 @@ export default defineEventHandler(async (event) => {
     creditCard,
     nif,
     password,
-    preferences
+    preferences,
+    notification
   } = await useBody(event);
 
   try {
@@ -63,6 +64,7 @@ export default defineEventHandler(async (event) => {
             nif,
             password,
             preferences,
+            notification,
             'consumerData.address': address
           }
         );
@@ -94,6 +96,21 @@ export default defineEventHandler(async (event) => {
             password,
             preferences,
             'transporterData.address': address
+          }
+        );
+      } else if (type === undefined) {
+        res = await User.updateOne(
+          { _id: userId },
+          {
+            name,
+            username,
+            address,
+            phone,
+            creditCard,
+            nif,
+            password,
+            preferences,
+            notification
           }
         );
       }

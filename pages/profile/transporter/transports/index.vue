@@ -86,12 +86,7 @@
                     <td
                       class="bg-white w-10 border-b transition duration-300 ease-in-out hover:bg-gray-100"
                     >
-                      <!-- {{
-                        resourcesTransports[index].quantity +
-                        ' ' +
-                        resourcesTransports[index].unit +
-                        '/km'
-                      }} -->
+                      {{ resourcesTransports[index] }}
                     </td>
                     <td
                       class="bg-white w-10 border-b transition duration-300 ease-in-out hover:bg-gray-100"
@@ -236,7 +231,7 @@
                   <FormKit
                     type="submit"
                     label="Add vehicle"
-                    input-class="inline-block my-4 w-40 px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+                    input-class="inline-block my-4 w-40 px-6 py-2.5 bg-violet-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-violet-500 hover:shadow-lg focus:bg-violet-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-violet-500 active:shadow-lg transition duration-150 ease-in-out"
                   />
                 </div>
               </template>
@@ -262,10 +257,35 @@ names.value.sort((a, b) => a.localeCompare(b));
 
 const transports = ref([]);
 transports.value = await $fetch(`/api/users/${user.data._id}/transports`);
-console.log(transports.value);
 
-for (let i = 0; i < transports.value; i++) {
-  console.log(transport);
+// Resources
+const resourcesEletric = ref(0);
+const resourcesDiesel = ref(0);
+const resourcesTransports = ref([]);
+
+calculateResources();
+
+watch(transports.value, () => {});
+watch(resourcesTransports.value, () => {});
+
+function calculateResources() {
+  for (const transport of transports.value) {
+    for (const resource of transport.resources) {
+      if (resource.resource.unit === 'kWh') {
+        resourcesEletric.value += resource.quantity;
+      } else if (resource.resource.unit === 'L') {
+        resourcesDiesel.value += resource.quantity;
+      }
+    }
+    if (resourcesEletric.value !== 0) {
+      resourcesTransports.value.push(resourcesEletric.value + ' kWh');
+      resourcesEletric.value = 0;
+    } else if (resourcesDiesel.value !== 0) {
+      resourcesTransports.value.push(resourcesDiesel.value + ' L');
+      resourcesDiesel.value = 0;
+    }
+  }
+  return resourcesTransports.value;
 }
 
 // Create new transport
@@ -295,6 +315,9 @@ async function createVehicle() {
       }
     }
   });
+  transports.value = await $fetch(`/api/users/${user.data._id}/transports`);
+  resourcesTransports.value = calculateResources();
+  console.log(resourcesTransports.value);
 
   const userdb = await $fetch(`/api/users/${user.data._id}`);
 
@@ -316,6 +339,8 @@ async function deleteVehicle(transportId) {
     }
   });
 
+  transports.value = await $fetch(`/api/users/${user.data._id}/transports`);
+  resourcesTransports.value = calculateResources();
   const userdb = await $fetch(`/api/users/${user.data._id}`);
 
   user.$patch({

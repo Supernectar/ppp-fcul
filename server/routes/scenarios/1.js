@@ -38,7 +38,7 @@ export default defineEventHandler(async (event) => {
 
   let user1 = await $fetch('/api/users', {
     method: 'POST',
-    body: { email: 'a@a.com', password: 'Pp123!', address: address1 }
+    body: { email: 'a@a.com', password: 'Pp123!' }
   });
 
   user1 = await $fetch(`/api/users/${user1._id}`, {
@@ -46,14 +46,24 @@ export default defineEventHandler(async (event) => {
     body: { address: address2 }
   });
 
-  const user2 = await $fetch('/api/users', {
+  let user2 = await $fetch('/api/users', {
     method: 'POST',
-    body: { email: 'b@b.com', password: 'Pp123!', address: address1 }
+    body: { email: 'b@b.com', password: 'Pp123!' }
   });
 
-  const user3 = await $fetch('/api/users', {
+  user2 = await $fetch(`/api/users/${user2._id}`, {
+    method: 'PUT',
+    body: { address: address2 }
+  });
+
+  let user3 = await $fetch('/api/users', {
     method: 'POST',
-    body: { email: 'c@c.com', password: 'Pp123!', address: address2 }
+    body: { email: 'c@c.com', password: 'Pp123!' }
+  });
+
+  user3 = await $fetch(`/api/users/${user3._id}`, {
+    method: 'PUT',
+    body: { address: address1 }
   });
 
   await $fetch('/api/polutions', {

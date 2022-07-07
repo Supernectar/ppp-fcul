@@ -48,12 +48,12 @@
                   >
                     Status
                   </th>
-                  <th
+                  <!-- <th
                     scope="col"
                     class="text-sm font-medium text-gray-900 px-2 py-2 md:px-6 md:py-4 text-left"
                   >
                     Arrival Date
-                  </th>
+                  </th> -->
                   <th
                     scope="col"
                     class="text-sm font-medium text-gray-900 px-2 py-2 md:px-6 md:py-4text-left"
@@ -105,12 +105,12 @@
                   >
                     {{ order.status.name }}
                   </td>
-                  <td
+                  <!-- <td
                     class="px-6 py-4 whitespace-nowrap text-sm font-light text-gray-900"
                     @click="goToOrder(order)"
                   >
                     {{ order.arrivalDate || 'no arrival date' }}
-                  </td>
+                  </td> -->
                   <td class="text-center">
                     <button @click="getJsonOrder(order)">
                       <DocumentDownloadIcon
@@ -121,7 +121,13 @@
                   </td>
                   <td class="text-center">
                     <div class="text-center my-1.5">
-                      <div>
+                      <div
+                        v-if="
+                          ['created', 'waiting for transport'].includes(
+                            order.status.name
+                          )
+                        "
+                      >
                         <button
                           type="button"
                           class="inline-block rounded-full bg-blue-600 text-white leading-normal uppercase shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-9 h-9"
@@ -143,13 +149,14 @@
                           </svg>
                         </button>
                       </div>
+                      <div v-else>--</div>
                     </div>
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <pre>{{ orders }}</pre>
+          <!-- <pre>{{ orders }}</pre> -->
         </section>
         <Footer />
       </div>
@@ -161,19 +168,29 @@
 import { DocumentDownloadIcon } from '@heroicons/vue/outline';
 const router = useRouter();
 const user = useUser();
-let orders = [];
+const orders = ref([]);
 // console.log(`/api/users/${user.data._id}/orders`);
-orders = await $fetch(`/api/users/${user.data._id}/orders`);
-console.log(orders);
-for (const order of orders) {
-  order.price = ref(0);
-  order.productQuantity = ref(0);
-  for (const product of order.products) {
-    order.price.value += product.product.price * product.quantity;
-    order.productQuantity.value += product.quantity;
-  }
+orders.value = await $fetch(`/api/users/${user.data._id}/orders`);
+
+if (orders.value.error) {
+  orders.value = [];
 }
-console.log(orders);
+
+showOrderDetails();
+
+watch(orders.value, () => {});
+
+function showOrderDetails() {
+  for (const order of orders.value) {
+    order.price = ref(0);
+    order.productQuantity = ref(0);
+    for (const product of order.products) {
+      order.price += product.product.price * product.quantity;
+      order.productQuantity += product.quantity;
+    }
+  }
+  return orders.value;
+}
 
 async function goToOrder(order) {
   let checkOrder = [];
@@ -185,16 +202,23 @@ async function goToOrder(order) {
 }
 
 async function cancelOrder(order) {
-  const newDate = Date().getTime();
-  const oldDate = new Date(order.createdAt).getTime();
-  console.log(newDate);
-  console.log(oldDate);
-  // if (order.createdAt) {
-  // }
-  // await $fetch(`/api/users/${user.data._id}/orders/${order._id}`, {
-  //   method: 'DELETE',
-  //   headers: { 'Content-Type': 'application/json' }
-  // });
+  const newDate = new Date();
+  const oldDate = new Date(order.createdAt);
+  console.log(newDate.getTime());
+  console.log(oldDate.getTime());
+  const timeMS = newDate.getTime() - oldDate.getTime();
+  if (timeMS <= 15 * 60000) {
+    await $fetch(`/api/users/${user.data._id}/orders/${order._id}`, {
+      method: 'PUT',
+      body: {
+        statusId: order.status._id,
+        status: 'canceled'
+      }
+    });
+    orders.value = await $fetch(`/api/users/${user.data._id}/orders`);
+    orders.value = showOrderDetails();
+    console.log(orders.value);
+  }
 }
 function getJsonOrder(order) {
   // const prettyOrder = [];

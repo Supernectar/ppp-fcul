@@ -66,7 +66,6 @@ export default defineEventHandler(async (event) => {
       stripeId
     });
 
-    console.log(storages);
     for (const storageId of storages) {
       await Storage.findByIdAndUpdate(storageId, {
         $push: {

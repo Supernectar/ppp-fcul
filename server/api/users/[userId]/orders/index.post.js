@@ -4,7 +4,7 @@ import Transport from '~~/server/models/Transport';
 import Status from '~~/server/models/Status';
 
 export default defineEventHandler(async (event) => {
-  const { status, products, transport } = await useBody(event);
+  const { status, products, transport, from, to } = await useBody(event);
   // const baba = await useBody(event);
   // console.log(baba);
 
@@ -26,16 +26,22 @@ export default defineEventHandler(async (event) => {
     const statusModel = await Status.create({
       name: status
     });
+
     const orderC = await Order.create({
       status: statusModel,
       products: products2,
-      transporter: transport
+      transport,
+      from,
+      to
     });
 
     const orderT = await Order.create({
+      consumer: userId,
       status: statusModel,
-      products: products2,
-      consumer: userId
+      transport,
+      from,
+      to,
+      supplier: products2[0].product.supplier
     });
     const orderUser = await User.updateOne(
       { _id: userId },
@@ -57,6 +63,7 @@ export default defineEventHandler(async (event) => {
           'supplierData.orders': {
             date: new Date(),
             consumer: userId,
+            transport,
             product: prod.product,
             quantity: prod.quantity,
             status: statusModel
@@ -64,7 +71,7 @@ export default defineEventHandler(async (event) => {
         }
       });
     }
-    return orderUser;
+    return statusModel._id;
   } catch (err) {
     console.log(err);
     return { error: 'Could not create order' };
