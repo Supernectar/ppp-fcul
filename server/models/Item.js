@@ -4,14 +4,25 @@ const { Schema } = mongoose;
 export default mongoose.model(
   'Item',
   new Schema({
-    name: String,
-    weight: Number,
-    // type: String,
-    // subtype: String,
-    brand: String,
+    name: {
+      type: String,
+      required: [true, 'name required'],
+      minlength: [3, 'Minimun name length 3 characters']
+    },
+    weight: {
+      type: Number
+    },
     website: String,
-    description: String,
-    producer: String,
+    // description: String,
+    description: {
+      type: String,
+      required: [true, 'description required']
+    },
+    // producer: String,
+    producer: {
+      type: String,
+      required: [true, 'producer required']
+    },
     isConsumable: Boolean,
     rating: {
       type: Number,
@@ -24,29 +35,13 @@ export default mongoose.model(
     attributes: {
       type: Object
     },
-    polutions: [
-      {
-        quantity: Number,
-        polution: {
-          type: Schema.Types.ObjectId,
-          ref: 'Polution'
-        }
-      }
-    ],
-    resources: [
-      {
-        quantity: Number,
-        polution: {
-          type: Schema.Types.ObjectId,
-          ref: 'Resource'
-        }
-      }
-    ],
+
     items: [
       {
         type: Schema.Types.ObjectId,
         ref: 'Item'
       }
-    ]
+    ],
+    imgPath: String
   })
 );

@@ -54,20 +54,17 @@
                             class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
                           >
                             <b class="">
-                              {{ product.productLine.name || 'no name' }}
+                              {{ product.name || 'Unnamed product' }}
                             </b>
 
                             <i class="block text-sm text-gray-600">
-                              {{ product.productLine.item.name }}
+                              {{ product.item.name }}
                             </i>
                           </td>
                           <td
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                           >
-                            {{
-                              product.productLine.price +
-                              product.productLine.currencyUnit
-                            }}
+                            {{ product.price + product.currencyUnit }}
                           </td>
                           <td
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
@@ -78,7 +75,7 @@
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                           >
                             <!-- {{
-                              product.productLine.item.isConsumable
+                              product.item.isConsumable
                                 ? product.expirationDate
                                 : 'does not apply'
                             }} -->
@@ -243,53 +240,29 @@ const currencyUnit = ref('');
 const quantity = ref('');
 const name = ref('');
 
-storage.value = (
-  await $fetch(`/api/users/${user.data._id}/storages/${route.params.storageId}`)
-).data.items[0];
+storage.value = await $fetch(
+  `/api/users/${user.data._id}/storages/${route.params.storageId}`
+);
 
 const items = ref([]);
-items.value = (await $fetch(`/api/items`)).data.items;
+items.value = await $fetch(`/api/items`);
 for (const item of items.value) {
   item.label = item.name;
   item.value = item._id;
 }
 
-products.value = (
-  await $fetch(
-    `/api/users/${user.data._id}/storages/${route.params.storageId}/products`
-  )
-).data.items;
+products.value = await $fetch(
+  `/api/users/${user.data._id}/storages/${route.params.storageId}/products`
+);
 
 for (const product of products.value) {
   for (const polution of product.polutions) {
-    const polutionObject = (await $fetch(`/api/polutions/${polution.polution}`))
-      .data.items[0];
+    const polutionObject = await $fetch(`/api/polutions/${polution.polution}`);
+    console.log(polutionObject);
 
     const quantityPlusPolution = {
       quantity: polution.quantity * product.quantity,
-      polutionType: polutionObject.nameId,
-      polutionUnit: polutionObject.unit
-    };
-
-    let exists = false;
-    for (let i = 0; i < polutions.value.length; i++) {
-      if (
-        polutions.value[i].polutionType === quantityPlusPolution.polutionType
-      ) {
-        polutions.value[i].quantity += quantityPlusPolution.quantity;
-        exists = true;
-      }
-    }
-    if (!exists) polutions.value.push(quantityPlusPolution);
-  }
-
-  for (const polution of product.productLine.item.polutions) {
-    const polutionObject = (await $fetch(`/api/polutions/${polution._id}`)).data
-      .items[0];
-
-    const quantityPlusPolution = {
-      quantity: polution.quantity * product.quantity,
-      polutionType: polutionObject.nameId,
+      polutionType: polutionObject.name,
       polutionUnit: polutionObject.unit
     };
 
@@ -305,44 +278,6 @@ for (const product of products.value) {
     if (!exists) polutions.value.push(quantityPlusPolution);
   }
 }
-// const polutionsItems = ref([]);
-// for (const itemOfProduct of itemsOfProducts.value) {
-//   polutionsItems.value = (
-//     await $fetch(`/api/items/${itemOfProduct._id}/polutions`)
-//   ).data.items;
-// }
-
-// const polutionsProducts = ref([]);
-// for (const product of products.value) {
-//   polutionsProducts.value = (
-//     await $fetch(`/api/products/${product._id}/polutions`)
-//   ).data.items;
-// }
-
-// const totalPolution = ref(0);
-// for (const polutionItem of polutionsItems.value) {
-//   totalPolution.value += polutionItem.quantity;
-// }
-// for (const polutionProduct of polutionsProducts.value) {
-//   if (polutionsProducts.length !== 0) {
-//     totalPolution.value += polutionProduct.quantity;
-//   }
-// }
-
-// Resources
-// const resourcesItems = ref([]);
-// for (const itemOfProduct of itemsOfProducts.value) {
-//   resourcesItems.value = (
-//     await $fetch(`/api/items/${itemOfProduct._id}/resources`)
-//   ).data.items;
-// }
-
-// const resourcesProducts = ref([]);
-// for (const product of products.value) {
-//   resourcesProducts.value = (
-//     await $fetch(`/api/products/${product._id}/resources`)
-//   ).data.items;
-// }
 
 // const totalResources = ref(0);
 // for (const resourceItem of resourcesItems.value) {
@@ -360,11 +295,7 @@ async function addProduct() {
   console.log(price.value);
   await $fetch(`/api/products`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-
-    body: JSON.stringify({
+    body: {
       name: name.value,
       item: item.value,
       price: price.value,
@@ -372,8 +303,8 @@ async function addProduct() {
       stripeId: 'kaodkapsd',
       quantity: quantity.value,
       supplier: user.data._id,
-      storage: route.params.storageId
-    })
+      storages: [route.params.storageId]
+    }
   });
 }
 

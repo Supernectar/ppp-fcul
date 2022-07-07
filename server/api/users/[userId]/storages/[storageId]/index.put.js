@@ -2,8 +2,6 @@ import Storage from '~~/server/models/Storage';
 import Product from '~~/server/models/Product';
 
 export default defineEventHandler(async (event) => {
-  event.res.jsonResponse.context = event.context.params;
-
   const { storageId } = event.context.params;
   const { item, price, unit, departureDate, arrivalDate } = await useBody(
     event
@@ -20,14 +18,10 @@ export default defineEventHandler(async (event) => {
         arrivalDate
       }
     );
-    event.res.jsonResponse.data = {
-      items: [order]
-    };
+
+    return { msg: 'this route is sus' };
   } catch (err) {
     console.log(err);
-    event.res.jsonResponse.error = {
-      message: err
-    };
+    return { error: 'Could not update storage' };
   }
-  return event.res.jsonResponse;
 });

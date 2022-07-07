@@ -5,7 +5,7 @@
       <SideNavigationBar />
       <div class="flex-grow order-2">
         <section class="p-2 overflow-hidden min-h-screen">
-          <h1 class="text-4xl font-bold">WishList</h1>
+          <h1 class="text-2xl font-bold">WishList</h1>
           <div id="suggestions" class="mt-4">
             <h2 class="text-xl font-semibold">
               Items you added to your favourites
@@ -47,7 +47,7 @@ const wishlistIds = user.data.consumerData.wishlist;
 
 const whishlistItems = ref([]);
 for (let i = 0; i < wishlistIds.length; i++) {
-  const item = (await $fetch(`/api/items/${wishlistIds[i]}`)).data.items[0];
+  const item = await $fetch(`/api/items/${wishlistIds[i]}`);
   whishlistItems.value.push(item);
 }
 </script>

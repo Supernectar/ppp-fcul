@@ -1,33 +1,22 @@
 import Cart from '~~/server/models/Cart';
 
 export default defineEventHandler(async (event) => {
+  const { username, name, password, email, phone, creditCard, nif, address } =
+    await useBody(event);
+
   try {
-    const { username, name, password, email, phone, creditCard, nif, address } =
-      await useBody(event);
-
-    try {
-      const user = await Cart.create({
-        username,
-        name,
-        password,
-        email,
-        phone,
-        creditCard,
-        nif,
-        address
-      });
-    } catch (err) {
-      event.res.jsonResponse.error = {
-        message: err._message,
-        errors: err.errors
-      };
-      console.log(err);
-    }
+    const user = await Cart.create({
+      username,
+      name,
+      password,
+      email,
+      phone,
+      creditCard,
+      nif,
+      address
+    });
   } catch (err) {
-    event.res.jsonResponse.error = {
-      message: err
-    };
+    console.log(err);
+    return { error: 'Could not create cart' };
   }
-
-  return event.res.jsonResponse;
 });

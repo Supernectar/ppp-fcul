@@ -48,8 +48,8 @@ export default mongoose.model(
       type: Schema.Types.ObjectId,
       ref: 'User'
     },
-    address: {
-      type: Schema.Types.ObjectId,
+    location: {
+      type: Schema.Types.Object,
       ref: 'Address'
     }
   })

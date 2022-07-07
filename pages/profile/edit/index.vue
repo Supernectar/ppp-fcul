@@ -5,7 +5,7 @@
       <SideNavigationBar />
       <div class="flex-grow order-2">
         <section class="p-2 overflow-hidden min-h-screen">
-          <h1 class="text-4xl font-bold">My information</h1>
+          <h1 class="text-2xl font-bold">My information</h1>
           <div id="addresses" class="mt-4 border rounded-xl p-2">
             <h2 class="text-xl font-semibold">My addresses</h2>
             <p>
@@ -16,7 +16,6 @@
               <table>
                 <thead>
                   <tr>
-                    <th></th>
                     <th>Address</th>
                   </tr>
                 </thead>
@@ -71,7 +70,7 @@
                     placeholder=""
                     type="text"
                     name="brand"
-                    validation="required"
+                    validation="required|length:6"
                     outer-class="mb-4"
                     label-class="form-label inline-block mb-2 text-gray-700"
                     input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
@@ -83,14 +82,14 @@
                 <div>
                   <FormKit
                     v-model="newZip"
-                    label="Zip code"
+                    label="Zipcode"
                     placeholder=""
                     type="text"
                     name="model"
-                    validation="required"
+                    validation="required|matches:/^[0-9]{4}-[0-9]{3}$/"
                     outer-class="mb-4"
                     label-class="form-label inline-block mb-2 text-gray-700"
-                    input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                    input-class="form-control block w-full sm:w-24 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                     help-class="text-sm text-gray-500 mt-1"
                     message-class="mt-1 text-sm text-red-600"
                   />
@@ -103,10 +102,10 @@
                     placeholder=""
                     type="text"
                     name="model"
-                    validation="required"
+                    validation="required|length:4"
                     outer-class="mb-4"
                     label-class="form-label inline-block mb-2 text-gray-700"
-                    input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                    input-class="form-control block w-full sm:w-52 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                     help-class="text-sm text-gray-500 mt-1"
                     message-class="mt-1 text-sm text-red-600"
                   />
@@ -127,7 +126,7 @@
                 </div>
               </div>
               <button
-                class="p-1 rounded border bg-blue-100"
+                class="p-1 rounded border bg-violet-100"
                 @click="addAddress"
               >
                 Register new address
@@ -143,7 +142,7 @@
               validation="length:3"
               outer-class="mb-4"
               label-class="form-label inline-block mb-2 text-gray-700"
-              input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              input-class="form-control block w-full sm:w-80 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
               help-class="text-sm text-gray-500 mt-1"
               message-class="mt-1 text-sm text-red-600"
               :placeholder="info.name"
@@ -156,7 +155,7 @@
               validation="length:3"
               outer-class="mb-4"
               label-class="form-label inline-block mb-2 text-gray-700"
-              input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              input-class="form-control block w-full sm:w-80 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
               help-class="text-sm text-gray-500 mt-1"
               message-class="mt-1 text-sm text-red-600"
               :placeholder="info.username"
@@ -169,7 +168,7 @@
               validation="email"
               outer-class="mb-4"
               label-class="form-label inline-block mb-2 text-gray-700"
-              input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              input-class="form-control block w-full sm:w-80 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
               help-class="text-sm text-gray-500 mt-1"
               message-class="mt-1 text-sm text-red-600"
               :placeholder="info.email"
@@ -186,7 +185,7 @@
               }"
               outer-class="mb-4"
               label-class="form-label inline-block mb-2 text-gray-700"
-              input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              input-class="form-control block w-full sm:w-80 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
               help-class="text-sm text-gray-500 mt-1"
               message-class="mt-1 text-sm text-red-600"
               placeholder="********"
@@ -203,37 +202,38 @@
                 validation="length:6"
                 outer-class="mb-4"
                 label-class="form-label inline-block mb-2 text-gray-700"
-                input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                input-class="form-control block w-full sm:w-80 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                 help-class="text-sm text-gray-500 mt-1"
                 message-class="mt-1 text-sm text-red-600"
                 :placeholder="displayAddress.street"
               />
+              <div class="flex gap-4">
+                <FormKit
+                  v-model="zipCode"
+                  label="Zip Code"
+                  type="text"
+                  validation="matches:/^[0-9]{4}-[0-9]{3}$/"
+                  outer-class="mb-4"
+                  label-class="form-label inline-block mb-2 text-gray-700"
+                  input-class="form-control block w-full sm:w-24 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                  help-class="text-sm text-gray-500 mt-1"
+                  message-class="mt-1 text-sm text-red-600"
+                  :placeholder="displayAddress.zipCode"
+                />
 
-              <FormKit
-                v-model="zipCode"
-                label="Zip Code"
-                type="text"
-                validation="matches:/^[0-9]{4}-[0-9]{3}$/"
-                outer-class="mb-4"
-                label-class="form-label inline-block mb-2 text-gray-700"
-                input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                help-class="text-sm text-gray-500 mt-1"
-                message-class="mt-1 text-sm text-red-600"
-                :placeholder="displayAddress.zipCode"
-              />
-
-              <FormKit
-                v-model="city"
-                label="City"
-                type="text"
-                validation="length:4"
-                outer-class="mb-4"
-                label-class="form-label inline-block mb-2 text-gray-700"
-                input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                help-class="text-sm text-gray-500 mt-1"
-                message-class="mt-1 text-sm text-red-600"
-                :placeholder="displayAddress.city"
-              />
+                <FormKit
+                  v-model="city"
+                  label="City"
+                  type="text"
+                  validation="length:4"
+                  outer-class="mb-4"
+                  label-class="form-label inline-block mb-2 text-gray-700"
+                  input-class="form-control block w-full sm:w-52 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                  help-class="text-sm text-gray-500 mt-1"
+                  message-class="mt-1 text-sm text-red-600"
+                  :placeholder="displayAddress.city"
+                />
+              </div>
 
               <FormKit
                 v-model="country"
@@ -242,7 +242,7 @@
                 :options="names"
                 outer-class="mb-4"
                 label-class="form-label inline-block mb-2 text-gray-700"
-                input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                input-class="form-control block w-full sm:w-80 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                 help-class="text-sm text-gray-500 mt-1"
                 message-class="mt-1 text-sm text-red-600"
                 :placeholder="displayAddress.country"
@@ -259,7 +259,7 @@
                 validation="length:9"
                 outer-class="mb-4"
                 label-class="form-label inline-block mb-2 text-gray-700"
-                input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                input-class="form-control block w-full sm:w-80 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                 help-class="text-sm text-gray-500 mt-1"
                 message-class="mt-1 text-sm text-red-600"
                 :placeholder="info.phone"
@@ -272,7 +272,7 @@
                 validation="length:9"
                 outer-class="mb-4"
                 label-class="form-label inline-block mb-2 text-gray-700"
-                input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                input-class="form-control block w-full sm:w-80 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                 help-class="text-sm text-gray-500 mt-1"
                 message-class="mt-1 text-sm text-red-600"
                 :placeholder="info.nif"
@@ -284,7 +284,7 @@
                 <FormKit
                   type="submit"
                   label="Update account"
-                  input-class="inline-block my-4 w-40 px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+                  input-class="inline-block my-4 w-40 px-6 py-2.5 bg-violet-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-violet-500 hover:shadow-lg focus:bg-violet-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-violet-600 active:shadow-lg transition duration-150 ease-in-out"
                 />
               </div>
               <hr />
@@ -389,7 +389,7 @@ names.value.sort((a, b) => a.localeCompare(b));
 
 // User info
 const info = ref([]);
-info.value = (await $fetch(`/api/users/${user.data._id}`)).data.items[0];
+info.value = await $fetch(`/api/users/${user.data._id}`);
 
 // Address of user
 const displayAddress = ref([]);
@@ -431,12 +431,9 @@ function openModal(msg) {
 }
 
 async function addAddress() {
-  const res = await fetch(`/api/users/${user.data._id}`, {
+  const res = await $fetch(`/api/users/${user.data._id}`, {
     method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
+    body: {
       type: user.data.type,
       newAddress: {
         street: newStreet.value,
@@ -444,12 +441,11 @@ async function addAddress() {
         city: newCity.value,
         zipCode: newZip.value
       }
-    })
+    }
   });
-  const resjson = await res.json();
-  console.log(resjson);
+  console.log(res);
 
-  const userdb = (await $fetch(`/api/users/${user.data._id}`)).data.items[0];
+  const userdb = await $fetch(`/api/users/${user.data._id}`);
   user.$patch({
     data: userdb
   });
@@ -466,12 +462,9 @@ async function deleteAcc() {
   router.push('/signup');
 }
 async function updateInfo() {
-  const res = await fetch(`/api/users/${user.data._id}`, {
+  const res = await $fetch(`/api/users/${user.data._id}`, {
     method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
+    body: {
       username: username.value === '' ? user.data.username : username.value,
       email: email.value === '' ? user.data.email : email.value,
       name: name.value === '' ? user.data.name : name.value,
@@ -488,12 +481,11 @@ async function updateInfo() {
       phone: phone.value === '' ? user.data.phone : phone.value,
       nif: nif.value === '' ? user.data.nif : nif.value,
       password: password.value === '' ? user.data.password : password.value
-    })
+    }
   });
-  const resjson = await res.json();
-  console.log(resjson);
+  console.log(res);
 
-  const userdb = (await $fetch(`/api/users/${user.data._id}`)).data.items[0];
+  const userdb = await $fetch(`/api/users/${user.data._id}`);
   user.$patch({
     data: userdb
   });

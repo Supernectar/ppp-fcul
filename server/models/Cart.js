@@ -4,7 +4,6 @@ const { Schema } = mongoose;
 export default mongoose.model(
   'Cart',
   new Schema({
-    id: Number,
     products: [
       {
         product: {

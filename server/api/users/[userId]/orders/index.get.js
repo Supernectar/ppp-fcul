@@ -2,27 +2,53 @@ import User from '~~/server/models/User';
 import Order from '~~/server/models/Order';
 
 export default defineEventHandler(async (event) => {
-  event.res.jsonResponse.context = event.context.params;
+  const { userId } = event.context.params;
+  const { type } = useQuery(event);
+
   try {
-    const { userId } = event.context.params;
     // let order = await Order.find({ consumer: userId });
-    const user = await User.findOne({ _id: userId });
-    const orderIds = user.consumerData.orders;
-    const orders = [];
-    for (let i = 0; i < orderIds.length; i++) {
-      const order = await Order.findOne({
-        _id: orderIds[i]
-      });
-      orders.push(order);
+    const user = await User.findById(userId);
+    // .populate({
+    //   path: 'supplierData.orders',
+    //   populate: ['consumer', 'product']
+    // });
+    if (type === 'transport') {
+      const orderIds = user.transporterData.orders;
+      const orders = [];
+      for (let i = 0; i < orderIds.length; i++) {
+        const order = await Order.findById(orderIds[i]).populate([
+          'transport',
+          'status',
+          'from',
+          'to'
+        ]);
+
+        orders.push(order);
+      }
+      return orders;
     }
-    event.res.jsonResponse.context = event.context.params;
-    event.res.jsonResponse.data = {
-      items: orders
-    };
+    if (type === undefined) {
+      const orderIds = user.consumerData.orders;
+      const orders = [];
+      for (let i = 0; i < orderIds.length; i++) {
+        const order = await Order.findById(orderIds[i])
+
+          .populate('status')
+          .populate({
+            path: 'products',
+            populate: {
+              path: 'product',
+              populate: ['item', 'supplier']
+            }
+          });
+
+        orders.push(order);
+      }
+
+      return orders;
+    }
   } catch (err) {
     console.log(err);
-    event.res.jsonResponse.error = err;
+    return { error: 'Could not find orders' };
   }
-
-  return event.res.jsonResponse;
 });

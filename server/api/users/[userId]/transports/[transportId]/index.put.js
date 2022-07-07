@@ -1,15 +1,6 @@
 export default defineEventHandler(async (event) => {
-  event.res.jsonResponse.context = event.context.params;
   const { userId } = event.context.params;
-  const { marca, modelo, maxLoad, status, plate } = JSON.parse(
-    await useBody(event)
-  );
-
-  // if (userId !== event.req.userId) {
-  // 	event.res.jsonResponse.error = {
-  // 		message: 'You must be the owner to change this profile'
-  // 	};
-  // } else {
+  const { marca, modelo, maxLoad, status, plate } = await useBody(event);
   try {
     const user = await User.updateOne(
       { _id: userId },
@@ -21,15 +12,10 @@ export default defineEventHandler(async (event) => {
         plate
       }
     );
-    event.res.jsonResponse.data = {
-      transport: [user]
-    };
+
+    return user;
   } catch (err) {
     console.log(err);
-    event.res.jsonResponse.error = {
-      message: err
-    };
+    return { error: 'Could not update user' };
   }
-  // }
-  return event.res.jsonResponse;
 });

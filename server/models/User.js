@@ -9,8 +9,30 @@ export default mongoose.model(
       unique: true
     },
     name: String,
-    password: String,
-    email: String,
+    // password: String,
+    password: {
+      type: String,
+      required: true,
+      validate: {
+        validator: function (v) {
+          return /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/.test(v);
+        },
+
+        message: (props) => `${props.value} is not a valid code format!`
+      }
+    },
+    email: {
+      type: String,
+      required: true
+      // validate: {
+      //   validator: function (v) {
+      //     return \b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b.test(v);
+      //   },
+
+      //   message: (props) => `${props.value} is not a valid code format!`
+      // }
+    },
+    // email: String,
     phone: String,
     creditCard: String,
     nif: String,
@@ -29,7 +51,8 @@ export default mongoose.model(
       ],
       orders: [
         {
-          type: Schema.Types.ObjectId
+          type: Schema.Types.ObjectId,
+          ref: 'Order'
         }
       ],
       cart: [
@@ -64,7 +87,12 @@ export default mongoose.model(
       ],
       orders: [
         {
-          type: Schema.Types.ObjectId
+          date: { type: Date },
+          consumer: { type: Schema.Types.ObjectId, ref: 'User' },
+          transport: { type: Schema.Types.ObjectId, ref: 'Transport' },
+          quantity: { type: Number },
+          product: { type: Schema.Types.ObjectId, ref: 'Product' },
+          status: { type: Schema.Types.ObjectId, ref: 'Status' }
         }
       ]
     },
@@ -80,6 +108,12 @@ export default mongoose.model(
           type: Schema.Types.ObjectId,
           ref: 'Transport'
         }
+      ],
+      orders: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: 'Order'
+        }
       ]
     },
     preferences: {
@@ -91,6 +125,13 @@ export default mongoose.model(
         type: String,
         default: '#ffffff'
       }
-    }
+    },
+    notification: [
+      {
+        name: { type: String },
+        reference_id: { type: Schema.Types.ObjectId },
+        type: { type: String }
+      }
+    ]
   })
 );

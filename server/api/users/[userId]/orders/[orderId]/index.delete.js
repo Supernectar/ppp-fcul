@@ -2,9 +2,9 @@ import Order from '~~/server/models/Order';
 import User from '~~/server/models/User';
 
 export default defineEventHandler(async (event) => {
-  event.res.jsonResponse.context = event.context.params;
+  const { userId, orderId } = event.context.params;
+
   try {
-    const { userId, orderId } = event.context.params;
     const orderUser = await User.updateOne(
       { _id: userId },
       {
@@ -16,14 +16,10 @@ export default defineEventHandler(async (event) => {
     await Order.deleteMany({
       _id: orderId
     });
-    event.res.jsonResponse.context = event.context.params;
-    event.res.jsonResponse.data = {
-      items: orderUser
-    };
+
+    return 'Good';
   } catch (err) {
     console.log(err);
-    event.res.jsonResponse.error = err;
+    return { error: 'Could not delete order' };
   }
-
-  return event.res.jsonResponse;
 });

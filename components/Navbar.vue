@@ -108,7 +108,7 @@
                         {{ myItems[index].name }}
                       </th>
                       <td class="px-2 py-4">
-                        {{ myProducts[index].productLine.price }}
+                        {{ myProducts[index].price }}
                       </td>
                       <td class="px-2 py-4">
                         <input
@@ -117,7 +117,7 @@
                           type="number"
                           min="0"
                           name=""
-                          value="5"
+                          :value="cartItem.quantity"
                         />
                       </td>
                       <td class="px-2 py-4 text-right">
@@ -138,7 +138,7 @@
                       See more
                     </button>
                   </NuxtLink>
-                  <NuxtLink to="#">
+                  <NuxtLink to="/purchase/cart">
                     <button
                       class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                     >
@@ -196,8 +196,13 @@
               class="absolute right-0 mt-2 z-50 origin-top-right rounded-md bg-white shadow-lg focus:outline-none"
             >
               <div
-                class="overflow-hidden rounded-lg shadow-lg ring-1 bg-white"
-              ></div>
+                v-for="(notification, index) in userF.notification"
+                :key="index"
+                class="bg-white border-b hover:bg-gray-50 px-4 py-4 font-medium text-gray-900 whitespace-nowrap"
+                @click="pushNotification(notification)"
+              >
+                {{ notification.type }} has {{ notification.name }}
+              </div>
               Hello
             </PopoverPanel>
           </transition>
@@ -368,27 +373,25 @@ import {
   SearchIcon
 } from '@heroicons/vue/outline/index.js';
 import useCart from '~/stores/cart';
-
 const router = useRouter();
-
 const user = useUser();
-
 const store = useCart();
-
 const cart = ref(store.getCart);
-
 const myProducts = ref([]);
 const myItems = ref([]);
+const userF = ref(await $fetch(`/api/users/${user.data._id}`));
+// console.log(userF.value.notification);
 
 for (let i = 0; i < cart.value.length; i++) {
   if (cart.value.length <= 4) {
-    myProducts.value[i] = (
-      await $fetch(`/api/products?_id=${cart.value[i].product}`)
-    ).data.items[0];
+    myProducts.value[i] = await $fetch(
+      `/api/products/${cart.value[i].product}`
+    );
+    // console.log(await $fetch(`/api/products/${cart.value[i].product}`));
 
-    myItems.value[i] = (
-      await $fetch(`/api/items?_id=${myProducts.value[i].productLine.item._id}`)
-    ).data.items[0];
+    myItems.value[i] = await $fetch(
+      `/api/items/${myProducts.value[i].item._id}`
+    );
   }
 }
 
@@ -396,16 +399,13 @@ async function signOut() {
   if (user.isLoggedIn) {
     await $fetch(`/api/users/${user.data._id}`, {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
+      body: {
         a: 'okok',
         preferences: {
           profileIconBgColor: user.data.preferences.profileIconBgColor,
           profileIconTextColor: user.data.preferences.profileIconTextColor
         }
-      })
+      }
     });
 
     user.reset();
@@ -422,10 +422,19 @@ function closeModal() {
 function openModal() {
   isOpen.value = true;
 }
-
+function pushNotification(notification) {
+  if (notification.type === 'supplier') {
+    router.push(`/profile/supplier/orders/${notification.reference_id}`);
+  } else if (notification.type === 'consumer') {
+    router.push(`/profile/consumer/orders/${notification.reference_id}`);
+  } else if (notification.type === 'transporter') {
+    router.push(`/profile/transporter/deliveries`);
+  }
+}
 const search = ref('');
 
 function test() {
+  console.log('entered');
   const catMatched = [];
   let url;
   const regex = new RegExp(search.value, 'gi');
@@ -459,16 +468,14 @@ const categories = ref({});
 const expandNode = async (node) => {
   if (node.children.length > 0) {
     for (let i = 0; i < node.children.length; i++) {
-      node.children[i] = (
-        await $fetch(`/api/categories?_id=${node.children[i]}`)
-      ).data.items[0];
+      node.children[i] = await $fetch(`/api/categories/${node.children[i]}`);
     }
     for (const child of node.children) {
       expandNode(child);
     }
   }
 };
-categories.value = (await $fetch(`/api/categories?name=main`)).data.items[0];
+categories.value = (await $fetch(`/api/categories?name=main`))[0];
 expandNode(categories.value);
 </script>
 <style></style>

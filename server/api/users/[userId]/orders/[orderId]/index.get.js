@@ -2,25 +2,23 @@ import Order from '~~/server/models/Order';
 import User from '~~/server/models/User';
 
 export default defineEventHandler(async (event) => {
-  event.res.jsonResponse.context = event.context.params;
+  const { userId, orderId } = event.context.params;
   try {
-    const { userId, orderId } = event.context.params;
-    const user = await User.findOne({ _id: userId });
-    const orderIds = user.consumerData.orders;
-    let order = [];
-    for (let i = 0; i < orderIds.length; i++) {
-      order = await Order.findOne({
-        _id: orderId
+    const order = await Order.findById(orderId)
+      .populate('status')
+      .populate({
+        path: 'products.product',
+        populate: [
+          'item',
+          'supplier',
+          { path: 'polutions', populate: ['polution'] },
+          { path: 'resources', populate: ['resource'] }
+        ]
       });
-    }
-    event.res.jsonResponse.context = event.context.params;
-    event.res.jsonResponse.data = {
-      items: order
-    };
+
+    return order;
   } catch (err) {
     console.log(err);
-    event.res.jsonResponse.error = err;
+    return { error: 'Could not find order' };
   }
-
-  return event.res.jsonResponse;
 });

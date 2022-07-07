@@ -98,7 +98,7 @@
             validation="required"
             outer-class="mb-4"
             label-class="form-label inline-block mb-2 text-gray-700"
-            input-class="form-control block w-full px-3 py-1.5 text-base
+            input-class="form-control justify-center px-3 py-1.5 text-base
           font-normal text-gray-700 bg-white bg-clip-padding border border-solid
           border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700
           focus:bg-white focus:border-blue-600 focus:outline-none"
@@ -119,16 +119,17 @@
             :max="consumptionMax"
             :step="1"
             validation="required"
-            outer-class="mb-4"
-            label-class="form-label inline-block mb-2 text-gray-700"
-            input-class="form-control block w-full px-3 py-1.5 text-base
+            outer-class=""
+            label-class="form-label  inline-block mb-2 text-gray-700"
+            input-class="form-control w-1/3 justify-center  px-3  text-base
           font-normal text-gray-700 bg-white bg-clip-padding border border-solid
           border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700
           focus:bg-white focus:border-blue-600 focus:outline-none"
             help-class="text-sm text-gray-500 mt-1"
-            message-class="mt-1 text-sm
+            message-class=" text-sm
           text-red-600"
-          />{{ consumption }}
+          />
+          <p class="mb-4">{{ consumption }}</p>
         </div>
 
         <!-- <div>
@@ -139,22 +140,23 @@
         </div> -->
 
         <div>
+          <!-- wait -->
           <FormKit
             label="Address"
             v-model="address"
-            placeholder=""
+            placeholder="Choose your address"
             type="select"
             name="address"
             :options="addresses"
             validation="required"
             outer-class="mb-4"
             label-class="form-label inline-block mb-2 text-gray-700"
-            input-class="form-control block w-full px-3 py-1.5 text-base
+            input-class="form-control justify-center px-3 py-1.5 text-base
           font-normal text-gray-700 bg-white bg-clip-padding border border-solid
           border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700
           focus:bg-white focus:border-blue-600 focus:outline-none"
             help-class="text-sm text-gray-500 mt-1"
-            message-class="mt-1 text-sm
+            message-class="mt-1 text-sm text-center
           text-red-600"
           />
         </div>
@@ -163,17 +165,17 @@
       <button
         type="button"
         class="text-white bg-gradient-to-br from-red-500 to-red-900 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
-        @click="$router.push('carttest')"
+        @click="$router.push('/cart')"
       >
         Cancel
       </button>
-      <button
+      <!-- <button
         type="button"
         class="text-white bg-gradient-to-br from-indigo-500 to-indigo-900 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
         @click="$router.push('payment')"
       >
         Next >
-      </button>
+      </button> -->
     </div>
     <table class="m-auto w-10/12">
       <thead class="bg-gray-500 border-gray-500">
@@ -185,6 +187,7 @@
             Resources
           </th>
           <th class="w-20 text-sm text-gray-200 whitespace-nowrap">Polution</th>
+          <th class="w-20 text-sm text-gray-200 whitespace-nowrap"></th>
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-300 text-center">
@@ -216,6 +219,15 @@
           >
             {{ pol.quantity }} {{ pol.polution.unit }}/{{ pol.polution.name }}
           </td>
+          <td>
+            <button
+              type="button"
+              class="text-white bg-gradient-to-br from-blue-500 to-blue-900 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+              @click="chooseTransport(transport)"
+            >
+              Choose
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -235,7 +247,15 @@
   </div>
 </template>
 <script setup>
-const userStore = useUser();
+import useOrderT from '~/stores/orderTransport';
+import useOrderA from '~/stores/orderAddress';
+const router = useRouter();
+const store = useUser();
+const storeOrderT = useOrderT();
+const storeOrderA = useOrderA();
+
+// const transp = ref(store.getTransport);
+// const userStore = useUser();
 const consumption = ref(0);
 const transports = ref([]);
 const transportsFilter = ref([]);
@@ -245,22 +265,22 @@ const fuelConsumption = ref([]);
 const consumptionMin = ref(0);
 const consumptionMax = ref(90);
 const addresses = ref([]);
-const user = userStore.data;
-transports.value = (await $fetch(`/api/transports`)).data.items;
+const address = ref('');
+// const userstore = store.data;
 
-addresses.value.push(
-  user.consumerData.address[0].street +
-    ', ' +
-    user.consumerData.address[0].country +
-    ', ' +
-    user.consumerData.address[0].city +
-    ', ' +
-    user.consumerData.address[0].zipCode
-);
-for (const addr of user.addresses) {
-  addresses.value.push(
-    addr.street + ', ' + addr.country + ', ' + addr.city + ', ' + addr.zipCode
-  );
+transports.value = await $fetch(`/api/transports`);
+const user = ref(await $fetch(`/api/users/${store.data._id}`));
+
+addresses.value.push(user.value.consumerData.address[0]);
+
+for (const addr of user.value.addresses) {
+  addresses.value.push(addr);
+}
+for (const addr of addresses.value) {
+  console.log(addr);
+  addr.label =
+    addr.street + ', ' + addr.zipCode + ' ' + addr.city + ', ' + addr.country;
+  addr.value = addr._id;
 }
 
 for (let i = 0; i < transports.value.length; i++) {
@@ -300,6 +320,7 @@ for (const fuel of fuelConsumption.value) {
   }
 }
 fuel.value = fuelResources.value[0];
+// console.log(fuelResources.value);
 consumptionMin.value = fuelConsumption.value[0][0];
 consumptionMax.value = fuelConsumption.value[0][1];
 consumption.value = consumptionMin.value;
@@ -329,18 +350,17 @@ function filterTranports() {
       transportsFilter.value.push(transport);
     }
   }
-  console.log('---');
-  console.log(transportsFilter.value);
 }
 
-// const availableTransports = ref((await $fetch(`/api/transports`)).data.items);
-// const availableTransportsCoords = ref([]);
-
-// for (const transport of transportsFilter.value) {
-//   availableTransportsCoords.value.push(transport.address.coordinates);
-// }
-
-// console.log(availableTransportsCoords);
-
-// const selectedTransport = ref({});
+function chooseTransport(transp) {
+  if (address.value !== '') {
+    const orderTransport = ref([]);
+    orderTransport.value.push(transp._id);
+    storeOrderT.$patch({ orderTransport: orderTransport.value });
+    const orderAddress = ref([]);
+    orderAddress.value.push(address.value);
+    storeOrderA.$patch({ orderAddress: orderAddress.value });
+    router.push(`payment`);
+  }
+}
 </script>

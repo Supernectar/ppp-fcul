@@ -1,17 +1,27 @@
 import User from '~~/server/models/User';
 
 export default defineEventHandler(async (event) => {
-  event.res.jsonResponse.context = event.context.params;
-  try {
-    const { userId } = event.context.params;
-    const user = await User.find({ _id: userId });
-    event.res.jsonResponse.context = event.context.params;
-    event.res.jsonResponse.data = {
-      items: user
-    };
-  } catch (err) {
-    event.res.jsonResponse.error = err;
-  }
+  const { userId } = event.context.params;
 
-  return event.res.jsonResponse;
+  try {
+    const user = await User.findById(userId)
+      .populate({
+        path: 'supplierData',
+        populate: {
+          path: 'orders',
+          populate: ['product', 'consumer', 'status', 'transport']
+        }
+      })
+      .populate({
+        path: 'supplierData.orders',
+        populate: {
+          path: 'product',
+          populate: ['item', 'storages']
+        }
+      });
+    return user;
+  } catch (err) {
+    console.log(err);
+    return { error: 'Could not find user' };
+  }
 });

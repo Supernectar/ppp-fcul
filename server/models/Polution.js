@@ -4,9 +4,13 @@ const { Schema } = mongoose;
 export default mongoose.model(
   'Polution',
   new Schema({
-    nameId: {
-      type: String
+    name: {
+      type: String,
+      required: [true, 'name required']
     },
-    unit: String
+    unit: {
+      type: String,
+      required: [true, 'unit required']
+    }
   })
 );

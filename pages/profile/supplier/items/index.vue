@@ -6,23 +6,6 @@
       <div class="flex-grow order-2">
         <section class="p-2 overflow-hidden min-h-screen">
           <h1 class="text-4xl font-bold">Items</h1>
-          <!-- <div id="products" class="mt-4 border rounded-xl">
-            <h2 class="text-xl font-semibold">
-              Items your're currently selling
-            </h2>
-            <p>description here</p>
-            <div>
-              <ul>
-                <li v-for="productLine in productLines">
-                  <b>product: </b>
-                  <NuxtLink
-                    :to="`/profile/supplier/products/${productLine._id}`"
-                    >{{ productLine.name }}</NuxtLink
-                  >
-                </li>
-              </ul>
-            </div>
-          </div> -->
           <div id="sellProduct" class="mt-4 border rounded-xl">
             <h2 class="text-xl font-semibold">Create a new item here</h2>
             <!-- <p>description here</p> -->
@@ -69,7 +52,7 @@
                   v-model="weigth"
                   label="Weight of item"
                   type="text"
-                  name="weigth|length:6"
+                  name="weigth"
                   validation="required"
                   outer-class="mb-4"
                   label-class="form-label inline-block mb-2 text-gray-700"
@@ -95,7 +78,7 @@
               <div>
                 <FormKit
                   v-model="description"
-                  label="description"
+                  label="Description"
                   type="text"
                   name="description"
                   validation="required|length:4"
@@ -111,6 +94,7 @@
                   v-model="producer"
                   label="Producer"
                   type="text"
+                  validation="required"
                   outer-class="mb-4"
                   label-class="form-label inline-block mb-2 text-gray-700"
                   input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
@@ -121,7 +105,7 @@
               <div>
                 <FormKit
                   v-model="categories2"
-                  label="Category of ITem"
+                  label="Category of item"
                   type="select"
                   :value="categories[0]"
                   :options="categories"
@@ -136,11 +120,11 @@
                 <FormKit
                   v-model="isConsumable"
                   type="checkbox"
-                  label="isConsumable"
+                  label="Is this item a consumable?"
                   name="isConsumable"
                 />
               </div>
-              <div class="h-80">
+              <div>
                 Choose which items are part of your new item
                 <Listbox
                   class="z-20 inline-block w-60"
@@ -206,9 +190,16 @@
                     </transition>
                   </div>
                 </Listbox>
-                <br />
-                <button class="bg-gray-200 border rounded">ADD ITEM</button>
               </div>
+              <template #submit>
+                <div class="flex space-x-2 justify-center m-5">
+                  <FormKit
+                    type="submit"
+                    label="Add item"
+                    input-class="inline-block my-4 w-40 px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+                  />
+                </div>
+              </template>
             </FormKit>
           </div>
           <!-- </div> -->
@@ -232,11 +223,11 @@ import { CheckIcon, SelectorIcon } from '@heroicons/vue/outline';
 const user = useUser();
 
 const items = ref([]);
-items.value = (await $fetch(`/api/items`)).data.items;
+items.value = await $fetch(`/api/items`);
 const selectedItems = ref([]);
 
 const categories = ref([]);
-categories.value = (await $fetch(`/api/categories`)).data.items;
+categories.value = await $fetch(`/api/categories`);
 console.log(categories.value);
 for (const category of categories.value) {
   category.label = category.name;

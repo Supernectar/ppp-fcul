@@ -5,6 +5,10 @@
 </template>
 
 <style>
+html {
+  scroll-behavior: smooth;
+}
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;

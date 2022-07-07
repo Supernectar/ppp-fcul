@@ -32,14 +32,14 @@
           >
             <td class="p-8 text-sm text-gray-700 whitespace-nowrap text-center">
               <img
-                src="/img/627.png"
+                :src="myItems[index].imgPath"
                 class="h-full rounded-t-lg h-full m-auto border"
               />
             </td>
             <td class="p-8 text-sm text-gray-700 whitespace-nowrap text-center">
               {{ myItems[index].name }}
               <br />
-              {{ myProducts[index].productLine.supplier.username }}
+              {{ myProducts[index].supplier.username }}
             </td>
 
             <td class="p-8 text-sm text-gray-700 whitespace-nowrap text-center">
@@ -55,7 +55,7 @@
               />
             </td>
             <td class="p-8 text-sm text-gray-700 whitespace-nowrap text-center">
-              {{ myProducts[index].productLine.price * cartItem.quantity }}€
+              {{ myProducts[index].price * cartItem.quantity }}€
             </td>
             <td class="p-8 text-sm text-gray-700 whitespace-nowrap text-center">
               <button @click="removeFromCart(cartItem.product)">
@@ -108,19 +108,13 @@ const total = ref(0);
 for (let i = 0; i < cart.value.length; i++) {
   // console.log(cart.value);
   // console.log(cart.value[i].product);
-  myProducts.value[i] = (
-    await $fetch(`/api/products?_id=${cart.value[i].product}`)
-  ).data.items[0];
-  console.log(myProducts.value);
-  myItems.value[i] = (
-    await $fetch(`/api/items?_id=${myProducts.value[i].productLine.item._id}`)
-  ).data.items[0];
+  myProducts.value[i] = await $fetch(`/api/products/${cart.value[i].product}`);
+  myItems.value[i] = await $fetch(`/api/items/${myProducts.value[i].item._id}`);
 }
 
 for (let i = 0; i < myProducts.value.length; i++) {
   total.value =
-    total.value +
-    myProducts.value[i].productLine.price * cart.value[i].quantity;
+    total.value + myProducts.value[i].price * cart.value[i].quantity;
 }
 
 watch(
@@ -129,8 +123,7 @@ watch(
     total.value = 0;
     for (let i = 0; i < myProducts.value.length; i++) {
       total.value =
-        total.value +
-        myProducts.productLine.value[i].price * cart.value[i].quantity;
+        total.value + myProducts.value[i].price * cart.value[i].quantity;
     }
   },
   { deep: true }

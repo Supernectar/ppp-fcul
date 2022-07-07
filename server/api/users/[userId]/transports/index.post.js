@@ -4,8 +4,7 @@ import Resource from '~~/server/models/Resource';
 import Polution from '~~/server/models/Polution';
 
 export default defineEventHandler(async (event) => {
-  event.res.jsonResponse.context = event.context.params;
-  const { brand, model, status, plate } = JSON.parse(await useBody(event));
+  const { brand, model, status, plate, location } = await useBody(event);
   const { userId } = event.context.params;
 
   try {
@@ -37,9 +36,10 @@ export default defineEventHandler(async (event) => {
       resources: actualResources,
       polutions: actualPolutions,
       plate,
+      location,
       owner: userId
     });
-    console.log(transport);
+    // console.log(transport);
 
     // let b = await User.updateOne({ _id: userId });
 
@@ -51,8 +51,10 @@ export default defineEventHandler(async (event) => {
         }
       }
     );
+
     return transport;
   } catch (err) {
-    return err;
+    console.log(err);
+    return { error: 'Could not create transport' };
   }
 });

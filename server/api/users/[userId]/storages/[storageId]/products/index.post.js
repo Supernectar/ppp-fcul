@@ -1,5 +1,4 @@
 export default defineEventHandler(async (event) => {
-  event.res.jsonResponse.context = event.context.params;
   const authHeader = req.headers.authorization;
   const token = authHeader && authHeader.split(' ')[1];
 
@@ -37,12 +36,10 @@ export default defineEventHandler(async (event) => {
         }
       );
 
-      res.json(storage);
+      return storage;
     }
   } catch (err) {
     console.log(err);
-    res.send(err);
+    return { error: 'Could not create product' };
   }
-
-  return event.res.jsonResponse;
 });

@@ -2,10 +2,10 @@ import User from '~~/server/models/User';
 import Order from '~~/server/models/Order';
 
 export default defineEventHandler(async (event) => {
-  event.res.jsonResponse.context = event.context.params;
+  const { userId } = event.context.params;
+
   try {
-    const { userId } = event.context.params;
-    const user = await User.findOne({ _id: userId });
+    const user = await User.findById(userId);
     const orderIds = user.supplierData.orders;
     const orders = [];
     for (let i = 0; i < orderIds.length; i++) {
@@ -14,14 +14,10 @@ export default defineEventHandler(async (event) => {
       });
       orders.push(order);
     }
-    event.res.jsonResponse.context = event.context.params;
-    event.res.jsonResponse.data = {
-      items: orders
-    };
+
+    return ordes;
   } catch (err) {
     console.log(err);
-    event.res.jsonResponse.error = err;
+    return { error: 'Could not find orders' };
   }
-
-  return event.res.jsonResponse;
 });

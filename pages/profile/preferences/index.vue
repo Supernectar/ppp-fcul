@@ -5,7 +5,7 @@
       <SideNavigationBar />
       <div class="flex-grow order-2">
         <section class="p-2 overflow-hidden min-h-screen">
-          <h1 class="text-4xl font-bold">Preferences</h1>
+          <h1 class="text-2xl font-bold">Preferences</h1>
           <p>
             alteração de alguns settings que melhoram a experiencia do
             utilizador com base nas suas preferencias, tais como:

@@ -19,7 +19,10 @@
               <div class="whitespace-nowrap">Change role</div>
               <ArrowRightIcon class="h-4 w-4" />
             </NuxtLink>
-            <button class="p-2" @click="isOpen = !isOpen">
+            <button
+              class="p-2"
+              @click="!isMobile ? (isOpen = !isOpen) : (isOpen = false)"
+            >
               <MenuIcon class="h-6 w-6">toggle</MenuIcon>
             </button>
           </div>
@@ -113,6 +116,20 @@
                 </button>
 
                 <div v-if="isOpen">Preferences</div>
+              </NuxtLink>
+            </li>
+            <li v-if="!isOpen" class="mb-1">
+              <NuxtLink
+                class="flex items-center rounded-lg text-gray-800 hover:(bg-black bg-opacity-5)"
+                active-class="bg-black bg-opacity-5 before:(absolute w-1 h-6 rounded-r bg-violet-400)"
+                to="/profile/roles"
+              >
+                <button class="p-2">
+                  <UserGroupIcon
+                    class="h-6 w-6 text-violet-400"
+                    aria-hidden="true"
+                  />
+                </button>
               </NuxtLink>
             </li>
           </ul>
@@ -268,6 +285,30 @@
               </li>
             </ul>
           </template>
+          <template v-if="user.data.type === 'Admin'">
+            <hr class="mb-1" />
+            <h2 v-if="isOpen" class="text-sm text-gray-500 font-semibold">
+              Admin profile
+            </h2>
+            <ul>
+              <li class="mb-1">
+                <NuxtLink
+                  class="flex items-center rounded-lg text-gray-800 hover:(bg-black bg-opacity-5)"
+                  active-class="bg-black bg-opacity-5 before:(absolute w-1 h-6 rounded-r bg-violet-400)"
+                  to="/profile/admin/editUser"
+                >
+                  <button class="p-2">
+                    <PencilAltIcon
+                      class="h-6 w-6 text-violet-400"
+                      aria-hidden="true"
+                    />
+                  </button>
+
+                  <div v-if="isOpen">Edit users' accounts</div>
+                </NuxtLink>
+              </li>
+            </ul>
+          </template>
         </div>
         <div id="botSection" class="min-h-10 z-10 bg-white">
           <hr class="mb-2" />
@@ -291,9 +332,28 @@ import {
   CogIcon,
   ArrowRightIcon,
   CurrencyEuroIcon,
-  MenuIcon
+  MenuIcon,
+  UserGroupIcon,
+  PencilAltIcon
 } from '@heroicons/vue/outline';
 const user = useUser();
 
 const isOpen = ref(true);
+const isMobile = ref(false);
+checkSize();
+
+onMounted(() => {
+  window.addEventListener('resize', checkSize);
+});
+
+// check device size
+function checkSize() {
+  if (window.innerWidth <= 640) {
+    isOpen.value = false;
+    isMobile.value = true;
+  } else {
+    isOpen.value = true;
+    isMobile.value = false;
+  }
+}
 </script>

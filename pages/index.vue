@@ -561,19 +561,18 @@ import { CheckIcon, SelectorIcon, ChevronUpIcon } from '@heroicons/vue/solid';
 const route = useRoute();
 const categories2 = ref({});
 
+// onMounted()
 const expandNode = async (node) => {
   if (node.children.length > 0) {
     for (let i = 0; i < node.children.length; i++) {
-      node.children[i] = (
-        await $fetch(`/api/categories?_id=${node.children[i]}`)
-      ).data.items[0];
+      node.children[i] = await $fetch(`/api/categories/${node.children[i]}`);
     }
     for (const child of node.children) {
       expandNode(child);
     }
   }
 };
-categories2.value = (await $fetch(`/api/categories?name=main`)).data.items[0];
+categories2.value = (await $fetch(`/api/categories?name=main`))[0];
 
 expandNode(categories2.value);
 
@@ -598,17 +597,8 @@ const selectedFilters = ref({});
 watch(
   selectedFilters,
   async () => {
-    let tempItems = (await $fetch(`/api/items?category=${category.value._id}`))
-      .data.items;
+    let tempItems = await $fetch(`/api/items?category=${category.value._id}`);
 
-    for (const item of tempItems) {
-      const products = (await $fetch(`/api/products?item=${item._id}`)).data
-        .items;
-
-      item.minPrice = Math.min(...products.map((o) => o.price));
-      item.price = item.minPrice;
-      item.maxPrice = Math.max(...products.map((o) => o.price));
-    }
     tempItems = tempItems.filter(
       (item) => item.rating === selectedFilters.value.rating
     );
@@ -618,62 +608,35 @@ watch(
 );
 
 onMounted(async () => {
-  console.log(route.query.category);
   if (route.query.category) {
     const values = route.query.category.split(',');
-    console.log(values);
     category.value = (
       await $fetch(`/api/categories?name=${route.query.category}`)
-    ).data.items[0];
-    console.log(category.value);
+    )[0];
 
     // ---- Category Path ---- //
     let current = category.value;
     categoryPath.value.push(current);
     while (current.parent) {
-      current = (await $fetch(`/api/categories?_id=${current.parent}`)).data
-        .items[0];
+      current = await $fetch(`/api/categories/${current.parent}`);
       categoryPath.value.push(current);
     }
     categoryPath.value.reverse();
     categoryPath.value.shift();
 
     // ---- Loading Items ---- //
-    items.value = (
-      await $fetch(`/api/items?category=${category.value._id}`)
-    ).data.items;
-
-    for (const item of items.value) {
-      const products = (await $fetch(`/api/products?item=${item._id}`)).data
-        .items;
-
-      item.minPrice = Math.min(...products.map((o) => o.price));
-      item.price = item.minPrice;
-      item.maxPrice = Math.max(...products.map((o) => o.price));
-    }
+    items.value = await $fetch(`/api/items?category=${category.value._id}`);
   } else {
-    categories.value = (
-      await $fetch(`/api/categories?name=main`)
-    ).data.items[0];
+    categories.value = (await $fetch(`/api/categories?name=main`))[0];
 
     // ---- Category Path ---- //
     for (const category of categories.value.children) {
-      const current = (await $fetch(`/api/categories?_id=${category}`)).data
-        .items[0];
+      const current = await $fetch(`/api/categories/${category}`);
       categoryPath.value.push(current);
     }
 
     // ---- Loading Items ---- //
-    items.value = (await $fetch(`/api/items`)).data.items;
-
-    for (const item of items.value) {
-      const products = (await $fetch(`/api/products?item=${item._id}`)).data
-        .items;
-
-      item.minPrice = Math.min(...products.map((o) => o.price));
-      item.price = item.minPrice;
-      item.maxPrice = Math.max(...products.map((o) => o.price));
-    }
+    items.value = await $fetch(`/api/items`);
   }
 
   // ---- Static Filters ---- //
@@ -691,16 +654,14 @@ onMounted(async () => {
   const expandNode = async (node) => {
     if (node.children.length > 0) {
       for (let i = 0; i < node.children.length; i++) {
-        node.children[i] = (
-          await $fetch(`/api/categories?_id=${node.children[i]}`)
-        ).data.items[0];
+        node.children[i] = await $fetch(`/api/categories/${node.children[i]}`);
       }
       for (const child of node.children) {
         expandNode(child);
       }
     }
   };
-  categories.value = (await $fetch(`/api/categories?name=main`)).data.items[0];
+  categories.value = (await $fetch(`/api/categories?name=main`))[0];
   expandNode(categories.value);
 });
 

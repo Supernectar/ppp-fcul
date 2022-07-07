@@ -13,12 +13,11 @@
             <p>description here</p>
             <div>
               <ul>
-                <li v-for="productLine in productLines">
+                <li v-for="product in products">
                   <b>product: </b>
-                  <NuxtLink
-                    :to="`/profile/supplier/products/${productLine._id}`"
-                    >{{ productLine.name }}</NuxtLink
-                  >
+                  <NuxtLink :to="`/profile/supplier/products/${product._id}`">{{
+                    product.name
+                  }}</NuxtLink>
                 </li>
               </ul>
             </div>
@@ -119,7 +118,7 @@
                 class="bg-gray-200 border rounded"
                 @click="createProducts"
               >
-                ADD ZA PRODUCT
+                Add product
               </button>
             </div>
 
@@ -148,36 +147,36 @@ import { CheckIcon, SelectorIcon } from '@heroicons/vue/outline';
 const user = useUser();
 
 const storages = ref([]);
-const productLines = ref([]);
+const products = ref([]);
 
-productLines.value = (
-  await $fetch(`/api/users/${user.data._id}/productLines`)
-).data.items;
+// products.value = await $fetch(`/api/users/${user.data._id}/products`);
+// // console.log(products.value)
 
-storages.value = (
-  await $fetch(`/api/users/${user.data._id}/storages`)
-).data.items;
+storages.value = await $fetch(`/api/users/${user.data._id}/storages`);
+console.log(storages.value);
+for (const storage of storages.value) {
+  const productsStorage = await $fetch(
+    `/api/users/${user.data._id}/storages/${storage._id}/products`
+  );
+  products.value.push(productsStorage[0]);
+}
+
+console.log(products.value);
 const selectedStorages = ref([]);
 
 async function createProducts() {
-  for (const storage of selectedStorages.value) {
-    console.log(storage._id);
-    await $fetch('/api/products', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        name: 'pipo',
-        item: '62b7297435430a463a5864de', // washing machine 1
-        price: Math.floor(Math.random() * 20),
-        currencyUnit: '€',
-        stripeId: 'price_1LEa8fAIdQC80EPdihds8cUG',
-        quantity: 2,
-        supplier: user.data._id,
-        storage: storage._id
-      })
-    });
-  }
+  await $fetch('/api/products', {
+    method: 'POST',
+    body: {
+      name: 'pipo',
+      item: '62b7297435430a463a5864de', // washing machine 1
+      price: Math.floor(Math.random() * 20),
+      currencyUnit: '€',
+      stripeId: 'price_1LEa8fAIdQC80EPdihds8cUG',
+      quantity: 2,
+      supplier: user.data._id,
+      storages: [selectedStorage]
+    }
+  });
 }
 </script>

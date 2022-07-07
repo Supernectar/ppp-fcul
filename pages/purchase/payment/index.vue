@@ -95,7 +95,7 @@
             <td
               class="py-2 text-sm text-gray-700 whitespace-nowrap text-center"
             >
-              <img src="/img/627.png" class="h-16 rounded-lg border" />
+              <img :src="myProducts[index].imgPath" class="h-16 rounded-lg border" />
             </td>
 
             <td class="p-4 text-sm text-gray-700 whitespace-nowrap text-center">
@@ -139,6 +139,7 @@
         :line-items="lineItems"
         :success-url="successURL"
         :cancel-url="cancelURL"
+        :payment-intent="paymentIntent"
         @loading="(v) => (loading = v)"
       />
       <button
@@ -175,23 +176,25 @@
 
 <script setup>
 import { StripeCheckout } from '@vue-stripe/vue-stripe';
+// import stripe from 'stripe';
 import useCart from '~/stores/cart';
-
+import useOrderT from '~/stores/orderTransport';
+import useOrderA from '~/stores/orderAddress';
 const loading = false;
 // const user = useUser();
-
+const transportStore = useOrderT();
+const addressStore = useOrderA();
+const transport = ref(transportStore.getTransport);
+const address = ref(addressStore.getAddress[0]);
+const userStore = useUser();
 const store = useCart();
-
 const cart = ref(store.getCart);
 
 const myProducts = ref([]);
 for (let i = 0; i < cart.value.length; i++) {
-  myProducts.value[i] = (
-    await $fetch(`/api/products?_id=${cart.value[i].product}`)
-  ).data.items[0];
+  myProducts.value[i] = await $fetch(`/api/products/${cart.value[i].product}`);
   myProducts.value[i].cartQuantity = cart.value[i].quantity;
 }
-
 const lineItems = ref([]);
 // const lineItems = ref([
 //   {
@@ -212,15 +215,60 @@ for (const product of myProducts.value) {
   });
 }
 
-console.log(lineItems);
-
 const successURL = 'http://localhost:3000/profile/consumer/orders';
 const cancelURL = 'http://localhost:3000/error';
 const publishableKey =
   'pk_test_51LEDJlAIdQC80EPdG8z8dlFoL50XlSoMNe1JhuF2Tdap8U25BCRlWB8IiQnqa0YYBJy7JurPEuaDMaZWNgOlM0w5000FSV9i0w';
 const checkoutRef = ref(null);
 function submit() {
-  // You will be redirected to Stripe's secure checkout page
   checkoutRef.value.redirectToCheckout();
 }
+// console.log('---');
+// console.log(myProducts.value[0].storages[0].address);
+// console.log(address.value);
+async function createOrder() {
+  const statusId = await $fetch(`/api/users/${userStore.data._id}/orders`, {
+    method: 'POST',
+    body: {
+      status: 'created',
+      products: myProducts.value,
+      transport: transport.value[0],
+      from: myProducts.value[0].storages[0].address,
+      to: address.value
+    }
+  });
+
+  const notifiedSup = [];
+  for (const myProduct of myProducts.value) {
+    if (!notifiedSup.includes(myProduct.supplier._id)) {
+      await $fetch(`/api/users/${myProduct.supplier._id}`, {
+        method: 'PUT',
+        body: {
+          notification: {
+            name: 'new order',
+            type: 'supplier',
+            reference_id: statusId
+          }
+        }
+      });
+      notifiedSup.push(myProduct.supplier._id);
+    }
+  }
+
+  const userdb = await $fetch(`/api/users/${userStore.data._id}`);
+
+  userStore.$patch({
+    data: userdb
+  });
+}
+
+// const { paymentIntent } = await stripe.retrievePaymentIntent(
+//   checkoutRef
+// ); // (clientSecret);
+// if (paymentIntent && paymentIntent.status === 'succeeded') {
+//   console.log('deu');
+// } else {
+//   // Handle unsuccessful, processing, or canceled payments and API errors here
+//   console.log('nao deu');
+// }
 </script>

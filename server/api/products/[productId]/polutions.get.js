@@ -2,7 +2,6 @@ import Product from '~~/server/models/Product';
 import Polution from '~~/server/models/Polution';
 
 export default defineEventHandler(async (event) => {
-  event.res.jsonResponse.context = event.context.params;
   try {
     const { productId } = event.context.params;
     const product = await Product.findById(productId);
@@ -18,14 +17,10 @@ export default defineEventHandler(async (event) => {
       });
       polutions.push(polution);
     }
-    event.res.jsonResponse.context = event.context.params;
-    event.res.jsonResponse.data = {
-      items: polutions
-    };
+
+    return polutions;
   } catch (err) {
     console.log(err);
-    event.res.jsonResponse.error = err;
+    return { error: 'Could not find polutions' };
   }
-
-  return event.res.jsonResponse;
 });

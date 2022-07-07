@@ -150,20 +150,16 @@ function openModal(msg) {
 }
 
 async function login() {
-  const users = (await $fetch(`/api/users?email=${email.value}`)).data.items;
-
+  const users = await $fetch(`/api/users?email=${email.value}`);
   if (users.length === 1) {
-    const res = await fetch(`/api/authenticate`, {
+    const resJson = await $fetch(`/api/authenticate`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
+      body: {
         email: email.value,
         password: password.value
-      })
+      }
     });
-    const resJson = await res.json();
+
     if (resJson.error != null) {
       if (resJson.error.message === 'Invalid username or password') {
         openModal('Invalid email or password');

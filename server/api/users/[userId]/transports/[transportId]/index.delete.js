@@ -1,7 +1,6 @@
 import Transport from '~/server/models/Transport';
 
 export default defineEventHandler(async (event) => {
-  event.res.jsonResponse.context = event.context.params;
   // const authHeader = req.headers.authorization;
   // const token = authHeader && authHeader.split(' ')[1];
 
@@ -26,8 +25,6 @@ export default defineEventHandler(async (event) => {
     return 'Good';
   } catch (err) {
     console.log(err);
-    return 'Bad';
+    return { error: 'Could not delete transport' };
   }
-
-  // return event.res.jsonResponse;
 });

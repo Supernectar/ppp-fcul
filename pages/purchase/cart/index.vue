@@ -1,7 +1,7 @@
 <template>
   <div>
     <Navbar />
-    <div class="rounded-lg shadow hidden md:block mx-10 m-10 bg-indigo-100">
+    <div class="mx-10 m-10 bg-indigo-100">
       <div class="h-full w-full bg-indigo-100 py-16">
         <div class="container mx-auto text-center">
           <div class="w-11/12 lg:w-1/2 mx-auto">
@@ -60,36 +60,41 @@
           </thead>
           <tbody class="divide-y divide-gray-300 text-center">
             <tr
-              v-for="(cartItem, index) in cart"
-              :id="cartItem.product"
+              v-for="(product, index) in products"
               :key="index"
               class="bg-white"
             >
               <td class="text-sm text-gray-700 whitespace-nowrap text-center">
-                <img src="/img/627.png" class="h-16 rounded-lg border ml-1/2" />
+                <img
+                  :src="product.item.imgPath"
+                  class="h-16 rounded-lg border ml-1/2"
+                />
               </td>
 
               <td
                 class="p-4 text-sm text-gray-700 whitespace-nowrap text-center"
               >
-                {{ myItems[index].name }}
+                {{ product.item.name }}
                 <br />
-                {{ myProducts[index].productLine.supplier.username }}
+                {{ product.supplier.username }}
               </td>
               <td
                 class="p-4 text-sm text-gray-700 whitespace-nowrap text-center"
               >
-                heehee
+                <p v-for="(pol, index2) in product.polutions" :key="index2">
+                  {{ pol.polution.name }}: {{ pol.quantity }}
+                  {{ pol.polution.unit }}
+                </p>
               </td>
               <td
                 class="p-4 text-sm text-gray-700 whitespace-nowrap text-center"
               >
-                {{ cartItem.quantity }}
+                {{ cart[index].quantity }}
               </td>
               <td
                 class="p-4 text-sm text-gray-700 whitespace-nowrap text-center"
               >
-                {{ myProducts[index].productLine.price * cartItem.quantity }}€
+                {{ product.price * cart[index].quantity }}€
               </td>
             </tr>
             <tr>
@@ -137,23 +142,16 @@
 import useCart from '~/stores/cart';
 const store = useCart();
 const cart = ref(store.getCart);
-const myProducts = ref([]);
-const myItems = ref([]);
+const products = ref([]);
 const total = ref(0);
 
-for (let i = 0; i < cart.value.length; i++) {
-  myProducts.value[i] = (
-    await $fetch(`/api/products?_id=${cart.value[i].product}`)
-  ).data.items[0];
-
-  myItems.value[i] = (
-    await $fetch(`/api/items?_id=${myProducts.value[i].productLine.item._id}`)
-  ).data.items[0];
+for (const cartProduct of cart.value) {
+  products.value.push(await $fetch(`/api/products/${cartProduct.product}`));
 }
 
-for (let i = 0; i < myProducts.value.length; i++) {
-  total.value =
-    total.value +
-    myProducts.value[i].productLine.price * cart.value[i].quantity;
+for (let i = 0; i < products.value.length; i++) {
+  // console.log(products.value[0]);
+  total.value += products.value[i].price * cart.value[i].quantity;
 }
+console.log(products.value);
 </script>
