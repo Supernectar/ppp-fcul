@@ -1,7 +1,7 @@
 <template>
   <div>
     <Navbar />
-    <div class="rounded-lg shadow hidden md:block mx-10 m-10 bg-indigo-100">
+    <div class="mx-10 m-10 bg-indigo-100">
       <div class="h-full w-full bg-indigo-100 py-16">
         <div class="container mx-auto text-center">
           <div class="w-11/12 lg:w-1/2 mx-auto">
@@ -81,7 +81,10 @@
               <td
                 class="p-4 text-sm text-gray-700 whitespace-nowrap text-center"
               >
-                heehee
+                <p v-for="(pol, index2) in product.polutions" :key="index2">
+                  {{ pol.polution.name }}: {{ pol.quantity }}
+                  {{ pol.polution.unit }}
+                </p>
               </td>
               <td
                 class="p-4 text-sm text-gray-700 whitespace-nowrap text-center"
@@ -146,10 +149,9 @@ for (const cartProduct of cart.value) {
   products.value.push(await $fetch(`/api/products/${cartProduct.product}`));
 }
 
-console.log(products.value[0]);
-
 for (let i = 0; i < products.value.length; i++) {
-  console.log(products.value[0]);
+  // console.log(products.value[0]);
   total.value += products.value[i].price * cart.value[i].quantity;
 }
+console.log(products.value);
 </script>

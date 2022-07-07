@@ -121,13 +121,7 @@
                   </td>
                   <td class="text-center">
                     <div class="text-center my-1.5">
-                      <div
-                        v-if="
-                          ['created', 'waiting for transport'].includes(
-                            order.status.name
-                          )
-                        "
-                      >
+                      <div>
                         <button
                           type="button"
                           class="inline-block rounded-full bg-blue-600 text-white leading-normal uppercase shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-9 h-9"
@@ -149,12 +143,68 @@
                           </svg>
                         </button>
                       </div>
-                      <div v-else>--</div>
                     </div>
                   </td>
                 </tr>
               </tbody>
             </table>
+            <TransitionRoot appear :show="isOpen" as="template">
+              <Dialog class="relative z-10" as="div" @close="closeModal">
+                <TransitionChild
+                  as="template"
+                  enter="duration-300 ease-out"
+                  enter-from="opacity-0"
+                  enter-to="opacity-100"
+                  leave="duration-200 ease-in"
+                  leave-from="opacity-100"
+                  leave-to="opacity-0"
+                >
+                  <div class="fixed inset-0 bg-black bg-opacity-25" />
+                </TransitionChild>
+
+                <div class="fixed inset-0 overflow-y-auto">
+                  <div
+                    class="flex min-h-full items-center justify-center p-4 text-center"
+                  >
+                    <TransitionChild
+                      as="template"
+                      enter="duration-300 ease-out"
+                      enter-from="opacity-0 scale-95"
+                      enter-to="opacity-100 scale-100"
+                      leave="duration-200 ease-in"
+                      leave-from="opacity-100 scale-100"
+                      leave-to="opacity-0 scale-95"
+                    >
+                      <DialogPanel
+                        class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
+                      >
+                        <DialogTitle
+                          as="h3"
+                          class="text-lg font-medium leading-6 text-gray-900"
+                        >
+                          {{ 'Order' }}
+                        </DialogTitle>
+                        <div class="mt-2">
+                          <p class="text-sm text-gray-500">
+                            {{ modalContent }}
+                          </p>
+                        </div>
+
+                        <div class="mt-4">
+                          <button
+                            type="button"
+                            class="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                            @click="closeModal"
+                          >
+                            Got it, thanks!
+                          </button>
+                        </div>
+                      </DialogPanel>
+                    </TransitionChild>
+                  </div>
+                </div>
+              </Dialog>
+            </TransitionRoot>
           </div>
           <!-- <pre>{{ orders }}</pre> -->
         </section>
@@ -165,11 +215,28 @@
 </template>
 
 <script setup>
+import {
+  TransitionRoot,
+  TransitionChild,
+  Dialog,
+  DialogPanel,
+  DialogTitle
+} from '@headlessui/vue';
 import { DocumentDownloadIcon } from '@heroicons/vue/outline';
 const router = useRouter();
 const user = useUser();
 const orders = ref([]);
-// console.log(`/api/users/${user.data._id}/orders`);
+const modalContent = ref('');
+const isOpen = ref(false);
+
+function closeModal() {
+  isOpen.value = false;
+}
+function openModal(msg) {
+  console.log('opens');
+  modalContent.value = msg;
+  isOpen.value = true;
+}
 orders.value = await $fetch(`/api/users/${user.data._id}/orders`);
 
 if (orders.value.error) {
@@ -204,8 +271,8 @@ async function goToOrder(order) {
 async function cancelOrder(order) {
   const newDate = new Date();
   const oldDate = new Date(order.createdAt);
-  console.log(newDate.getTime());
-  console.log(oldDate.getTime());
+  // console.log(newDate.getTime());
+  // console.log(oldDate.getTime());
   const timeMS = newDate.getTime() - oldDate.getTime();
   if (timeMS <= 15 * 60000) {
     await $fetch(`/api/users/${user.data._id}/orders/${order._id}`, {
@@ -215,9 +282,15 @@ async function cancelOrder(order) {
         status: 'canceled'
       }
     });
+
+    openModal('Your order was canceled');
+    // setTimeout(() => {
+    //   router.push('/profile/consumer/orders');
+    // }, 3000);
     orders.value = await $fetch(`/api/users/${user.data._id}/orders`);
     orders.value = showOrderDetails();
-    console.log(orders.value);
+  } else {
+    openModal('You cannot cancel this order');
   }
 }
 function getJsonOrder(order) {

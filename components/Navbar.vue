@@ -428,7 +428,7 @@ function pushNotification(notification) {
   } else if (notification.type === 'consumer') {
     router.push(`/profile/consumer/orders/${notification.reference_id}`);
   } else if (notification.type === 'transporter') {
-    router.push(`/profile/transporter/deliveries/${notification.reference_id}`);
+    router.push(`/profile/transporter/deliveries`);
   }
 }
 const search = ref('');

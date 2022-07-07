@@ -125,7 +125,13 @@
                             </button>
                           </td>
                           <td
-                            v-else-if="order.status.name !== 'created'"
+                            v-else-if="
+                              [
+                                'arrived at storage',
+                                'left storage',
+                                'arrived'
+                              ].includes(order.status.name)
+                            "
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                           >
                             <CheckIcon

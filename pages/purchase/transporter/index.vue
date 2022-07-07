@@ -98,7 +98,7 @@
             validation="required"
             outer-class="mb-4"
             label-class="form-label inline-block mb-2 text-gray-700"
-            input-class="form-control block w-full px-3 py-1.5 text-base
+            input-class="form-control justify-center px-3 py-1.5 text-base
           font-normal text-gray-700 bg-white bg-clip-padding border border-solid
           border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700
           focus:bg-white focus:border-blue-600 focus:outline-none"
@@ -119,16 +119,17 @@
             :max="consumptionMax"
             :step="1"
             validation="required"
-            outer-class="mb-4"
-            label-class="form-label inline-block mb-2 text-gray-700"
-            input-class="form-control block w-full px-3 py-1.5 text-base
+            outer-class=""
+            label-class="form-label  inline-block mb-2 text-gray-700"
+            input-class="form-control w-1/3 justify-center  px-3  text-base
           font-normal text-gray-700 bg-white bg-clip-padding border border-solid
           border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700
           focus:bg-white focus:border-blue-600 focus:outline-none"
             help-class="text-sm text-gray-500 mt-1"
-            message-class="mt-1 text-sm
+            message-class=" text-sm
           text-red-600"
-          />{{ consumption }}
+          />
+          <p class="mb-4">{{ consumption }}</p>
         </div>
 
         <!-- <div>
@@ -143,28 +144,28 @@
           <FormKit
             label="Address"
             v-model="address"
-            placeholder="address"
+            placeholder="Choose your address"
             type="select"
             name="address"
             :options="addresses"
             validation="required"
             outer-class="mb-4"
             label-class="form-label inline-block mb-2 text-gray-700"
-            input-class="form-control block w-full px-3 py-1.5 text-base
+            input-class="form-control justify-center px-3 py-1.5 text-base
           font-normal text-gray-700 bg-white bg-clip-padding border border-solid
           border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700
           focus:bg-white focus:border-blue-600 focus:outline-none"
             help-class="text-sm text-gray-500 mt-1"
-            message-class="mt-1 text-sm
+            message-class="mt-1 text-sm text-center
           text-red-600"
-          />{{ address }}
+          />
         </div>
       </div>
 
       <button
         type="button"
         class="text-white bg-gradient-to-br from-red-500 to-red-900 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
-        @click="$router.push('carttest')"
+        @click="$router.push('/cart')"
       >
         Cancel
       </button>
