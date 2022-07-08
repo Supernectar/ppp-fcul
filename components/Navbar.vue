@@ -203,7 +203,6 @@
               >
                 {{ notification.type }} has {{ notification.name }}
               </div>
-              Hello
             </PopoverPanel>
           </transition>
         </Popover>

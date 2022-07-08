@@ -4,7 +4,7 @@
     <div class="flex">
       <SideNavigationBar />
       <div class="flex-grow order-2 w-45">
-        <section class="p-2 overflow-hidden min-h-screen">
+        <section class="p-2 overflow-hidden">
           <h1 class="text-4xl font-bold">My transports</h1>
           <div id="orders" class="mt-4">
             <h2 class="text-xl font-semibold">Registered vehicles</h2>

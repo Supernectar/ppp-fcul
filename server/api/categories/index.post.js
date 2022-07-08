@@ -12,6 +12,7 @@ export default defineEventHandler(async (event) => {
 
     return category;
   } catch (err) {
+    console.log('---', event.req.url, '---');
     console.log(err);
     return { error: 'Could not create category' };
   }

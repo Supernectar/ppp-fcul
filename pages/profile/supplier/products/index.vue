@@ -6,11 +6,10 @@
       <div class="flex-grow order-2">
         <section class="p-2 overflow-hidden min-h-screen">
           <h1 class="text-4xl font-bold">Products</h1>
-          <div id="products" class="mt-4 border rounded-xl">
+          <div id="products" class="mt-4 p-2 border rounded-xl">
             <h2 class="text-xl font-semibold">
-              products your're currently selling
+              Products you're currently selling
             </h2>
-            <p>description here</p>
             <div>
               <ul>
                 <li v-for="product in products">
@@ -22,14 +21,26 @@
               </ul>
             </div>
           </div>
-          <div id="sellProduct" class="mt-4 border rounded-xl">
+          <div id="sellProduct" class="mt-4 p-2 border rounded-xl">
             <h2 class="text-xl font-semibold">Create a new product here</h2>
-            <p>description here</p>
             <div v-if="user.data.supplierData.storages.length > 0">
               <div>
-                specify the item you want to sell: <br />
-                <input class="border" type="text" name="" id="" />
-                cannot find the item you're looking for?
+                Specify the item you want to sell: <br />
+                <FormKit
+                  v-model="item"
+                  type="select"
+                  label="Item"
+                  placeholder="Choose your item"
+                  :options="items"
+                  :value="items[0]"
+                  validation="required"
+                  outer-class="mb-4"
+                  label-class="form-label inline-block mb-2 text-gray-700"
+                  input-class="form-control block w-full sm:w-80 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                  help-class="text-sm text-gray-500 mt-1"
+                  message-class="mt-1 text-sm text-red-600"
+                />
+                Cannot find the item you're looking for?
                 <NuxtLink
                   class="text-blue-600 hover:text-blue-700 transition duration-300 ease-in-out mb-4"
                   to="/profile/supplier/createItem"
@@ -44,8 +55,8 @@
               you must create a storage first
               <img src="/img/a.jpg" class="h-60" alt="" />
             </div>
-            <div class="h-80">
-              Choose in which storages your want to add your product
+            <div>
+              Choose in which storages your want to add your product:
               <Listbox
                 class="z-20 inline-block w-60"
                 v-model="selectedStorages"
@@ -114,6 +125,57 @@
                   </transition>
                 </div>
               </Listbox>
+
+              <FormKit
+                v-model="name"
+                type="text"
+                label="Name"
+                validation="required"
+                outer-class="mb-4"
+                label-class="form-label inline-block mb-2 text-gray-700"
+                input-class="form-control block w-full sm:w-80 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                help-class="text-sm text-gray-500 mt-1"
+                message-class="mt-1 text-sm text-red-600"
+              />
+              <div class="flex gap-4">
+                <FormKit
+                  v-model="price"
+                  label="Price"
+                  type="text"
+                  name="price"
+                  validation="required"
+                  outer-class="mb-4"
+                  label-class="form-label inline-block mb-2 text-gray-700"
+                  input-class="form-control block w-full sm:w-30 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                  help-class="text-sm text-gray-500 mt-1"
+                  message-class="mt-1 text-sm text-red-600"
+                />
+                <FormKit
+                  v-model="currencyUnit"
+                  label="Currency unit"
+                  type="select"
+                  name="currencyUnit"
+                  :options="['$', '€']"
+                  validation="required"
+                  outer-class="mb-4"
+                  label-class="form-label inline-block mb-2 text-gray-700"
+                  input-class="form-control block w-full sm:w-15 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                  help-class="text-sm text-gray-500 mt-1"
+                  message-class="mt-1 text-sm text-red-600"
+                />
+              </div>
+              <FormKit
+                v-model="quantity"
+                label="Quantity of product"
+                type="text"
+                name="quantity"
+                validation="required"
+                outer-class="mb-4"
+                label-class="form-label inline-block mb-2 text-gray-700"
+                input-class="form-control block w-full sm:w-80 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                help-class="text-sm text-gray-500 mt-1"
+                message-class="mt-1 text-sm text-red-600"
+              />
               <button
                 class="bg-gray-200 border rounded"
                 @click="createProducts"
@@ -121,11 +183,6 @@
                 Add product
               </button>
             </div>
-
-            name:
-            <input class="border" type="text" />
-            price:
-            <input class="border" type="text" />
           </div>
         </section>
         <Footer />
@@ -149,33 +206,49 @@ const user = useUser();
 const storages = ref([]);
 const products = ref([]);
 
-// products.value = await $fetch(`/api/users/${user.data._id}/products`);
-// // console.log(products.value)
+const item = ref({});
+const storage = ref({});
+const price = ref('');
+const currencyUnit = ref('');
+const quantity = ref('');
+const name = ref('');
 
 storages.value = await $fetch(`/api/users/${user.data._id}/storages`);
-console.log(storages.value);
 for (const storage of storages.value) {
   const productsStorage = await $fetch(
     `/api/users/${user.data._id}/storages/${storage._id}/products`
   );
-  products.value.push(productsStorage[0]);
+  for (const productStorage of productsStorage) {
+    products.value.push(productStorage);
+  }
 }
 
-console.log(products.value);
+const items = ref([]);
+items.value = await $fetch(`/api/items`);
+for (const item of items.value) {
+  item.label = item.name;
+  item.value = item._id;
+}
+
 const selectedStorages = ref([]);
+const storageIds = ref([]);
 
 async function createProducts() {
+  for (const selectedStorage of selectedStorages.value) {
+    storageIds.value.push(selectedStorage._id);
+  }
+  console.log(storageIds.value);
   await $fetch('/api/products', {
     method: 'POST',
     body: {
-      name: 'pipo',
-      item: '62b7297435430a463a5864de', // washing machine 1
-      price: Math.floor(Math.random() * 20),
-      currencyUnit: '€',
+      name: name.value,
+      item: item.value,
+      price: price.value,
+      currencyUnit: currencyUnit.value,
       stripeId: 'price_1LEa8fAIdQC80EPdihds8cUG',
-      quantity: 2,
+      quantity: quantity.value,
       supplier: user.data._id,
-      storages: [selectedStorage]
+      storages: [storageIds.value]
     }
   });
 }

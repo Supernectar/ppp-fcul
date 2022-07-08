@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
 
     return products;
   } catch (err) {
-    console.log(err);
+    ole.log(err);
     return { error: 'Could not find products' };
   }
 });

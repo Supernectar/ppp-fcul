@@ -11,6 +11,7 @@ export default defineEventHandler(async (event) => {
   try {
     const order = await Order.findById(orderId)
       .populate({ path: 'status', model: Status })
+      .populate({ path: 'consumer', model: User })
       .populate({
         path: 'products.product',
         model: Product,
@@ -30,6 +31,7 @@ export default defineEventHandler(async (event) => {
 
     return order;
   } catch (err) {
+    console.log('---', event.req.url, '---');
     console.log(err);
     return { error: 'Could not find order' };
   }

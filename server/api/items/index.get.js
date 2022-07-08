@@ -18,6 +18,7 @@ export default defineEventHandler(async (event) => {
     }
     return items;
   } catch (err) {
+    console.log('---', event.req.url, '---');
     console.log(err);
     return { error: 'Could not retrieve items' };
   }

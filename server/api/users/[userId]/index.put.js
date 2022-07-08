@@ -118,6 +118,7 @@ export default defineEventHandler(async (event) => {
     const userRes = await User.findById(userId);
     return userRes;
   } catch (err) {
+    console.log('---', event.req.url, '---');
     console.log(err);
     return { error: 'Could not update user' };
   }

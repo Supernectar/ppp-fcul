@@ -210,7 +210,6 @@
               </div>
             </div>
           </div>
-          <pre>{{ orders }}</pre>
         </section>
         <Footer />
       </div>
