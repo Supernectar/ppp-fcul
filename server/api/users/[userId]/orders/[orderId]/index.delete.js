@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
 
     return 'Good';
   } catch (err) {
-    console.log(err);
+    ole.log(err);
     return { error: 'Could not delete order' };
   }
 });
