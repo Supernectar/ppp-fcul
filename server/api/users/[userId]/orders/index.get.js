@@ -1,5 +1,10 @@
 import User from '~~/server/models/User';
 import Order from '~~/server/models/Order';
+import Transport from '~~/server/models/Transport';
+import Status from '~~/server/models/Status';
+import Address from '~~/server/models/Address';
+import Product from '~~/server/models/Product';
+import Item from '~~/server/models/Item';
 
 export default defineEventHandler(async (event) => {
   const { userId } = event.context.params;
@@ -17,10 +22,10 @@ export default defineEventHandler(async (event) => {
       const orders = [];
       for (let i = 0; i < orderIds.length; i++) {
         const order = await Order.findById(orderIds[i]).populate([
-          'transport',
-          'status',
-          'from',
-          'to'
+          { path: 'transport', model: Transport },
+          { path: 'status', model: Status },
+          { path: 'from', model: Address },
+          { path: 'to', model: Address }
         ]);
 
         orders.push(order);
@@ -33,12 +38,17 @@ export default defineEventHandler(async (event) => {
       for (let i = 0; i < orderIds.length; i++) {
         const order = await Order.findById(orderIds[i])
 
-          .populate('status')
+          .populate({ path: 'status', model: Status })
           .populate({
             path: 'products',
+            model: Product,
             populate: {
               path: 'product',
-              populate: ['item', 'supplier']
+              model: Product,
+              populate: [
+                { path: 'item', model: Item },
+                { path: 'supplier', model: User }
+              ]
             }
           });
 

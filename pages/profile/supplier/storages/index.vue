@@ -4,7 +4,7 @@
     <div class="flex">
       <SideNavigationBar />
       <div class="flex-grow order-2 w-45">
-        <section class="p-2 overflow-hidden min-h-screen">
+        <section class="p-2 overflow-hidden">
           <h1 class="text-2xl font-bold">My storages</h1>
           <div class="overflow-auto rounded-lg shadow">
             <table class="mt-4">
@@ -97,7 +97,7 @@
               </tbody>
             </table>
           </div>
-          <div>
+          <div class="mt-4 mb-2">
             <h3>Add a new storage:</h3>
 
             <FormKit type="form" @submit="createStorage">

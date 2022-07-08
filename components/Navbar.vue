@@ -44,7 +44,7 @@
             <button
               type="submit"
               class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
-              @click="test"
+              @click="searchByCat"
             >
               Search
             </button>
@@ -433,13 +433,11 @@ function pushNotification(notification) {
 }
 const search = ref('');
 
-function test() {
-  console.log('entered');
+function searchByCat() {
   const catMatched = [];
   let url;
   const regex = new RegExp(search.value, 'gi');
   for (const category of categories.value.children) {
-    console.log(category.name);
     if (category.name.match(regex)) {
       catMatched.push(category.name);
     } else {

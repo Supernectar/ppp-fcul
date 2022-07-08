@@ -1,5 +1,8 @@
 import Product from '~~/server/models/Product';
 import Order from '~~/server/models/Order';
+import Item from '~~/server/models/Item';
+import User from '~~/server/models/User';
+import Polution from '~~/server/models/Polution';
 
 export default defineEventHandler(async (event) => {
   const { userId, orderId } = event.context.params;
@@ -13,9 +16,9 @@ export default defineEventHandler(async (event) => {
     const products = await Product.find({
       _id: { $in: productIds }
     })
-      .populate('item')
-      .populate('supplier')
-      .populate('polutions.polution');
+      .populate({ path: 'item', model: Item })
+      .populate({ path: 'supplier', model: User })
+      .populate({ path: 'polutions.polution', model: Polution });
 
     return products;
   } catch (err) {
