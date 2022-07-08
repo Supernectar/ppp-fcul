@@ -173,11 +173,16 @@ function checkIfAdmin() {
 }
 
 function changeRole(role) {
-  if (checkIfAdmin()) {
+  if (role === 'Admin') {
+    if (checkIfAdmin()) {
+      user.data.type = role;
+      route.push('/profile');
+    } else {
+      openModal(`Your account doesn't have admin privileges.`);
+    }
+  } else {
     user.data.type = role;
     route.push('/profile');
-  } else {
-    openModal(`Your account doesn't have admin privileges.`);
   }
 }
 </script>

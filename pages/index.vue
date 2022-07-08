@@ -609,23 +609,49 @@ watch(
 
 onMounted(async () => {
   if (route.query.category) {
-    const values = route.query.category.split(',');
-    category.value = (
-      await $fetch(`/api/categories?name=${route.query.category}`)
-    )[0];
+    const values = route.query.category;
 
-    // ---- Category Path ---- //
-    let current = category.value;
-    categoryPath.value.push(current);
-    while (current.parent) {
-      current = await $fetch(`/api/categories/${current.parent}`);
+    if (values.split(',').length === 1) {
+      category.value = (
+        await $fetch(`/api/categories?name=${route.query.category}`)
+      )[0];
+
+      // ---- Category Path ---- //
+      let current = category.value;
       categoryPath.value.push(current);
-    }
-    categoryPath.value.reverse();
-    categoryPath.value.shift();
+      while (current.parent) {
+        current = await $fetch(`/api/categories/${current.parent}`);
+        categoryPath.value.push(current);
+      }
+      categoryPath.value.reverse();
+      categoryPath.value.shift();
 
-    // ---- Loading Items ---- //
-    items.value = await $fetch(`/api/items?category=${category.value._id}`);
+      // ---- Loading Items ---- //
+      items.value = await $fetch(`/api/items?category=${category.value._id}`);
+    } else {
+      categories.value = await $fetch(
+        `/api/categories?name=${route.query.category}`
+      );
+      console.log(categories.value);
+
+      const catIds = ref([]);
+      // ---- Category Path ---- //
+      for (const category of categories.value) {
+        catIds.value.push(category._id);
+        if (category.children.length !== 0) {
+          for (const categoryC of categories.value.children) {
+            const current = await $fetch(`/api/categories/${categoryC}`);
+            categoryPath.value.push(current);
+          }
+        } else {
+          const current = await $fetch(`/api/categories/${category._id}`);
+          categoryPath.value.push(current);
+        }
+      }
+
+      // ---- Loading Items ---- //
+      items.value = await $fetch(`/api/items?category=${catIds.value}`);
+    }
   } else {
     categories.value = (await $fetch(`/api/categories?name=main`))[0];
 

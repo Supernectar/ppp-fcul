@@ -1,4 +1,10 @@
 import User from '~~/server/models/User';
+import Order from '~~/server/models/Order';
+import Product from '~~/server/models/Product';
+import Status from '~~/server/models/Status';
+import Transport from '~~/server/models/Transport';
+import Item from '~~/server/models/Item';
+import Storage from '~~/server/models/Storage';
 
 export default defineEventHandler(async (event) => {
   const { userId } = event.context.params;
@@ -9,14 +15,24 @@ export default defineEventHandler(async (event) => {
         path: 'supplierData',
         populate: {
           path: 'orders',
-          populate: ['product', 'consumer', 'status', 'transport']
+          model: Order,
+          populate: [
+            { path: 'product', model: Product },
+            'consumer',
+            { path: 'status', model: Status },
+            { path: 'transport', model: Transport }
+          ]
         }
       })
       .populate({
         path: 'supplierData.orders',
         populate: {
           path: 'product',
-          populate: ['item', 'storages']
+          model: Product,
+          populate: [
+            { path: 'item', model: Item },
+            { path: 'storages', model: Storage }
+          ]
         }
       });
     return user;

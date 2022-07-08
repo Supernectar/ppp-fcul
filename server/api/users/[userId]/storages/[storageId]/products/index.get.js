@@ -1,5 +1,6 @@
 import Product from '~~/server/models/Product';
 import Storage from '~~/server/models/Storage';
+import Item from '~~/server/models/Item';
 
 export default defineEventHandler(async (event) => {
   const { userId, storageId } = event.context.params;
@@ -9,8 +10,8 @@ export default defineEventHandler(async (event) => {
     const products = await Product.find({
       _id: { $in: productIds }
     })
-      .populate('item')
-      .populate('storages');
+      .populate({ path: 'item', model: Item })
+      .populate({ path: 'storages', model: Storage });
 
     return products;
   } catch (err) {

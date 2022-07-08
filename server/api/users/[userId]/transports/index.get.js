@@ -1,5 +1,6 @@
 import User from '~~/server/models/User';
 import Transport from '~~/server/models/Transport';
+import Resource from '~~/server/models/Resource';
 
 export default defineEventHandler(async (event) => {
   try {
@@ -7,9 +8,10 @@ export default defineEventHandler(async (event) => {
     const user = await User.findById(userId);
 
     const transportIds = user.transporterData.vehicles;
-    const transports = await Transport.find({ _id: transportIds }).populate(
-      'resources.resource'
-    );
+    const transports = await Transport.find({ _id: transportIds }).populate({
+      path: 'resources.resource',
+      model: Resource
+    });
 
     return transports;
   } catch (err) {
