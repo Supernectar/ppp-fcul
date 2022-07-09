@@ -137,6 +137,10 @@
                           message-class="mt-1 text-sm text-red-600"
                         />
                       </div>
+                      <!-- <div>
+                        {{ item }}
+                        <img :src="item.imgPath" class="h-30 w-30" alt="" />
+                      </div> -->
                       <div>
                         <FormKit
                           v-model="price"
@@ -154,7 +158,7 @@
                       <div>
                         <FormKit
                           v-model="currencyUnit"
-                          label="Currency unit"
+                          label="Unit"
                           type="select"
                           name="currencyUnit"
                           :options="['$', '€']"
@@ -182,7 +186,7 @@
                       </div>
 
                       <button
-                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-2 m-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                         @click="addProduct"
                       >
                         Add product
@@ -234,11 +238,6 @@ const user = useUser();
 const storage = ref({});
 const polutions = ref([]);
 const products = ref([]);
-const item = ref({});
-const price = ref('');
-const currencyUnit = ref('');
-const quantity = ref('');
-const name = ref('');
 
 storage.value = await $fetch(
   `/api/users/${user.data._id}/storages/${route.params.storageId}`
@@ -279,25 +278,18 @@ for (const product of products.value) {
   }
 }
 
-// const totalResources = ref(0);
-// for (const resourceItem of resourcesItems.value) {
-//   totalResources.value += resourceItem.quantity;
-// }
-// for (const resourceProduct of resourcesProducts.value) {
-//   if (resourcesProducts.length !== 0) {
-//     totalResources.value += resourceProduct.quantity;
-//   }
-// }
-// console.log('unit value:');
-// console.log(currencyUnit.value);
+const item = ref(items.value[0]);
+const price = ref('');
+const currencyUnit = ref('$');
+const quantity = ref('');
+const name = ref('');
 
 async function addProduct() {
-  console.log(price.value);
   await $fetch(`/api/products`, {
     method: 'POST',
     body: {
       name: name.value,
-      item: item.value,
+      itemId: item.value,
       price: price.value,
       currencyUnit: currencyUnit.value,
       stripeId: 'kaodkapsd',

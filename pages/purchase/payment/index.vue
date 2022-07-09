@@ -131,7 +131,7 @@
       </table>-->
     </div>
 
-    <div>
+    <div class="flex justify-center">
       <stripe-checkout
         ref="checkoutRef"
         mode="payment"
@@ -142,15 +142,18 @@
         :payment-intent="paymentIntent"
         @loading="(v) => (loading = v)"
       />
+
+      <h1 class="text-center pb-4 mb-8">{{ total }}€</h1>
+
       <button
-        class="text-white bg-gradient-to-br from-pink-500 to-red-pink hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+        class="text-white bg-gradient-to-br from-blue-600 to-red-pink hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
         @click="submit"
       >
         Pay now!
       </button>
     </div>
 
-    <div class="w-11/12 bg-white lg:w-1/2 mx-auto">
+    <!-- <div class="w-11/12 bg-white lg:w-1/2 mx-auto">
       <button
         type="button"
         class="text-white bg-gradient-to-br from-red-500 to-red-900 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
@@ -163,7 +166,8 @@
       >
         Next >
       </button>
-    </div>
+    </div> -->
+
     <button
       type="button"
       class="text-white bg-gradient-to-br from-indigo-500 to-indigo-900 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
@@ -189,12 +193,16 @@ const address = ref(addressStore.getAddress[0]);
 const userStore = useUser();
 const store = useCart();
 const cart = ref(store.getCart);
+const total = ref(0);
 
 const myProducts = ref([]);
 for (let i = 0; i < cart.value.length; i++) {
   myProducts.value[i] = await $fetch(`/api/products/${cart.value[i].product}`);
   myProducts.value[i].cartQuantity = cart.value[i].quantity;
+
+  total.value += myProducts.value[i].cartQuantity * myProducts.value[i].price;
 }
+console.log(total.value);
 const lineItems = ref([]);
 // const lineItems = ref([
 //   {
@@ -215,8 +223,8 @@ for (const product of myProducts.value) {
   });
 }
 
-const successURL = 'http://localhost:3000/profile/consumer/orders';
-const cancelURL = 'http://localhost:3000/error';
+const successURL = 'http://localhost:3000/success';
+const cancelURL = 'http://localhost:3000//error';
 const publishableKey =
   'pk_test_51LEDJlAIdQC80EPdG8z8dlFoL50XlSoMNe1JhuF2Tdap8U25BCRlWB8IiQnqa0YYBJy7JurPEuaDMaZWNgOlM0w5000FSV9i0w';
 const checkoutRef = ref(null);
@@ -226,41 +234,41 @@ function submit() {
 // console.log('---');
 // console.log(myProducts.value[0].storages[0].address);
 // console.log(address.value);
-async function createOrder() {
-  const statusId = await $fetch(`/api/users/${userStore.data._id}/orders`, {
-    method: 'POST',
-    body: {
-      status: 'created',
-      products: myProducts.value,
-      transport: transport.value[0],
-      from: myProducts.value[0].storages[0].address,
-      to: address.value
-    }
-  });
+// async function createOrder() {
+//   const statusId = await $fetch(`/api/users/${userStore.data._id}/orders`, {
+//     method: 'POST',
+//     body: {
+//       status: 'created',
+//       products: myProducts.value,
+//       transport: transport.value[0],
+//       from: myProducts.value[0].storages[0].address,
+//       to: address.value
+//     }
+//   });
 
-  const notifiedSup = [];
-  for (const myProduct of myProducts.value) {
-    if (!notifiedSup.includes(myProduct.supplier._id)) {
-      await $fetch(`/api/users/${myProduct.supplier._id}`, {
-        method: 'PUT',
-        body: {
-          notification: {
-            name: 'new order',
-            type: 'supplier',
-            reference_id: statusId
-          }
-        }
-      });
-      notifiedSup.push(myProduct.supplier._id);
-    }
-  }
+//   const notifiedSup = [];
+//   for (const myProduct of myProducts.value) {
+//     if (!notifiedSup.includes(myProduct.supplier._id)) {
+//       await $fetch(`/api/users/${myProduct.supplier._id}`, {
+//         method: 'PUT',
+//         body: {
+//           notification: {
+//             name: 'new order',
+//             type: 'supplier',
+//             reference_id: statusId
+//           }
+//         }
+//       });
+//       notifiedSup.push(myProduct.supplier._id);
+//     }
+//   }
 
-  const userdb = await $fetch(`/api/users/${userStore.data._id}`);
+//   const userdb = await $fetch(`/api/users/${userStore.data._id}`);
 
-  userStore.$patch({
-    data: userdb
-  });
-}
+//   userStore.$patch({
+//     data: userdb
+//   });
+// }
 
 // const { paymentIntent } = await stripe.retrievePaymentIntent(
 //   checkoutRef

@@ -134,6 +134,22 @@ export default defineEventHandler(async (event) => {
     }
   });
 
+  const transport1 = await $fetch('/api/transports', {
+    method: 'POST',
+    body: {
+      brand: 'brand',
+      model: 'model',
+      status: 'available',
+      plate: '222',
+      location: {
+        street: 'street',
+        country: 'country',
+        city: 'city',
+        zipCode: '8883-778'
+      }
+    }
+  });
+
   const category1 = await $fetch('/api/categories', {
     method: 'POST',
     body: {
@@ -430,8 +446,8 @@ export default defineEventHandler(async (event) => {
     method: 'POST',
     body: {
       name: 'product!',
-      item: item1,
-      price: 0.99,
+      itemId: item1,
+      price: 200.0,
       currencyUnit: '€',
       supplier: user1,
       quantity: 3,
@@ -443,8 +459,8 @@ export default defineEventHandler(async (event) => {
     method: 'POST',
     body: {
       name: 'producté',
-      item: item1,
-      price: 3,
+      itemId: item1,
+      price: 400.0,
       currencyUnit: '€',
       supplier: user2,
       quantity: 8,
@@ -456,8 +472,8 @@ export default defineEventHandler(async (event) => {
     method: 'POST',
     body: {
       name: 'product2',
-      item: item2,
-      price: 0.99,
+      itemId: item2,
+      price: 300.0,
       currencyUnit: '€',
       supplier: user2,
       quantity: 8,

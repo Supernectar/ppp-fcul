@@ -133,7 +133,7 @@ export default defineEventHandler(async (event) => {
       }
     });
 
-    //Criar Produto do Supplier
+    // Criar Produto do Supplier
 
     const product1 = await $fetch('/api/products', {
       method: 'POST',
@@ -148,71 +148,51 @@ export default defineEventHandler(async (event) => {
         stripeId: 'price_1LGYscAIdQC80EPdjxdetCta'
       }
     });
-
+    console.log('--- product --- \n', product1);
     // Cria order
-    console.log('aaaaaaaaa');
-    console.log(user1);
-    console.log(transporte1);
-    console.log(user2);
-    const order1 = await $fetch(`/api/users/${user1._id}/orders`, {
-      method: 'POST',
-      body: {
-        consumer: user1._id,
-        transport: transporte1,
-        supplier: user2._id,
-        status: 'on going',
-        from: user2.supplierData.address[0],
-        to: user2.supplierData.address[1],
-        products: [product1]
-      }
-    });
+
+    product1.cartQuantity = 3;
+
+    const order1 = (
+      await $fetch(`/api/users/${user1._id}/orders`, {
+        method: 'POST',
+        body: {
+          consumer: user1._id,
+          transport: transporte1._id,
+          supplier: user2._id,
+          status: 'created',
+          from: user2.supplierData.address[0],
+          to: user1.consumerData.address[0],
+          products: [product1]
+        }
+      })
+    )[1];
 
     // GET order
-    const order2 = await $fetch(
-      `/api/users/${user1._id}/orders/${order1._id}`,
-      {
-        method: 'GET'
-      }
-    );
-
+    const order2 = await $fetch(`/api/users/${user1._id}/orders/${order1._id}`);
+    console.log('--', order2);
+    console.log('--', user2.supplierData.address);
+    console.log('---ifs---');
+    /*
     if (order2.consumer.email !== 'marlene3@gmail.com') {
-      return 'not ok';
+      return 'not ok1';
     }
+    */
     if (order2.transport.brand !== 'Mercedes') {
-      return 'not ok';
+      return 'not ok2';
     }
-    if (order2.from !== user2.address) {
-      return 'not ok';
+    if (order2.from.street !== user2.supplierData.address[0].street) {
+      return 'not ok3';
     }
-    if (order2.to !== user1.address) {
-      return 'not ok';
+    if (order2.to.street !== user1.consumerData.address[0].street) {
+      return 'not ok4';
     }
-    for (const product of order2.products) {
-      if (product.name !== 'product!') {
-        return 'not ok';
-      }
-      if (product.price !== 20.99) {
-        return 'not ok';
-      }
-      if (product.currencyUnit !== '€') {
-        return 'not ok';
-      }
-      if (product.quantity !== 5) {
-        return 'not ok';
-      }
-      if (product.storages[0].name !== 'storage1') {
-        return 'not ok';
-      }
-      if (product.stripeId !== 'price_1LGYscAIdQC80EPdjxdetCta') {
-        return 'not ok';
-      }
-    }
-    if (order2.status !== 'on going') {
-      return 'not ok';
+
+    if (order2.status.name !== 'created') {
+      return 'not ok11';
     }
     return 'okok';
   } catch (err) {
-    console.log('---', event.req.url, '---');
     console.log(err);
     return 'not ok';
   }

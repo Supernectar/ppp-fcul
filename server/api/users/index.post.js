@@ -23,7 +23,6 @@ export default defineEventHandler(async (event) => {
     const user = await User.findOne({ email });
     return user;
   } catch (err) {
-    console.log('---', event.req.url, '---');
     console.log(err);
     return { error: 'Could not create user' };
   }

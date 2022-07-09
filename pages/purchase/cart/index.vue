@@ -150,8 +150,6 @@ for (const cartProduct of cart.value) {
 }
 
 for (let i = 0; i < products.value.length; i++) {
-  // console.log(products.value[0]);
   total.value += products.value[i].price * cart.value[i].quantity;
 }
-console.log(products.value);
 </script>

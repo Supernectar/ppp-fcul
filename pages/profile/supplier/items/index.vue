@@ -4,9 +4,9 @@
     <div class="flex">
       <SideNavigationBar />
       <div class="flex-grow order-2">
-        <section class="p-2 overflow-hidden min-h-screen">
+        <section class="p-2 overflow-hidden h-250">
           <h1 class="text-4xl font-bold">Items</h1>
-          <div id="sellProduct" class="mt-4 border rounded-xl">
+          <div id="sellProduct" class="p-2 mt-4 border rounded-xl">
             <h2 class="text-xl font-semibold">Create a new item here</h2>
             <!-- <p>description here</p> -->
             <div v-if="user.data.supplierData.storages.length > 0">
@@ -42,7 +42,7 @@
                   validation="required|length:3"
                   outer-class="mb-4"
                   label-class="form-label inline-block mb-2 text-gray-700"
-                  input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                  input-class="form-control block w-full sm:w-80 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                   help-class="text-sm text-gray-500 mt-1"
                   message-class="mt-1 text-sm text-red-600"
                 />
@@ -56,7 +56,7 @@
                   validation="required"
                   outer-class="mb-4"
                   label-class="form-label inline-block mb-2 text-gray-700"
-                  input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                  input-class="form-control block w-full sm:w-80 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                   help-class="text-sm text-gray-500 mt-1"
                   message-class="mt-1 text-sm text-red-600"
                 />
@@ -70,7 +70,7 @@
                   validation="required"
                   outer-class="mb-4"
                   label-class="form-label inline-block mb-2 text-gray-700"
-                  input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                  input-class="form-control block w-full sm:w-80 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                   help-class="text-sm text-gray-500 mt-1"
                   message-class="mt-1 text-sm text-red-600"
                 />
@@ -84,7 +84,7 @@
                   validation="required|length:4"
                   outer-class="mb-4"
                   label-class="form-label inline-block mb-2 text-gray-700"
-                  input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                  input-class="form-control block w-full sm:w-80 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                   help-class="text-sm text-gray-500 mt-1"
                   message-class="mt-1 text-sm text-red-600"
                 />
@@ -97,7 +97,7 @@
                   validation="required"
                   outer-class="mb-4"
                   label-class="form-label inline-block mb-2 text-gray-700"
-                  input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                  input-class="form-control block w-full sm:w-80 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                   help-class="text-sm text-gray-500 mt-1"
                   message-class="mt-1 text-sm text-red-600"
                 />
@@ -111,7 +111,7 @@
                   :options="categories"
                   outer-class="mb-4"
                   label-class="form-label inline-block mb-2 text-gray-700"
-                  input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                  input-class="form-control block w-full sm:w-80 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                   help-class="text-sm text-gray-500 mt-1"
                   message-class="mt-1 text-sm text-red-600"
                 />

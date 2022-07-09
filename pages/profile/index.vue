@@ -3,7 +3,7 @@
     <Navbar />
     <div class="flex">
       <SideNavigationBar />
-      <div class="flex-grow order-2 w-45">
+      <div class="flex-grow order-2">
         <section class="p-2 overflow-hidden">
           <h1 class="text-2xl font-bold">Dashboard</h1>
           <div id="orders" class="mt-4">

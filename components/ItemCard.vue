@@ -1,5 +1,8 @@
 <template>
-  <div class="group hover:shadow rounded overflow-hidden">
+  <div
+    v-if="$attrs.itemValue.minPrice < 999999"
+    class="group hover:shadow rounded overflow-hidden"
+  >
     <NuxtLink :to="`/items/${$attrs.itemValue._id}`">
       <div class="p-2 overflow-hidden">
         <img

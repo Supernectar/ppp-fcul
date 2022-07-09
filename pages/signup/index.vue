@@ -179,12 +179,8 @@ async function emailIsRegistered(node) {
 
 async function RegisterUser() {
   const username = await generateUsername();
-  await fetch('/api/users', {
+  await $fetch('/api/users', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-
     body: {
       username,
       email: email.value,
