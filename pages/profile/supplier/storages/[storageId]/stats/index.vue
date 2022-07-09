@@ -6,7 +6,7 @@
       <div class="flex-grow order-2">
         <section class="p-2 overflow-hidden">
           <h1 class="text-2xl font-bold">My storages</h1>
-          <div id="orders" class="mt-4">
+          <div id="info" class="mt-4">
             <h2 class="text-xl font-semibold">
               Storage: {{ storageName || storage.name }}
             </h2>
