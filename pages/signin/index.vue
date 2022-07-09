@@ -160,8 +160,8 @@ async function login() {
       }
     });
 
-    if (resJson.error != null) {
-      if (resJson.error.message === 'Invalid username or password') {
+    if (resJson.message != null) {
+      if (resJson.message === 'Invalid username or password') {
         openModal('Invalid email or password');
       }
     } else {
@@ -177,7 +177,7 @@ async function login() {
 
       openModal('You were logged successfully');
       setTimeout(() => {
-        router.push('/profile/consumer/orders');
+        router.push('/');
       }, 3000);
     }
   } else {

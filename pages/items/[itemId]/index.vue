@@ -216,7 +216,7 @@ watch(selectedProduct, async () => {
   for (const storageId of selectedProduct.value.storages) {
     console.log();
     const storage = await $fetch(`/storages/${storageId}`);
-    storagePositions.value.push(storage.address.coordinates);
+    // storagePositions.value.push(storage.address.coordinates);
   }
   console.log(storagePositions.value);
 });

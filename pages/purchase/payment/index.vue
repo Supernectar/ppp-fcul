@@ -130,6 +130,48 @@
         </tbody>
       </table>-->
     </div>
+    <p class="text-sky-600 text-center mb-5">CHECKOUT</p>
+    <table v-if="cart.length != 0" class="m-auto w-10/12">
+      <thead class="bg-gray-500 border-gray-500">
+        <tr>
+          <th class="w-20 text-sm text-gray-200 whitespace-nowrap">&nbsp;</th>
+          <th class="w-20 text-sm text-gray-200 whitespace-nowrap">Product</th>
+          <th class="w-20 text-sm text-gray-200 whitespace-nowrap">Quantity</th>
+          <th class="w-20 text-sm text-gray-200 whitespace-nowrap">Price</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-300 text-center">
+        <tr
+          v-for="(product, index) in myProducts"
+          :key="index"
+          class="bg-white"
+        >
+          <td class="text-sm text-gray-700 whitespace-nowrap text-center">
+            <img
+              :src="product.item.imgPath"
+              class="h-16 rounded-lg border ml-1/2"
+            />
+          </td>
+
+          <td class="p-4 text-sm text-gray-700 whitespace-nowrap text-center">
+            {{ product.item.name }}
+            <br />
+            {{ product.supplier.username }}
+          </td>
+          <td class="p-4 text-sm text-gray-700 whitespace-nowrap text-center">
+            {{ cart[index].quantity }}
+          </td>
+          <td class="p-4 text-sm text-gray-700 whitespace-nowrap text-center">
+            {{ product.price * cart[index].quantity }}€
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <br />
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
     <div class="flex justify-center">
       <stripe-checkout
@@ -143,14 +185,16 @@
         @loading="(v) => (loading = v)"
       />
 
-      <h1 class="text-center pb-4 mb-8">{{ total }}€</h1>
+      <div class="text-center mr-10">Total: {{ total }}€</div>
 
-      <button
-        class="text-white bg-gradient-to-br from-blue-600 to-red-pink hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
-        @click="submit"
-      >
-        Pay now!
-      </button>
+      <div>
+        <button
+          class="text-white bg-gradient-to-br from-blue-600 to-red-pink hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 mr-6 mb-2"
+          @click="submit"
+        >
+          Pay now!
+        </button>
+      </div>
     </div>
 
     <!-- <div class="w-11/12 bg-white lg:w-1/2 mx-auto">
@@ -168,13 +212,13 @@
       </button>
     </div> -->
 
-    <button
+    <!-- <button
       type="button"
       class="text-white bg-gradient-to-br from-indigo-500 to-indigo-900 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
       @click="createOrder()"
     >
       test criar encomenda
-    </button>
+    </button> -->
   </div>
 </template>
 
@@ -224,11 +268,13 @@ for (const product of myProducts.value) {
 }
 
 const successURL = 'http://localhost:3000/success';
-const cancelURL = 'http://localhost:3000//error';
+const cancelURL = 'http://localhost:3000/error';
 const publishableKey =
   'pk_test_51LEDJlAIdQC80EPdG8z8dlFoL50XlSoMNe1JhuF2Tdap8U25BCRlWB8IiQnqa0YYBJy7JurPEuaDMaZWNgOlM0w5000FSV9i0w';
 const checkoutRef = ref(null);
 function submit() {
+  console.log('---');
+  console.log(myProducts.value);
   checkoutRef.value.redirectToCheckout();
 }
 // console.log('---');

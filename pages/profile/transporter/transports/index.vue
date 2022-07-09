@@ -195,6 +195,9 @@
                   label="Zip Code"
                   type="text"
                   validation="required|matches:/^[0-9]{4}-[0-9]{3}$/"
+                  :validation-messages="{
+                    matches: 'Zip code must be formatted: xxxx-xxx'
+                  }"
                   outer-class="mb-4"
                   label-class="form-label inline-block mb-2 text-gray-700"
                   input-class="form-control block w-full sm:w-24 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
@@ -265,9 +268,6 @@ const resourcesTransports = ref([]);
 
 calculateResources();
 
-watch(transports.value, () => {});
-watch(resourcesTransports.value, () => {});
-
 function calculateResources() {
   for (const transport of transports.value) {
     for (const resource of transport.resources) {
@@ -315,8 +315,12 @@ async function createVehicle() {
       }
     }
   });
+
   transports.value = await $fetch(`/api/users/${user.data._id}/transports`);
   resourcesTransports.value = calculateResources();
+  // transports.value = await $fetch(`/api/users/${user.data._id}/transports`);
+  // resourcesTransports.value = calculateResources();
+  console.log(transports.value);
   console.log(resourcesTransports.value);
 
   const userdb = await $fetch(`/api/users/${user.data._id}`);
@@ -338,9 +342,11 @@ async function deleteVehicle(transportId) {
       plate: plate.value
     }
   });
-
   transports.value = await $fetch(`/api/users/${user.data._id}/transports`);
   resourcesTransports.value = calculateResources();
+
+  // transports.value = await $fetch(`/api/users/${user.data._id}/transports`);
+  // resourcesTransports.value = calculateResources();
   const userdb = await $fetch(`/api/users/${user.data._id}`);
 
   user.$patch({

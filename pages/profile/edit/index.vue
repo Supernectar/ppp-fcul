@@ -213,6 +213,9 @@
                   label="Zip Code"
                   type="text"
                   validation="matches:/^[0-9]{4}-[0-9]{3}$/"
+                  :validation-messages="{
+                    matches: 'Zip code must be formatted: xxxx-xxx'
+                  }"
                   outer-class="mb-4"
                   label-class="form-label inline-block mb-2 text-gray-700"
                   input-class="form-control block w-full sm:w-24 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
@@ -394,11 +397,11 @@ info.value = await $fetch(`/api/users/${user.data._id}`);
 // Address of user
 const displayAddress = ref([]);
 if (user.data.type === 'Consumer') {
-  displayAddress.value = info.value.consumerData.address[0];
+  displayAddress.value = info.value.consumerData.address;
 } else if (user.data.type === 'Supplier') {
-  displayAddress.value = info.value.supplierData.address[0];
+  displayAddress.value = info.value.supplierData.address;
 } else if (user.data.type === 'Transporter') {
-  displayAddress.value = info.value.transporterData.address[0];
+  displayAddress.value = info.value.transporterData.address;
 }
 
 const newStreet = ref('');

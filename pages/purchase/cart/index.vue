@@ -146,6 +146,7 @@ const products = ref([]);
 const total = ref(0);
 
 for (const cartProduct of cart.value) {
+  console.log(cartProduct.product);
   products.value.push(await $fetch(`/api/products/${cartProduct.product}`));
 }
 

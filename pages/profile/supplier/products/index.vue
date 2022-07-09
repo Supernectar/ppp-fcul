@@ -237,12 +237,11 @@ async function createProducts() {
   for (const selectedStorage of selectedStorages.value) {
     storageIds.value.push(selectedStorage._id);
   }
-  console.log(storageIds.value);
   await $fetch('/api/products', {
     method: 'POST',
     body: {
       name: name.value,
-      item: item.value,
+      itemId: item.value,
       price: price.value,
       currencyUnit: currencyUnit.value,
       stripeId: 'price_1LEa8fAIdQC80EPdihds8cUG',
@@ -251,5 +250,16 @@ async function createProducts() {
       storages: [storageIds.value]
     }
   });
+
+  storages.value = await $fetch(`/api/users/${user.data._id}/storages`);
+  for (const storage of storages.value) {
+    const productsStorage = await $fetch(
+      `/api/users/${user.data._id}/storages/${storage._id}/products`
+    );
+    products.value = [];
+    for (const productStorage of productsStorage) {
+      products.value.push(productStorage);
+    }
+  }
 }
 </script>

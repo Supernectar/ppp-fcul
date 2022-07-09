@@ -134,7 +134,7 @@ export default defineEventHandler(async (event) => {
     }
   });
 
-  const transport1 = await $fetch('/api/transports', {
+  const transport1 = await $fetch(`/api/users/${user2._id}/transports`, {
     method: 'POST',
     body: {
       brand: 'brand',
@@ -161,7 +161,8 @@ export default defineEventHandler(async (event) => {
     method: 'POST',
     body: {
       name: 'food',
-      parent: category1
+      parent: category1,
+      imgPath: '/categories/food.png'
     }
   });
 
@@ -169,14 +170,72 @@ export default defineEventHandler(async (event) => {
     method: 'POST',
     body: {
       name: 'toys',
-      parent: category1
+      parent: category1,
+      imgPath: '/categories/toys.png'
     }
   });
   const category4 = await $fetch('/api/categories', {
     method: 'POST',
     body: {
       name: 'phones',
-      parent: category1
+      parent: category1,
+      imgPath: '/categories/tecnologies.png'
+    }
+  });
+  const category5 = await $fetch('/api/categories', {
+    method: 'POST',
+    body: {
+      name: 'vehicles',
+      parent: category1,
+      imgPath: '/categories/vehicles.png'
+    }
+  });
+  const category6 = await $fetch('/api/categories', {
+    method: 'POST',
+    body: {
+      name: 'gaming',
+      parent: category1,
+      imgPath: '/categories/gaming.png'
+    }
+  });
+  const category7 = await $fetch('/api/categories', {
+    method: 'POST',
+    body: {
+      name: 'clothing',
+      parent: category1,
+      imgPath: '/categories/clothing.png'
+    }
+  });
+  const category8 = await $fetch('/api/categories', {
+    method: 'POST',
+    body: {
+      name: 'bikes',
+      parent: category5,
+      imgPath: '/categories/bikes.png'
+    }
+  });
+  const category9 = await $fetch('/api/categories', {
+    method: 'POST',
+    body: {
+      name: 'trucks',
+      parent: category5,
+      imgPath: '/categories/trucks.png'
+    }
+  });
+  const category10 = await $fetch('/api/categories', {
+    method: 'POST',
+    body: {
+      name: 'bicycles',
+      parent: category5,
+      imgPath: '/categories/bicycles.png'
+    }
+  });
+  const category11 = await $fetch('/api/categories', {
+    method: 'POST',
+    body: {
+      name: 'light vehicles',
+      parent: category5,
+      imgPath: '/categories/lightVehicles.png'
     }
   });
 
@@ -221,7 +280,7 @@ export default defineEventHandler(async (event) => {
       producer: 'Comforama',
       expirationDate: new Date(),
       category: category1,
-      imgPath: '/items/627.png'
+      imgPath: '/items/P4240.jpg'
     }
   });
   item2 = await $fetch(`/api/items/${item2._id}/attributes`, {
@@ -465,7 +524,7 @@ export default defineEventHandler(async (event) => {
       supplier: user2,
       quantity: 8,
       storages: [storage2],
-      stripeId: 'price_1LGYscAIdQC80EPdjxdetCta'
+      stripeId: 'price_1LJfoPAIdQC80EPdTgwP1UkY'
     }
   });
   const product3 = await $fetch('/api/products', {

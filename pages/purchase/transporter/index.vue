@@ -140,7 +140,6 @@
         </div> -->
 
         <div>
-          <!-- wait -->
           <FormKit
             label="Address"
             v-model="address"
@@ -266,22 +265,26 @@ const consumptionMin = ref(0);
 const consumptionMax = ref(90);
 const addresses = ref([]);
 const address = ref('');
+// address.value = addresses[0];
 // const userstore = store.data;
 
 transports.value = await $fetch(`/api/transports`);
 const user = ref(await $fetch(`/api/users/${store.data._id}`));
-
-addresses.value.push(user.value.consumerData.address[0]);
+addresses.value.push(user.value.consumerData.address);
 
 for (const addr of user.value.addresses) {
   addresses.value.push(addr);
 }
+console.log(addresses.value);
 for (const addr of addresses.value) {
-  console.log(addr);
   addr.label =
     addr.street + ', ' + addr.zipCode + ' ' + addr.city + ', ' + addr.country;
+
   addr.value = addr._id;
+  console.log(addr.value._id);
+  console.log(addr.value);
 }
+console.log(addresses.value);
 
 for (let i = 0; i < transports.value.length; i++) {
   if (transports.value[i].resources.some((el) => el.resource.type === 'fuel')) {
@@ -320,7 +323,6 @@ for (const fuel of fuelConsumption.value) {
   }
 }
 fuel.value = fuelResources.value[0];
-// console.log(fuelResources.value);
 consumptionMin.value = fuelConsumption.value[0][0];
 consumptionMax.value = fuelConsumption.value[0][1];
 consumption.value = consumptionMin.value;
@@ -357,6 +359,8 @@ function chooseTransport(transp) {
     const orderTransport = ref([]);
     orderTransport.value.push(transp._id);
     storeOrderT.$patch({ orderTransport: orderTransport.value });
+    console.log('--');
+    console.log(address.value);
     const orderAddress = ref([]);
     orderAddress.value.push(address.value);
     storeOrderA.$patch({ orderAddress: orderAddress.value });

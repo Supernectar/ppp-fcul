@@ -38,17 +38,15 @@ export default mongoose.model(
     nif: String,
     addresses: [
       {
-        type: Schema.Types.Object,
+        type: Schema.Types.ObjectId,
         ref: 'Address'
       }
     ],
     consumerData: {
-      address: [
-        {
-          type: Schema.Types.Object,
-          ref: 'Address'
-        }
-      ],
+      address: {
+        type: Schema.Types.ObjectId,
+        ref: 'Address'
+      },
       orders: [
         {
           type: Schema.Types.ObjectId,
@@ -72,12 +70,10 @@ export default mongoose.model(
       ]
     },
     supplierData: {
-      address: [
-        {
-          type: Schema.Types.Object,
-          ref: 'Address'
-        }
-      ],
+      address: {
+        type: Schema.Types.ObjectId,
+        ref: 'Address'
+      },
       InstitutionName: String,
       storages: [
         {
@@ -97,12 +93,10 @@ export default mongoose.model(
       ]
     },
     transporterData: {
-      address: [
-        {
-          type: Schema.Types.Object,
-          ref: 'Address'
-        }
-      ],
+      address: {
+        type: Schema.Types.ObjectId,
+        ref: 'Address'
+      },
       vehicles: [
         {
           type: Schema.Types.ObjectId,
