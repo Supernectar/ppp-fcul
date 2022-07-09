@@ -7,7 +7,7 @@
       <div class="p-2 overflow-hidden">
         <img
           :src="$attrs.itemValue.imgPath"
-          class="object-contain scale-75 group-hover:scale-100 transition-all m-auto"
+          class="p-2 h-30 w-30 group-hover:scale-100 transition-all m-auto"
         />
       </div>
     </NuxtLink>
@@ -83,7 +83,11 @@ import { HeartIcon as HeartIconSolid } from '@heroicons/vue/solid';
 
 const user = useUser();
 const { itemValue } = useAttrs();
-const products = await $fetch(`/api/products?item=${itemValue._id}`);
+const products = ref([])
+
+onBeforeMount(() => {
+  products.value = await $fetch(`/api/products?item=${itemValue._id}`);
+})
 
 const toggleFavourite = (itemId) => {
   if (user.data.consumerData.wishlist.includes(itemId)) {
