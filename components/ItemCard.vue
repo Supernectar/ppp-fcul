@@ -83,11 +83,11 @@ import { HeartIcon as HeartIconSolid } from '@heroicons/vue/solid';
 
 const user = useUser();
 const { itemValue } = useAttrs();
-const products = ref([])
+const products = ref([]);
 
-onBeforeMount(() => {
+onBeforeMount(async () => {
   products.value = await $fetch(`/api/products?item=${itemValue._id}`);
-})
+});
 
 const toggleFavourite = (itemId) => {
   if (user.data.consumerData.wishlist.includes(itemId)) {
