@@ -72,7 +72,8 @@
               v-if="cart.length > 0"
               class="bg-red-500 rounded-full h-4 w-4 text-xs text-white absolute bottom-0 left-0"
             >
-              {{ cart.length }}
+              <!-- {{ cart.length }} -->
+              {{ totalQuantity }}
             </div>
             <ChevronDownIcon class="h-4 w-4" aria-hidden="true" />
           </PopoverButton>
@@ -395,8 +396,9 @@ const myProducts = ref([]);
 const myItems = ref([]);
 const userF = ref(await $fetch(`/api/users/${user.data._id}`));
 // console.log(userF.value.notification);
-
+const totalQuantity = ref(0);
 for (let i = 0; i < cart.value.length; i++) {
+  totalQuantity.value += cart.value[i].quantity;
   if (cart.value.length <= 4) {
     myProducts.value[i] = await $fetch(
       `/api/products/${cart.value[i].product}`

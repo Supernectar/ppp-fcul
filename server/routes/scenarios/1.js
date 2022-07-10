@@ -177,7 +177,7 @@ export default defineEventHandler(async (event) => {
   const category4 = await $fetch('/api/categories', {
     method: 'POST',
     body: {
-      name: 'phones',
+      name: 'tecnologies',
       parent: category1,
       imgPath: '/categories/tecnologies.png'
     }

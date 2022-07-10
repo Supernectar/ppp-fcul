@@ -20,14 +20,17 @@
     "prettier": "^2.6.2"
   },
   "dependencies": {
+    "@auth0/auth0-vue": "^1.0.2",
     "@formkit/nuxt": "^1.0.0-beta.8",
     "@googlemaps/js-api-loader": "^1.14.3",
     "@headlessui/vue": "^1.6.1",
     "@heroicons/vue": "^1.0.6",
     "@pinia/nuxt": "^0.1.9",
     "@vue-stripe/vue-stripe": "^4.4.2",
+    "auth0-js": "^9.19.0",
     "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
     "google-auth-library": "^8.0.2",
     "google-charts": "^2.0.0",
     "jsonwebtoken": "^8.5.1",

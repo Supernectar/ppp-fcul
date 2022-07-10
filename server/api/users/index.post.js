@@ -8,8 +8,6 @@ export default defineEventHandler(async (event) => {
     return { error: 'User already exists' };
   }
 
-  // hash
-
   try {
     await User.create({
       username: email.split('@')[0] + ((await User.count()) + 200),
