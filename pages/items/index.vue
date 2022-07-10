@@ -1,10 +1,11 @@
 <template>
-  <div>
+  <div class="bg-blue-100">
     <Navbar />
+    <ItemsCategories />
     <div class="flex">
       <!-- <SideNavigationBar /> -->
       <div class="flex-grow order-2">
-        <section class="p-2 bg-blue-100 overflow-hidden">
+        <section class="p-2 overflow-hidden">
           <div class="flex gap-2">
             <div class="w-60 flex flex-col gap-2">
               <div class="bg-light-100 rounded p-2 shadow">
@@ -325,7 +326,7 @@
                 <span v-for="(category, i) in categoryPath" :key="i">
                   <span v-if="i != 0">></span>
                   <NuxtLink
-                    to="/categories"
+                    :to="`/items?category=${category.name}`"
                     class="text-blue-600 hover:text-blue-700 transition duration-300 ease-in-out mb-4"
                   >
                     {{ category.name }}
@@ -474,6 +475,70 @@
               </div>
             </div>
           </div>
+          <!-- </section> -->
+          <!-- class="relative" -->
+          <Popover
+            v-slot="{ open }"
+            class="fixed bottom-2 right-4 flex float-right"
+            as="div"
+          >
+            <!-- class="group inline-flex items-center rounded-md bg-orange-700 px-3 py-2 text-base font-medium text-white hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75" -->
+            <PopoverButton
+              :class="open ? '' : 'text-opacity-90'"
+              class="group inline-flex items-center rounded-md bg-purple-500 px-3 py-2 text-base font-medium text-white hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+            >
+              <span>Compare</span>
+              <!-- class="ml-2 h-5 w-5 text-orange-300 transition duration-150 ease-in-out group-hover:text-opacity-80" -->
+              <ChevronUpIcon
+                :class="open ? '' : 'text-opacity-70'"
+                class="ml-2 h-5 w-5 text-white-300 transition duration-150 ease-in-out group-hover:text-opacity-80"
+                aria-hidden="true"
+              />
+            </PopoverButton>
+
+            <transition
+              enter-active-class="transition duration-200 ease-out"
+              enter-from-class="translate-y-1 opacity-0"
+              enter-to-class="translate-y-0 opacity-100"
+              leave-active-class="transition duration-150 ease-in"
+              leave-from-class="translate-y-0 opacity-100"
+              leave-to-class="translate-y-1 opacity-0"
+            >
+              <PopoverPanel
+                class="absolute right-1/2 z-10 mt-3 w-screen bottom-11 -right-0.2 transform px-2 lg:max-w-1xl sm:px-0"
+              >
+                <div
+                  class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5"
+                >
+                  <!-- lg:grid-cols-1 -->
+                  <div class="relative grid bg-purple-50 p-7">
+                    <a
+                      v-if="compareId.length === 2"
+                      @click="$router.push('/compare')"
+                      class="mx-4 flex items-center bg-purple-10 rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                      >Go to compare</a
+                    >
+                    <a
+                      v-for="(compareId, indexC) in compare"
+                      :key="indexC"
+                      class="flex items-center bg-purple-10 rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                    >
+                      <div class="mx-4">
+                        <p class="text-sm font-medium text-gray-900">
+                          {{ compareId.item.name }} : {{ compareId.price
+                          }}{{ compareId.currencyUnit }}
+                        </p>
+                        <p class="text-sm text-gray-500">
+                          supplier: {{ compareId.supplier.username }}
+                        </p>
+                        <br />
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </PopoverPanel>
+            </transition>
+          </Popover>
         </section>
         <Footer />
       </div>
@@ -536,6 +601,10 @@
         </div>
       </Dialog>
     </TransitionRoot>
+    <!-- COMPAREZAO -->
+    <!-- <div class="fixed top-16 w-full max-w-sm px-4"> -->
+
+    <!-- </div> -->
   </div>
 </template>
 
@@ -553,10 +622,20 @@ import {
   TransitionChild,
   Dialog,
   DialogPanel,
-  DialogTitle
+  DialogTitle,
+  Popover,
+  PopoverButton,
+  PopoverPanel
 } from '@headlessui/vue';
 
 import { CheckIcon, SelectorIcon, ChevronUpIcon } from '@heroicons/vue/solid';
+import useCompare from '~/stores/compare';
+const storeCompare = useCompare();
+const compareIds = ref(storeCompare.getCompare);
+const compare = ref([]);
+for (const productId of compareIds.value) {
+  compare.value.push(await $fetch(`/api/products/${productId}`));
+}
 
 const route = useRoute();
 const categories2 = ref({});
@@ -576,11 +655,57 @@ categories2.value = (await $fetch(`/api/categories?name=main`))[0];
 
 expandNode(categories2.value);
 
-const category = ref('');
+const category = ref();
 const categoryPath = ref([]);
+const items = ref([]);
+
+onBeforeMount(async () => {
+  category.value = route.query.category || 'main';
+
+  let cata = (await $fetch(`/api/categories?name=${category.value}`))[0];
+  console.log(cata);
+  items.value = (await $fetch(`/api/items?category=${cata._id}`)).filter(
+    function (el) {
+      return el.minPrice < 999999;
+    }
+  );
+  console.log(items.value);
+  categoryPath.value = [];
+  let current = (await $fetch(`/api/categories?name=${category.value}`))[0];
+  categoryPath.value.push(current);
+  while (current.parent) {
+    current = await $fetch(`/api/categories/${current.parent}`);
+    categoryPath.value.push(current);
+  }
+  categoryPath.value.reverse();
+});
+
+watch(
+  route,
+  async () => {
+    category.value = route.query.category || 'main';
+
+    let cata = (await $fetch(`/api/categories?name=${category.value}`))[0];
+    items.value = (await $fetch(`/api/items?category=${cata._id}`)).filter(
+      function (el) {
+        return el.minPrice < 999999;
+      }
+    );
+
+    categoryPath.value = [];
+    let current = (await $fetch(`/api/categories?name=${category.value}`))[0];
+    categoryPath.value.push(current);
+    while (current.parent) {
+      current = await $fetch(`/api/categories/${current.parent}`);
+      categoryPath.value.push(current);
+    }
+    categoryPath.value.reverse();
+  },
+  { deep: true }
+);
+
 const categories = ref({});
 
-const items = ref([]);
 const staticFilters = ref([]);
 // staticFilters.value = [
 //   {
@@ -612,69 +737,68 @@ onMounted(async () => {
     const values = route.query.category;
 
     if (values.split(',').length === 1) {
-      category.value = (
-        await $fetch(`/api/categories?name=${route.query.category}`)
-      )[0];
-
-      // ---- Category Path ---- //
-      let current = category.value;
-      categoryPath.value.push(current);
-      while (current.parent) {
-        current = await $fetch(`/api/categories/${current.parent}`);
-        categoryPath.value.push(current);
-      }
-      categoryPath.value.reverse();
-      categoryPath.value.shift();
-
+      // category.value = (
+      //   await $fetch(`/api/categories?name=${route.query.category}`)
+      // )[0];
+      // // ---- Category Path ---- //
+      // let current = category.value;
+      // categoryPath.value.push(current);
+      // while (current.parent) {
+      //   current = await $fetch(`/api/categories/${current.parent}`);
+      //   categoryPath.value.push(current);
+      // }
+      // categoryPath.value.reverse();
+      // categoryPath.value.shift();
       // ---- Loading Items ---- //
-      items.value = await $fetch(`/api/items?category=${category.value._id}`);
+      // console.log(category.value);
+      // let cata = await $fetch(`/api/categories/${category.value}`);
+      // console.log(cata);
+      // items.value = await $fetch(`/api/items?category=${cata}`);
     } else {
-      categories.value = await $fetch(
-        `/api/categories?name=${route.query.category}`
-      );
+      // categories.value = await $fetch(
+      //   `/api/categories?name=${route.query.category}`
+      // );
       console.log(categories.value);
 
       const catIds = ref([]);
       // ---- Category Path ---- //
-      for (const category of categories.value) {
-        catIds.value.push(category._id);
-        if (category.children.length !== 0) {
-          for (const categoryC of categories.value.children) {
-            const current = await $fetch(`/api/categories/${categoryC}`);
-            categoryPath.value.push(current);
-          }
-        } else {
-          const current = await $fetch(`/api/categories/${category._id}`);
-          categoryPath.value.push(current);
-        }
-      }
+      // for (const category of categories.value) {
+      //   catIds.value.push(category._id);
+      //   if (category.children.length !== 0) {
+      //     for (const categoryC of categories.value.children) {
+      //       const current = await $fetch(`/api/categories/${categoryC}`);
+      //       categoryPath.value.push(current);
+      //     }
+      //   } else {
+      //     const current = await $fetch(`/api/categories/${category._id}`);
+      //     categoryPath.value.push(current);
+      //   }
+      // }
 
       // ---- Loading Items ---- //
-      items.value = await $fetch(`/api/items?category=${catIds.value}`);
+      // items.value = await $fetch(`/api/items?category=${catIds.value}`);
     }
   } else {
-    categories.value = (await $fetch(`/api/categories?name=main`))[0];
-
+    // categories.value = (await $fetch(`/api/categories?name=main`))[0];
     // ---- Category Path ---- //
-    for (const category of categories.value.children) {
-      const current = await $fetch(`/api/categories/${category}`);
-      categoryPath.value.push(current);
-    }
-
+    // for (const category of categories.value.children) {
+    //   const current = await $fetch(`/api/categories/${category}`);
+    //   categoryPath.value.push(current);
+    // }
     // ---- Loading Items ---- //
-    items.value = await $fetch(`/api/items`);
+    // items.value = await $fetch(`/api/items`);
   }
 
   // ---- Static Filters ---- //
-  for (const category of categoryPath.value) {
-    for (const attribute of category.attributes) {
-      staticFilters.value.push({
-        name: attribute,
-        type: 'default',
-        value: 1
-      });
-    }
-  }
+  // for (const category of categoryPath.value) {
+  //   for (const attribute of category.attributes) {
+  //     staticFilters.value.push({
+  //       name: attribute,
+  //       type: 'default',
+  //       value: 1
+  //     });
+  //   }
+  // }
 
   // --- Categories --- //
   const expandNode = async (node) => {

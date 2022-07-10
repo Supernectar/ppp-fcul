@@ -35,31 +35,34 @@
       <section class="px-8 pt-4 relative z-2">
         <h1 class="text-4xl font-semibold text-center my-4">Categories</h1>
         <div class="bg-white rounded-xl p-2 shadow-md">
-          <div class="flex">
-            <NuxtLink
-              v-for="(category, index) in categories"
-              :key="index"
-              :to="`/items?category=${category.name}`"
-              class="hover:bg-gray-200 text-center p-2 rounded m-2 group"
-            >
-              <img
-                :src="category.imgPath || '/items/627.png'"
-                class="h-26 w-26 rounded-full border p-2"
-                :style="`background-color: #${category.color}`"
-                :alt="`category ${category.name}`"
-              />
-              <div class="group-hover:underline">
-                {{ category.name }}
-              </div>
-            </NuxtLink>
-          </div>
-          <div class="text-right">
+          <div>
             <NuxtLink
               to="/categories"
               class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600"
               >See more categories</NuxtLink
             >
           </div>
+          <ul class="md:(flex flex-wrap) flex overflow-auto">
+            <template v-for="a in 2">
+              <li
+                v-for="(category, index) in categories"
+                :key="index"
+                class="hover:bg-gray-100 text-center p-2 rounded m-2 group flex-shrink-0"
+              >
+                <NuxtLink :to="`/items?category=${category.name}`">
+                  <img
+                    :src="category.imgPath || '/items/627.png'"
+                    class="h-20 w-20 rounded-full border p-2 m-auto"
+                    :style="`background-color: #${category.color}`"
+                    :alt="`category ${category.name}`"
+                  />
+                  <div class="group-hover:underline">
+                    {{ category.name }}
+                  </div>
+                </NuxtLink>
+              </li>
+            </template>
+          </ul>
         </div>
       </section>
 
@@ -82,9 +85,22 @@
 </template>
 
 <script setup>
+import { handleAuth } from '~/plugins/authfile';
+
+const router = useRouter();
+
 const categoryMain = (await $fetch('/api/categories?name=main'))[0];
 const categories = ref([]);
 onBeforeMount(async () => {
+  handleAuth((error) => {
+    if (error) {
+      console.log(error);
+      return;
+    }
+    console.log('logged in');
+    // router.push('/');
+  });
+
   for (const categoryId of categoryMain.children) {
     categories.value.push(await $fetch(`/api/categories/${categoryId}`));
   }
