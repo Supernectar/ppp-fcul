@@ -19,10 +19,11 @@
               v-for="(cartItem, index) in cart"
               :id="cartItem.product"
               :key="index"
-              class="bg-white"
+              class="bg-white hover:bg-gray-50"
             >
               <td
-                class="w-30 p-8 text-sm text-gray-700 whitespace-nowrap text-center"
+                class="w-50 p-8 text-sm text-gray-700 whitespace-nowrap text-center"
+                @click="$router.push(`/items/${myItems[index]._id}`)"
               >
                 <img
                   :src="myItems[index].imgPath"
@@ -31,6 +32,7 @@
               </td>
               <td
                 class="w-10 p-2 text-sm text-gray-700 whitespace-nowrap text-center"
+                @click="$router.push(`/items/${myItems[index]._id}`)"
               >
                 {{ myItems[index].name }}
                 <br />
@@ -62,14 +64,11 @@
                 </button>
               </td>
             </tr>
-            <tr>
-              <td>
-                <br />
-                <br />
-              </td>
-            </tr>
-            <tr>
-              <td class=""></td>
+            <!-- <tr>
+              <td></td>
+            </tr> -->
+            <tr class="bg-white">
+              <td></td>
               <td></td>
 
               <td
