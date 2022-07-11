@@ -23,8 +23,8 @@ export default mongoose.model(
         type: Schema.Types.ObjectId,
         ref: 'Status'
       },
-      departureDate: String,
-      arrivalDate: String,
+      departureDate: Date,
+      // arrivalDate: Date,
       // itineraries: [
       //   {
       //     type: Schema.Types.ObjectId,

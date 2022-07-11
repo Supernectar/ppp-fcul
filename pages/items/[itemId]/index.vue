@@ -179,17 +179,95 @@
           </div>
         </div>
       </section>
+      <Popover
+        v-slot="{ open }"
+        class="fixed bottom-2 right-2 flex float-right z-index-100"
+        as="div"
+      >
+        <!-- class="group inline-flex items-center rounded-md bg-orange-700 px-3 py-2 text-base font-medium text-white hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75" -->
+        <PopoverButton
+          :class="open ? '' : 'text-opacity-90'"
+          class="group inline-flex items-center rounded-md bg-purple-500 px-3 py-2 text-base font-medium text-white hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+        >
+          <span>Compare</span>
+          <!-- class="ml-2 h-5 w-5 text-orange-300 transition duration-150 ease-in-out group-hover:text-opacity-80" -->
+          <ChevronUpIcon
+            :class="open ? '' : 'text-opacity-70'"
+            class="ml-2 h-5 w-5 text-white-300 transition duration-150 ease-in-out group-hover:text-opacity-80"
+            aria-hidden="true"
+          />
+        </PopoverButton>
+
+        <transition
+          enter-active-class="transition duration-200 ease-out"
+          enter-from-class="translate-y-1 opacity-0"
+          enter-to-class="translate-y-0 opacity-100"
+          leave-active-class="transition duration-150 ease-in"
+          leave-from-class="translate-y-0 opacity-100"
+          leave-to-class="translate-y-1 opacity-0"
+        >
+          <PopoverPanel
+            class="absolute right-1/2 z-10 mt-3 w-screen bottom-11 -right-0.2 transform px-2 lg:max-w-1xl sm:px-0"
+          >
+            <div
+              class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5"
+            >
+              <!-- lg:grid-cols-1 -->
+              <div
+                v-if="compareIds.length === 2"
+                class="relative grid bg-purple-50 p-7"
+              >
+                <!--  -->
+                <u
+                  @click="$router.push('/compare')"
+                  class="mx-4 flex items-center bg-purple-10 rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                  >Go to compare ></u
+                >
+                <a
+                  v-for="(compareId, indexC) in compareF"
+                  :key="indexC"
+                  class="flex items-center bg-purple-10 rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                >
+                  <div class="mx-4">
+                    <p class="text-sm font-medium text-gray-900">
+                      {{ compareId.item.name }} : {{ compareId.price
+                      }}{{ compareId.currencyUnit }}
+                    </p>
+                    <p class="text-sm text-gray-500">
+                      supplier: {{ compareId.supplier.username }}
+                    </p>
+                    <br />
+                  </div>
+                </a>
+              </div>
+              <div v-else class="relative grid bg-purple-50 p-7">
+                <a
+                  class="mx-4 flex items-center bg-purple-10 rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                  >Add products to compare
+                </a>
+              </div>
+            </div>
+          </PopoverPanel>
+        </transition>
+      </Popover>
     </section>
     <Footer />
   </div>
 </template>
 
 <script setup>
+import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue';
 import { CurrencyEuroIcon } from '@heroicons/vue/outline';
+import { ChevronUpIcon } from '@heroicons/vue/solid';
 import useCart from '~/stores/cart';
 import useCompare from '~/stores/compare';
-
 const storeCompare = useCompare();
+const compareIds = ref(storeCompare.getCompare);
+const compareF = ref([]);
+for (const productId of compareIds.value) {
+  compareF.value.push(await $fetch(`/api/products/${productId}`));
+}
+
 const store = useCart();
 const route = useRoute();
 
@@ -214,11 +292,11 @@ const storagePositions = ref([
 watch(selectedProduct, async () => {
   storagePositions.value = [];
   for (const storageId of selectedProduct.value.storages) {
-    console.log();
+    // console.log();
     const storage = await $fetch(`/storages/${storageId}`);
     // storagePositions.value.push(storage.address.coordinates);
   }
-  console.log(storagePositions.value);
+  // console.log(storagePositions.value);
 });
 
 const products = ref([]);
@@ -249,6 +327,13 @@ function addToCompare(pid) {
     storeCompare.$patch({ compare });
   }
 }
+
+watch(compare, async () => {
+  const compareF = ref([]);
+  for (const productId of compareIds.value) {
+    compareF.value.push(await $fetch(`/api/products/${productId}`));
+  }
+});
 
 function addToCart(pid) {
   myCart.value = store.getCart;

@@ -28,8 +28,8 @@
             class="bg-white text-sm text-gray-700 whitespace-nowrap text-center"
           >
             <td>price</td>
-            <td>{{ products[0].price }}{{ products[0].unit }}</td>
-            <td>{{ products[1].price }}{{ products[1].unit }}</td>
+            <td>{{ products[0].price }}{{ products[0].currentUnit }}</td>
+            <td>{{ products[1].price }}{{ products[1].currentUnit }}</td>
           </tr>
           <tr
             class="bg-white text-sm text-gray-700 whitespace-nowrap text-center"
@@ -65,39 +65,35 @@ const storeCompare = useCompare();
 const compare = ref(storeCompare.getCompare);
 const products = ref([]);
 const attrs = ref([]);
-console.log(attrs.value);
 
 for (const productId of compare.value) {
   products.value.push(await $fetch(`/api/products/${productId}`));
 }
 
-console.log(products.value);
-console.log(attrs.value);
 if (products.value[0].item.attributes !== undefined) {
   for (const attr of Object.keys(products.value[0].item.attributes)) {
-    // console.log(myItems.value[1].attributes !== undefined);
-    // console.log('errro');
     if (products.value[1].item.attributes !== undefined) {
-      // console.log(myItems.value[1].attributes);
       if (Object.keys(products.value[1].item.attributes).includes(attr)) {
         // if (attr in myItems.value[1].attributes) {
-        console.log('if');
         console.log(attr);
+        // console.log(products.value[0]);
+        console.log(products.value[0].item.attributes[attr].name);
+        console.log(products.value[0].item.attributes[attr].value);
+        console.log(products.value[1].item.attributes[attr].value);
+
+        // console.log(products.value[1]);
+        console.log(products.value[1].item.attributes[attr]);
         attrs.value.push([
           attr,
           products.value[0].item.attributes[attr],
           products.value[1].item.attributes[attr]
         ]);
       } else {
-        console.log('else');
-        console.log(attr);
         attrs.value.push([attr, products.value[0].item.attributes[attr], '-']);
       }
     }
   }
 }
-console.log(11);
-console.log(attrs.value);
 if (products.value[1].item.attributes !== undefined) {
   for (const attr of Object.keys(products.value[1].item.attributes)) {
     // console.log(!attrs.value.includes(attr));

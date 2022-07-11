@@ -246,7 +246,7 @@ export default defineEventHandler(async (event) => {
       name: 'Máquina Fotográfica',
       description: 'Máquina Fotográfica HD',
       producer: 'Canon Enterprise',
-      category: category2,
+      category: category4,
       imgPath: '/items/1505-1.jpg'
     }
   });
@@ -325,7 +325,7 @@ export default defineEventHandler(async (event) => {
       name: 'Caneta Esferográfica BIC',
       description: 'Esferográfica Azul',
       producer: 'BIC Enterprise',
-      category: category3,
+      category: category1,
       imgPath: 'items/caneta-bic.png'
     }
   });
@@ -405,7 +405,7 @@ export default defineEventHandler(async (event) => {
       name: 'Melância',
       description: 'Fruto',
       producer: 'Fruta das quintas',
-      category: category3,
+      category: category2,
       imgPath: '/items/Melancia.png'
     }
   });
@@ -430,7 +430,7 @@ export default defineEventHandler(async (event) => {
       name: 'Ténis Nike',
       description: 'Ténis leves, ideais para a corrida',
       producer: 'Nike Enterprise.',
-      category: category1,
+      category: category7,
       imgPath: '/items/627.png'
     }
   });
@@ -455,7 +455,7 @@ export default defineEventHandler(async (event) => {
       name: 'Garrafa de água',
       description: 'Água natural dos Alpes',
       producer: 'Evian Enterprise',
-      category: category3,
+      category: category2,
       imgPath: '/items/58001011_1.jpg'
     }
   });
@@ -540,7 +540,179 @@ export default defineEventHandler(async (event) => {
       stripeId: 'price_1LHtfaAIdQC80EPdohvIdLYZ'
     }
   });
+  // Carrrinhos de Brincar
+  const product4 = await $fetch('/api/products', {
+    method: 'POST',
+    body: {
+      name: 'product4',
+      itemId: item5,
+      price: 29.0,
+      currencyUnit: '€',
+      supplier: user2,
+      quantity: 10,
+      storages: [storage2],
+      stripeId: 'price_1LGYzaAIdQC80EPdsif0qMi9'
+    }
+  });
 
+  const product5 = await $fetch('/api/products', {
+    method: 'POST',
+    body: {
+      name: 'product5',
+      itemId: item5,
+      price: 24.0,
+      currencyUnit: '€',
+      supplier: user1,
+      quantity: 7,
+      storages: [storage1],
+      stripeId: 'price_1LKNujAIdQC80EPdEWHb3aKJ'
+    }
+  });
+
+  // Águas
+  const product6 = await $fetch('/api/products', {
+    method: 'POST',
+    body: {
+      name: 'product6',
+      itemId: item8,
+      price: 1.5,
+      currencyUnit: '€',
+      supplier: user2,
+      quantity: 10,
+      storages: [storage2],
+      stripeId: 'price_1LGYx8AIdQC80EPd95Klx7AQ'
+    }
+  });
+
+  const product7 = await $fetch('/api/products', {
+    method: 'POST',
+    body: {
+      name: 'product7',
+      itemId: item8,
+      price: 1.1,
+      currencyUnit: '€',
+      supplier: user1,
+      quantity: 7,
+      storages: [storage1],
+      stripeId: 'price_1LKNzaAIdQC80EPdeYssvBmV'
+    }
+  });
+
+  // Iphone
+  const product8 = await $fetch('/api/products', {
+    method: 'POST',
+    body: {
+      name: 'product8',
+      itemId: item3,
+      price: 900.0,
+      currencyUnit: '€',
+      supplier: user2,
+      quantity: 10,
+      storages: [storage2],
+      stripeId: 'price_1LGZ0FAIdQC80EPd0htRRwht'
+    }
+  });
+
+  const product9 = await $fetch('/api/products', {
+    method: 'POST',
+    body: {
+      name: 'product9',
+      itemId: item3,
+      price: 999.0,
+      currencyUnit: '€',
+      supplier: user1,
+      quantity: 7,
+      storages: [storage1],
+      stripeId: 'price_1LKO7NAIdQC80EPdzRNDppVN'
+    }
+  });
+
+  // Caneta BIC
+  const product10 = await $fetch('/api/products', {
+    method: 'POST',
+    body: {
+      name: 'product10',
+      itemId: item4,
+      price: 1.0,
+      currencyUnit: '€',
+      supplier: user2,
+      quantity: 10,
+      storages: [storage2],
+      stripeId: 'price_1LGYttAIdQC80EPdkG6aq1Qq'
+    }
+  });
+
+  const product11 = await $fetch('/api/products', {
+    method: 'POST',
+    body: {
+      name: 'product11',
+      itemId: item4,
+      price: 1.5,
+      currencyUnit: '€',
+      supplier: user1,
+      quantity: 7,
+      storages: [storage1],
+      stripeId: 'price_1LKOB0AIdQC80EPduKwbQlww'
+    }
+  });
+
+  // Melância
+  const product12 = await $fetch('/api/products', {
+    method: 'POST',
+    body: {
+      name: 'product12',
+      itemId: item6,
+      price: 4.0,
+      currencyUnit: '€',
+      supplier: user2,
+      quantity: 10,
+      storages: [storage2],
+      stripeId: 'price_1LGYwMAIdQC80EPdcGmayIo6'
+    }
+  });
+
+  const product13 = await $fetch('/api/products', {
+    method: 'POST',
+    body: {
+      name: 'product13',
+      itemId: item6,
+      price: 1.5,
+      currencyUnit: '€',
+      supplier: user1,
+      quantity: 7,
+      storages: [storage1],
+      stripeId: 'price_1LKOFvAIdQC80EPd9881ieGt'
+    }
+  });
+
+  // Ténis Nike
+  const product14 = await $fetch('/api/products', {
+    method: 'POST',
+    body: {
+      name: 'product12',
+      itemId: item7,
+      price: 60.0,
+      currencyUnit: '€',
+      supplier: user2,
+      quantity: 10,
+      storages: [storage2],
+      stripeId: 'price_1LGYykAIdQC80EPdEzvCX2jK'
+    }
+  });
+
+  const product15 = await $fetch('/api/products', {
+    method: 'POST',
+    body: {
+      name: 'product13',
+      itemId: item7,
+      price: 55.0,
+      currencyUnit: '€',
+      supplier: user1,
+      quantity: 7,
+      storages: [storage1],
+      stripeId: 'price_1LKOHkAIdQC80EPdqKf1ks3x'
+    }
+  });
   console.log('Api reset was successful');
   return 'Api reset was successfull!';
 });

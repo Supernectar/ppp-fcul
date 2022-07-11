@@ -379,6 +379,7 @@ import {
   SearchIcon
 } from '@heroicons/vue/outline/index.js';
 import useCart from '~/stores/cart';
+import { isLogged } from '~/plugins/authfile';
 
 const router = useRouter();
 const user = useUser();
@@ -395,8 +396,13 @@ const cart = ref(store.getCart);
 
 const myProducts = ref([]);
 const myItems = ref([]);
-const userF = ref(await $fetch(`/api/users/${user.data._id}`));
-// console.log(userF.value.notification);
+const userF = ref();
+if (user.data._id) {
+  userF.value = await $fetch(`/api/users/${user.data._id}`);
+} else {
+  userF.value = [];
+  userF.value.notifications = [];
+}
 const totalQuantity = ref(0);
 for (let i = 0; i < cart.value.length; i++) {
   totalQuantity.value += cart.value[i].quantity;
@@ -404,7 +410,6 @@ for (let i = 0; i < cart.value.length; i++) {
     myProducts.value[i] = await $fetch(
       `/api/products/${cart.value[i].product}`
     );
-    // console.log(await $fetch(`/api/products/${cart.value[i].product}`));
 
     myItems.value[i] = await $fetch(
       `/api/items/${myProducts.value[i].item._id}`
@@ -415,7 +420,9 @@ for (let i = 0; i < cart.value.length; i++) {
 watch(
   cart,
   async () => {
+    totalQuantity.value = 0;
     for (let i = 0; i < cart.value.length; i++) {
+      totalQuantity.value += cart.value[i].quantity;
       if (cart.value.length <= 4) {
         myProducts.value[i] = await $fetch(
           `/api/products/${cart.value[i].product}`
@@ -432,24 +439,21 @@ watch(
 );
 
 async function signOut() {
-  if (isLogged()) {
-    auth0Logged = false;
-    logUserOut();
-  } else {
-    if (user.isLoggedIn) {
-      await $fetch(`/api/users/${user.data._id}`, {
-        method: 'PUT',
-        body: {
-          a: 'okok',
-          preferences: {
-            profileIconBgColor: user.data.preferences.profileIconBgColor,
-            profileIconTextColor: user.data.preferences.profileIconTextColor
-          }
+  if (user.isLoggedIn) {
+    await $fetch(`/api/users/${user.data._id}`, {
+      method: 'PUT',
+      body: {
+        a: 'okok',
+        preferences: {
+          profileIconBgColor: user.data.preferences.profileIconBgColor,
+          profileIconTextColor: user.data.preferences.profileIconTextColor
         }
-      });
+      }
+    });
 
-      user.reset();
-    }
+    user.reset();
+  } else {
+    console.log('user is not logged');
   }
   router.push('/signin');
 }

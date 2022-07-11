@@ -3,14 +3,14 @@
     <Navbar />
     <div class="flex">
       <SideNavigationBar />
-      <div class="flex-grow order-2">
+      <div class="flex-grow order-2 w-45">
         <section class="p-2 overflow-hidden">
           <h1 class="text-2xl font-bold">Dashboard</h1>
           <div id="orders" class="mt-4">
             <h2 class="text-xl font-semibold">Orders</h2>
             <p>See your orders history</p>
             <div class="overflow-auto rounded-lg shadow">
-              <table class="w-2 sm:w-90 md:w-120 lg:w-250">
+              <table class="w-full">
                 <thead class="bg-white border-b">
                   <tr>
                     <th
@@ -143,12 +143,7 @@
                 <div>Number of items bought per day</div>
               </div>
             </div>-->
-            <div
-              v-if="
-                user.data.consumerData.orders.length !== 0 &&
-                user.data.type === 'Consumer'
-              "
-            >
+            <div v-if="user.data.consumerData.orders.length !== 0">
               <div class="shadow-lg rounded-lg w-75 sm:w-95 md:w-125">
                 <div class="py-3 px-1 bg-gray-50">
                   Polution generated in the first half of the year
@@ -162,7 +157,6 @@
             <p class="max-w-80">
               This suggestion list is generated based on your last purchases
             </p>
-            <!--
             <div class="bg-light-600 rounded-xl p-2">
               <ul>
                 <div
@@ -177,14 +171,7 @@
                 </div>
               </ul>
             </div>
-            -->
           </div>
-          <div>-referencia à ultima encomenda realizada</div>
-          <div>
-            -estatistica relativamente ao total de recursos gerados em
-            encomendas (nos ultimos x dias, ou desda primeira encomenda)
-          </div>
-          <div>-recomendações de produtos?</div>
         </section>
         <Footer />
       </div>
@@ -363,6 +350,7 @@ for (const order of orders) {
     order.price.value += product.product.price * product.quantity;
   }
 }
+console.log(orders);
 // ---- Dialog ---- //
 const modalContent = ref({});
 const isOpen = ref(false);

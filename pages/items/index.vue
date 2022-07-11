@@ -487,7 +487,7 @@
               :class="open ? '' : 'text-opacity-90'"
               class="group inline-flex items-center rounded-md bg-purple-500 px-3 py-2 text-base font-medium text-white hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
             >
-              <span>Compare</span>
+              <span>Compare </span>
               <!-- class="ml-2 h-5 w-5 text-orange-300 transition duration-150 ease-in-out group-hover:text-opacity-80" -->
               <ChevronUpIcon
                 :class="open ? '' : 'text-opacity-70'"
@@ -510,13 +510,14 @@
                 <div
                   class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5"
                 >
-                  <!-- lg:grid-cols-1 -->
-                  <div class="relative grid bg-purple-50 p-7">
-                    <a
-                      v-if="compareId.length === 2"
+                  <div
+                    v-if="compareIds.length === 2"
+                    class="relative grid bg-purple-50 p-7"
+                  >
+                    <u
                       @click="$router.push('/compare')"
                       class="mx-4 flex items-center bg-purple-10 rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
-                      >Go to compare</a
+                      >Go to compare ></u
                     >
                     <a
                       v-for="(compareId, indexC) in compare"
@@ -531,8 +532,13 @@
                         <p class="text-sm text-gray-500">
                           supplier: {{ compareId.supplier.username }}
                         </p>
-                        <br />
                       </div>
+                    </a>
+                  </div>
+                  <div v-else class="relative grid bg-purple-50 p-7">
+                    <a
+                      class="mx-4 flex items-center bg-purple-10 rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                      >Add products to compare
                     </a>
                   </div>
                 </div>
@@ -636,7 +642,6 @@ const compare = ref([]);
 for (const productId of compareIds.value) {
   compare.value.push(await $fetch(`/api/products/${productId}`));
 }
-
 const route = useRoute();
 const categories2 = ref({});
 
