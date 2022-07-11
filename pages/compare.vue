@@ -4,17 +4,23 @@
     <div v-if="compare.length == 2" class="m-auto w-10/12">
       <p class="font-800 px-2 py-2.5">Compare</p>
       <table class="w-full rounded-lg">
-        <thead class="bg-gray-500 border-gray-500">
+        <thead class="bg-gray-400 border-gray-50">
           <tr>
-            <th class="w-20 text-sm text-gray-200">attributes</th>
-            <th class="w-20 text-sm text-gray-200 whitespace-nowrap">
+            <th class="w-20 text-sm text-gray-50">attributes</th>
+            <th
+              class="w-20 text-sm hover:bg-gray-100 hover:text-black text-gray-50 whitespace-nowrap"
+              @click="$router.push(`/items/${products[0].item._id}`)"
+            >
               <img
                 :src="products[0].item.imgPath"
                 class="h-16 rounded-lg border m-auto"
               />
               {{ products[0].item.name }}
             </th>
-            <th class="w-20 text-sm text-gray-200 whitespace-nowrap">
+            <th
+              class="w-20 text-sm hover:bg-gray-100 hover:text-black text-gray-50 whitespace-nowrap"
+              @click="$router.push(`/items/${products[1].item._id}`)"
+            >
               <img
                 :src="products[1].item.imgPath"
                 class="h-16 rounded-lg border m-auto"
@@ -28,8 +34,27 @@
             class="bg-white text-sm text-gray-700 whitespace-nowrap text-center"
           >
             <td>price</td>
-            <td>{{ products[0].price }}{{ products[0].currentUnit }}</td>
-            <td>{{ products[1].price }}{{ products[1].currentUnit }}</td>
+            <td
+              v-if="products[0].price < products[1].price"
+              class="bg-green-100"
+            >
+              {{ products[0].price }}{{ products[0].currencyUnit }}
+            </td>
+            <td
+              v-else-if="products[0].price > products[1].price"
+              class="bg-red-100"
+            >
+              {{ products[0].price }}{{ products[0].currencyUnit }}
+            </td>
+            <td v-if="products[0].price < products[1].price" class="bg-red-100">
+              {{ products[1].price }}{{ products[1].currencyUnit }}
+            </td>
+            <td
+              v-else-if="products[0].price > products[1].price"
+              class="bg-green-100"
+            >
+              {{ products[1].price }}{{ products[1].currencyUnit }}
+            </td>
           </tr>
           <tr
             class="bg-white text-sm text-gray-700 whitespace-nowrap text-center"
@@ -47,17 +72,17 @@
             <td v-if="attr[1].value === attr[2].value" class="bg-purple-100">
               {{ attr[1].name || attr[2].name }}
             </td>
-            <td v-else>
+            <td v-else class="bg-blue-100">
               {{ attr[1].name || attr[2].name }}
             </td>
             <td v-if="attr[1].value === attr[2].value" class="bg-purple-100">
               {{ attr[1].value || '-' }}
             </td>
-            <td v-else>{{ attr[1].value || '-' }}</td>
+            <td v-else class="bg-blue-100">{{ attr[1].value || '-' }}</td>
             <td v-if="attr[1].value === attr[2].value" class="bg-purple-100">
               {{ attr[2].value || '-' }}
             </td>
-            <td v-else>{{ attr[2].value || '-' }}</td>
+            <td v-else class="bg-blue-100">{{ attr[2].value || '-' }}</td>
           </tr>
         </tbody>
       </table>

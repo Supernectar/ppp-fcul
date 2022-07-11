@@ -312,7 +312,7 @@
         </div>
         <div id="botSection" class="min-h-10 z-10 bg-white">
           <hr class="mb-2" />
-          <div class="text-center">some info idk</div>
+          <div class="text-center"></div>
         </div>
       </nav>
     </div>

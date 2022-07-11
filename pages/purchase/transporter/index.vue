@@ -1,7 +1,7 @@
 <template>
   <div>
     <Navbar />
-    <div class="rounded-lg shadow hidden md:block mx-10 m-10 bg-indigo-100">
+    <div class="mx-10 m-10 bg-indigo-100">
       <div class="h-full w-full bg-indigo-100 py-16">
         <div class="container mx-auto text-center">
           <div class="w-11/12 lg:w-1/2 mx-auto">
@@ -150,7 +150,7 @@
             validation="required"
             outer-class="mb-4"
             label-class="form-label inline-block mb-2 text-gray-700"
-            input-class="form-control justify-center px-3 py-1.5 text-base
+            input-class="form-control justify-center w-40 sm:w-80 px-3 py-1.5 text-base
           font-normal text-gray-700 bg-white bg-clip-padding border border-solid
           border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700
           focus:bg-white focus:border-blue-600 focus:outline-none"
@@ -176,60 +176,64 @@
         Next >
       </button> -->
     </div>
-    <table class="m-auto w-10/12">
-      <thead class="bg-gray-500 border-gray-500">
-        <tr>
-          <th class="w-20 text-sm text-gray-200 whitespace-nowrap">Brand</th>
-          <th class="w-20 text-sm text-gray-200 whitespace-nowrap">Model</th>
-          <th class="w-20 text-sm text-gray-200 whitespace-nowrap">Status</th>
-          <th class="w-20 text-sm text-gray-200 whitespace-nowrap">
-            Resources
-          </th>
-          <th class="w-20 text-sm text-gray-200 whitespace-nowrap">Polution</th>
-          <th class="w-20 text-sm text-gray-200 whitespace-nowrap"></th>
-        </tr>
-      </thead>
-      <tbody class="divide-y divide-gray-300 text-center">
-        <tr
-          v-for="(transport, index) in transportsFilter"
-          :id="transport"
-          :key="index"
-          class="bg-white"
-        >
-          <td>{{ transport.brand }}</td>
-          <td>{{ transport.model }}</td>
-          <td>{{ transport.status }}</td>
-          <td
-            v-for="(res, index1) in transport.resources"
-            :id="res"
-            :key="index1"
+    <div class="overflow-auto shadow">
+      <table class="m-auto w-full sm:w-10/12">
+        <thead class="bg-gray-500 border-gray-500">
+          <tr>
+            <th class="w-20 text-sm text-gray-200 whitespace-nowrap">Brand</th>
+            <th class="w-20 text-sm text-gray-200 whitespace-nowrap">Model</th>
+            <th class="w-20 text-sm text-gray-200 whitespace-nowrap">Status</th>
+            <th class="w-20 text-sm text-gray-200 whitespace-nowrap">
+              Resources
+            </th>
+            <th class="w-20 text-sm text-gray-200 whitespace-nowrap">
+              Polution
+            </th>
+            <th class="w-20 text-sm text-gray-200 whitespace-nowrap"></th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-300 text-center">
+          <tr
+            v-for="(transport, index) in transportsFilter"
+            :id="transport"
+            :key="index"
             class="bg-white"
           >
-            {{ res.quantity }} L/100km
-            <br />
-            {{ res.resource.name }}
-            <br />
-          </td>
-          <td
-            v-for="(pol, index2) in transport.polutions"
-            :id="pol"
-            :key="index2"
-            class="bg-white flex"
-          >
-            {{ pol.quantity }} {{ pol.polution.unit }}/{{ pol.polution.name }}
-          </td>
-          <td>
-            <button
-              type="button"
-              class="text-white bg-gradient-to-br from-blue-500 to-blue-900 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
-              @click="chooseTransport(transport)"
+            <td>{{ transport.brand }}</td>
+            <td>{{ transport.model }}</td>
+            <td>{{ transport.status }}</td>
+            <td
+              v-for="(res, index1) in transport.resources"
+              :id="res"
+              :key="index1"
+              class="bg-white"
             >
-              Choose
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+              {{ res.quantity }} L/100km
+              <br />
+              {{ res.resource.name }}
+              <br />
+            </td>
+            <td
+              v-for="(pol, index2) in transport.polutions"
+              :id="pol"
+              :key="index2"
+              class="bg-white flex"
+            >
+              {{ pol.quantity }} {{ pol.polution.unit }}/{{ pol.polution.name }}
+            </td>
+            <td>
+              <button
+                type="button"
+                class="text-white bg-gradient-to-br from-blue-500 to-blue-900 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+                @click="chooseTransport(transport)"
+              >
+                Choose
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <!-- <table>
       <p
         v-for="(transport, index) in transportsFilter"

@@ -287,6 +287,9 @@ async function addProduct() {
       storages: [route.params.storageId]
     }
   });
+  products.value = await $fetch(
+    `/api/users/${user.data._id}/storages/${route.params.storageId}/products`
+  );
 }
 
 async function deleteProduct(productId) {

@@ -178,6 +178,7 @@ const props = defineProps(['userId']);
 
 const router = useRouter();
 const info = ref({});
+info.value = await $fetch(`/api/users/${props.userId}`);
 
 watch(props, async () => {
   info.value = await $fetch(`/api/users/${props.userId}`);
@@ -216,6 +217,7 @@ function openModal(msg) {
 }
 
 async function updateInfo() {
+  console.log(info.value);
   const res = await $fetch(`/api/users/${info.value._id}`, {
     method: 'PUT',
     body: {

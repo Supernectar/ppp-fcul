@@ -1,7 +1,7 @@
 <template>
   <div>
     <Navbar />
-    <div class="mx-10 m-10 bg-indigo-100">
+    <div class="rounded-lg mx-10 m-10 bg-indigo-100">
       <div class="h-full w-full bg-indigo-100 py-16">
         <div class="container mx-auto text-center">
           <div class="w-11/12 lg:w-1/2 mx-auto">
@@ -37,8 +37,8 @@
           </div>
         </div>
       </div>
-      <div>
-        <table v-if="cart.length != 0" class="m-auto w-10/12">
+      <div class="overflow-auto rounded-lg shadow">
+        <table v-if="cart.length != 0" class="m-auto w-full sm:w-10/12">
           <thead class="bg-gray-500 border-gray-500">
             <tr>
               <th class="w-20 text-sm text-gray-200 whitespace-nowrap">

@@ -1,7 +1,7 @@
 <template>
   <div>
     <Navbar />
-    <div class="rounded-lg shadow hidden md:block mx-10 m-10 bg-indigo-100">
+    <div class="rounded-lg mx-10 m-10 bg-indigo-100">
       <div class="h-full w-full bg-indigo-100 py-16">
         <div class="container mx-auto text-center">
           <div class="w-11/12 lg:w-1/2 mx-auto">
@@ -54,7 +54,7 @@
               >
                 <div class="absolute right-0 -mr-2">
                   <div
-                    class="relative bg-white shadow-lg px-2 py-1 rounded mt-16 -mr-12"
+                    class="relative bg-white shadow-lg px-2 py-1 rounded mt-16 -mr-8"
                   >
                     <p class="text-indigo-700 text-xs font-bold">
                       Step 3: Payment
@@ -131,47 +131,51 @@
       </table>-->
     </div>
     <p class="text-sky-600 text-center mb-5">CHECKOUT</p>
-    <table v-if="cart.length != 0" class="m-auto w-10/12">
-      <thead class="bg-gray-500 border-gray-500">
-        <tr>
-          <th class="w-20 text-sm text-gray-200 whitespace-nowrap">&nbsp;</th>
-          <th class="w-20 text-sm text-gray-200 whitespace-nowrap">Product</th>
-          <th class="w-20 text-sm text-gray-200 whitespace-nowrap">Quantity</th>
-          <th class="w-20 text-sm text-gray-200 whitespace-nowrap">Price</th>
-        </tr>
-      </thead>
-      <tbody class="divide-y divide-gray-300 text-center">
-        <tr
-          v-for="(product, index) in myProducts"
-          :key="index"
-          class="bg-white"
-        >
-          <td class="text-sm text-gray-700 whitespace-nowrap text-center">
-            <img
-              :src="product.item.imgPath"
-              class="h-16 rounded-lg border ml-1/2"
-            />
-          </td>
+    <div class="overflow-auto shadow">
+      <table v-if="cart.length != 0" class="m-auto w-full sm:w-10/12">
+        <thead class="bg-gray-500 border-gray-500">
+          <tr>
+            <th class="w-20 text-sm text-gray-200 whitespace-nowrap">&nbsp;</th>
+            <th class="w-20 text-sm text-gray-200 whitespace-nowrap">
+              Product
+            </th>
+            <th class="w-20 text-sm text-gray-200 whitespace-nowrap">
+              Quantity
+            </th>
+            <th class="w-20 text-sm text-gray-200 whitespace-nowrap">Price</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-300 text-center">
+          <tr
+            v-for="(product, index) in myProducts"
+            :key="index"
+            class="bg-white"
+          >
+            <td class="text-sm text-gray-700 whitespace-nowrap text-center">
+              <img
+                :src="product.item.imgPath"
+                class="h-16 rounded-lg border ml-1/2"
+              />
+            </td>
 
-          <td class="p-4 text-sm text-gray-700 whitespace-nowrap text-center">
-            {{ product.item.name }}
-            <br />
-            {{ product.supplier.username }}
-          </td>
-          <td class="p-4 text-sm text-gray-700 whitespace-nowrap text-center">
-            {{ cart[index].quantity }}
-          </td>
-          <td class="p-4 text-sm text-gray-700 whitespace-nowrap text-center">
-            {{ product.price * cart[index].quantity }}€
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <br />
-          </td>
-        </tr>
-      </tbody>
-    </table>
+            <td class="p-4 text-sm text-gray-700 whitespace-nowrap text-center">
+              {{ product.item.name }}
+              <br />
+              {{ product.supplier.username }}
+            </td>
+            <td class="p-4 text-sm text-gray-700 whitespace-nowrap text-center">
+              {{ cart[index].quantity }}
+            </td>
+            <td class="p-4 text-sm text-gray-700 whitespace-nowrap text-center">
+              {{ product.price * cart[index].quantity }}€
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <div class="flex justify-center">
       <stripe-checkout
@@ -267,8 +271,8 @@ for (const product of myProducts.value) {
   });
 }
 
-const successURL = 'http://localhost:3000/success';
-const cancelURL = 'http://localhost:3000/error';
+const successURL = 'https://clearchoice.website/success';
+const cancelURL = 'https://clearchoice.website/error';
 const publishableKey =
   'pk_test_51LEDJlAIdQC80EPdG8z8dlFoL50XlSoMNe1JhuF2Tdap8U25BCRlWB8IiQnqa0YYBJy7JurPEuaDMaZWNgOlM0w5000FSV9i0w';
 const checkoutRef = ref(null);
