@@ -57,7 +57,7 @@
             </button>
             <div class="flex items-center">
               <CurrencyEuroIcon class="h-6 mx-2" />
-              price range: 0€ - 20€
+              price range: {{ item.minPrice }}€ - {{ item.maxPrice }}€
             </div>
           </div>
         </div>

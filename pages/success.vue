@@ -71,11 +71,14 @@ async function createOrder() {
       from: myProducts.value[0].storages[0].address,
       to: address.value
     }
-  });
-
+  })[0];
+  console.log('--');
   const notifiedSup = [];
   for (const myProduct of myProducts.value) {
+    console.log(myProduct.supplier._id);
     if (!notifiedSup.includes(myProduct.supplier._id)) {
+      console.log('put');
+
       await $fetch(`/api/users/${myProduct.supplier._id}`, {
         method: 'PUT',
         body: {
