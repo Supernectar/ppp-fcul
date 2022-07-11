@@ -88,7 +88,7 @@ async function createProducts() {
       },
       body: {
         name: 'pipo',
-        item: '62b7297435430a463a5864de', // washing machine 1
+        itemId: '62b7297435430a463a5864de', // washing machine 1
         price: Math.floor(Math.random() * 20),
         currencyUnit: '€',
         stripeId: 'price_1LEa8fAIdQC80EPdihds8cUG',

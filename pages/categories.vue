@@ -44,19 +44,20 @@
 <script setup>
 const categories = ref({});
 
-const expandNode = async (node) => {
-  if (node.children.length > 0) {
-    for (let i = 0; i < node.children.length; i++) {
-      node.children[i] = await $fetch(`/api/categories/${node.children[i]}`);
+onBeforeMount(async () => {
+  const expandNode = async (node) => {
+    if (node.children.length > 0) {
+      for (let i = 0; i < node.children.length; i++) {
+        node.children[i] = await $fetch(`/api/categories/${node.children[i]}`);
+      }
+      for (const child of node.children) {
+        expandNode(child);
+      }
     }
-    for (const child of node.children) {
-      expandNode(child);
-    }
-  }
-};
-categories.value = (await $fetch(`/api/categories?name=main`))[0];
-
-expandNode(categories.value);
+  };
+  categories.value = (await $fetch(`/api/categories?name=main`))[0];
+  expandNode(categories.value);
+});
 </script>
 
 <style></style>

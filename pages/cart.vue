@@ -1,8 +1,8 @@
 <template>
   <div>
     <Navbar />
+    <p class="flex text-xl font-800 p-5 px-2 py-2.5 justify-center">My cart</p>
     <div class="flex rounded-lg shadow w-full max-h-full p-5 justify-center">
-      <p class="text-xl font-800 px-2 py-2.5">My cart</p>
       <div class="overflow-auto rounded-lg shadow">
         <table v-if="cart.length != 0">
           <thead class="bg-gray-500 border-b-2 border-gray-500">

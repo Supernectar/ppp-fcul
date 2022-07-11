@@ -51,6 +51,13 @@
           input-class="w-full ml-auto px-2 py-2.5 bg-red-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-600 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
           @click="googleSignIn"
         />
+        <div class="flex-grow border-t border-gray-200 m-2"></div>
+        <FormKit
+          type="button"
+          label="Sign in with Auth0"
+          input-class="w-full ml-auto px-2 py-2.5 bg-orange-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-orange-700 hover:shadow-lg focus:bg-orange-800 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-orange-900 active:shadow-lg transition duration-150 ease-in-out"
+          @click="auth0SignIn"
+        />
       </div>
     </div>
     <!-- Dialog -->
@@ -122,6 +129,11 @@ import {
   DialogPanel,
   DialogTitle
 } from '@headlessui/vue';
+import { auth0Login } from '~/plugins/authfile';
+
+function auth0SignIn() {
+  auth0Login();
+}
 
 async function googleSignIn() {
   try {
@@ -160,8 +172,8 @@ async function login() {
       }
     });
 
-    if (resJson.error != null) {
-      if (resJson.error.message === 'Invalid username or password') {
+    if (resJson.message != null) {
+      if (resJson.message === 'Invalid username or password') {
         openModal('Invalid email or password');
       }
     } else {
@@ -177,7 +189,7 @@ async function login() {
 
       openModal('You were logged successfully');
       setTimeout(() => {
-        router.push('/profile/consumer/orders');
+        router.push('/');
       }, 3000);
     }
   } else {

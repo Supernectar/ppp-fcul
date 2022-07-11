@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-light-100 text-gray-800">
+  <div class="bg-light-200 text-gray-800">
     <NuxtPage />
   </div>
 </template>
@@ -10,8 +10,8 @@ html {
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 4px;
+  height: 4px;
 }
 
 /* ::-webkit-scrollbar-track {

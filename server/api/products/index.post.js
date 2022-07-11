@@ -1,11 +1,12 @@
 import Product from '~~/server/models/Product';
 import Storage from '~~/server/models/Storage';
 import Polution from '~~/server/models/Polution';
+import Item from '~~/server/models/Item';
 
 export default defineEventHandler(async (event) => {
   const {
     name,
-    item,
+    itemId,
     price,
     stripeId,
     currencyUnit,
@@ -13,6 +14,17 @@ export default defineEventHandler(async (event) => {
     quantity,
     storages
   } = await useBody(event);
+
+  try {
+    const item = await Item.findById(itemId);
+
+    if (item.minPrice > price)
+      await Item.findByIdAndUpdate(itemId, { minPrice: price });
+    if (item.maxPrice < price)
+      await Item.findByIdAndUpdate(itemId, { maxPrice: price });
+  } catch (err) {
+    return err;
+  }
 
   function shuffle(a) {
     for (let i = a.length - 1; i > 0; i--) {
@@ -55,7 +67,7 @@ export default defineEventHandler(async (event) => {
   try {
     const product = await Product.create({
       name,
-      item,
+      item: itemId,
       price,
       currencyUnit,
       supplier,

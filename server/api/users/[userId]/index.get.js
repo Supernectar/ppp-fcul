@@ -5,12 +5,34 @@ import Status from '~~/server/models/Status';
 import Transport from '~~/server/models/Transport';
 import Item from '~~/server/models/Item';
 import Storage from '~~/server/models/Storage';
+import Address from '~~/server/models/Address';
 
 export default defineEventHandler(async (event) => {
   const { userId } = event.context.params;
 
   try {
     const user = await User.findById(userId)
+      .populate({
+        path: 'consumerData',
+        populate: {
+          path: 'address',
+          model: Address
+        }
+      })
+      .populate({
+        path: 'supplierData',
+        populate: {
+          path: 'address',
+          model: Address
+        }
+      })
+      .populate({
+        path: 'transporterData',
+        populate: {
+          path: 'address',
+          model: Address
+        }
+      })
       .populate({
         path: 'supplierData',
         populate: {
@@ -35,6 +57,7 @@ export default defineEventHandler(async (event) => {
           ]
         }
       });
+
     return user;
   } catch (err) {
     console.log(err);

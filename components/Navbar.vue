@@ -67,7 +67,14 @@
             :class="open ? '' : 'text-opacity-90'"
             class="inline-flex text-gray-500 w-full justify-center items-center rounded-md hover:(!bg-black !bg-opacity-5) px-2 py-2 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
           >
-            <ShoppingCartIcon class="h-6 w-6" aria-hidden="true" />
+            <ShoppingCartIcon class="h-6 w-6 relative" aria-hidden="true" />
+            <div
+              v-if="cart.length > 0"
+              class="bg-red-500 rounded-full h-4 w-4 text-xs text-white absolute bottom-0 left-0"
+            >
+              <!-- {{ cart.length }} -->
+              {{ totalQuantity }}
+            </div>
             <ChevronDownIcon class="h-4 w-4" aria-hidden="true" />
           </PopoverButton>
           <transition
@@ -203,7 +210,6 @@
               >
                 {{ notification.type }} has {{ notification.name }}
               </div>
-              Hello
             </PopoverPanel>
           </transition>
         </Popover>
@@ -373,27 +379,64 @@ import {
   SearchIcon
 } from '@heroicons/vue/outline/index.js';
 import useCart from '~/stores/cart';
+import { isLogged } from '~/plugins/authfile';
+
 const router = useRouter();
 const user = useUser();
 const store = useCart();
 const cart = ref(store.getCart);
+
+// onBeforeMount(async () => {
+//   for (let i = 0; i < cart.value.length; i++) {
+//     cart.value[i].product = await $fetch(
+//       `/api/products/${cart.value[i].product._id}`
+//     );
+//   }
+// });
+
 const myProducts = ref([]);
 const myItems = ref([]);
-const userF = ref(await $fetch(`/api/users/${user.data._id}`));
-// console.log(userF.value.notification);
-
+const userF = ref();
+if (user.data._id) {
+  userF.value = await $fetch(`/api/users/${user.data._id}`);
+} else {
+  userF.value = [];
+  userF.value.notifications = [];
+}
+const totalQuantity = ref(0);
 for (let i = 0; i < cart.value.length; i++) {
+  totalQuantity.value += cart.value[i].quantity;
   if (cart.value.length <= 4) {
     myProducts.value[i] = await $fetch(
       `/api/products/${cart.value[i].product}`
     );
-    // console.log(await $fetch(`/api/products/${cart.value[i].product}`));
 
     myItems.value[i] = await $fetch(
       `/api/items/${myProducts.value[i].item._id}`
     );
   }
 }
+
+watch(
+  cart,
+  async () => {
+    totalQuantity.value = 0;
+    for (let i = 0; i < cart.value.length; i++) {
+      totalQuantity.value += cart.value[i].quantity;
+      if (cart.value.length <= 4) {
+        myProducts.value[i] = await $fetch(
+          `/api/products/${cart.value[i].product}`
+        );
+        // console.log(await $fetch(`/api/products/${cart.value[i].product}`));
+
+        myItems.value[i] = await $fetch(
+          `/api/items/${myProducts.value[i].item._id}`
+        );
+      }
+    }
+  },
+  { deep: true }
+);
 
 async function signOut() {
   if (user.isLoggedIn) {
@@ -409,6 +452,8 @@ async function signOut() {
     });
 
     user.reset();
+  } else {
+    console.log('user is not logged');
   }
   router.push('/signin');
 }

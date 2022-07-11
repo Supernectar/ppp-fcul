@@ -19,6 +19,11 @@ export default mongoose.model(
         ref: 'Category'
       }
     ],
+    imgPath: String,
+    color: {
+      type: String,
+      default: '#34a512'
+    },
     attributes: [
       {
         type: String

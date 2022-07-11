@@ -77,7 +77,7 @@
                         type="button"
                         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 rounded-lg text-xs md:text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                       >
-                        Manage
+                        Manage Storage
                       </button>
                     </NuxtLink>
                   </td>
@@ -134,6 +134,9 @@
                   type="text"
                   name="zipCode"
                   validation="required|matches:/^[0-9]{4}-[0-9]{3}$/"
+                  :validation-messages="{
+                    matches: 'Zip code must be formatted: xxxx-xxx'
+                  }"
                   outer-class="mb-4"
                   label-class="form-label inline-block mb-2 text-gray-700"
                   input-class="form-control block w-full sm:w-24 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
@@ -170,7 +173,7 @@
               <FormKit
                 v-model="visibility"
                 type="checkbox"
-                label="Visibility"
+                label="Make this storage visible?"
                 name="visibility"
               />
 
@@ -376,6 +379,8 @@ const city = ref('');
 const country = ref('');
 const visibility = ref('');
 
+watch(storages.value, () => {});
+
 async function createStorage() {
   await $fetch(`/api/users/${user.data._id}/storages`, {
     method: 'POST',
@@ -391,6 +396,8 @@ async function createStorage() {
     }
   });
 
+  storages.value = await $fetch(`/api/users/${user.data._id}/storages`);
+
   const userdb = await $fetch(`/api/users/${user.data._id}`);
 
   user.$patch({
@@ -402,8 +409,6 @@ async function deleteStorage(storageId) {
   const storage = await $fetch(
     `/api/users/${user.data._id}/storages/${storageId}`
   );
-  console.log(storage);
-  console.log(storage.products);
 
   if (storage.products.length === 0) {
     await $fetch(`/api/users/${user.data._id}/storages/${storageId}`, {
@@ -419,6 +424,7 @@ async function deleteStorage(storageId) {
         visibility: visibility.value
       }
     });
+    storages.value = await $fetch(`/api/users/${user.data._id}/storages`);
     openModal(`This storage was deleted successfully.`);
   } else {
     openModal(`Can't delete this storage because it still has products.`);

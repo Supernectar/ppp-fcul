@@ -122,6 +122,9 @@
             label="Zip Code"
             type="text"
             validation="required|matches:/^[0-9]{4}-[0-9]{3}$/"
+            :validation-messages="{
+              matches: 'Zip code must be formatted: xxxx-xxx'
+            }"
             outer-class="mb-4"
             label-class="form-label inline-block mb-2 text-gray-700"
             input-class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
@@ -189,6 +192,7 @@ export default {
     const user = useUser();
     const names = [];
     const result = await $fetch(`/api/users?email=${user.data.email}`);
+    console.log(result);
     this.user = result[0];
     const result2 = await $fetch(`https://restcountries.com/v3.1/all`);
     for (let i = 0; i < result2.length; i++) {
@@ -201,11 +205,8 @@ export default {
     async updateInfo() {
       const router = useRouter();
       const user = useUser();
-      const res = await fetch(`/api/users/${this.user._id}`, {
+      await $fetch(`/api/users/${this.user._id}`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
         body: {
           name: this.firstName + ' ' + this.lastName,
           address: {
@@ -218,9 +219,6 @@ export default {
           nif: this.nif
         }
       });
-      const res2 = await res.json();
-
-      console.log(res2);
 
       const userdb = await $fetch(`/api/users/${user.data._id}`);
 
@@ -234,7 +232,7 @@ export default {
         }
       });
 
-      router.push('/profile/consumer/orders');
+      router.push('/');
     }
   }
 };

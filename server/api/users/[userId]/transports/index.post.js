@@ -2,6 +2,7 @@ import User from '~~/server/models/User';
 import Transport from '~~/server/models/Transport';
 import Resource from '~~/server/models/Resource';
 import Polution from '~~/server/models/Polution';
+import Address from '~~/server/models/Address';
 
 export default defineEventHandler(async (event) => {
   const { brand, model, status, plate, location } = await useBody(event);
@@ -27,6 +28,14 @@ export default defineEventHandler(async (event) => {
         polution: polutions[i]
       });
     }
+
+    const newLocation = await Address.create({
+      street: location.street,
+      country: location.country,
+      city: location.city,
+      zipCode: location.zipCode
+    });
+
     const transport = await Transport.create({
       brand,
       model,
@@ -36,7 +45,7 @@ export default defineEventHandler(async (event) => {
       resources: actualResources,
       polutions: actualPolutions,
       plate,
-      location,
+      location: newLocation._id,
       owner: userId
     });
     // console.log(transport);
@@ -54,6 +63,7 @@ export default defineEventHandler(async (event) => {
 
     return transport;
   } catch (err) {
+    console.log('---', event.req.url, '---');
     console.log(err);
     return { error: 'Could not create transport' };
   }

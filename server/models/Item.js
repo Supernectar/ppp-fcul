@@ -42,6 +42,14 @@ export default mongoose.model(
         ref: 'Item'
       }
     ],
-    imgPath: String
+    imgPath: String,
+    minPrice: {
+      type: Number,
+      default: 999999
+    },
+    maxPrice: {
+      type: Number,
+      default: -999999
+    }
   })
 );

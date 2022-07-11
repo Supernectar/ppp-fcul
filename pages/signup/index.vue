@@ -179,38 +179,42 @@ async function emailIsRegistered(node) {
 
 async function RegisterUser() {
   const username = await generateUsername();
-  await fetch('/api/users', {
+  // const hash = await bcrypt.hash(password.value, 10);
+  await $fetch('/api/users', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-
     body: {
       username,
       email: email.value,
+      // password: hash
       password: password.value
     }
   });
-  await $fetch('api/authenticate', {
+  const authResponse = await $fetch('api/authenticate', {
     method: 'POST',
     body: {
       email: email.value,
+      // password: hash
       password: password.value
     }
   });
 
-  const res3 = (
-    await $fetch(`/api/users?email=${email.value}&password=${password.value}`)
-  )[0];
+  console.log(authResponse);
+  if (authResponse.error) {
+    console.log('djjdjddj');
+  } else {
+    const res3 = (
+      await $fetch(`/api/users?email=${email.value}&password=${password.value}`)
+    )[0];
 
-  const user = useUser();
-  user.$patch({ data: res3 });
-  // console.log(user.user.userId);
+    const user = useUser();
+    user.$patch({ data: res3 });
+    // console.log(user.user.userId);
 
-  openModal();
-  setTimeout(() => {
-    router.push('/signup/configure');
-  }, 3000);
+    openModal();
+    setTimeout(() => {
+      router.push('/signup/configure');
+    }, 3000);
+  }
 }
 
 async function generateUsername() {

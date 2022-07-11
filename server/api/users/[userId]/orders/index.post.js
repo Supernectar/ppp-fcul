@@ -57,8 +57,9 @@ export default defineEventHandler(async (event) => {
         'transporterData.orders': orderT._id
       }
     });
+    let orderSup = {};
     for (const prod of products2) {
-      const orderSup = await User.findByIdAndUpdate(prod.product.supplier, {
+      orderSup = await User.findByIdAndUpdate(prod.product.supplier, {
         $push: {
           'supplierData.orders': {
             date: new Date(),
@@ -71,7 +72,8 @@ export default defineEventHandler(async (event) => {
         }
       });
     }
-    return statusModel._id;
+
+    return [statusModel._id, orderC, orderT];
   } catch (err) {
     console.log(err);
     return { error: 'Could not create order' };

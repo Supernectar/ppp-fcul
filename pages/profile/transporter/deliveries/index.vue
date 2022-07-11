@@ -127,6 +127,7 @@
                           <td
                             v-else-if="
                               [
+                                'ready to transport',
                                 'arrived at storage',
                                 'left storage',
                                 'arrived'
@@ -210,7 +211,6 @@
               </div>
             </div>
           </div>
-          <pre>{{ orders }}</pre>
         </section>
         <Footer />
       </div>
