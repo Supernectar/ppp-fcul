@@ -20,8 +20,8 @@
               />
               As a consumer, you get to choose what product, from who you will
               buy it and who brings it to you. Find products near you, sort and
-              filter by many attributes such as price, rating, and polution,
-              etc.... /!\ desenvolver mais um bocado
+              filter by many attributes such as price, rating, and polution and
+              find the perfect product for you.
             </button>
           </div>
           <div id="supplier" class="mt-4">
@@ -36,7 +36,9 @@
                 src="/decorations/supplierRole.png"
                 alt=""
               />
-              sell your products here... /!\ desenvolver mais um bocado
+              You can sell all of your products here, since we have a lot of
+              categories you can search and find the perfect one to include your
+              product in.
             </button>
           </div>
           <div id="transporter" class="mt-4">
@@ -54,7 +56,9 @@
                 src="/decorations/transporterRole.jpg"
                 alt=""
               />
-              You can transport products etc.... /!\ desenvolver mais um bocado
+              You can earn money by transporting our supplier's products on
+              ClearChoice, you only need to register your vehicles and you can
+              start working on deliveries.
             </button>
           </div>
           <div v-if="checkIfAdmin" id="admin" class="mt-4">
