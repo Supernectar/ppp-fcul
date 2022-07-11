@@ -93,7 +93,7 @@
                     <td
                       class="px-6 py-4 whitespace-nowrap text-sm font-light text-gray-900"
                     >
-                      {{ order.arrivalDate || 'no arrival date' }}
+                      {{ order.status.arrivalDate || 'no arrival date' }}
                     </td>
                     <td>
                       <div class="text-center my-1.5">
@@ -143,10 +143,10 @@
                 <div>Number of items bought per day</div>
               </div>
             </div>-->
-            <div v-if="user.data.consumerData.orders.length !== 0">
+            <div v-if="orders.length !== 0">
               <div class="shadow-lg rounded-lg w-75 sm:w-95 md:w-125">
                 <div class="py-3 px-1 bg-gray-50">
-                  Polution generated in the first half of the year
+                  Polution generated in the second half of the year
                 </div>
                 <canvas id="chartLine" class="p-1 w-2"></canvas>
               </div>
@@ -282,27 +282,29 @@ onMounted(async () => {
         totalPolutionPg.value / 1000 + totalPolutionPKg.value;
       totalPolutionO.push(totalPolutionP.value);
     }
-    if (order.arrivalDate !== undefined) {
-      const month = order.arrivalDate.split(' ');
+    if (order.status.arrivalDate !== undefined) {
+      console.log(order.status.arrivalDate);
+      const month = order.status.arrivalDate.split('-');
+      console.log(month);
 
       for (const totalPolution of totalPolutionO) {
         switch (month[1]) {
-          case 'Jan':
+          case '07':
             polutions[0] += totalPolution;
             break;
-          case 'Feb':
+          case '08':
             polutions[1] += totalPolution;
             break;
-          case 'Mar':
+          case '09':
             polutions[2] += totalPolution;
             break;
-          case 'Apr':
+          case '10':
             polutions[3] += totalPolution;
             break;
-          case 'May':
+          case '11':
             polutions[4] += totalPolution;
             break;
-          case 'Jun':
+          case '12':
             polutions[5] += totalPolution;
             break;
         }
@@ -310,8 +312,15 @@ onMounted(async () => {
     }
   }
 
-  if (user.data.consumerData.orders.length !== 0) {
-    const labels = ['January', 'February', 'March', 'April', 'May', 'June'];
+  if (orders.length !== 0) {
+    const labels = [
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'
+    ];
     const data = {
       labels,
       datasets: [
