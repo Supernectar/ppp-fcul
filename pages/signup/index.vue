@@ -179,11 +179,13 @@ async function emailIsRegistered(node) {
 
 async function RegisterUser() {
   const username = await generateUsername();
+  // const hash = await bcrypt.hash(password.value, 10);
   await $fetch('/api/users', {
     method: 'POST',
     body: {
       username,
       email: email.value,
+      // password: hash
       password: password.value
     }
   });
@@ -191,6 +193,7 @@ async function RegisterUser() {
     method: 'POST',
     body: {
       email: email.value,
+      // password: hash
       password: password.value
     }
   });

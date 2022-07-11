@@ -79,7 +79,6 @@
         </div>
       </section>
     </div>
-
     <Footer />
   </div>
 </template>
@@ -91,6 +90,7 @@ const router = useRouter();
 
 const categoryMain = (await $fetch('/api/categories?name=main'))[0];
 const categories = ref([]);
+
 onBeforeMount(async () => {
   handleAuth((error) => {
     if (error) {

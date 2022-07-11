@@ -24,6 +24,6 @@ export default defineEventHandler(async (event) => {
     return user;
   } catch (err) {
     console.log(err);
-    return { error: 'Could not create user' };
+    return err;
   }
 });

@@ -34,5 +34,5 @@ function auth0Login() {
 function logUserOut() {
   token = {};
 }
-
+export default () => {};
 export { auth0Login, handleAuth, isLogged, logUserOut };

@@ -379,6 +379,7 @@ import {
   SearchIcon
 } from '@heroicons/vue/outline/index.js';
 import useCart from '~/stores/cart';
+
 const router = useRouter();
 const user = useUser();
 const store = useCart();
@@ -431,19 +432,24 @@ watch(
 );
 
 async function signOut() {
-  if (user.isLoggedIn) {
-    await $fetch(`/api/users/${user.data._id}`, {
-      method: 'PUT',
-      body: {
-        a: 'okok',
-        preferences: {
-          profileIconBgColor: user.data.preferences.profileIconBgColor,
-          profileIconTextColor: user.data.preferences.profileIconTextColor
+  if (isLogged()) {
+    auth0Logged = false;
+    logUserOut();
+  } else {
+    if (user.isLoggedIn) {
+      await $fetch(`/api/users/${user.data._id}`, {
+        method: 'PUT',
+        body: {
+          a: 'okok',
+          preferences: {
+            profileIconBgColor: user.data.preferences.profileIconBgColor,
+            profileIconTextColor: user.data.preferences.profileIconTextColor
+          }
         }
-      }
-    });
+      });
 
-    user.reset();
+      user.reset();
+    }
   }
   router.push('/signin');
 }

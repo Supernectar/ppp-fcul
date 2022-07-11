@@ -47,6 +47,7 @@ export default defineEventHandler(async (event) => {
         city: address.city,
         zipCode: address.zipCode
       });
+      console.log(addressO);
 
       res = await User.updateOne(
         { _id: userId },
@@ -155,6 +156,6 @@ export default defineEventHandler(async (event) => {
     return userRes;
   } catch (err) {
     console.log(err);
-    return { error: 'Could not update user' };
+    return err;
   }
 });
