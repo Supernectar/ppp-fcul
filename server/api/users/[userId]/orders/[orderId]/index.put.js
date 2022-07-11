@@ -9,15 +9,14 @@ export default defineEventHandler(async (event) => {
   try {
     const statusModel = await Status.updateOne(
       { _id: statusId },
-      { name: status }
+      { name: status, arrivalDate }
     );
     const order = await Order.updateOne(
       { _id: orderId },
       {
         numberItems,
         price,
-        departureDate,
-        arrivalDate
+        departureDate
       }
     );
 

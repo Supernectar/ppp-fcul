@@ -44,15 +44,20 @@
             :key="index"
             class="bg-white text-sm text-gray-700 whitespace-nowrap text-center"
           >
-            <td>
+            <td v-if="attr[1].value === attr[2].value" class="bg-purple-100">
               {{ attr[1].name || attr[2].name }}
             </td>
-            <td>
+            <td v-else>
+              {{ attr[1].name || attr[2].name }}
+            </td>
+            <td v-if="attr[1].value === attr[2].value" class="bg-purple-100">
               {{ attr[1].value || '-' }}
             </td>
-            <td>
+            <td v-else>{{ attr[1].value || '-' }}</td>
+            <td v-if="attr[1].value === attr[2].value" class="bg-purple-100">
               {{ attr[2].value || '-' }}
             </td>
+            <td v-else>{{ attr[2].value || '-' }}</td>
           </tr>
         </tbody>
       </table>
@@ -74,15 +79,6 @@ if (products.value[0].item.attributes !== undefined) {
   for (const attr of Object.keys(products.value[0].item.attributes)) {
     if (products.value[1].item.attributes !== undefined) {
       if (Object.keys(products.value[1].item.attributes).includes(attr)) {
-        // if (attr in myItems.value[1].attributes) {
-        console.log(attr);
-        // console.log(products.value[0]);
-        console.log(products.value[0].item.attributes[attr].name);
-        console.log(products.value[0].item.attributes[attr].value);
-        console.log(products.value[1].item.attributes[attr].value);
-
-        // console.log(products.value[1]);
-        console.log(products.value[1].item.attributes[attr]);
         attrs.value.push([
           attr,
           products.value[0].item.attributes[attr],
@@ -96,11 +92,10 @@ if (products.value[0].item.attributes !== undefined) {
 }
 if (products.value[1].item.attributes !== undefined) {
   for (const attr of Object.keys(products.value[1].item.attributes)) {
-    // console.log(!attrs.value.includes(attr));
-    // console.log(attrs.value);
-    if (!attrs.value.includes(attr)) {
-      // console.log(attr);
-      attrs.value.push([attr, '-', products.value[1].item.attributes[attr]]);
+    for (let i = 0; i < attrs.value; i++) {
+      if (!attrs.value[i][0].includes(attr)) {
+        attrs.value.push([attr, '-', products.value[1].item.attributes[attr]]);
+      }
     }
   }
 }
