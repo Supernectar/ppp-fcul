@@ -3,7 +3,7 @@ import auth0 from 'auth0-js';
 const webAuth = new auth0.WebAuth({
   domain: 'ppp-fcul.eu.auth0.com',
   clientID: 's72COBZTaRaKOkE5KeChHY5rOowYryWt',
-  redirectUri: 'http://localhost:3000',
+  redirectUri: 'https://clearchoice.website',
   responseType: 'token id_token',
   scope: 'openid profile'
 });
